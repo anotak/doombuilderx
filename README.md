@@ -1,6 +1,6 @@
 # Doom Builder X
 
-Doom Builder X is a Doom 2 map editor. Doom Builder X is a fork of CodeImp's [Doom Builder 2] (http://www.doombuilder.com/), mainly focused on long term maintenence, bugfixes, and improved responsiveness where possible.
+Doom Builder X is a Doom 2 map editor. Doom Builder X is a fork of CodeImp's [Doom Builder 2](http://www.doombuilder.com/), mainly focused on long term maintenence, bugfixes, and improved responsiveness where possible.
 
 ## Getting Started
 
@@ -9,9 +9,9 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 if you already have DB2 or GZDB working, you already have these.
-[.NET 3.5] (https://www.microsoft.com/en-us/download/details.aspx?id=21)
+[.NET 3.5](https://www.microsoft.com/en-us/download/details.aspx?id=21)
 and
-[DirectX 9.0 Runtime] (https://www.microsoft.com/en-us/download/details.aspx?id=35&44F86079-8679-400C-BFF2-9CA5F2BCBDFC=1)
+[DirectX 9.0 Runtime](https://www.microsoft.com/en-us/download/details.aspx?id=35&44F86079-8679-400C-BFF2-9CA5F2BCBDFC=1)
 
 ## Authors
 
@@ -47,4 +47,4 @@ This project is licensed under the GPL3 License - see the [LICENSE](LICENSE) fil
 * GZDoomBuilder-Bugfix by ZZYZX
 * Eternity Engine by the Eternity team
 * ZDoom by Randi Heit
-* [the template for this document by PurpleBooth] (https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
+* [the template for this document by PurpleBooth](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
