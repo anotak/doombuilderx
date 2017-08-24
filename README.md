@@ -2,13 +2,11 @@
 
 Doom Builder X is a Doom 2 map editor. Doom Builder X is a fork of CodeImp's [Doom Builder 2](http://www.doombuilder.com/), mainly focused on long term maintenence, bugfixes, and improved responsiveness where possible.
 
-## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
 ### Prerequisites
 
-if you already have DB2 or GZDB working, you already have these.
+if you already have DB2 or GZDB working, you already have these:
+
+
 [.NET 3.5](https://www.microsoft.com/en-us/download/details.aspx?id=21)
 and
 [DirectX 9.0 Runtime](https://www.microsoft.com/en-us/download/details.aspx?id=35&44F86079-8679-400C-BFF2-9CA5F2BCBDFC=1)
