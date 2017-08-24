@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	
+	<title>Vertices Mode</title>
+	
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+	<link rel="stylesheet" type="text/css" href="default.css" media="screen" title="Default" />
+	<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body onresize="autoadjustheight('classiccontrols')">
+	
+	<object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+	<param name="keyword" value="Vertices Mode">
+	</object>
+	
+	<div id="title"><h1>Vertices Mode</h1></div>
+	
+	<div id="contents">
+	<p>
+		This editing mode allows you to edit the vertices in your map. You can insert new vertices that automatically split linedefs and deleting a vertex that only has two linedefs attached will reconnect the linedefs properly. You can drag the vertices to move them and snap them to the <a href="w_gridsetup.html">grid</a> and geometry. Hold Shift and/or Control to disable snapping to the grid and geometry.<br />
+		<br />
+		The vertices editing mode is one of the classic (2D) editing modes.
+		
+		<h2>Default Controls</h2>
+		<table border="0" cellspacing="6" width="90%">
+		<tr>
+			<td width="150" valign="top"><b>V</b></td>
+			<td>Switches from any other classic editing mode to this mode.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Insert</b></td>
+			<td>Inserts a new vertex at the mouse coordinates. When near a linedef, the linedef will be split with this vertex.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Delete</b></td>
+			<td>Deletes the selected vertices. Note that this may also remove attached linedefs and break your sectors.</td>
+		</tr>
+		</table>
+		<iframe src="classiccontrols.html" frameborder="0" width="100%" id="classiccontrols" scrolling="no" onload="autoadjustheight('classiccontrols')"></iframe>
+	</p>
+	</div>
+</body>

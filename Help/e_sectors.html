@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	
+	<title>Sectors Mode</title>
+	
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+	<link rel="stylesheet" type="text/css" href="default.css" media="screen" title="Default" />
+	<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body onresize="autoadjustheight('classiccontrols')">
+	
+	<object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+	<param name="keyword" value="Sectors Mode">
+	<param name="keyword" value="Join Sectors">
+	<param name="keyword" value="Merge Sectors">
+	<param name="keyword" value="Stairs">
+	</object>
+	
+	<div id="title"><h1>Sectors Mode</h1></div>
+	
+	<div id="contents">
+	<p>
+		In this mode you can edit the sectors in your map. Every sector is formed by the sidedefs around the sector (which are the sides of the linedefs). Drag the sectors to move them and snap them to the <a href="w_gridsetup.html">grid</a> and other geometry. Hold Shift and/or Control to disable snapping to the grid and geometry. You can also create a stairs or gradient brightness by using the buttons on the toolbar.<br />
+		<br />
+		The order in which you select the sectors is important to some of the functions of the editing mode and, as long as you stay in an editing mode that keeps sectors selected, the order will stay the same. When you select the sectors, the order will be displayed with numbers in the sectors.<br />
+		<br />
+		The sectors editing mode is one of the classic (2D) editing modes.
+		
+		<h2>Default Controls</h2>
+		<table border="0" cellspacing="6" width="90%">
+		<tr>
+			<td width="150" valign="top"><b>S</b></td>
+			<td>Switches from any other classic editing mode to this mode.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Insert</b></td>
+			<td>Starts the <a href="e_drawgeometry.html">Draw Geometry Mode</a>.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Delete</b></td>
+			<td>Deletes the selected sectors and associated sidedefs. When deleting a sector that is enclosed inside a larger sector, this will create a hole (or 'pillar') inside that sector. If you wish to remove the sector without creating a void area, use the <a href="e_linedefs.html">Linedefs Mode</a> to delete the lines instead.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>J</b></td>
+			<td>Joins to selected sector to become one sector. The properties of the first selected sector will be retained.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Shift+J</b></td>
+			<td>Merge the selected sectors to become one sector. This is the same as joining, with the addition that lines in between the selected sectors are automatically removed.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Shift+D</b></td>
+			<td>Create a door from the selected or highlighted sectors. This will show a dialog which allows you to choose textures and flats for the door.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>G</b></td>
+			<td>Make gradient brightness levels from first selected sector to last selected sector.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Shift+ScrollDown</b></td>
+			<td>Lowers the ceiling of the selected or highlighted sectors by 8 mappixels.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Shift+ScrollUp</b></td>
+			<td>Raises the ceiling of the selected or highlighted sectors by 8 mappixels.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Shift+G</b></td>
+			<td>Make gradient ceiling heights from first selected sector to last selected sector.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Control+ScrollDown</b></td>
+			<td>Lowers the floors of the selected or highlighted sectors by 8 mappixels.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Control+ScrollUp</b></td>
+			<td>Raises the floors of the selected or highlighted sectors by 8 mappixels.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Control+G</b></td>
+			<td>Make gradient floor heights (stairs) from first selected sector to last selected sector.</td>
+		</tr>
+		</table>
+		<iframe src="classiccontrols.html" frameborder="0" width="100%" id="classiccontrols" scrolling="no" onload="autoadjustheight('classiccontrols')"></iframe>
+	</p>
+	</div>
+</body>

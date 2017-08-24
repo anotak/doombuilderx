@@ -1,0 +1,56 @@
+﻿Author
+
+======
+
+
+
+(c) 2016-2017 Kim Roar Foldøy Hauge
+
+
+
+Description
+
+===========
+
+
+
+ZokumBSP is an advanced node/blockmap builder for Doom / Doom 2. Based on
+ZenNode 1.2.0 and available from GitHub.
+
+This is a work in progress and is a very experimental node builder.
+Proeject goals
+
+A node / blockmap / reject builder that allows for larger maps that are 
+compatible with the classic Doom dos executables and with the Chocolate Doom 
+project.
+
+
+
+Compability
+
+===========
+
+
+
+See web site for more information.
+
+
+
+Changelog
+
+=========
+
+
+
+See changelog.txt for more information.
+
+
+
+More information
+
+================
+
+
+Project web site: http://doom2.net/zokum/zokumbsp
+
+Github: https://github.com/zokum-no/zokumbsp

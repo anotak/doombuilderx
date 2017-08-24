@@ -1,0 +1,962 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{17DEFFF6-A63D-4494-8AAF-7461527CA135}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CodeImp.DoomBuilder</RootNamespace>
+    <AssemblyName>Builder</AssemblyName>
+    <StartupObject>CodeImp.DoomBuilder.General</StartupObject>
+    <ApplicationIcon>Resources\DB2.ico</ApplicationIcon>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\Debug40\</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <DocumentationFile>..\..\bin\Debug40\Builder.xml</DocumentationFile>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\Release40\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ErrorReport>prompt</ErrorReport>
+    <DocumentationFile>..\..\bin\Release40\\Builder.xml</DocumentationFile>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Profiling|AnyCPU'">
+    <OutputPath>..\..\bin\Debug40\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>..\..\bin\Debug40\Builder.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>1591</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Compilers\AccCompiler.cs" />
+    <Compile Include="Compilers\NodesCompiler.cs" />
+    <Compile Include="Config\ArgumentInfo.cs" />
+    <Compile Include="Config\FlatsWallsTextureSet.cs" />
+    <Compile Include="Config\MapLumpInfo.cs" />
+    <Compile Include="Config\ScriptConfiguration.cs" />
+    <Compile Include="Config\DefinedTextureSet.cs" />
+    <Compile Include="Config\EnumItem.cs" />
+    <Compile Include="Config\EnumList.cs" />
+    <Compile Include="Config\IFilledTextureSet.cs" />
+    <Compile Include="Config\MatchingTextureSet.cs" />
+    <Compile Include="Config\ResourceTextureSet.cs" />
+    <Compile Include="Config\SectorEffectData.cs" />
+    <Compile Include="Config\SectorEffectInfo.cs" />
+    <Compile Include="Config\GeneralizedBit.cs" />
+    <Compile Include="Config\GeneralizedOption.cs" />
+    <Compile Include="Config\GameConfiguration.cs" />
+    <Compile Include="Config\GeneralizedCategory.cs" />
+    <Compile Include="Config\INumberedTitle.cs" />
+    <Compile Include="Config\LinedefActionCategory.cs" />
+    <Compile Include="Config\LinedefActionInfo.cs" />
+    <Compile Include="Config\LinedefActivateInfo.cs" />
+    <Compile Include="Config\ProgramConfiguration.cs" />
+    <Compile Include="Config\SkillInfo.cs" />
+    <Compile Include="Config\TagType.cs" />
+    <Compile Include="Config\TextureSet.cs" />
+    <Compile Include="Config\ThingCategory.cs" />
+    <Compile Include="Config\ThingTypeInfo.cs" />
+    <Compile Include="Config\UniversalFieldInfo.cs" />
+    <Compile Include="Actions\ActionAttribute.cs" />
+    <Compile Include="Actions\BeginActionAttribute.cs" />
+    <Compile Include="Actions\EndActionAttribute.cs" />
+    <Compile Include="Actions\KeyControl.cs" />
+    <Compile Include="Actions\MouseInput.cs" />
+    <Compile Include="Controls\ArgumentBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ArgumentBox.Designer.cs">
+      <DependentUpon>ArgumentBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ScriptEditorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ScriptEditorControl.Designer.cs">
+      <DependentUpon>ScriptEditorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ScriptDocumentTab.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ScintillaConstants.cs" />
+    <Compile Include="Controls\ScintillaControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ScriptEditorPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ScriptEditorPanel.Designer.cs">
+      <DependentUpon>ScriptEditorPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ScriptFileDocumentTab.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ScriptLumpDocumentTab.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Data\DirectoryReader.cs" />
+    <Compile Include="Data\FileImage.cs" />
+    <Compile Include="Data\FlatImage.cs" />
+    <Compile Include="Data\ImageLoadState.cs" />
+    <Compile Include="Data\UnknownImage.cs" />
+    <Compile Include="Data\PatchNames.cs" />
+    <Compile Include="Data\PK3Reader.cs" />
+    <Compile Include="Data\Playpal.cs" />
+    <Compile Include="Data\PreviewManager.cs" />
+    <Compile Include="Data\ResourceImage.cs" />
+    <Compile Include="Data\SimpleTextureImage.cs" />
+    <Compile Include="Data\SpriteImage.cs" />
+    <Compile Include="Data\TextureImage.cs" />
+    <Compile Include="Editing\CopyPasteManager.cs" />
+    <Compile Include="Editing\EditMode.cs" />
+    <Compile Include="Editing\EditModeAttribute.cs" />
+    <Compile Include="Editing\EditModeInfo.cs" />
+    <Compile Include="Editing\GridSetup.cs" />
+    <Compile Include="Editing\NullThingsFilter.cs" />
+    <Compile Include="Editing\ThingsFilter.cs" />
+    <Compile Include="Editing\UndoManager.cs" />
+    <Compile Include="Editing\UndoSnapshot.cs" />
+    <Compile Include="Editing\ClassicMode.cs" />
+    <Compile Include="Actions\ActionDelegate.cs" />
+    <Compile Include="Actions\Action.cs" />
+    <Compile Include="Actions\ActionManager.cs" />
+    <Compile Include="Config\CompilerInfo.cs" />
+    <Compile Include="Config\ConfigurationInfo.cs" />
+    <Compile Include="General\Logger.cs" />
+    <Compile Include="VisualModes\VisualBlockMap.cs" />
+    <Compile Include="VisualModes\VisualMode.cs" />
+    <Compile Include="Compilers\Compiler.cs" />
+    <Compile Include="Compilers\CompilerError.cs" />
+    <Compile Include="General\MapManager.cs" />
+    <Compile Include="Actions\SpecialKeys.cs" />
+    <Compile Include="Config\NodebuilderInfo.cs" />
+    <Compile Include="Geometry\Angle2D.cs" />
+    <Compile Include="Geometry\DrawnVertex.cs" />
+    <Compile Include="Geometry\LabelPositionInfo.cs" />
+    <Compile Include="Geometry\LinedefsTracePath.cs" />
+    <Compile Include="Geometry\LinedefAngleSorter.cs" />
+    <Compile Include="Geometry\Tools.cs" />
+    <Compile Include="Geometry\Triangulation.cs" />
+    <Compile Include="Geometry\EarClipVertex.cs" />
+    <Compile Include="Geometry\Line2D.cs" />
+    <Compile Include="Geometry\EarClipPolygon.cs" />
+    <Compile Include="Geometry\SidedefAngleSorter.cs" />
+    <Compile Include="Geometry\SidedefsTracePath.cs" />
+    <Compile Include="Geometry\Vector2D.cs" />
+    <Compile Include="Geometry\Vector3D.cs" />
+    <Compile Include="Data\TexturePatch.cs" />
+    <Compile Include="Data\ImageDataFormat.cs" />
+    <Compile Include="Data\DataReader.cs" />
+    <Compile Include="Data\DataLocationList.cs" />
+    <Compile Include="Data\DataManager.cs" />
+    <Compile Include="Data\WADReader.cs" />
+    <Compile Include="IO\UniversalCollection.cs" />
+    <Compile Include="IO\UniversalEntry.cs" />
+    <Compile Include="IO\UniversalParser.cs" />
+    <Compile Include="IO\UniversalStreamReader.cs" />
+    <Compile Include="IO\UniversalStreamWriter.cs" />
+    <Compile Include="Map\MapElement.cs" />
+    <Compile Include="Map\SelectableElement.cs" />
+    <Compile Include="Map\UniFields.cs" />
+    <Compile Include="Map\UniValue.cs" />
+    <Compile Include="Rendering\ViewMode.cs" />
+    <Compile Include="Types\BoolHandler.cs" />
+    <Compile Include="Types\ColorHandler.cs" />
+    <Compile Include="Types\EnumBitsHandler.cs" />
+    <Compile Include="Types\EnumOptionHandler.cs" />
+    <Compile Include="Types\EnumStringsHandler.cs" />
+    <Compile Include="Types\FlatHandler.cs" />
+    <Compile Include="Types\FloatHandler.cs" />
+    <Compile Include="Types\IntegerHandler.cs" />
+    <Compile Include="Types\LinedefTypeHandler.cs" />
+    <Compile Include="Types\NullHandler.cs" />
+    <Compile Include="Types\SectorEffectHandler.cs" />
+    <Compile Include="Types\StringHandler.cs" />
+    <Compile Include="Types\TextureHandler.cs" />
+    <Compile Include="Types\TypeHandler.cs" />
+    <Compile Include="Types\TypeHandlerAttribute.cs" />
+    <Compile Include="Types\TypesManager.cs" />
+    <Compile Include="Types\UniversalType.cs" />
+    <Compile Include="Windows\AboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\AboutForm.Designer.cs">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ActionBrowserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\ActionBrowserForm.Designer.cs">
+      <DependentUpon>ActionBrowserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ActionSelectorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ActionSelectorControl.Designer.cs">
+      <DependentUpon>ActionSelectorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AngleControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AngleControl.Designer.cs">
+      <DependentUpon>AngleControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AutoSelectTextbox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\CheckboxArrayControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CheckboxArrayControl.Designer.cs">
+      <DependentUpon>CheckboxArrayControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ButtonsNumericTextbox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ButtonsNumericTextbox.Designer.cs">
+      <DependentUpon>ButtonsNumericTextbox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ColorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ColorControl.Designer.cs">
+      <DependentUpon>ColorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\BitFlagsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\BitFlagsForm.Designer.cs">
+      <DependentUpon>BitFlagsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\ConfigForm.Designer.cs">
+      <DependentUpon>ConfigForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\CustomFieldsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\CustomFieldsForm.Designer.cs">
+      <DependentUpon>CustomFieldsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\EffectBrowserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\EffectBrowserForm.Designer.cs">
+      <DependentUpon>EffectBrowserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FieldsEditorRow.cs" />
+    <Compile Include="Controls\FieldsEditorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\FieldsEditorControl.Designer.cs">
+      <DependentUpon>FieldsEditorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\FlatBrowserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\FlatBrowserForm.Designer.cs">
+      <DependentUpon>FlatBrowserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\DelayedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\FlatSelectorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Windows\GridSetupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\GridSetupForm.Designer.cs">
+      <DependentUpon>GridSetupForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ImageBrowserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ImageBrowserControl.Designer.cs">
+      <DependentUpon>ImageBrowserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ImageBrowserItem.cs" />
+    <Compile Include="Controls\ImageSelectorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ImageSelectorControl.Designer.cs">
+      <DependentUpon>ImageSelectorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\IMainForm.cs" />
+    <Compile Include="Windows\LinedefEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\LinedefEditForm.Designer.cs">
+      <DependentUpon>LinedefEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LinedefInfoPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\LinedefInfoPanel.Designer.cs">
+      <DependentUpon>LinedefInfoPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\MapOptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\MapOptionsForm.Designer.cs">
+      <DependentUpon>MapOptionsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\NumericTextbox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\MessageBeepType.cs" />
+    <Compile Include="Windows\OpenMapOptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\OpenMapOptionsForm.Designer.cs">
+      <DependentUpon>OpenMapOptionsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OptimizedListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Windows\PreferencesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\PreferencesForm.Designer.cs">
+      <DependentUpon>PreferencesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\RenderTargetControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ResourceListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ResourceListEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ResourceListEditor.Designer.cs">
+      <DependentUpon>ResourceListEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ResourceOptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\ResourceOptionsForm.Designer.cs">
+      <DependentUpon>ResourceOptionsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ScriptEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\ScriptEditorForm.Designer.cs">
+      <DependentUpon>ScriptEditorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\SectorEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\SectorEditForm.Designer.cs">
+      <DependentUpon>SectorEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SectorInfoPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SectorInfoPanel.Designer.cs">
+      <DependentUpon>SectorInfoPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\TextEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\TextEditForm.Designer.cs">
+      <DependentUpon>TextEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\TextureBrowserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\TextureBrowserForm.Designer.cs">
+      <DependentUpon>TextureBrowserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TextureSelectorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Windows\TextureSetForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\TextureSetForm.Designer.cs">
+      <DependentUpon>TextureSetForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ThingEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\ThingEditForm.Designer.cs">
+      <DependentUpon>ThingEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ThingInfoPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ThingInfoPanel.Designer.cs">
+      <DependentUpon>ThingInfoPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ThingsFiltersForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\ThingsFiltersForm.Designer.cs">
+      <DependentUpon>ThingsFiltersForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\VertexInfoPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\VertexInfoPanel.Designer.cs">
+      <DependentUpon>VertexInfoPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IO\Configuration.cs" />
+    <Compile Include="General\General.cs" />
+    <Compile Include="IO\ClippedStream.cs" />
+    <Compile Include="IO\HexenMapSetIO.cs" />
+    <Compile Include="IO\DoomFlatReader.cs" />
+    <Compile Include="IO\DoomMapSetIO.cs" />
+    <Compile Include="IO\DoomPictureReader.cs" />
+    <Compile Include="IO\FileImageReader.cs" />
+    <Compile Include="IO\IImageReader.cs" />
+    <Compile Include="IO\IMapSetIO.cs" />
+    <Compile Include="General\Launcher.cs" />
+    <Compile Include="IO\Lump.cs" />
+    <Compile Include="IO\MapSetIO.cs" />
+    <Compile Include="IO\UniversalMapSetIO.cs" />
+    <Compile Include="IO\UnknownImageReader.cs" />
+    <Compile Include="IO\WAD.cs" />
+    <Compile Include="Windows\MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Map\Linedef.cs" />
+    <Compile Include="Geometry\LinedefSide.cs" />
+    <Compile Include="Map\MapOptions.cs" />
+    <Compile Include="Map\MapSet.cs" />
+    <Compile Include="Data\DataLocation.cs" />
+    <Compile Include="Map\Sector.cs" />
+    <Compile Include="Map\Sidedef.cs" />
+    <Compile Include="Map\SidedefPart.cs" />
+    <Compile Include="Map\Thing.cs" />
+    <Compile Include="Map\Vertex.cs" />
+    <Compile Include="Plugins\Plug.cs" />
+    <Compile Include="Plugins\Plugin.cs" />
+    <Compile Include="Plugins\PluginManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Rendering\Presentation.cs" />
+    <Compile Include="Rendering\Display2DShader.cs" />
+    <Compile Include="Rendering\ColorCollection.cs" />
+    <Compile Include="Rendering\ColorSetting.cs" />
+    <Compile Include="Rendering\D3DDevice.cs" />
+    <Compile Include="Data\ImageData.cs" />
+    <Compile Include="Rendering\D3DShader.cs" />
+    <Compile Include="Rendering\FlatQuad.cs" />
+    <Compile Include="Rendering\FlatVertex.cs" />
+    <Compile Include="Rendering\ID3DResource.cs" />
+    <Compile Include="Rendering\IRenderer2D.cs" />
+    <Compile Include="Rendering\IRenderer3D.cs" />
+    <Compile Include="Rendering\RenderLayers.cs" />
+    <Compile Include="Rendering\TextAlignment.cs" />
+    <Compile Include="Rendering\TextFont.cs" />
+    <Compile Include="Rendering\TextLabel.cs" />
+    <Compile Include="VisualModes\VisualGeometry.cs" />
+    <Compile Include="Rendering\PixelColor.cs" />
+    <Compile Include="Rendering\PixelColorBlock.cs" />
+    <Compile Include="Rendering\Plotter.cs" />
+    <Compile Include="Rendering\Renderer.cs" />
+    <Compile Include="Rendering\Renderer2D.cs" />
+    <Compile Include="Rendering\Renderer3D.cs" />
+    <Compile Include="Rendering\ShaderManager.cs" />
+    <Compile Include="Rendering\Things2DShader.cs" />
+    <Compile Include="VisualModes\VisualSector.cs" />
+    <Compile Include="Rendering\World3DShader.cs" />
+    <Compile Include="Rendering\WorldVertex.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Sharpzip, Version=0.85.2.329, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\Sharpzip.dll</HintPath>
+    </Reference>
+    <Reference Include="SlimDX, Version=4.0.13.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=x86" />
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Windows\AboutForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\MainForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\MapOptionsForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MapOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\OpenMapOptionsForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>OpenMapOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\ResourceOptionsForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ResourceOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MissingTexture.png" />
+    <None Include="Resources\UnknownImage.png" />
+    <None Include="Resources\treeview.png" />
+    <None Include="Resources\Folder.png" />
+    <None Include="Resources\mergegeometry2.png" />
+    <None Include="Resources\mergegeometry.png" />
+    <None Include="Resources\Grid4.png" />
+    <None Include="Resources\Redo.png" />
+    <None Include="Resources\Undo.png" />
+    <None Include="Resources\Grid2.png" />
+    <None Include="Resources\Hourglass.png" />
+    <None Include="Resources\Filter.png" />
+    <None Include="Resources\Status1.png" />
+    <None Include="Resources\Status2.png" />
+    <None Include="Resources\Status0.png" />
+    <None Include="Resources\ColorPick.png" />
+    <None Include="Resources\Zoom.png" />
+    <None Include="Resources\Properties.png" />
+    <None Include="Resources\NewMap2.png" />
+    <None Include="Resources\SaveMap.png" />
+    <None Include="Resources\OpenMap.png" />
+    <None Include="Resources\NewMap.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Windows\ActionBrowserForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ActionBrowserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ActionSelectorControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ActionSelectorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CheckboxArrayControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CheckboxArrayControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ColorControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ColorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\ConfigForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ConfigForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\EffectBrowserForm.resx">
+      <DependentUpon>EffectBrowserForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\FieldsEditorControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>FieldsEditorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\FlatBrowserForm.resx">
+      <DependentUpon>FlatBrowserForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\DelayedForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DelayedForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\GridSetupForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>GridSetupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ImageBrowserControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ImageBrowserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ImageSelectorControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ImageSelectorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\LinedefEditForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>LinedefEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\LinedefInfoPanel.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>LinedefInfoPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\PreferencesForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PreferencesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ResourceListEditor.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ResourceListEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\SectorEditForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SectorEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SectorInfoPanel.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SectorInfoPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\TextureBrowserForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TextureBrowserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ThingInfoPanel.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ThingInfoPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\VertexInfoPanel.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>VertexInfoPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Actions.cfg" />
+    <EmbeddedResource Include="Resources\display2d.fx" />
+    <EmbeddedResource Include="Resources\Thing2D_1.png" />
+    <EmbeddedResource Include="Resources\things2d.fx" />
+    <EmbeddedResource Include="Resources\world3d.fx" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\MissingTexture3D.png" />
+    <EmbeddedResource Include="Resources\Thing2D_0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Copy.png" />
+    <None Include="Resources\Cut.png" />
+    <None Include="Resources\Close.png" />
+    <Compile Include="Config\AllTexturesSet.cs" />
+    <Compile Include="Config\FlagTranslation.cs" />
+    <Compile Include="Config\PasteOptions.cs" />
+    <Compile Include="Config\ThingsFlagsCompare.cs" />
+    <Compile Include="Controls\ButtonsNumericTextboxDesigner.cs" />
+    <Compile Include="Controls\Docker.cs" />
+    <Compile Include="Controls\DockersControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\DockersControl.Designer.cs">
+      <DependentUpon>DockersControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DockersTabsControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\PasteOptionsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PasteOptionsControl.Designer.cs">
+      <DependentUpon>PasteOptionsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ThingBrowserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ThingBrowserControl.Designer.cs">
+      <DependentUpon>ThingBrowserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TransparentPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Data\BitmapImage.cs" />
+    <Compile Include="Data\ColorImage.cs" />
+    <Compile Include="Data\ColormapImage.cs" />
+    <Compile Include="Data\HighResImage.cs" />
+    <Compile Include="Data\PK3FileImage.cs" />
+    <Compile Include="Data\PK3StructuredReader.cs" />
+    <Compile Include="Data\DynamicBitmapImage.cs" />
+    <Compile Include="Editing\CustomThingsFilter.cs" />
+    <Compile Include="General\CRC.cs" />
+    <Compile Include="General\ErrorItem.cs" />
+    <Compile Include="General\ErrorLogger.cs" />
+    <Compile Include="General\SavePurpose.cs" />
+    <Compile Include="IO\DoomColormapReader.cs" />
+    <Compile Include="Map\SelectionType.cs" />
+    <Compile Include="Map\MapElementCollection.cs" />
+    <Compile Include="Rendering\SurfaceBufferSet.cs" />
+    <Compile Include="Rendering\SurfaceEntry.cs" />
+    <Compile Include="Rendering\SurfaceEntryCollection.cs" />
+    <Compile Include="Rendering\SurfaceManager.cs" />
+    <Compile Include="Rendering\SurfaceUpdate.cs" />
+    <Compile Include="Types\ThingClassHandler.cs" />
+    <Compile Include="Types\ThingTypeHandler.cs" />
+    <Compile Include="Windows\ErrorsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\ErrorsForm.Designer.cs">
+      <DependentUpon>ErrorsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\FindReplaceOptions.cs" />
+    <Compile Include="Windows\MenuSection.cs" />
+    <Compile Include="Windows\PasteOptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\PasteOptionsForm.Designer.cs">
+      <DependentUpon>PasteOptionsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PluginToolbarButton.cs" />
+    <Compile Include="Windows\ScriptFindReplaceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\ScriptFindReplaceForm.Designer.cs">
+      <DependentUpon>ScriptFindReplaceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\StatusInfo.cs" />
+    <Compile Include="Windows\TanColorTable.cs" />
+    <Compile Include="Windows\ThingBrowserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\ThingBrowserForm.Designer.cs">
+      <DependentUpon>ThingBrowserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\FlagsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\FlagsForm.Designer.cs">
+      <DependentUpon>FlagsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ToolbarSection.cs" />
+    <Compile Include="Windows\VertexEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\VertexEditForm.Designer.cs">
+      <DependentUpon>VertexEditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ZDoom\ActorStructure.cs" />
+    <Compile Include="ZDoom\PatchStructure.cs" />
+    <Compile Include="ZDoom\StateGoto.cs" />
+    <Compile Include="ZDoom\TexturesParser.cs" />
+    <Compile Include="ZDoom\TextureStructure.cs" />
+    <Compile Include="ZDoom\ZDTextParser.cs" />
+    <Compile Include="ZDoom\DecorateParser.cs" />
+    <Compile Include="ZDoom\StateStructure.cs" />
+    <Compile Include="Editing\EditingManager.cs" />
+    <EmbeddedResource Include="Controls\DockersControl.resx">
+      <DependentUpon>DockersControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PasteOptionsControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PasteOptionsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ThingBrowserControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ThingBrowserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Crosshair.png" />
+    <EmbeddedResource Include="Resources\CrosshairBusy.png" />
+    <Compile Include="General\StepsList.cs" />
+    <None Include="Resources\Builder16.png" />
+    <None Include="Resources\CLogo.png" />
+    <None Include="Resources\Angle.png" />
+    <Content Include="Resources\DB2.ico" />
+    <None Include="Resources\Text.png" />
+    <None Include="Resources\List_Images.png" />
+    <None Include="Resources\List.png" />
+    <None Include="Resources\PasteSpecial.png" />
+    <None Include="Resources\ScriptHelp.png" />
+    <None Include="Resources\ErrorLarge.png" />
+    <None Include="Resources\WarningLarge.png" />
+    <None Include="Resources\Question.png" />
+    <None Include="Resources\Help.png" />
+    <None Include="Resources\Status11.png" />
+    <None Include="Resources\Status10.png" />
+    <None Include="Resources\Status12.png" />
+    <EmbeddedResource Include="Resources\UnknownTexture3D.png" />
+    <None Include="Resources\Monster3.png" />
+    <None Include="Resources\Monster2.png" />
+    <None Include="Resources\Prefab2.png" />
+    <None Include="Resources\Prefab.png" />
+    <EmbeddedResource Include="Resources\ThingBox.png" />
+    <EmbeddedResource Include="Resources\Nothing.png" />
+    <EmbeddedResource Include="Resources\UnknownThing.png" />
+    <Compile Include="IO\DirectoryFileEntry.cs" />
+    <Compile Include="IO\DirectoryFilesList.cs" />
+    <Compile Include="Map\BlockEntry.cs" />
+    <Compile Include="Map\BlockMap.cs" />
+    <Compile Include="Types\AngleDegreesFloatHandler.cs" />
+    <Compile Include="Types\AngleDegreesHandler.cs" />
+    <Compile Include="Types\AngleRadiansHandler.cs" />
+    <Compile Include="Types\LinedefTagHandler.cs" />
+    <Compile Include="Types\SectorTagHandler.cs" />
+    <Compile Include="Types\ThingTagHandler.cs" />
+    <Compile Include="VisualModes\IVisualPickable.cs" />
+    <Compile Include="General\BinaryHeap.cs" />
+    <Compile Include="Geometry\Plane.cs" />
+    <Compile Include="Geometry\ProjectedFrustum2D.cs" />
+    <Compile Include="IO\DeserializerStream.cs" />
+    <Compile Include="IO\IReadWriteStream.cs" />
+    <Compile Include="IO\SerializerStream.cs" />
+    <Compile Include="Rendering\RenderPasses.cs" />
+    <Compile Include="VisualModes\VisualBlockEntry.cs" />
+    <Compile Include="VisualModes\VisualCamera.cs" />
+    <Compile Include="VisualModes\VisualPickResult.cs" />
+    <Compile Include="VisualModes\VisualThing.cs" />
+    <Compile Include="Windows\AngleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\AngleForm.Designer.cs">
+      <DependentUpon>AngleForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\PreferencesController.cs" />
+    <None Include="Resources\Script2.png" />
+    <None Include="Resources\ScriptCompile.png" />
+    <None Include="Resources\ScriptConstant.xpm" />
+    <None Include="Resources\ScriptError.xpm" />
+    <None Include="Resources\ScriptKeyword.xpm" />
+    <None Include="Resources\ScriptPalette.png" />
+    <None Include="Resources\SaveAll.png" />
+    <None Include="Resources\SaveScript.png" />
+    <None Include="Resources\OpenScript.png" />
+    <None Include="Resources\NewScript.png" />
+    <EmbeddedResource Include="Controls\ScriptEditorPanel.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ScriptEditorPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Lexers.cfg" />
+    <None Include="Resources\ViewBrightness.png" />
+    <None Include="Resources\ViewTextureCeiling.png" />
+    <None Include="Resources\ViewTextureFloor.png" />
+    <None Include="Resources\ViewNormal.png" />
+    <None Include="Resources\KnownTextureSet.png" />
+    <EmbeddedResource Include="Controls\ScriptEditorControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ScriptEditorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Hourglass3D.png" />
+    <None Include="Resources\Failed.png" />
+    <None Include="Resources\Grid2_arrowup.png" />
+    <None Include="Resources\Zoom_arrowup.png" />
+    <None Include="Resources\Paste.png" />
+    <None Include="Resources\Test.png" />
+    <None Include="Resources\Warning.png" />
+    <None Include="Resources\WarningOff.png" />
+    <None Include="Resources\SlimDX_small.png" />
+    <None Include="Resources\Splash3_trans.png" />
+    <None Include="Resources\Splash3_small.png" />
+    <EmbeddedResource Include="Resources\UDMF.cfg" />
+    <EmbeddedResource Include="Controls\AngleControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AngleControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ArgumentBox.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ArgumentBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ButtonsNumericTextbox.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ButtonsNumericTextbox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\AngleForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AngleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\BitFlagsForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>BitFlagsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\CustomFieldsForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CustomFieldsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\ErrorsForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ErrorsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\PasteOptionsForm.resx">
+      <DependentUpon>PasteOptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\ScriptEditorForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ScriptEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\ScriptFindReplaceForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ScriptFindReplaceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\TextEditForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TextEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\TextureSetForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TextureSetForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\ThingBrowserForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ThingBrowserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\ThingEditForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ThingEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\FlagsForm.resx">
+      <DependentUpon>FlagsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\ThingsFiltersForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ThingsFiltersForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Font.png" />
+    <EmbeddedResource Include="Resources\Thing2D_3.png" />
+    <EmbeddedResource Include="Resources\Thing2D_2.png" />
+    <EmbeddedResource Include="Resources\White.png" />
+    <EmbeddedResource Include="Resources\Font.cfg" />
+    <EmbeddedResource Include="Windows\VertexEditForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>VertexEditForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(TargetDir)\..\..\data\*" "$(TargetDir)" /Y /E
+xcopy "$(TargetDir)\..\..\data40\*" "$(TargetDir)" /Y /E</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

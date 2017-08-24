@@ -1,0 +1,92 @@
+Doom Builder 2 command-line arguments
+==========================================================================================
+
+Usage:
+
+   builder.exe [wadfile] [-map mapname] [-cfg configname] [-delaywindow] [-nopreferences]
+               [-strictpatches] [-resource wad|dir|pk3 [roottextures] [rootflats]
+               [strictpatches] [notest] resourcename]
+
+==========================================================================================
+
+Parameters:
+
+- wadfile
+This is a .WAD file to load immediately after Doom Builder has started up. Unless -map
+and -cfg are used, this will show the map-options dialog.
+
+- map
+Where 'mapname' is the name of the map (map header lump name) such as MAP01 or E1M1. When
+specified, this will indicate the map to load from the specified wad file. Use in
+combination with -cfg to provide the required information to skip the map-options dialog.
+
+- cfg
+Where 'configname' is a game configuration filename, for example, "ZDoom_DoomHexen.cfg".
+Do NOT include the path, all game configurations must be in the Configurations subfolder.
+When used in combination with -map this will provide the required information to load a
+map directly and skip the map-options dialog.
+
+- delaywindow
+This delays showing the main interface window until the automatic map loading from
+command line parameters is completed, and the program is not terminating yet. This is
+usefull for plugins that can be used to perform batch processes where the showing of the
+main interface window is not desired. If a plugin completes it's actions on map load and
+terminates the application immediately, the main window will not be shown at all.
+
+- nosettings
+When this parameter is specified, Doom Builder will not load your preferences or game
+configuration settings and will use the default settings instead. You will not lose your
+original settings, but when this parameter is specified your settings will not be saved.
+
+- strictpatches
+Specify this parameter to enforce strictly loading texture patches from between P_START
+and P_END marker lumps only. This can solve lump name conflicts, but old WAD files do not
+always adhere to this rule.
+
+- resource
+When -wadfile is specified, the -resource option can be used to add additional resources
+that must be loaded along with the wad file. Note that these are added to the resources
+which are automatically loaded due to the selection of a game configuration. You can
+repeat this option for any number of resources you wish to add. As always, the last
+specified resource will override any data in earlier specified resource. This parameter
+has the following arguments:
+
+   wad|dir|pk3       Either 'wad', 'dir' or 'pk3' must be specified to indicate how this
+                     resource must be loaded. This is the same as selecting the tabs in
+                     the resource options dialog in Doom Builder. This is required.
+
+   roottextures      This specifies that any images in the root directory of the resource
+                     must be loaded as textures. This is optional and can only be
+                     specified for directory resources.
+
+   rootflats         This specifies that any images in the root directory of the resource
+                     must be loaded as flats. This is optional and can only be
+                     specified for directory resources.
+
+   strictpatches     Set this for wad resources to load patches with strict rules to
+                     solve lump name conflicts. Same as -strictpatches described above.
+                     This is optional and can only be specified for wad resources.
+   
+   notest            Indicates that this resource will not be included in the parameters
+                     for the game engine when testing the map. This is optional.
+
+==========================================================================================
+
+Examples:
+
+This loads the file "Ubermegawad.wad" after Doom Builder is initialized and shows the
+map-options dialog:
+
+   builder.exe "C:\Games\Doom\My Maps\Ubermegawad.wad"
+
+Same as the example above, but now without showing the map-options dialog and instead
+immediately loads map MAP23 with the game configuration for Doom 2:
+
+   builder.exe "C:\Games\Doom\My Maps\Ubermegawad.wad" -map MAP23 -cfg "Doom2.cfg"
+
+Same as the example above, but with added wad file resource and PK3 file resource:
+
+   builder.exe "C:\Games\Doom\My Maps\Ubermegawad.wad" -map MAP23 -cfg "Doom2.cfg"
+               -resource wad strictpatches "C:\Games\Doom\gothtextures.wad"
+               -resource pk3 "C:\Games\Doom\hardmonsters.pk3"
+

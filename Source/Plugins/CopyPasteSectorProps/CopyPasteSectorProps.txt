@@ -1,0 +1,30 @@
+=== DOOM BUILDER 2 PLUGIN (CopyPasteSectorProps) ==============================
+File: CopyPasteSectorProps.dll
+Author: Boris Iwanski
+Version: 1.0.0.0
+Minimum DB2 Version: 2.0.1.1157
+
+
+=== What does it do ===========================================================
+This plugin copies the properties (floor/ceiling heights, floor/ceiling
+textures, brightness, tag and special effect from a sector and pastes
+them to one or more sectors. Unlike the join/merge sector function this
+plugin does not change the sector references of the sidedefs.
+
+
+=== Usage =====================================================================
+Menu entry: no
+Toolbar buttons: no
+Hotkeys: yes. There are two new actions in the "Sectors" section of the
+	controls. They are called "Copy sector properties" and "Paste sector
+	properties".
+
+IMPORTANT: you'll have to assign hotkeys to those actions to use the
+functionality of this plugin!
+
+To copy the properties of a sector just highlight the desired sector (hover the
+mouse over it) and press the hotkey you assigned to "Copy sector properties".
+Now you have two ways to paste those properties to other sectors. Either you
+highlight a sector and press your "Paste sector properties" hotkey or select
+(by clicking) multiple sectors and then press you "Paste sector properties"
+hotkey to paste the properties to all of them.

@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	
+	<title>Configuration Syntax</title>
+	
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+	<link rel="stylesheet" type="text/css" href="default.css" media="screen" title="Default" />
+</head>
+<body>
+	
+	<object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+	<param name="keyword" value="Configurations">
+	<param name="keyword" value="Structure">
+	<param name="keyword" value="Syntax">
+	</object>
+	
+	<div id="title"><h1>Configuration Syntax</h1></div>
+	
+	<div id="contents">
+	<p>
+		All configurations used with Doom Builder follow a specific, structured syntax. The configurations are all in plain text format and can be edited with any plain text editor. Every setting in a configuration is in the following form:
+	</p>
+<pre>
+settingname = value;
+</pre>
+	<p>Here are a few examples:</p>
+<pre>
+doublesidedflag = 4;
+defaulttexturescale = 1.0f;
+scaledtextureoffsets = true;
+gamename = "Doom";
+</pre>
+	<p>
+	There are a few rules to the setting names and values:
+	<ul>
+		<li>The setting name may not contain any spaces, tabs, newlines, dots or (back)slashes.
+		<li>The setting name must be unique within the configuration, or within the structure it is in.
+		<li>A decimal value must contain a dot and must end with '<b>f</b>'
+		<li>Boolean settings may use the keywords <b>true</b> and <b>false</b>.
+		<li>Strings (texts) must begin with a doublequote (<b>&quot;</b>) and end with a doublequote. To include a doublequote in the string, prefix it with a backslash (<b>\&quot;</b>). To use a backslash in a string, also prefix it with a backslash.
+	</ul>
+	Some settings do not require a value and their precense or absense alone is enough. Such a case would look like this:
+	</p>
+<pre>
+enablelighting;
+</pre>
+	<p>
+		C-style comments can be inserted by using double slashes (<b>//</b>) for singleline comments and <b>/*</b> and <b>*/</b> for block comments. These comments will be completely ignored by Doom Builder. You can hide writings about your wildest dreams in configuration files!
+	</p>
+	
+	
+	
+	<h2>Structures</h2>
+	<p>
+		Configurations can also contain <b>structures</b>. Think of them as a collection of settings that have their own name space. The structure begins with a name and opens with an opening bracket (<b>{</b>). At the end of the structure it closes with a closing bracktet (<b>}</b>). It is common to ident the settings inside the structure with a single tab to make it easier to see that those settings belong in a structure. An example of a structure with settings:
+	</p>
+<pre>
+winningnumbers
+{
+	car = 55;
+	washmachine = 40;
+	tools = 30;
+}
+</pre>
+	<p>
+		Structures are often used by Doom Builder in cases where multiple collections of settings can be found. The name of a structure can also be just a number, so that a structure can describe information about a specific index number. Here is an example of such a case:
+	</p>
+<pre>
+things
+{
+	1
+	{
+		name = "Player 1 start";
+		color = "green";
+	}
+	
+	2
+	{
+		name = "Player 2 start";
+		color = "green";
+	}
+	
+	138
+	{
+		name = "Hideous monster";
+		color = "red";
+	}
+}
+</pre>
+	Please note that in some structures, the order of the settings and structures is important.
+	
+	
+	
+	<h2>Including</h2>
+	<p>
+		Some configurations (such as the Game Configurations) can become very large and complex, while some share the same values in many settings. For example, Eternity is a game engine that inherits features from Doom and Boom and adds on top of that. This is where including pieces from other configuration files becomes interesting. With the <b>include</b> function, we can insert features from Doom, then insert (and possible override) features from Boom and then add the Eternity ones. This saves us rewriting all the Doom and Boom features that already exists in other configurations.<br />
+		<br />
+		The include function takes two arguments. The first (mandatory) is the filename (path relative to the current file) and the second (optional) is the name of the structure to include. If the second argument is not given, the entire file will be included. Here is an example that shows how such an include functions look like:
+	</p>
+<pre>
+include("commonsettings.cfg");
+include("extras.cfg", "skills");
+</pre>
+	<p>
+		Below are a few examples that show what the results are when including settings that override settings with the same names among other things. For these examples we will be including a file named &quot;extras.cfg&quot;, which contains the following settings:
+	</p>
+<pre>
+maxtexturenamelength = 8;
+skyflatname = "F_SKY1";
+
+options
+{
+	1 = "Low";
+	2 = "Medium";
+	3 = "High";
+}
+</pre>
+	<p>
+		This example shows how the include function includes an entire file. This is the most basic include:
+	</p>
+<pre>
+thingflags
+{
+	1 = "Easy";
+	2 = "Medium";
+	4 = "Hard";
+}
+
+include("extras.cfg");
+</pre>
+	<p>Result:</p>
+<pre>
+thingflags
+{
+	1 = "Easy";
+	2 = "Medium";
+	4 = "Hard";
+}
+
+maxtexturenamelength = 8;
+skyflatname = "F_SKY1";
+
+options
+{
+	1 = "Low";
+	2 = "Medium";
+	3 = "High";
+}
+</pre>
+	<p>
+		The following example shows how a single structure from extras.cfg is included. Notice how only the contents of the structure are included and not the structure container itsself!
+	</p>
+<pre>
+thingflags
+{
+	1 = "Easy";
+	2 = "Medium";
+	4 = "Hard";
+}
+
+include("extras.cfg", "options");
+</pre>
+	<p>Result:</p>
+<pre>
+thingflags
+{
+	1 = "Easy";
+	2 = "Medium";
+	4 = "Hard";
+}
+
+1 = "Low";
+2 = "Medium";
+3 = "High";
+</pre>
+	<p>
+		If we want our included settings in a structure, we have to put the include function in the structure where we want our settings included. See the following example:
+	</p>
+<pre>
+thingflags
+{
+	1 = "Easy";
+	2 = "Medium";
+	4 = "Hard";
+}
+
+options
+{
+	0 = "None";
+	
+	include("extras.cfg", "options");
+	
+	4 = "Ultra";
+}
+</pre>
+	<p>Result:</p>
+<pre>
+thingflags
+{
+	1 = "Easy";
+	2 = "Medium";
+	4 = "Hard";
+}
+
+options
+{
+	0 = "None";
+	
+	1 = "Low";
+	2 = "Medium";
+	3 = "High";
+	
+	4 = "Ultra";
+}
+</pre>
+	<p>
+		The following example demonstrates how values can be overridden by using the same same setting name. It also shows that this does NOT change the order of the items. The first time an item is defined (either by including or because it is written) is where its position will be. See this example:
+	</p>
+<pre>
+thingflags
+{
+	1 = "Easy";
+	2 = "Medium";
+	4 = "Hard";
+}
+
+options
+{
+	0 = "None";
+	
+	include("extras.cfg", "options");
+	
+	2 = "Average";
+	4 = "Ultra";
+}
+</pre>
+	<p>Result:</p>
+<pre>
+thingflags
+{
+	1 = "Easy";
+	2 = "Medium";
+	4 = "Hard";
+}
+
+options
+{
+	0 = "None";
+	
+	1 = "Low";
+	2 = "Average";
+	3 = "High";
+	
+	4 = "Ultra";
+}
+</pre>
+	<p>
+		Notice how the definition of setting &quot;2&quot; (&quot;Average&quot;) does not move the already defined &quot;2&quot; (&quot;Medium&quot;), but instead only changes its value to &quot;Average&quot;.
+	</p>
+	</div>
+</body>

@@ -1,0 +1,224 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<OBJECT type="text/site properties">
+	<param name="WindowName" value="default">
+</OBJECT>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Introduction">
+		<param name="Local" value="introduction.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Terminology">
+		<param name="Local" value="terminology.html">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="User Interface">
+		<param name="Local" value="userinterface.html">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="About the User Interface">
+			<param name="Local" value="userinterface.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Main Window">
+			<param name="Local" value="w_mainwindow.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Custom Fields Editor">
+			<param name="Local" value="w_customfields.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Errors and Warnings Window">
+			<param name="Local" value="w_errorsandwarnings.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Game Configurations Window">
+			<param name="Local" value="w_gameconfigurations.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Grid Setup Window">
+			<param name="Local" value="w_gridsetup.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Image Browser Window">
+			<param name="Local" value="w_imagesbrowser.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Linedef Properties Window">
+			<param name="Local" value="w_linedefedit.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Map Options Window">
+			<param name="Local" value="w_mapoptions.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Open Map Window">
+			<param name="Local" value="w_openmapoptions.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Preferences Window">
+			<param name="Local" value="w_preferences.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Resource Options Window">
+			<param name="Local" value="w_resourceoptions.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Script Editor Window">
+			<param name="Local" value="w_scripteditor.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Sector Properties Window">
+			<param name="Local" value="w_sectoredit.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Texture Sets Window">
+			<param name="Local" value="w_textureset.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Thing Properties Window">
+			<param name="Local" value="w_thingedit.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Things Filters Window">
+			<param name="Local" value="w_thingsfilters.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Vertex Properties Window">
+			<param name="Local" value="w_vertexedit.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Editing Modes">
+		<param name="Local" value="editingmodes.html">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="About Editing Modes">
+			<param name="Local" value="editingmodes.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Brightness Mode">
+			<param name="Local" value="e_brightness.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Curve Linedefs Mode">
+			<param name="Local" value="e_curvelinedefs.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Draw Geometry Mode">
+			<param name="Local" value="e_drawgeometry.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Edit Selection Mode">
+			<param name="Local" value="e_editselection.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Find &amp; Replace Mode">
+			<param name="Local" value="e_findreplace.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Linedefs Mode">
+			<param name="Local" value="e_linedefs.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Make Sectors Mode">
+			<param name="Local" value="e_makesectors.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Map Analysis Mode">
+			<param name="Local" value="e_mapanalysis.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Sectors Mode">
+			<param name="Local" value="e_sectors.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Things Mode">
+			<param name="Local" value="e_things.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Vertices Mode">
+			<param name="Local" value="e_vertices.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Visual Mode">
+			<param name="Local" value="e_visual.html">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Configurations">
+		<param name="Local" value="configurations.html">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="About Configurations">
+			<param name="Local" value="configurations.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Configuration Syntax">
+			<param name="Local" value="configstructure.html">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Compiler Configurations">
+			<param name="Local" value="compilerconfigs.html">
+			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="About Compiler Configurations">
+				<param name="Local" value="compilerconfigs.html">
+				</OBJECT>
+		</UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Game Configurations">
+			<param name="Local" value="gameconfigs.html">
+			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="About Game Configurations">
+				<param name="Local" value="gameconfigs.html">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Basic Settings">
+				<param name="Local" value="gc_basicsettings.html">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Map Format Settings">
+				<param name="Local" value="gc_formatsettings.html">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Resource Settings">
+				<param name="Local" value="gc_resourcesettings.html">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Sectors Settings">
+				<param name="Local" value="gc_sectorsettings.html">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Linedefs Settings">
+				<param name="Local" value="gc_linedefsettings.html">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="Things Settings">
+				<param name="Local" value="gc_thingsettings.html">
+				</OBJECT>
+		</UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Scripting Configurations">
+			<param name="Local" value="scriptingconfigs.html">
+			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="About Scripting Configurations">
+				<param name="Local" value="scriptingconfigs.html">
+				</OBJECT>
+		</UL>
+	</UL>
+</UL>
+</BODY></HTML>

@@ -1,0 +1,1343 @@
+////////////////////////////////////////
+//--------------------------------------
+// Texture Properties
+//--------------------------------------
+////////////////////////////////////////
+
+//--------------------------------------
+// XScale Only
+//--------------------------------------
+texture TSCLX025, 64, 64		//0.25, 4x size
+{
+	XScale 0.25
+	Patch W31_1, 0, 0
+}
+
+texture TSCLX05, 64, 64			//XScale 0.5, 2x Size
+{
+	XScale 0.5
+	Patch W31_1, 0, 0
+}
+texture TSCLX2, 64, 64			//XScale 2, 0.5x Size
+{
+	XScale 2
+	Patch W31_1, 0, 0
+}
+texture TSCLX4, 64, 64			//XScale 4, 0.25x Size
+{
+	XScale 4
+	Patch W31_1, 0, 0
+}
+
+//--------------------------------------
+// YScale Only
+//--------------------------------------
+
+texture TSCLY025, 32, 32		//YScale 0.25
+{
+	YScale 0.25
+	Patch SW3S1, 0, 0
+}
+
+texture TSCLY05, 32, 32			//YScale 0.5
+{
+	YScale 0.5
+	Patch SW3S1, 0, 0
+}
+texture TSCLY2, 32, 32			//YScale 2
+{
+	YScale 2
+	Patch SW3S1, 0, 0
+}
+texture TSCLY4, 32, 32			//YScale 4
+{
+	YScale 4
+	Patch SW3S1, 0, 0
+}
+
+//--------------------------------------
+// XScale and YScale Equal
+//--------------------------------------
+
+texture TSCLB025, 32, 32		//Scale 0.25
+{
+	XScale 0.25
+	YScale 0.25
+	Patch SGCRATE2, 0,0
+}
+
+texture TSCLB05, 32, 32			//Scale 0.5
+{
+	XScale 0.5
+	YScale 0.5
+	Patch SGCRATE2, 0,0
+}
+
+texture TSCLB2, 32, 32			//Scale 2
+{
+	XScale 2
+	YScale 2
+	Patch SGCRATE2, 0,0
+}
+
+texture TSCLB4, 32, 32			//Scale 4
+{
+	XScale 4
+	YScale 4
+	Patch SGCRATE2, 0,0
+}
+
+//--------------------------------------
+// XScale and YScale Mixed
+//--------------------------------------
+
+texture TSCLM1, 32, 64			// X: 0.25, Y: 2
+{
+	XScale 0.25
+	YScale 2
+	Patch RW31_4, 0, 0
+}
+
+texture TSCLM2, 128, 128		// X: 4, Y: 2
+{
+	XScale 4
+	YScale 2
+	Patch MWALL4_2, 0, 0
+}
+
+texture TSCLM3, 64, 64			// X: 2, Y: 0.5
+{
+	XScale 2
+	YScale 0.5
+	Patch WALL72_3, 0, 0
+}
+
+texture TSCLM4, 32, 32			// X: 0.5, Y: 0.25
+{
+	XScale 0.5
+	YScale 0.25
+	Patch SW2S1, 0, 0
+}
+
+//--------------------------------------
+// World Panning - Same As Above
+//--------------------------------------
+
+texture TSCLMWP1, 32, 64			// X: 0.25, Y: 2
+{
+	XScale 0.25
+	YScale 2
+	WorldPanning
+	Patch RW31_4, 0, 0
+}
+
+texture TSCLMWP2, 128, 128		// X: 4, Y: 2
+{
+	XScale 4
+	YScale 2
+	WorldPanning
+	Patch MWALL4_2, 0, 0
+}
+
+texture TSCLMWP3, 64, 64			// X: 2, Y: 0.5
+{
+	XScale 2
+	YScale 0.5
+	WorldPanning
+	Patch WALL72_3, 0, 0
+}
+
+texture TSCLMWP4, 32, 32			// X: 0.5, Y: 0.25
+{
+	XScale 0.5
+	YScale 0.25
+	WorldPanning
+	Patch SW2S1, 0, 0
+}
+
+//--------------------------------------
+// Misc. Texture Properties
+//--------------------------------------
+
+texture TMISCNOD, 64, 128			// No Decals
+{
+	NoDecals
+	Patch WALL00_1, 0, 0
+}
+
+texture TMISCNUL, 64, 128			// Null Texture
+{
+	NullTexture
+	Patch WALL78_1, 0, 0
+}
+
+////////////////////////////////////////
+//--------------------------------------
+// Patch Properties
+//--------------------------------------
+////////////////////////////////////////
+
+//--------------------------------------
+// Basic Use
+//--------------------------------------
+
+texture PBLACK, 32,32			//All-Black Texture
+{
+	Patch RW34_1, -16, -16
+}
+
+texture PBASIC1, 64, 128		// Basic Single-Patch Texture
+{
+	Patch HELL6_3, 0, 0
+}
+
+texture PBASIC2, 256, 128		// Multi-Patch Texture, Side-by-Side
+{
+	Patch HELL5_1, 0, 0
+	Patch HELL5_2, 128, 0
+}
+
+texture PBASIC3, 64, 128		// Multi-Patch Texture, Overlapping
+{
+	Patch COMP03_4, 0, 0
+	Patch Comp03_4, 0, 64
+	Patch Comp03_4, 32, 0
+	Patch Comp03_4, 32, 64
+	Patch Comp04_1, 0, 24
+	Patch WARNA0, 24, 66
+}
+
+//--------------------------------------
+// Flipping
+//--------------------------------------
+
+texture PFLIPX, 112, 64			// FlipX
+{
+	Patch CYL1_1, 0, 0
+	{
+		FlipX
+	}
+}
+
+texture PFLIPY, 64, 128			// FlipY
+{
+	Patch WALL58_2, 0, 0
+	{
+		FlipY
+	}
+}
+
+texture PFLIPXY, 64, 64			// FlipX and FlipY Combined
+{
+	Patch T14_3, 0, -4
+	{
+		FlipX
+		FlipY
+	}
+}
+
+texture PFLIPM, 64, 128			// Three Flipped Patches
+{
+	Patch RSKY3, 0, -32
+	{
+		FlipY
+	}
+	Patch DOOR2_1, -16, 56
+	{
+		FlipX
+		FlipY
+	}
+	Patch PS20A0, 1, 54
+	{
+		FlipX
+	}
+}
+
+//--------------------------------------
+// Rotation
+//--------------------------------------
+
+texture PROT90, 128, 128		// Rotate 90
+{
+	Patch W74B_1, 0, 0
+	{
+		Rotate 90
+	}
+}
+
+texture PROT180, 128, 128		// Rotate 180
+{
+	Patch W74B_1, 0, 0
+	{
+		Rotate 180
+	}
+}
+
+texture PROT270, 128, 128		// Rotate 270
+{
+	Patch W74B_1, 0, 0
+	{
+		Rotate 270
+	}
+}
+
+texture PROTM, 128, 128			// Four Rotated Patches
+{
+	Patch TOMW2_2, 0, 56
+	{
+		Rotate 180
+	}
+	Patch COMP04_2, 0, 0
+	{
+		Rotate -90
+	}
+	Patch COMP03_5, 64, 0
+	{
+		Rotate 90
+	}
+	Patch WARNA0, 48, 60
+	{
+		Rotate 270
+	}
+}
+
+//--------------------------------------
+// Translations - Pre-Named
+//--------------------------------------
+
+texture PTRNN1, 64, 64			// Inverse
+{
+	Patch WALL72_5, 0, 0
+	{
+		Translation Inverse
+	}
+}
+
+texture PTRNN2, 64, 64			// Gold
+{
+	Patch WALL72_5, 0, 0
+	{
+		Translation Gold
+	}
+}
+
+texture PTRNN3, 64, 64			// Red
+{
+	Patch WALL72_5, 0, 0
+	{
+		Translation Red
+	}
+}
+
+texture PTRNN4, 64, 64			// Green
+{
+	Patch WALL72_5, 0, 0
+	{
+		Translation Green
+	}
+}
+
+texture PTRNN5, 64, 64			// Ice
+{
+	Patch WALL72_5, 0, 0
+	{
+		Translation Ice
+	}
+}
+
+texture PTRNN6, 64, 64			// Desaturate
+{
+	Patch WALL72_5, 0, 0
+	{
+		Translation "Desaturate, 1.0"
+	}
+}
+
+texture PTRNN7, 64, 128			// Two Patches - Gold and Inverse
+{
+	Patch WALL72_5, 0, 0
+	{
+		Translation Gold
+	}
+	
+	Patch WALL72_5, 0, 64
+	{
+		Translation Inverse
+	}
+}
+
+//--------------------------------------
+// Translations - Custom
+//--------------------------------------
+
+texture PTRNC1, 64, 128			// index:index
+{
+	Patch RW37_3, 0, 0
+	{
+		Translation "152:159=70:77"
+	}
+}
+
+texture PTRNC2, 64, 128			// index:rgb
+{
+	Patch RW37_3, 0, 0
+	{
+		Translation "152:159=[254,112,136]:[182,56,24]"
+	}
+}
+
+texture PTRNC3, 64, 128			// index:index, index:index
+{
+	Patch RW37_3, 0, 0
+	{
+		Translation "200:207=192:199", "152:159=70:77"
+	}
+}
+
+texture PTRNC4, 64, 128			// index:rgb, index:rgb
+{
+	Patch RW37_3, 0, 0
+	{
+		Translation "200:207=[138,254,61]:[85,211,1]", "152:159=[254,112,136]:[182,56,24]"
+	}
+}
+
+texture PTRNC5, 64, 128			// index:index, index:rgb
+{
+	Patch RW37_3, 0, 0
+	{
+		Translation "200:207=192:199", "152:159=[254,112,136]:[182,56,24]"
+	}
+}
+
+texture PTRNC6, 64, 128			// Two Patches - i:i and i:rgb
+{
+	Patch RW37_3, 0, 0
+	{
+		Translation "200:207=192:199"
+	}
+	Patch RW37_3, 0, 64
+	{
+		Translation "152:159=[254,112,136]:[182,56,24]"
+	}
+}
+
+//--------------------------------------
+// Blend - Named Colors From X11R6RGB
+//     Lump in ZDoom.PK3
+//--------------------------------------
+
+texture PBLNN1, 64, 64			// "Blue"
+{
+	Patch WALL02_1, 0, 0
+	{
+		Blend "Blue"
+	}
+}
+
+texture PBLNN2, 64, 64			// "Pale Green"
+{
+	Patch WALL02_1, 0, 0
+	{
+		Blend "Pale Green"
+	}
+}
+
+texture PBLNN3, 64, 64			// "Dark Slate Grey"
+{
+	Patch WALL02_1, 0, 0
+	{
+		Blend "Dark Slate Grey"
+	}
+}
+
+texture PBLNN4, 64, 64			// "Blue" at 0.75 Alpha
+{
+	Patch WALL02_1, 0, 0
+	{
+		Blend "Blue", 0.75
+	}
+}
+
+texture PBLNN5, 64, 64			// "Pale Green" at 0.5 Alpha
+{
+	Patch WALL02_1, 0, 0
+	{
+		Blend "Pale Green", 0.5
+	}
+}
+
+texture PBLNN6, 64, 64			// "Dark Slate Grey" at 0.25 Alpha
+{
+	Patch WALL02_1, 0, 0
+	{
+		Blend "Dark Slate Grey", 0.25
+	}
+}
+
+texture PBLNN7, 64, 128			// Two Patches - "Red" and "Orange"
+{
+	Patch WALL02_1, 0, 0
+	{
+		Blend "Red"
+	}
+	Patch WALL02_1, 0, 64
+	{
+		Blend "Orange"
+	}
+}
+
+//--------------------------------------
+// Blend - RGB Colors
+//     Note: As of r1302, Alpha does not work
+//--------------------------------------
+
+texture PBLNRGB1, 64, 64		// 255 Red
+{
+	Patch WALL03_1, 0 ,0
+	{
+		Blend 255, 0, 0, 1.0
+	}
+}
+
+texture PBLNRGB2, 64, 64		// 255 Green
+{
+	Patch WALL03_1, 0 ,0
+	{
+		Blend 0, 255, 0, 1.0
+	}
+}
+
+texture PBLNRGB3, 64, 64		// 255 Blue
+{
+	Patch WALL03_1, 0 ,0
+	{
+		Blend 0, 0, 255, 1.0
+	}
+}
+
+texture PBLNRGB4, 64, 64		// 252, 120, 213 - Pink
+{
+	Patch WALL03_1, 0 ,0
+	{
+		Blend 252, 120, 213, 1.0
+	}
+}
+
+texture PBLNRGB5, 64, 64		// Pink in Hexadecimal "FC, 78, D5"
+{
+	Patch WALL03_1, 0 ,0
+	{
+		Blend "FC, 78, D5"
+	}
+}
+
+texture PBLNRGB6, 64, 64		// Pink With 0.5 Alpha
+{
+	Patch WALL03_1, 0 ,0
+	{
+		Blend 252, 120, 213, 0.5
+	}
+}
+
+texture PBLNRGB7, 64, 64		// Pink in Hex With 0.5 Alpha "80"
+{
+	Patch WALL03_1, 0 ,0
+	{
+		Blend "FC, 78, D5, 80"
+	}
+}
+
+texture PBLNRGBM, 64, 128		// TWo Patches - "FC, 78, D5"
+{									//and 83, 170, 146
+	Patch WALL03_1, 0 ,0
+	{
+		Blend "FC, 78, D5"
+	}
+	Patch WALL03_1, 0 ,64
+	{
+		Blend 83, 170, 146, 1.0
+	}
+}
+
+
+//--------------------------------------
+// Styles
+//     Notes: Copy appears to do nothing in r1302
+//       CopyAlpha does something in software, but I don't know what.
+//       Using Blend returns a bad syntax error.
+//--------------------------------------
+
+texture PSTYL1, 64, 128			// Add
+{
+	Patch RW1_2, 0, 0
+	Patch WLA128_1, 32, 0
+	{
+		Style Add
+	}
+}
+
+texture PSTYL2, 64, 128			// Subtract
+{
+	Patch RW1_2, 0, 0
+	Patch WLA128_1, 32, 0
+	{
+		Style Subtract
+	}
+}
+
+texture PSTYL3, 64, 128			// ReverseSubtract
+{
+	Patch RW1_2, 0, 0
+	Patch WLA128_1, 32, 0
+	{
+		Style ReverseSubtract
+	}
+}
+
+texture PSTYL4, 64, 128			// Modulate
+{
+	Patch RW1_2, 0, 0
+	Patch WLA128_1, 32, 0
+	{
+		Style Modulate
+	}
+}
+
+texture PSTYL5, 64, 128			// Copy
+{
+	Patch RW1_2, 0, 0
+	Patch WLA128_1, 32, 0
+	{
+		Style Copy
+	}
+}
+
+texture PSTYL6, 64, 128			// CopyAlpha
+{
+	Patch RW1_2, 0, 0
+	Patch WLA128_1, 32, 0
+	{
+		Style CopyAlpha
+	}
+}
+
+texture PSTYL7, 64, 128			// Add and Add
+{
+	Patch RW1_2, 0, 0
+	Patch WLA128_1, 0, 64
+	{
+		Style Add
+	}
+	Patch SUPPORT2, 0, 32
+	{
+		Style Add
+	}
+}
+
+texture PSTYL8, 64, 128			// Add and Subtract
+{
+	Patch RW1_2, 0, 0
+	Patch WLA128_1, 0, 64
+	{
+		Style Add
+	}
+	Patch SUPPORT2, 0, 32
+	{
+		Style Subtract
+	}
+}
+
+texture PSTYL9, 64, 128			// Add and ReverseSubtract
+{
+	Patch RW1_2, 0, 0
+	Patch WLA128_1, 0, 64
+	{
+		Style Add
+	}
+	Patch SUPPORT2, 0, 32
+	{
+		Style ReverseSubtract
+	}
+}
+
+texture PSTYL10, 64, 128		// Add and Modulate
+{
+	Patch RW1_2, 0, 0
+	Patch WLA128_1, 0, 64
+	{
+		Style Add
+	}
+	Patch SUPPORT2, 0, 32
+	{
+		Style Modulate
+	}
+}
+
+texture PSTYL11, 64, 128		// Subtract and Subtract
+{
+	Patch RW1_2, 0, 0
+	Patch WLA128_1, 0, 64
+	{
+		Style Subtract
+	}
+	Patch SUPPORT2, 0, 32
+	{
+		Style Subtract
+	}
+}
+
+texture PSTYL12, 64, 128		// Subtract and ReverseSubtract
+{
+	Patch RW1_2, 0, 0
+	Patch WLA128_1, 0, 64
+	{
+		Style Subtract
+	}
+	Patch SUPPORT2, 0, 32
+	{
+		Style Reversesubtract
+	}
+}
+
+texture PSTYL13, 64, 128		// Subtract and Modulate
+{
+	Patch RW1_2, 0, 0
+	Patch WLA128_1, 0, 64
+	{
+		Style Subtract
+	}
+	Patch SUPPORT2, 0, 32
+	{
+		Style Modulate
+	}
+}
+
+texture PSTYL14, 64, 128		// Modulate and Modulate
+{
+	Patch RW1_2, 0, 0
+	Patch WLA128_1, 0, 64
+	{
+		Style Modulate
+	}
+	Patch SUPPORT2, 0, 32
+	{
+		Style Modulate
+	}
+}
+
+texture PSTYL15, 64, 128		// Modulate, Subtract, and Add
+{
+	Patch RW1_2, 0, 0
+	Patch WLA128_1, 0, 64
+	{
+		Style Modulate
+	}
+	Patch SUPPORT2, 0, 32
+	{
+		Style Subtract
+	}
+	Patch COMP03_8, 12, 32
+	{
+		Style Add
+	}
+}
+
+texture PSTYL16, 64, 128		// Add, ReverseSubtract, and Modulate
+{
+	Patch RW1_2, 0, 0
+	Patch WLA128_1, 0, 64
+	{
+		Style Add
+	}
+	Patch SUPPORT2, 0, 32
+	{
+		Style ReverseSubtract
+	}
+	Patch COMP03_8, 12, 32
+	{
+		Style Modulate
+	}
+}
+
+texture PSTYL17, 64, 128		// Add, ReverseSubtract, and Subtract
+{
+	Patch RW1_2, 0, 0
+	Patch WLA128_1, 0, 64
+	{
+		Style Add
+	}
+	Patch SUPPORT2, 0, 32
+	{
+		Style ReverseSubtract
+	}
+	Patch COMP03_8, 12, 32
+	{
+		Style Subtract
+	}
+}
+
+//--------------------------------------
+// Styles With Alpha
+//     Note: The following are not affected by Alpha in r1302:
+//       Modulate, Copy, and CopyAlpha
+//--------------------------------------
+
+texture PSTYA1, 64, 128			// Add 0.5
+{
+	Patch RW1_2, 0, 0
+	Patch WLA128_1, 32, 0
+	{
+		Style Add
+		Alpha 0.5
+	}
+}
+
+texture PSTYA2, 64, 128			// Subtract 0.25
+{
+	Patch RW1_2, 0, 0
+	Patch WLA128_1, 32, 0
+	{
+		Style Subtract
+		Alpha 0.75
+	}
+}
+
+texture PSTYA3, 64, 128			// ReverseSubtract 0.75
+{
+	Patch RW1_2, 0, 0
+	Patch WLA128_1, 32, 0
+	{
+		Style ReverseSubtract
+		Alpha 0.75
+	}
+}
+
+texture PSTYA4, 64, 128			// Add 0.6, ReverseSubtract 0.9, Subtract 0.5
+{
+	Patch RW1_2, 0, 0
+	Patch WLA128_1, 0, 64
+	{
+		Style Add
+		Alpha 0.6
+	}
+	Patch SUPPORT2, 0, 32
+	{
+		Style ReverseSubtract
+		Alpha 0.9
+	}
+	Patch COMP03_8, 12, 32
+	{
+		Style Subtract
+		Alpha 0.5
+	}
+}
+
+texture PSTYA5, 64, 128			// Subtract 0.25, Modulate, Add 0.75
+{
+	Patch RW1_2, 0, 0
+	Patch WLA128_1, 0, 64
+	{
+		Style Subtract
+		Alpha 0.25
+	}
+	Patch SUPPORT2, 0, 32
+	{
+		Style Modulate
+	}
+	Patch COMP03_8, 12, 32
+	{
+		Style Add
+		Alpha 0.75
+	}
+}
+
+////////////////////////////////////////
+//--------------------------------------
+// Mixed Properties
+//--------------------------------------
+////////////////////////////////////////
+
+//--------------------------------------
+// Translation and Style
+//--------------------------------------
+
+texture MTS1, 64, 128			// Translation + Style 1
+{
+	Patch RW18_1, 0, 0
+	Patch PS20A0, 1, 56
+	{
+		Translation "160:167=128:135"
+		Style Add
+	}
+	Patch PS20A0, 1, 56
+	{
+		Translation "160:167=128:135"
+		Style Modulate
+	}
+}
+
+texture MTS2, 64, 128			// Translation + Style 2
+{
+	Patch WALL00_1, 0, 0
+	{
+		Translation "88:103=136:151"
+	}
+	Patch WALL00_3, 24, 0
+	{
+		Translation "32:47=192:207", "176:191=192:207", "88:103=136:151"
+	}
+	Patch PS20A0, 1, 56
+	{
+		Style ReverseSubtract
+	}
+}
+
+texture MTS3, 64, 128			// Translation + Style 3
+{
+	Patch WALL03_7, 0, 0
+	{
+		Translation Gold
+	}
+	Patch WALL03_7, 0, 64
+	{
+		Translation Gold
+	}
+	Patch COMP03_4, 16, 0
+	{
+		Style Add
+	}
+	Patch COMP03_4, 16, 64
+	{
+		Style Add
+	}
+	Patch T14_5, 24, 28
+	{
+		Translation "93:111=62:79", "3:3=72:72"
+	}
+}
+
+texture MTS4, 64, 128			// Translation + Style 4
+{
+	Patch WALL30_2, 0, 0
+	{
+		Translation Ice
+	}
+	Patch SW2_4, 6, 16
+	{
+		Translation Ice
+	}
+	Patch W73A_2, 0, 0
+	{
+		Style Add
+		Alpha 0.25
+	}
+}
+
+//--------------------------------------
+// Translation and Flip
+//--------------------------------------
+
+texture MTF1, 64, 128			// Translation + Flip 1
+{
+	Patch W105_1, -32, -8
+	{
+		FlipY
+		Translation Inverse
+	}
+}
+
+texture MTF2, 64, 128			// Translation + Flip 2
+{
+	Patch RW39_2, 0, 0
+	{
+		FlipY
+		Translation "32:47=192:207", "225:231=112:118"
+	}
+	Patch SW1S1, 16, 72
+	{
+		FlipX
+		Translation "112:127=192:207", "176:191=112:127"
+	}
+	Patch EXIT1, 16, 12
+	{
+		Translation "176:191=112:127"
+	}
+}
+
+texture MTF3, 128, 64			// Translation + Flip 3
+{
+	Patch TOMW2_2, 0, -8
+	{
+		FlipX
+		FlipY
+		Translation "112:127=[250,237,75]:[0,0,0]"
+	}
+	Patch WALL69_4, 0, -48
+	{
+		FlipY
+		FlipX
+		Translation Red
+	}
+	Patch WALL72_7, 64, -48
+	{
+		FlipY
+		Translation Red
+	}
+}
+
+//--------------------------------------
+// Translation and Rotate
+//--------------------------------------
+
+texture MTR1, 64, 128			// Translation + Rotate 1
+{
+	Patch WALL52_2, -64, 0
+	{
+		Rotate 270
+		Translation Green
+	}
+	Patch LADDER16, 8, 32
+	{
+		Rotate 90
+		Translation "141:151=94:105", "152:159=96:103", "74:79=106:111"
+	}
+}
+
+texture MTR2, 64, 128			// Translation + Rotate 2
+{
+	Patch RW23_4, 0, 0
+	{
+		Rotate -90
+		Translation "96:111=128:143", "5:6=150:151", "247:247=239:239", "14:14=141:141"
+	}
+	Patch RW23_4, 0, 64
+	{
+		Rotate 270
+		Translation "96:111=128:143", "5:6=150:151", "247:247=239:239", "14:14=141:141"
+	}
+	Patch SUPPORT2, -4, 112
+	{
+		Rotate 90
+		Translation "80:111=48:79", "3:3=72:72"
+	}
+}
+
+Texture MTR3, 64, 128			// Translation + Rotate 3
+{
+	Patch COMP03_5, 0, 0
+	{
+		Rotate 180
+		Translation "112:127=[250,237,75]:[0,0,0]", "240:247=[128,0,0]:[0,0,0]"
+	}
+	Patch COMP03_1, 0, 64
+	{
+		Rotate 90
+		Translation "203:207=179:183", "240:247=184:191"
+	}
+	Patch COMP03_8, 0, 96
+	{
+		Rotate -90
+	}
+}
+
+//--------------------------------------
+// Translation, Flip, and Rotate
+//--------------------------------------
+
+texture MTFR1, 128, 128			// Translation + Flip + Rotate 1
+{
+	Patch WALL62_2, 0, 0
+	{
+		FlipY
+	}
+	Patch WALL62_2, 64, 0
+	{
+		FlipY
+	}
+		Patch SW2_4, 8, 16
+	{
+		Rotate 90
+		Translation "176:191=[204,182,21]:[125,63,6]"
+	}
+	Patch SW2_4, 79, 16
+	{
+		Rotate -90
+		Translation Ice
+	}
+
+	Patch SW2_4, 37, 72
+	{
+		FlipY
+		Translation Green
+	}
+}
+
+texture MTFR2, 128, 128			// Translation + Flip + Rotate 2
+{
+	Patch DOOR9_1, 0, 0
+	{
+		Rotate 180
+		Translation "32:47=216:223"
+	}
+	Patch W94_1, 0, 14
+	{
+		Translation Gold
+		Rotate 90
+		FlipY
+	}
+	Patch DOORTRAK, 0, 14
+	{
+		Rotate 90
+		Translation Gold
+	}
+	Patch DOORTRAK, 0, 88
+	{
+		Rotate 90
+		Translation Gold
+	}
+	Patch RW33_2, 0, 96
+	{
+		Rotate -90
+		FlipY
+		Translation "184:191=160:167"
+	}
+}
+
+texture MTFR3, 128, 128			// Translation + Flip + Rotate 3
+{
+	Patch WALL22_1, 0, 8
+	{
+		FlipY
+		Translation Ice
+	}
+	Patch WALL42_3, 0, -16
+	{
+		Rotate 90
+		Translation Gold
+	}
+	Patch WALL42_3, 0, 120
+	{
+		Rotate 90
+		Translation Gold
+	}
+}
+
+texture MTFR4, 128, 128			// Translation + Flip + Rotate 4
+{
+	Patch RSKY2, 0, 0
+	{
+		FlipX
+		FlipY
+		Rotate 270
+		Translation Inverse
+	}
+	Patch W111_3, 32, 32
+	{
+		Rotate 180
+		Translation Red
+	}
+}
+
+//--------------------------------------
+// Translation, Flip, and Style
+//--------------------------------------
+
+texture MTFS1, 64, 128			// Translation + Flip + Style 1
+{
+	Patch SW11_1, 0, 0
+	{
+		Translation Gold
+		FlipY
+	}
+	Patch SW11_1, 32, 0
+	{
+		Translation "80:111=128:143", "3:3=141:141"
+	}
+	Patch HELL6_3, 0, 0
+	{
+		Style Subtract
+		Alpha 0.3
+	}
+}
+
+texture MTFS2, 128, 128			// Translation + Flip + Style 2
+{
+	Patch HELL5_1, 0, 0
+	{
+		FlipY
+		Translation "16:31=200:207", "32:47=240:247"
+	}
+	Patch COMP03_1, 32, 0
+	{
+		Translation Inverse
+		Style Subtract
+		Alpha 0.5
+	}
+	Patch COMP03_1, 32, 64
+	{
+		Translation Inverse
+		Style Subtract
+		Alpha 0.5
+	}
+	Patch Door3_5, -4, -8
+	{
+		FlipX
+		Translation Gold
+		Style ReverseSubtract
+	}
+	Patch Door3_5, -4, 64
+	{
+		FlipY
+		FlipX
+		Translation Gold
+		Style ReverseSubtract
+	}
+		Patch Door3_5, 108, -8
+	{
+		Translation Gold
+		Style ReverseSubtract
+	}
+		Patch Door3_5, 108, 64
+	{
+		FlipY
+		Translation Gold
+		Style ReverseSubtract
+	}
+}
+
+texture MTFS3, 64, 128			// Translation + Flip + Style 3
+{
+	Patch RW7_2, 0, 0
+	{
+		Translation "152:159=160:167", "9:12=[108,63,0]:[0,0,0]"
+	}
+	
+	Patch SW11_1, 0, 13
+	{
+		Translation Gold
+		Style ReverseSubtract
+	}
+	Patch SW11_1, 32, 13
+	{
+		Translation Gold
+		Style ReverseSubtract
+	}
+		Patch RW7_2, 0, 124
+	{
+		FlipY
+		Translation "152:159=160:167", "9:12=[108,63,0]:[0,0,0]"
+	}
+}
+
+texture MTFS4, 64, 128			// Translation + Flip + Style 4
+{
+	Patch WALL00_1, 0, 0
+	{
+		//Translation Red
+	}
+	Patch WALL03_1, 0, -16
+	{
+		FlipY
+		Translation "128:143=176:191", "144:144=182:182"
+		Style Modulate
+	}
+	Patch WALL03_1, 0, 56
+	{
+		Translation "128:143=176:191", "144:144=182:182"
+		Style Modulate
+	}
+	Patch W33_8, 0, 52
+	{
+		Translation "80:111=88:95"
+		Style Modulate
+	}
+	Patch W33_8, 0, 71
+	{
+		Translation "80:111=88:95"
+		Style Modulate
+	}
+}
+
+//--------------------------------------
+// Translation, Flip, Rotate, and Style
+//--------------------------------------
+
+texture MTFRS1, 128, 128		// 
+{
+	Patch WALL00_3, 56, 0
+	{
+		Translation "32:47=192:207", "176:191=192:207"
+	}
+	Patch W32_1, -6, 0
+	{
+		Rotate 90
+	}
+	Patch W32_1, 69, 0
+	{
+		Rotate 270
+	}
+	Patch W32_1, -6, 64
+	{
+		Rotate 90
+	}
+	Patch W32_1, 69, 64
+	{
+		Rotate 270
+	}
+	Patch AG128_2, 0, 0
+	{
+		Translation "80:111=48:79", "3:3=72:72"
+		Style Modulate
+		Rotate 90
+	}
+	Patch AG128_2, 0, 64
+	{
+		Translation "80:111=48:79", "3:3=72:72"
+		Style Modulate
+		Rotate 90
+		FlipX
+	}
+}
+
+texture MTFRS2, 128, 128		// 
+{
+	Patch AG128_1, 0, 0
+	{
+		Translation Red
+	}
+	Patch AG128_1, 64, 0
+	{
+		Translation Ice
+	}
+	Patch DOOR2_1, 16, 16
+	{
+		Style Add
+		Rotate 90
+		Translation "80:111=48:79", "3:3=72:72"
+		FlipX
+	}
+}
+
+texture MTFRS3, 128, 128		// 
+{
+	
+}
+
+texture OHSHIT, 128, 128
+{
+   Patch STONE, 0, 0
+   Patch AG128_2, 32, 0
+   {
+      Style Add
+   }
+   Patch TLITE6_5, 0, 0
+   {
+      Style Add
+   }
+   patch TLITE6_5, 64, 0
+   {
+      Style Add
+   }
+}
+

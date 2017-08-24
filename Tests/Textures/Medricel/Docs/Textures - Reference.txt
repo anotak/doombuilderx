@@ -1,0 +1,212 @@
+----------------------------------------
+Texture Properties (22 textures)
+----------------------------------------
+	
+XScale Only (4 textures)
+	TSCLX025	-	0.25
+	TSCLX05		-	0.5
+	TSCLX2		-	2
+	TSCLX4		-	4
+
+YScale Only (4 textures)
+	TSCLY025	-	0.25
+	TSCLY05		-	0.5
+	TSCLY2		-	2
+	TSCLY4		-	4
+
+XScale and YScale Equal (4 textures)
+	TSCLB025	-	0.25
+	TSCLB05		-	0.5
+	TSCLB2		-	2
+	TSCLB4		-	4
+
+XScale and YScale Mixed (4 textures)
+	TSCLM1		-	X: 0.25, Y: 2
+	TSCLM2		-	X: 4, Y: 2
+	TSCLM3		-	X: 2, Y: 0.5
+	TSCLM4		-	X: 0.5, Y: 0.25
+	
+World Panning - Same As Above (4 textures)
+	TSCLMWP1	-	X: 0.25, Y: 2
+	TSCLMWP2	-	X: 4, Y: 2
+	TSCLMWP3	-	X: 2, Y: 0.5
+	TSCLMWP4	-	X: 0.5, Y: 0.25
+	
+Misc. Texture Properties (2 textures)
+	TMISCNOD	-	No Decals
+	TMISCNUL	-	Null Texture
+
+----------------------------------------	
+Patch Properties (60 textures)
+----------------------------------------
+
+Basic Use (4 textures)
+	PBLACK		- All-Black Texture
+	PBASIC1		- One-Patch Texture
+	PBASIC2		- Multi-Patch Texture, Side-by-Side
+	PBASIC3		- Multi-Patch Texture, Overlapping
+
+Flipping (4 textures)
+	PFLIPX		- FlipX
+	PFLIPY		- FlipY
+	PFLIPXY		- FlipX and FlipY Combined
+	PFLIPM		- Three Flipped Patches
+	
+Rotation (4 textures)
+	PROT90		- Rotate 90
+	PROT180		- Rotate 180
+	PROT270		- Rotate 270
+	PROTM		- Four Rotated Patches
+
+Translations - Pre-Named (6 textures)
+	PTRNN1		- Inverse
+	PTRNN2		- Gold
+	PTRNN3		- Red
+	PTRNN4		- Green
+	PTRNN5		- Ice
+	PTRNN6		- Desaturate
+
+Translations - Custom (6 textures)
+	PTRNC1		- index:index
+	PTRNC2		- index:rgb
+	PTRNC3		- index:index, index:index
+	PTRNC4		- index:rgb, index:rgb
+	PTRNC5		- index:index, index:rgb
+	PTRNC6		- Two Patches - i:i and i:rgb
+	
+Blend - Named Colors From X11R6RGB Lump in ZDoom.PK3 (7 textures)
+	PBLNN1		- "Blue"
+	PBLNN2		- "Pale Green"
+	PBLNN3		- "Dark Slate Grey"
+	PBLNN4		- "Blue" at 0.75 Alpha
+	PBLNN5		- "Pale Green" at 0.5 Alpha
+	PBLNN6		- "Dark Slate Grey" at 0.25 Alpha
+	PBLNN7		- Two Patches - "Red" and "Orange"
+	
+Blend - RGB Colors (8 textures)
+		(Note: As of r1302, Alpha does not work)
+	PBLNRGB1	- 255 Red
+	PBLNRGB2	- 255 Green
+	PBLNRGB3	- 255 Blue
+	PBLNRGB4	- 252, 120, 213 - Pink
+	PBLNRGB5	- Pink in Hexadecimal "FC, 78, D5"
+	PBLNRGB6	- Pink With 0.5 Alpha
+	PBLNRGB7	- Pink in Hex With 0.5 Alpha "80"
+	PBLNRGBM	- TWo Patches - "FC, 78, D5" and 83, 170, 146
+	
+Styles (17 textures)
+		(Note: Copy appears to do nothing in r1302)
+		(CopyAlpha does something in software, but I don't know what.)
+		(Using Blend returns a bad syntax error.)
+	PSTYL1		- Add
+	PSTYL2		- Subtract
+	PSTYL3		- ReverseSubtract
+	PSTYL4		- Modulate
+	PSTYL5		- Copy
+	PSTYL6		- CopyAlpha
+	PSTYL7		- Add and Add
+	PSTYL8		- Add and Subtract
+	PSTYL9		- Add and ReverseSubtract
+	PSTYL10		- Add and Modulate
+	PSTYL11		- Subtract and Subtract
+	PSTYL12		- Subtract and ReverseSubtract
+	PSTYL13		- Subtract and Modulate
+	PSTYL14		- Modulate and Modulate
+	PSTYL15		- Modulate, Subtract, and Add
+	PSTYL16		- Add, ReverseSubtract, and Modulate
+	PSTYL17		- Add, ReverseSubtract, and Subtract
+	
+Styles With Alpha (4 textures)
+		(Note: The following are not affected by Alpha in r1302)
+			(Modulate, Copy, and CopyAlpha)
+	
+	PSTYA1		- Add 0.5
+	PSTYA2		- Subtract 0.25
+	PSTYA3		- ReverseSubtract 0.75
+	PSTYA4		- Add 0.6, ReverseSubtract 0.9, Subtract 0.5
+
+----------------------------------------	
+Mixed Properties
+----------------------------------------
+
+Translation and Style (4 textures)
+	
+	MTS1		- Translation + Style 1
+	MTS2		- Translation + Style 2
+	MTS3		- Translation + Style 3
+	MTS4		- Translation + Style 4
+	
+Translation and Flip (3 textures)
+
+	MTF1		- Translation + Flip 1
+	MTF2		- Translation + Flip 2
+	MTF3		- Translation + Flip 3
+
+Translation and Rotate (3 textures)
+
+	MTR1		- Translation + Rotate 1
+	MTR2		- Translation + Rotate 2
+	MTR3		- Translation + Rotate 3
+
+Translation, Flip, and Rotate (4 textures)
+
+	MTFR1		- Translation + Flip + Rotate 1
+	MTFR2		- Translation + Flip + Rotate 2
+	MTFR3		- Translation + Flip + Rotate 3
+	MTFR4		- Translation + Flip + Rotate 4
+	
+Translation, Flip, and Style (4 Textures)
+
+	MTFS1		- Translation + Flip + Style 1
+	MTFS2		- Translation + Flip + Style 2
+	MTFS3		- Translation + Flip + Style 3
+	MTFS4		- Translation + Flip + Style 4
+	
+Translation, Flip, Rotate, and Style
+
+	MTFRS1		- Translation + Flip + Rotate + Style 1
+
+
+
+
+
+////////////////////////////////////////
+
+TODO:
+
+	Mixed Properties:
+	*Translation + Style
+	*Translation + Flip
+	*Translation + Rotate
+	*Translation + Flip + Rotate
+	*Translation + Flip + Style
+	Translation + Flip + Rotate + Style
+	
+	Blend + Flip + Rotate + Style
+	
+	Flip + Rotate
+	Flip + Style
+	Flip + Rotate + Style
+	
+	Rotate + Style
+	
+	Scale + Multi-Patch
+	Scale + Multi-Patch Properties
+	
+	Sprites As Patches
+		+Flip
+		+Rotate
+		+Translate
+		+Blend
+		+Style
+	Graphics As Patches
+		+Flip
+		+Rotate
+		+Translate
+		+Blend
+		+Style
+	
+	
+//--------------------------------------
+// 
+//--------------------------------------

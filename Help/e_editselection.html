@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	
+	<title>Edit Selection Mode</title>
+	
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+	<link rel="stylesheet" type="text/css" href="default.css" media="screen" title="Default" />
+	<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body>
+	
+	<object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+	<param name="keyword" value="Edit Selection Mode">
+	<param name="keyword" value="Rotate">
+	<param name="keyword" value="Resize">
+	<param name="keyword" value="Flip Horizontally">
+	<param name="keyword" value="Flip Vertically">
+	</object>
+	
+	<div id="title"><h1>Edit Selection Mode</h1></div>
+	
+	<div id="contents">
+	<p>
+		With this editing mode you can perform some more advanced operations on a selection of geometry or things. This editing mode is one of the classic (2D) editing modes. This mode is volatile, which means that this mode returns to the previous stable mode when the map is saved or closed, either accepting or discarding your preview changes. You can access this mode by making a selection or highlight and pressing <b>E</b> in most classic modes. Clicking on the map outside the selection will return to the previous mode, applying your changes.
+		
+		<h2>Functions</h2>
+		<h3>Drag selection</h3>
+		You can drag the selection by holding <b title="Left Mouse Button">LMB</b> on the selection rectangle to grab it and move it around. When grabbing the selection, the nearby vertex is highlighted and will be used to snap to other geometry while dragging.
+		<h3>Flip Horizontally</h3>
+		Accessible from the toolbar or by shortcut key, you can flip the entire selection horizontally. It is recommended to do this before rotating the selection.
+		<h3>Flip Vertically</h3>
+		Accessible from the toolbar or by shortcut key, you can flip the entire selection vertically. It is recommended to do this before rotating the selection.
+		<h3>Resize</h3>
+		Grab one of the handles on the edges of the selection rectangle using <b title="Left Mouse Button">LMB</b> and drag it to resize the selection. You can drag your mouse away from the selection and a ruler will appear that allows you to align the grabbed edge of the selection with existing geometry.
+		<h3>Rotate</h3>
+		Grab one of the handles on the corners of the selection rectangle using <b title="Left Mouse Button">LMB</b> and drag it to rotate the selection. The selection will normally only rotate by the nearest 45 degrees. You can hold Shift to rotate it freely.
+		
+		<h2>Default Controls</h2>
+		<table border="0" cellspacing="6" width="90%">
+		<tr>
+			<td width="150" valign="top"><b>Enter</b></td>
+			<td>Accept and apply the changes, and return to the previous mode.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Escape</b></td>
+			<td>Discard the changes and return to the previous mode.</td>
+		</tr>
+		</table>
+	</p>
+	</div>
+</body>

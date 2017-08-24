@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+    <asset>
+        <contributor>
+            <author>Pascal</author>
+            <authoring_tool>NVIDIA FX Composer 2.0</authoring_tool>
+            <comments/>
+            <copyright/>
+        </contributor>
+        <created>2008-01-05T13:49:04</created>
+        <keywords>FXComposer, NVIDIA</keywords>
+        <modified>2008-01-05T13:49:04</modified>
+        <subject/>
+        <title/>
+    </asset>
+    <library_effects>
+        <effect id="Effect" name="world3d">
+            <profile_COMMON>
+                <technique sid="__fxc2_default">
+                    <constant/>
+                </technique>
+            </profile_COMMON>
+            <extra type="import">
+                <technique profile="NVIDIA_FXCOMPOSER">
+                    <import url="../Source/Resources/world3d.fx" compiler_options="" profile="fx"/>
+                </technique>
+            </extra>
+        </effect>
+    </library_effects>
+</COLLADA>

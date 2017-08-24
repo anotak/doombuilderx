@@ -1,0 +1,49 @@
+
+This describes the various compiler interfaces available. These can be used with
+the "interface" setting in a compiler configuration. Plugins can create their
+own interfaces by inheriting from the abstract Compiler class.
+
+
+-------------------------------------------------------------------------------------
+AccCompiler
+
+This compiler interface is made for Acc compilers, but can be used for any compiler
+which accepts a single script input file and writes a single output file.
+
+If this interface detects a file named "acs.err" created by the compiler, it will
+parse this file and treat the contents as compiler errors. In this case, the output
+file contents are not copied into the wad file.
+
+With this interface supports the following placeholders in command-line parameters:
+
+%FI indicates the input path and filename (temporary location for compiler).
+
+%FO indicates the output path and filename (temporary location for compiler).
+
+%FS indicates the path and filename of the original file.
+
+%PT indicates the temporary directory path where the compiler is located.
+
+%PS indicates the path of the original file.
+
+The 'original file' is the saved location of the WAD file when the script is an
+internal lump. If the wad file is not saved, %PW is the same as %PT and %FS is the
+path and filename of the temporary wad file.
+
+These placeholders are case-sensitive!
+
+-------------------------------------------------------------------------------------
+NodesCompiler
+
+This compiler interface is made for nodebuilders.
+
+With this interface you can use the following command-line parameters:
+
+%FI indicates the input filename (no path included).
+
+%FO indicates the output filename (no path included).
+
+When %FO is not specified, the nodebuilder should output to %FI
+These placeholders are case-sensitive!
+
+-------------------------------------------------------------------------------------

@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	
+	<title>Terminology</title>
+	
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+	<link rel="stylesheet" type="text/css" href="default.css" media="screen" title="Default" />
+</head>
+<body>
+	
+	<object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+	<param name="keyword" value="Terminology">
+	<param name="keyword" value="Linedef">
+	<param name="keyword" value="Sidedef">
+	<param name="keyword" value="Sector">
+	<param name="keyword" value="Vertex">
+	<param name="keyword" value="Thing">
+	<param name="keyword" value="Element">
+	<param name="keyword" value="WAD">
+	<param name="keyword" value="IWAD">
+	<param name="keyword" value="PWAD">
+	<param name="keyword" value="Resource">
+	<param name="keyword" value="PK3">
+	</object>
+	
+	<div id="title"><h1>Terminology</h1></div>
+	
+	<div id="contents">
+	<p>
+		<h2>Resource</h2>
+		A file or directory from which textures, flats, sprites and other information is read that is used during map editing. Doom Builder supports WAD files, PK3 files and directories as resources.
+		
+		<h2>WAD</h2>
+		A WAD file is a collection of data, which can include textures, sprites, sounds but also maps. This is the most common resource type used by Doom. A WAD file can be an <b>IWAD</b> (Internal WAD)  which contains all data needed to run a game without any additional WAD files, or a <b>PWAD</b> (Patch WAD) which only contains the data you wish to change (for example; a new map and some textures only, but no change in sounds or sprites). Doom always requires a single IWAD and optionally one or more PWADs.
+		
+		<h2>PK3</h2>
+		The PK3 file is actually a ZIP file and contains a directory with a specific structure. It can be used as a replacement for WAD files in some Doom sourceports and is smaller than the WAD file because it is compressed. Doom Builder can read from PK3 files as resources, but for better performance it is recommended that you unzip your PK3 file (keeping the directory structure) and add the directory as resource. For more information, see <a href="http://zdoom.org/wiki/Using_ZIPs_as_WAD_replacement" target="_blank">Using ZIPs as WAD replacement</a> for more information.
+		
+		<h2>Element</h2>
+		A map consists of vertices, linedefs, sidedefs, sectors and things. These are all elements in a map and each has their own set of properties. Some elements are connected to other elements: A linedef is always connected to two vertices and has one or two sidedefs. A sidedef is always connected to one sector and a sector has one or more sidedefs.
+		
+		<h2>Vertex</h2>
+		This is the most simple element in a map. A vertex is a point on the map which has X and Y coordinates.
+		
+		<h2>Linedef</h2>
+		This is a line in your map geometry which connects two vertices. Every wall and sector border must have a linedef. Linedefs can have an action that is triggered when player pushes the wall or walks over the line. The linedef has a front (right) and a back (left) side where a sidedef can be attached. The front side should always have a sidedef attached, but when the linedef is a wall with nothing behind it (void), it should not have a back side.
+		
+		<h2>Sidedef</h2>
+		A sidedef defines how one side of a linedef looks like and which sector it forms. A sidedefs has a upper, middle and lower texture which are sometimes required depending on the heights of the sectors and all share the same texture offsets.
+		
+		<h2>Sector</h2>
+		The sector defines an area on the map. It has properties for the floor and ceiling and can have special effects for the environment. The shape of the sector is defined by the sidedefs and the linedefs they are on and should always be a closed area or multiple closed areas. There are exceptional cases, however, where authors use a non-closed sector to create a special effect by exploiting the Doom engine.
+		
+		<h2>Thing</h2>
+		Things are basically any object in the map that is not part of its geometry. They can be decorations, items, monsters, player starts or even indicators for the sourceport to do something in that location. They have X and Y coordinates and in Hexen format they also have a Z coordinate (which often is relative to the sector floor).
+	</p>
+	</div>
+</body>

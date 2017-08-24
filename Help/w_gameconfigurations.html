@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	
+	<title>Game Configurations Window</title>
+	
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+	<link rel="stylesheet" type="text/css" href="default.css" media="screen" title="Default" />
+</head>
+<body>
+	
+	<object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+	<param name="keyword" value="Game Configurations Window">
+	<param name="keyword" value="Configuration Window">
+	<param name="keyword" value="Testing">
+	<param name="keyword" value="Parameters">
+	<param name="keyword" value="Nodebuilder">
+	<param name="keyword" value="Resources">
+	<param name="keyword" value="Texture Sets">
+	<param name="keyword" value="IWAD File">
+	</object>
+	
+	<div id="title"><h1>Game Configurations Window</h1></div>
+	
+	<div id="contents">
+	<p>
+		The Game Configurations window is accessible from the Tools menu, or with the default key F6. On the left of this window you can select the game configuration for which you want to change settings. Choose from the tabs on the right what you want to change.
+		
+		<h2>Resources</h2>
+		This is a list of resources that will be loaded before any other resources. You should add the IWAD and other project-related resources here so that they are automatically loaded with every map you make with this game configuration. These resources, from top to bottom, will be loaded first before any other resources. You can drag the resource items to change their order. See also the <a href="w_resourceoptions.html">Resource Options Window</a>.
+		
+		<h2>Nodebuilder</h2>
+		Building the BSP tree and other additional information such as BLOCKMAP and REJECT is useful to optimize the in-game performance and for most older sourceports and vanilla Doom it is even required. This is where you select the nodebuilder you want to run in certain cases and which settings to use. You can choose a nodebuilder to run when saving the map and when testing the map. Consult the documentation of the sourceport you are using to find out which nodebuilder and which settings you need. Advanced users may want to add more specific settings by writing a <a href="nodebuilderconfiguration.html">nodebuilder configuration</a>.
+		
+		<h2>Testing</h2>
+		No matter how well an editor works, testing to see how your map looks and performs in the sourceport is essential. Here you can choose the sourceport to test with and the parameters to use. You can also set the default skill level, but this can also be easily changed from the test dropdown menu in the toolbar of the <a href="w_mainwindow.html">main window</a>. You generally do not need to specify custom parameters (the default ones should work fine) but advanced users may wish to change these parameters.<br />
+		<br />
+		The following special placeholders can be used in the parameters;
+		<table border="0" cellspacing="6" width="90%">
+		<tr>
+			<td width="50" valign="top"><b>%F</b></td>
+			<td>WAD file with the map that is to be tested. NOTE: this is a temporary file and not the file you opened or saved.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>%WP</b></td>
+			<td>IWAD resource file with full path included. This is the first (highest) IWAD file that is found in the resources list.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>%WF</b></td>
+			<td>IWAD resource filename only, without path. This is the first (highest) IWAD file that is found in the resources list.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>%L</b></td>
+			<td>Map lump name as is set in the <a href="w_mapoptions.html">map options window</a>.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>%L1</b></td>
+			<td>The first number found in the map lump name (as is set in the <a href="w_mapoptions.html">map options window</a>). This is for use with the -warp parameter.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>%L2</b></td>
+			<td>The second number found in the map lump name (as is set in the <a href="w_mapoptions.html">map options window</a>). This is for use with the -warp parameter.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>%AP</b></td>
+			<td>All resource files, except the first IWAD, with full paths included. The resources are separated by spaces and when this placeholder is enclosed within quotes (<b>"%AP"</b>) then the quotes are repeated for every resource.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>%S</b></td>
+			<td>Skill number at which to test.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>%NM</b></td>
+			<td>This is either <b>-nomonsters</b> when you choose to test without monsters, or nothing at all.</td>
+		</tr>
+		</table>
+		When the checkbox <b>Use short path and file names (MSDOS 8.3 format)</b> is checked, all the above placeholders that output filenames and/or paths will use the short version that is compatible with MSDOS.
+		
+		<h2>Textures</h2>
+		You can group your textures into categories called Texture Sets. There are some fixed Texture Sets that appear in the browsers automatically (such as the "All" set and the sets for each resource) and you can create custom Texture Sets here. You can also copy Texture Sets from one game configuration to another with the <b>Copy</b> and <b>Paste</b> buttons. With the <b>Add Default Sets</b> button you can add the default Texture Sets that are provided with the game configuration (if any). For more information about creating your own Texture Sets, see the <a href="w_textureset.html">Texture Set window</a>.
+		
+		<h2>Modes</h2>
+		Here you can choose what <a href="editingmodes.html">editing modes</a> you can use when editing with the selected game configuration. This is useful when plugins are installed that replace certain editing modes or plugins that add editing modes for a specific sourceport only. Note that some editing modes may require other editing modes from the same plugin to work together. When plugins are installed, you should consult the provided documentation to see what changes should be made here. Only recommended for advanced users.
+	</p>
+	</div>
+</body>

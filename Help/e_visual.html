@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	
+	<title>Visual Mode</title>
+	
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+	<link rel="stylesheet" type="text/css" href="default.css" media="screen" title="Default" />
+	<script type="text/javascript" src="scripts.js"></script>
+</head>
+<body>
+	
+	<object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+	<param name="keyword" value="Visual Mode">
+	<param name="keyword" value="3D Mode">
+	</object>
+	
+	<div id="title"><h1>Visual Mode</h1></div>
+	
+	<div id="contents">
+	<p>
+		The Visual Mode is different from the other modes. In this mode you can walk and fly through your map in 3D and see it as it would look like in game. With the crosshair you can aim at objects (floors, ceilings, walls and things) and edit them instantly. You can also select objects and perform actions on all objects together. Note that not all actions apply to an entire selection.
+		
+		<h2>Default Controls</h2>
+		<table border="0" cellspacing="6" width="90%">
+		<tr>
+			<td width="150" valign="top"><b>W</b></td>
+			<td>Switches from any classic editing mode to this mode and back to the previous mode.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b title="Left Mouse Button">LMB</b></td>
+			<td>Select the targeted object. For walls, hold down this button to drag the texture offsets.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b title="Right Mouse Button">RMB</b></td>
+			<td>Edit the targeted object's properties.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b title="Middle Mouse Button">MMB</b></td>
+			<td>Pastes the copied texture image or flat image onto the target or selection.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b title="Control + Right Mouse Button">Control+RMB</b></td>
+			<td>Opens the <a href="w_imagesbrowser.html">Image Browser</a> to select a new texture or flat for the targeted or selected object.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b title="Shift + Middle Mouse Button">Shift+MMB</b></td>
+			<td>Flood-fills with the copied texture image or flat image onto the target. This fills all adjacent textures or flats that are identical to the original. Note that this action is only applied to the targeted object and does not work for a selection.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>C</b></td>
+			<td>Clears the selection.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>E</b></td>
+			<td>Move forward. Hold Shift to move faster.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>D</b></td>
+			<td>Move backward. Hold Shift to move faster.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>S</b></td>
+			<td>Strafe left. Hold Shift to move faster.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>F</b></td>
+			<td>Strafe right. Hold Shift to move faster.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>G</b></td>
+			<td>Toggle gravity on/off.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>B</b></td>
+			<td>Toggle full-brightness on/off.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>L</b></td>
+			<td>Toggle lower unpegged linedef flag on/off.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>U</b></td>
+			<td>Toggle upper unpegged linedef flag on/off.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>T</b></td>
+			<td>Toggle things on/off/boxed. When things are set to boxed, you will see the bounding box of things around them in the color of their category.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>A</b></td>
+			<td>Auto-aligns the neighbouring textures horizontally, until a wall is encountered that has different textures. Note that this action is only applied to the targeted object and does not work for a selection.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Shift+A</b></td>
+			<td>Auto-aligns the neighbouring textures vertically, until a wall is encountered that has different textures. The vertical alignment takes the ceiling height differences between sidedefs into account. Note that this action is only applied to the targeted object and does not work for a selection.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Shift+C</b></td>
+			<td>Copies the targeted texture offsets for pasting. Note that this works only for the targeted object, the selection is ignored.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Control+C</b></td>
+			<td>Copies the targeted texture image or flat image for pasting. Note that this works only for the targeted object, the selection is ignored.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Control+Shift+C</b></td>
+			<td>Copies the targeted object properties for pasting. Note that this works only for the targeted object, the selection is ignored.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Shift+V</b></td>
+			<td>Pastes the copied texture offsets onto the target or selection.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Control+Shift+V</b></td>
+			<td>Pastes the copied object properties onto the target or selection.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>ScrollUp</b></td>
+			<td>Raises the targeted or selected object by 8 mappixels.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>ScrollDown</b></td>
+			<td>Lowers the targeted or selected object by 8 mappixels.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Shift+ScrollUp</b></td>
+			<td>Raises the targeted or selected object by 1 mappixel.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Shift+ScrollDown</b></td>
+			<td>Lowers the targeted or selected object by 1 mappixel.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Control+ScrollUp</b></td>
+			<td>Increases the brightness level of the targeted or selected object by 8.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Control+ScrollDown</b></td>
+			<td>Decreases the brightness level of the targeted or selected object by 8.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Up</b></td>
+			<td>Moves the targeted or selected texture up by 1 pixel.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Down</b></td>
+			<td>Moves the targeted or selected texture down by 1 pixel.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Left</b></td>
+			<td>Moves the targeted or selected texture left by 1 pixel.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Right</b></td>
+			<td>Moves the targeted or selected texture right by 1 pixel.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Shift+Up</b></td>
+			<td>Moves the targeted or selected texture up by 8 pixels.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Shift+Down</b></td>
+			<td>Moves the targeted or selected texture down by 8 pixels.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Shift+Left</b></td>
+			<td>Moves the targeted or selected texture left by 8 pixels.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Shift+Right</b></td>
+			<td>Moves the targeted or selected texture right by 8 pixels.</td>
+		</tr>
+		<tr>
+			<td valign="top"><b>Shift+R</b></td>
+			<td>Resets the texture offsets to 0, 0 on the targeted or selected object.</td>
+		</tr>
+		</table>
+	</p>
+	</div>
+</body>

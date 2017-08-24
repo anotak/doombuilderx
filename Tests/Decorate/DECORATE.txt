@@ -1,0 +1,33 @@
+actor SanyaChainsaw : Weapon 6205
+{
+  //$Category BDIS2_Armory
+  //$Sprite CSAWA0
+  Game Doom
+  SpawnID 32
+  Weapon.Kickback 0
+  Weapon.SelectionOrder 2200
+  Weapon.UpSound "weapons/sawup"
+  Weapon.ReadySound "weapons/sawidle"
+  Inventory.PickupMessage "A chainsaw!"
+  Obituary "%o was mowed over by %k's chainsaw."
+  +WEAPON.MELEEWEAPON      
+  States
+  {
+  Ready:
+    SAWG AB 4 A_WeaponReady
+    loop
+  Deselect:
+    SAWG A 1 A_Lower
+    loop
+  Select:
+    SAWG A 1 A_Raise
+    loop
+  Fire:
+    SAWG CD 4 A_Saw
+    SAWG D 0 A_ReFire
+    goto Ready
+  Spawn:
+    CSAW A -1
+    stop
+  }
+}

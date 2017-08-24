@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	
+	<title>Map Options Window</title>
+	
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+	<link rel="stylesheet" type="text/css" href="default.css" media="screen" title="Default" />
+</head>
+<body>
+	
+	<object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+	<param name="keyword" value="Map Options Window">
+	<param name="keyword" value="Map Name">
+	<param name="keyword" value="Level Name">
+	</object>
+	
+	<div id="title"><h1>Map Options Window</h1></div>
+	
+	<div id="contents">
+	<p>
+		This dialog window allows you to change some options that apply to the entire map and how it is loaded. You can access it from the Edit menu, or with the default key F2. At the top you can choose the <b>Game Configuration</b> that you wish to use when editing this map. Please note that changing to a configuration of a different file format may cause a loss of information in your map, possibly breaking it. Below the Game Configuration field is the <b>Level Name</b> field. Here you can enter the lump name that is used to store your map in the WAD file. An example level name for a Doom 1 map could be E2M3 which indicates the map is or episode 2, level 3. An example for a Doom 2 map is MAP03 which is level 3.
+		
+		<h2>Resources</h2>
+		The Resources area allows you to specify which resources are loaded when editing this map. The <b>Strictly load patches between P_START and P_END only for this file</b> checkbox applies to the wad file you are editing (where your map is in). When this is checked, Doom Builder will resolve texture patch conflicts by strictly loading patch lumps only from between the P_START and P_END lumps as it was intended by id Software, but most sourceports do not require this (as result, older maps have texture patch lumps that are not in between P_START and P_END).<br />
+		<br />
+		In the list of resources you can see all the resources that will be loaded. Doom Builder shows the items from the game configuration in gray at the top of the list, because those are always loaded first. You can change the resources loaded according to the game configuration in the <a href="w_gameconfigurations.html">Game Configurations Window</a>. You can drag the resource items (except the ones from the game configuration) to change their order. See also the <a href="w_resourceoptions.html">Resource Options Window</a>.
+	</p>
+	</div>
+</body>

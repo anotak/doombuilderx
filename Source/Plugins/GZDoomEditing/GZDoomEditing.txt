@@ -1,0 +1,57 @@
+
+Doom Builder Plugin Information
+===========================================================================
+
+Title:                  (G)ZDoom Editing Plugin
+
+Author:                 Pascal vd Heiden
+
+Plugin version:         0.0
+
+Core version needed:    2.1.0.1394
+
+
+
+Description
+===========================================================================
+
+This plugins adds features to help editing with the new features in the
+ZDoom and GZDoom sourceports and those derived from these sourceports.
+
+List of supported features in this plugin:
+- Slopes
+- 3D floors (also sloped)
+- Colored sector lighting
+- Light levels in sectors (also sloped)
+- Flat scaling, rotation and offsets
+- Texture scaling and offsets
+
+
+
+Installation
+===========================================================================
+
+1) Place the GZDoomEditing.dll file in Doom Builder's "Plugins" directory.
+
+2) Start Doom Builder and go to Tools menu, Preferences. Choose the
+Controls tab and find the "GZDoom Visual Mode" action in the Modes group.
+Set this action to a key you wish to use to switch into and out from
+Visual Mode. You can give this the same key as your original mode, because
+now we will replace the original Visual Mode with the new one.
+
+3) Go to Tools menu, Game Configurations. Choose the game configuration on
+which you wish to use the new Visual Mode. This plugin is made for UDMF
+formats, but some features also work for Hexen format. Go to the Modes tab
+and UNCHECK the original Visual Mode and CHECK the "GZDoom Visual Mode".
+
+You can also have both Visual Modes together (simply do not uncheck the
+original Visual Modein step 3) but you will need a different key for the
+action that switches to the mode.
+
+
+
+Usage
+===========================================================================
+
+I don't feel like writing this now. Figure it out yourself.
+

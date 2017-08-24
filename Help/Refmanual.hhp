@@ -1,0 +1,31 @@
+[OPTIONS]
+Auto Index=Yes
+Compatibility=1.1 or later
+Compiled file=..\Build\Refmanual.chm
+Contents file=Contents.hhc
+Default Font=Verdana,10,0
+Default Window=default
+Default topic=introduction.html
+Display compile progress=Yes
+Full-text search=Yes
+Index file=Index.hhk
+Language=0x409 English (United States)
+Title=Doom Builder Reference Manual
+
+[WINDOWS]
+default="Doom Builder Reference Manual","Contents.hhc","Index.hhk","introduction.html","introduction.html",,,,,0x2520,300,0x3806,[150,110,1100,800],0x108b0000,,,,,,0
+
+
+[FILES]
+introduction.html
+header.gif
+editingmodes.html
+userinterface.html
+configurations.html
+w_mainwindow.png
+w_scripteditor.png
+classiccontrols.html
+scripts.js
+
+[INFOTYPES]
+

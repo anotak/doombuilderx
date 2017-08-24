@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	
+	<title>Game Configuration - Linedefs Settings</title>
+	
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+	<link rel="stylesheet" type="text/css" href="default.css" media="screen" title="Default" />
+</head>
+<body>
+	
+	<object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+	<param name="keyword" value="Configurations">
+	<param name="keyword" value="Game Configurations">
+	</object>
+	
+	<div id="title"><h1>Game Configuration - Linedefs Settings</h1></div>
+	
+	<div id="contents">
+	<p>
+		<b class="fat">generalizedlinedefs</b> (boolean)<br />
+		Set to <b>true</b> to support generalized linedef actions. This makes the <b>gen_linedeftypes</b> structure mandatory. Default value is <b>false</b>.<br />
+		<br />
+		<b class="fat">linedefflags</b> (structure)<br />
+		Lists the options that can be set on a linedef. In case of a map format that works with numeric flags, the values of the chosen options are added together to form the final linedef flags value (so each option should use its own bit). Note that with numeric flags, the linedef activation flags are also incorporated in the same value (see <b>linedefactivations</b>).<br />
+		Example for numeric flags:
+<pre>
+linedefflags
+{
+	1 = "Impassable";
+	2 = "Block Monster";
+	4 = "Double Sided";
+	8 = "Upper Unpegged";
+	16 = "Lower Unpegged";
+	32 = "Secret";
+	64 = "Block Sound";
+}
+</pre>
+		<br />
+		Example for named flags:
+<pre>
+linedefflags
+{
+	blocking = "Impassable";
+	blockmonsters = "Block monster";
+	twosided = "Doublesided";
+	dontpegtop = "Upper unpegged";
+	dontpegbottom = "Lower unpegged";
+	secret = "Secret";
+	blocksound = "Block sound";
+}
+</pre>
+		<br />
+		<b class="fat">linedefactivations</b> (structure)<br />
+		This provides a list of choices about how a linedef is activated. Only one of these choices can be selected by the user. In case of a map format that works with numeric flags, the value is part of the linedef flags value and should have it's own range of bits. To separate these bits from the linedef flag options, use the <b>linedefactivationsfilter</b> setting. For map formats which use named flags, you can just use names for the settings.<br />
+		<br />
+		Example for numeric flags:
+<pre>
+linedefactivations
+{
+	0 = "Player walks over";
+	1024 = "Player presses Use";
+	2048 = "Monster walks over";
+	3072 = "Projectile hits";
+	4096 = "Player bumps";
+	5120 = "Projectile flies over";
+}
+</pre>
+		<br />
+		<b class="fat">linedefactivationsfilter</b> (integer)<br />
+		Bit mask value that separates the <b>linedefactivations</b> bits from the <b>linedefflags</b> bits. This is required in map formats that use numeric linedef flags, because the bits share the same integer linedef flags value in the map data. This setting is ignored for map formats that use named flags.<br />
+		<br />
+		<b class="fat">linedefflagstranslation</b> (structure)<br />
+		This is a translation between named (UDMF) linedef flags and the numeric linedef flags that your configuration uses (including linedef activation flags, if any). This structure is mandatory for all Game Configurations that do not use the UDMF map format and should not exist in Game Configurations that use the UDMF map format. Doom Builder uses this translation ot correctly work with copy/paste and prefabs (which are all converted to/from UDMF format). The setting names should be the non-UDMF flags. In case that your Game Configuration uses numeric flags map format, the setting names should be numeric. The setting values must be the equivalent UDMF flag names. The value can be prefixed with <b>!</b> to indicate that the value should be inverted (for example, if a setting 32 with value '!raisable' is to be converted, the existance of the bit value 32 will set 'raisable' to <b>false</b>).<br />
+		<br />
+		Example for numeric flags:
+<pre>
+linedefflagstranslation
+{
+	1 = "blocking";
+	2 = "blockmonsters";
+	4 = "twosided";
+	8 = "dontpegtop";
+	16 = "dontpegbottom";
+	32 = "secret";
+	64 = "blocksound";
+	512 = "repeatspecial";
+	1024 = "playeruse";
+	2048 = "monstercross";
+	3072 = "impact";
+	4096 = "playerpush";
+	5120 = "missilecross";
+	8192 = "monsteractivate";
+}
+</pre>
+		<br />
+
+
+		
+	</p>
+	</div>
+</body>

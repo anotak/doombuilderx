@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	
+	<title>Preferences Window</title>
+	
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+	<link rel="stylesheet" type="text/css" href="default.css" media="screen" title="Default" />
+</head>
+<body>
+	
+	<object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+	<param name="keyword" value="Preferences Window">
+	</object>
+	
+	<div id="title"><h1>Preferences Window</h1></div>
+	
+	<div id="contents">
+	<p>
+		The Preferences window provides options that apply to Doom Builder, regardless of the game configuration or map you choose to edit. You can access this window from the Tools menu, or with the default key F5. The options are categorized in different tabs;
+		
+		<h2>Interface</h2>
+		This tab contains some interface related options.
+		<h3>Default view:</h3>
+		This sets the default view mode that you wish to use when opening or creating a new map.
+		<h3>Preview image size:</h3>
+		The size of all preview images in the editor and in the <a href="w_imagesbrowser.html">Image Browser</a>. Smaller preview images consume less system memory.
+		<h3>Autoscroll speed:</h3>
+		During some actions, such as drawing and dragging, Doom Builder can automatically scroll the working area when you move your mouse towards the edges. Use this setting to set the scrolling speed to use. Drag the slider completely to the left to turn off automatic scrolling.
+		<h3>Script Editor:</h3>
+		Here you can set the font and other options regarding the <a href="w_scripteditor.html">Script Editor</a>. Check the box <b>Always on top of main window</b> if you want the script editor to float above the <a href="w_mainwindow.html">Main Window</a> even when the script editor does not have the focus.
+		<h3>Visual Modes:</h3>
+		This area contains several settings for the <a href="e_visualmode.html">Visual Mode</a>. To improve performance, you may want to decrease the <b>View distance</b> setting.
+		
+		<h2>Controls</h2>
+		This is where you configure your keyboard and mouse shortcut keys. On the left is a list of all <a href="actions.html">Actions</a> in Doom Builder with the current mouse or key combination shown next to them. Select an action to view a summary of this action on the right. Press any key combination to set to this action, or select a special mouse combination from the dropdown box. Below that, you can see which other actions share the same key combination so that you can verify any conflicts it may have. Note that actions used in different editing modes can safely share the same key combination.
+		
+		<h2>Appearance</h2>
+		On this tab you can change some settings related to visual aesthetics. On the top and the left of this tab you can change colors that are used in the <a href="w_scripteditor.html">Script Editor</a> and <a href="w_mainwindow.html">Working Area</a>.
+		<h3>Passable lines transparency:</h3>
+		This controls how much translucent the passable lines are. 0% is completely opaque, which is the same as impassable lines. Passable or impassable can be set with a linedef setting, but is automatically set by the editor for singlesided lines and removed for doublesided lines.
+		<h3>Textures and Flats brightness:</h3>
+		With this setting you can increase the brightness of the textures and flats. This is useful when viewing the texture against a white background, or if you are using a dark monitor.
+		<h3>Black background in image browser:</h3>
+		Turn this on to create a black background in the <a href="w_imagesbrowser.html">Image Browser</a>.
+		<h3>Bilinear filtering in classic modes:</h3>
+		This enables bilinear texture filtering for all classic Editing Modes (2D). Bilinear texture filtering removes the large square blocks when zooming in, but can also make it look blurry.
+		<h3>Bilinear filtering in visual modes:</h3>
+		This enables bilinear texture filtering for all visual Editing Modes (3D). Bilinear texture filtering removes the large square blocks when zooming in, but can also make it look blurry.
+		<h3>High quality display rendering:</h3>
+		This improves the display with the use of Pixel Shader Model 2.0. Also adds anti-aliasing to the classic Editing Modes (2D). Performance may be improved by turning off this setting (this also gives a more oldschool Doom Builder 1.68 look to the working area). When Pixel Shader Model 2.0 support is not available, Doom Builder automatically turns off this setting and disables this option.
+		<h3>Square things:</h3>
+		Things in Doom use a square shape for collision detection and you may want to turn this option on to get a better view on the bounding boxes of things in the classic Editing Modes (2D).
+	</p>
+	</div>
+</body>

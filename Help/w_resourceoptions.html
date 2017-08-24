@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	
+	<title>Resource Options Window</title>
+	
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+	<link rel="stylesheet" type="text/css" href="default.css" media="screen" title="Default" />
+</head>
+<body>
+	
+	<object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+	<param name="keyword" value="Resource Options Window">
+	<param name="keyword" value="WAD File Resource">
+	<param name="keyword" value="PK3 File Resource">
+	<param name="keyword" value="Directory Resource">
+	</object>
+	
+	<div id="title"><h1>Resource Options Window</h1></div>
+	
+	<div id="contents">
+	<p>
+		Use this dialog window to browse for a resource and change any options on how to use the resource. Doom Builder supports 3 types of resources;
+		
+		<h2>WAD File</h2>
+		This is the most common resource known with Doom. You can find more information about the WAD format on the <a href="http://doom.wikia.com/wiki/WAD" target="_blank">Doom Wiki</a>. When the <b>Strictly load patches between P_START and P_END only for this file</b> checkbox is checked, Doom Builder will resolve texture patch conflicts by strictly loading patch lumps only from between the P_START and P_END lumps in this WAD file as it was intended by id Software, but most sourceports do not require this (as result, older maps have texture patch lumps that are not in between P_START and P_END).<br />
+		
+		<h2>Directory</h2>
+		Doom Builder can load resources from a directory in different ways. The directory is expected to use the PK3 directory structure (for more information see the <a href="http://www.zdoom.org/wiki/Using_ZIPs_as_WAD_replacement" target="_blank">ZDoom Wiki</a>) but you can use it to simply load images from the directory root as textures or flats by turning on the options <b>Load images in directory root as textures/flats</b>.
+		
+		<h2>PK3 File</h2>
+		The PK3 file is a zipped directory structure and can be used as WAD file replacement by several sourceports. For more information see the <a href="http://www.zdoom.org/wiki/Using_ZIPs_as_WAD_replacement" target="_blank">ZDoom Wiki</a>.
+		
+	</p>
+	</div>
+</body>

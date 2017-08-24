@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{760A9BC7-CB73-4C36-858B-994C14996FCD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CodeImp.DoomBuilder.GZDoomEditing</RootNamespace>
+    <AssemblyName>GZDoomEditing</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\Build\Plugins\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>..\..\Build\Plugins\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Profiling|x86'">
+    <OutputPath>..\..\Build\Plugins\</OutputPath>
+    <Optimize>true</Optimize>
+    <NoWarn>1591</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClassicModes\BaseClassicMode.cs" />
+    <Compile Include="ClassicModes\CeilingAlignMode.cs" />
+    <Compile Include="ClassicModes\FlatAlignMode.cs" />
+    <Compile Include="ClassicModes\FloorAlignMode.cs" />
+    <Compile Include="General\BuilderPlug.cs" />
+    <Compile Include="General\CopyStructures.cs" />
+    <Compile Include="General\UndoGroup.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="VisualModes\BaseVisualGeometrySector.cs" />
+    <Compile Include="VisualModes\BaseVisualGeometrySidedef.cs" />
+    <Compile Include="VisualModes\BaseVisualMode.cs" />
+    <Compile Include="VisualModes\BaseVisualSector.cs" />
+    <Compile Include="VisualModes\BaseVisualThing.cs" />
+    <Compile Include="VisualModes\EffectCopySlope.cs" />
+    <Compile Include="VisualModes\EffectLineSlope.cs" />
+    <Compile Include="VisualModes\EffectThingLineSlope.cs" />
+    <Compile Include="VisualModes\EffectThingVertexSlope.cs" />
+    <Compile Include="VisualModes\IVisualEventReceiver.cs" />
+    <Compile Include="VisualModes\NullVisualEventReceiver.cs" />
+    <Compile Include="VisualModes\Effect3DFloor.cs" />
+    <Compile Include="VisualModes\EffectBrightnessLevel.cs" />
+    <Compile Include="VisualModes\SectorEffect.cs" />
+    <Compile Include="VisualModes\SectorLevelComparer.cs" />
+    <Compile Include="VisualModes\ThingData.cs" />
+    <Compile Include="VisualModes\VisualMiddle3D.cs" />
+    <Compile Include="VisualModes\WallPolygon.cs" />
+    <Compile Include="VisualModes\SectorData.cs" />
+    <Compile Include="VisualModes\SectorLevel.cs" />
+    <Compile Include="VisualModes\SectorLevelType.cs" />
+    <Compile Include="VisualModes\TexturePlane.cs" />
+    <Compile Include="VisualModes\VisualActionResult.cs" />
+    <Compile Include="VisualModes\VisualCeiling.cs" />
+    <Compile Include="VisualModes\VisualFloor.cs" />
+    <Compile Include="VisualModes\VisualLower.cs" />
+    <Compile Include="VisualModes\VisualMiddleDouble.cs" />
+    <Compile Include="VisualModes\VisualMiddleSingle.cs" />
+    <Compile Include="VisualModes\VisualSidedefParts.cs" />
+    <Compile Include="VisualModes\VisualUpper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Builder.csproj">
+      <Project>{818B3D10-F791-4C3F-9AF5-BB2D0079B63C}</Project>
+      <Name>Builder</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\VisualModeZ.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Actions.cfg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GZDoomEditing.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\CeilingAlign.png" />
+    <EmbeddedResource Include="Resources\FloorAlign.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetName)$(TargetExt)" "$(TargetDir)..\..\..\data\Plugins\$(TargetName)$(TargetExt)"
+copy "$(TargetDir)$(TargetName).pdb" "$(TargetDir)..\..\..\data\Plugins\$(TargetName).pdb"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

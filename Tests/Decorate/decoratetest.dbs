@@ -1,0 +1,39 @@
+type = "Doom Builder Map Settings Configuration";
+gameconfig = "ZDoom_DoomHexen.cfg";
+strictpatches = 0;
+
+maps
+{
+	
+	MAP01
+	{
+		
+		resources
+		{
+			
+			resource0
+			{
+				type = 1;
+				location = "F:\\Projects\\Doom Builder\\Tests\\Decorate";
+				option1 = 0;
+				option2 = 0;
+			}
+			
+		}
+		
+		
+		grid
+		{
+			background = "";
+			backsource = 0;
+			backoffsetx = 0;
+			backoffsety = 0;
+			backscalex = 100;
+			backscaley = 100;
+			gridsize = 32;
+		}
+		
+	}
+	
+}
+

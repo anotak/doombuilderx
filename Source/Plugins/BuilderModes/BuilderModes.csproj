@@ -1,0 +1,346 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B42D5AA0-F9A6-4234-9C4B-A05B11A64851}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CodeImp.DoomBuilder.BuilderModes</RootNamespace>
+    <AssemblyName>BuilderModes</AssemblyName>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\Build\Plugins\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>..\..\Build\Plugins\</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Profiling|x86'">
+    <OutputPath>..\..\Build\Plugins\</OutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <NoWarn>1591</NoWarn>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClassicModes\BaseClassicMode.cs" />
+    <Compile Include="ClassicModes\BrightnessMode.cs" />
+    <Compile Include="ClassicModes\ErrorCheckMode.cs" />
+    <Compile Include="ClassicModes\EditSelectionMode.cs" />
+    <Compile Include="ClassicModes\CurveLinedefsMode.cs" />
+    <Compile Include="ClassicModes\DragLinedefsMode.cs" />
+    <Compile Include="ClassicModes\DragSectorsMode.cs" />
+    <Compile Include="ClassicModes\DragGeometryMode.cs" />
+    <Compile Include="ClassicModes\DrawGeometryMode.cs" />
+    <Compile Include="ClassicModes\FindReplaceMode.cs" />
+    <Compile Include="ClassicModes\MakeSectorMode.cs" />
+    <Compile Include="ErrorChecks\CheckClosedSectors.cs" />
+    <Compile Include="ErrorChecks\CheckStuckThings.cs" />
+    <Compile Include="ErrorChecks\CheckLineReferences.cs" />
+    <Compile Include="ErrorChecks\CheckOverlappingLines.cs" />
+    <Compile Include="ErrorChecks\ResultLineOverlapping.cs" />
+    <Compile Include="ErrorChecks\ResultLineNotSingleSided.cs" />
+    <Compile Include="ErrorChecks\ResultLineNotDoubleSided.cs" />
+    <Compile Include="ErrorChecks\ResultLineMissingFront.cs" />
+    <Compile Include="ErrorChecks\ResultLineMissingSides.cs" />
+    <Compile Include="ErrorChecks\ResultSectorUnclosed.cs" />
+    <Compile Include="ErrorChecks\ResultStuckThingInLine.cs" />
+    <Compile Include="ErrorChecks\ErrorResult.cs" />
+    <Compile Include="ErrorChecks\ErrorCheckerAttribute.cs" />
+    <Compile Include="ErrorChecks\ErrorChecker.cs" />
+    <Compile Include="ErrorChecks\ResultThingOutside.cs" />
+    <Compile Include="FindReplace\FindLinedefTypes.cs" />
+    <Compile Include="FindReplace\FindReplaceAttribute.cs" />
+    <Compile Include="FindReplace\FindReplaceObject.cs" />
+    <Compile Include="FindReplace\FindReplaceType.cs" />
+    <Compile Include="FindReplace\FindSectorTags.cs" />
+    <Compile Include="General\Association.cs" />
+    <Compile Include="General\BuilderPlug.cs" />
+    <Compile Include="General\CopyStructures.cs" />
+    <Compile Include="Interface\CurveLinedefsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\CurveLinedefsForm.Designer.cs">
+      <DependentUpon>CurveLinedefsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\ErrorCheckForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\ErrorCheckForm.Designer.cs">
+      <DependentUpon>ErrorCheckForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\FindReplaceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\FindReplaceForm.Designer.cs">
+      <DependentUpon>FindReplaceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\MakeDoorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\MakeDoorForm.Designer.cs">
+      <DependentUpon>MakeDoorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\MenusForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\MenusForm.Designer.cs">
+      <DependentUpon>MenusForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\PreferencesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\PreferencesForm.Designer.cs">
+      <DependentUpon>PreferencesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ClassicModes\DragThingsMode.cs" />
+    <Compile Include="General\LineLengthLabel.cs" />
+    <Compile Include="VisualModes\IVisualEventReceiver.cs" />
+    <Compile Include="VisualModes\BaseVisualGeometrySector.cs" />
+    <Compile Include="VisualModes\BaseVisualGeometrySidedef.cs" />
+    <Compile Include="VisualModes\BaseVisualMode.cs" />
+    <Compile Include="VisualModes\BaseVisualSector.cs" />
+    <Compile Include="ClassicModes\DragVerticesMode.cs" />
+    <Compile Include="ClassicModes\LinedefsMode.cs" />
+    <Compile Include="VisualModes\BaseVisualThing.cs" />
+    <Compile Include="VisualModes\VisualCeiling.cs" />
+    <Compile Include="VisualModes\VisualFloor.cs" />
+    <Compile Include="VisualModes\VisualLower.cs" />
+    <Compile Include="VisualModes\VisualMiddleSingle.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ClassicModes\SectorsMode.cs" />
+    <Compile Include="ClassicModes\ThingsMode.cs" />
+    <Compile Include="ClassicModes\VerticesMode.cs" />
+    <Compile Include="VisualModes\VisualMiddleDouble.cs" />
+    <Compile Include="VisualModes\VisualSidedefParts.cs" />
+    <Compile Include="VisualModes\VisualUpper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Actions.cfg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\ThingsMode.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\VerticesMode.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\LinesMode.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\SectorsMode.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\WAuthor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Interface\CurveLinedefsForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CurveLinedefsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\MenusForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MenusForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\VisualMode.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Builder.csproj">
+      <Project>{818B3D10-F791-4C3F-9AF5-BB2D0079B63C}</Project>
+      <Name>Builder</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\BrightnessMode.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Interface\ErrorCheckForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ErrorCheckForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\FindReplaceForm.resx">
+      <DependentUpon>FindReplaceForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\MakeDoorForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MakeDoorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\NewSector2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\treeview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BrightnessGradient.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\TriangulatorMode.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\FindMode.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Interface\PreferencesForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PreferencesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MapAnalysisMode.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FlipSelectionH.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FlipSelectionV.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Interface\EditSelectionPanel.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EditSelectionPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\UndoRedoPanel.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>UndoRedoPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\HeightsMode.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ErrorChecks\CheckMissingTextures.cs" />
+    <Compile Include="ErrorChecks\CheckUnknownFlats.cs" />
+    <Compile Include="ErrorChecks\CheckUnknownTextures.cs" />
+    <Compile Include="ErrorChecks\ResultNoErrors.cs" />
+    <Compile Include="ErrorChecks\ResultStuckThingInThing.cs" />
+    <Compile Include="ErrorChecks\ResultTextureMissing.cs" />
+    <Compile Include="ErrorChecks\ResultUnknownFlat.cs" />
+    <Compile Include="ErrorChecks\ResultUnknownTexture.cs" />
+    <Compile Include="FindReplace\FindLinedefFlags.cs" />
+    <Compile Include="FindReplace\FindThingAngle.cs" />
+    <Compile Include="FindReplace\FindAnyTextureFlat.cs" />
+    <Compile Include="FindReplace\FindThingFlags.cs" />
+    <Compile Include="FindReplace\FindThingSectorRef.cs" />
+    <Compile Include="FindReplace\FindThingTag.cs" />
+    <Compile Include="FindReplace\FindLinedefNumber.cs" />
+    <Compile Include="FindReplace\FindLinedefSectorRef.cs" />
+    <Compile Include="FindReplace\FindLinedefTags.cs" />
+    <Compile Include="FindReplace\FindSectorEffect.cs" />
+    <Compile Include="FindReplace\FindSectorFlat.cs" />
+    <Compile Include="FindReplace\FindSidedefTexture.cs" />
+    <Compile Include="FindReplace\FindLinedefThingRef.cs" />
+    <Compile Include="FindReplace\FindSectorNumber.cs" />
+    <Compile Include="FindReplace\FindSidedefNumber.cs" />
+    <Compile Include="FindReplace\FindThingAction.cs" />
+    <Compile Include="FindReplace\FindThingNumber.cs" />
+    <Compile Include="FindReplace\FindThingThingRef.cs" />
+    <Compile Include="FindReplace\FindThingType.cs" />
+    <Compile Include="FindReplace\FindVertexNumber.cs" />
+    <Compile Include="General\UndoGroup.cs" />
+    <Compile Include="Interface\EditSelectionPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interface\EditSelectionPanel.Designer.cs">
+      <DependentUpon>EditSelectionPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\UndoRedoPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interface\UndoRedoPanel.Designer.cs">
+      <DependentUpon>UndoRedoPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VisualModes\NullVisualEventReceiver.cs" />
+    <Compile Include="VisualModes\VisualActionResult.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ViewSelectionIndex.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FloorsGradient.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CeilsGradient.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CurveLines.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CopyProperties.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PasteProperties.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Angle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ColorPick.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\List.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\List_Images.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Text.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Selection3.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetName)$(TargetExt)" "$(TargetDir)..\..\..\data\Plugins\$(TargetName)$(TargetExt)"
+copy "$(TargetDir)$(TargetName).pdb" "$(TargetDir)..\..\..\data\Plugins\$(TargetName).pdb"</PostBuildEvent>
+  </PropertyGroup>
+</Project>

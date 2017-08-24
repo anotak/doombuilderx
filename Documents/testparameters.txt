@@ -1,0 +1,47 @@
+
+This describes the placeholders that can be used in the command-line parameter for
+testing settings (for launching the sourceport). These placeholders are not
+case-sensitive.
+
+
+-------------------------------------------------------------------------------------
+
+%F indicates the edited PWAD file to be tested.
+NOTE: Doom Builder writes everything to a temporary file, this is not the file
+that was opened through the File -> Open Map dialog.
+
+-------------------------------------------------------------------------------------
+
+%WP indicates the IWAD resource file to be used (path included).
+This is the first (highest) IWAD file that is found in the resources list.
+
+-------------------------------------------------------------------------------------
+
+%WF indicates the IWAD resource file to be used (without path).
+This is the first (highest) IWAD file that is found in the resources list.
+
+-------------------------------------------------------------------------------------
+
+%L indicates the map lump name as is set in the map options.
+
+-------------------------------------------------------------------------------------
+
+%L1 indicates the first number in the map lump name and
+%L2 indicates the second number in the map lump name.
+These can be used for the -warp parameter.
+
+-------------------------------------------------------------------------------------
+
+%AP indicates the all resources files, except the first IWAD file (paths included).
+The items are seperated by spaces. When used within quotes "%AP", the quotes are
+also repeated for every item.
+
+-------------------------------------------------------------------------------------
+
+%S indicates the skill number at which to test.
+
+-------------------------------------------------------------------------------------
+
+%NM indicates the position where to put -nomonsters when the user chooses to test
+without monsters.
+

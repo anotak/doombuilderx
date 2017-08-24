@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	
+	<title>Thing Properties Window</title>
+	
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+	<link rel="stylesheet" type="text/css" href="default.css" media="screen" title="Default" />
+</head>
+<body>
+	
+	<object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+	<param name="keyword" value="Thing Properties Window">
+	<param name="keyword" value="Action">
+	<param name="keyword" value="Tag">
+	</object>
+	
+	<div id="title"><h1>Thing Properties Window</h1></div>
+	
+	<div id="contents">
+	<p>
+		This dialog allows you to edit all the thing properties. When a selection of multiple things is made, some fields may appear grayed or empty in case they are different for some of the selected elements. Setting a value in grayed or empty field will apply this to the entire selection.
+		
+		<h2>Properties</h2>
+		On the left of this tab you can select the <b>Thing Type</b>. Either select it from the list or enter the type number in the field below the list. If it is a thing type that is in the Game Configuration, the information known about that thing type is displayed as well.<br />
+		<br />
+		On the right you can change the <b>Settings</b> for the thing. The settings available depend on the Game Configuration you are using. Below that you can change the <b>Angle</b>. In Hexen and UDMF formats, you can also specify the <b>Z height</b> of the thing. The Z height is usually relative to the sector floor, but for some things the Z height is absolute (refer to the sourceport documentation).
+
+		<h2>Action</h2>
+		This tab is only available in Hexen and UDMF formats. You can set the thing <b>Tag</b> that is used to refer to this thing. Below that is the <b>Action</b> area, which allows you to set a special action that is executed by the thing (for monsters this is usually when it dies). Please note that some things use the action arguments for their own properties and that setting an action on those things may give an unexpected result (refer to the sourceport documentation).
+		
+		<h2>Custom</h2>
+		This tab allows you to edit the custom fields on the thing. Only available in UDMF format. See <a href="w_customfields.html">Custom Fields Editor</a> for more information.
+	</p>
+	</div>
+</body>

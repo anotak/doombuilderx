@@ -1,0 +1,20 @@
+Doom Builder Release Checklist
+=================================================================================
+
+- Have all new actions and settings default values if needed?
+
+- Are the game configurations up-to-date?
+
+- Are the compilers up-to-date?
+
+- Are the script configurations up-to-date?
+
+- Have the game configurations got default texture sets?
+
+
+
+
+
+
+
+

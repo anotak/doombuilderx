@@ -1,0 +1,17 @@
+type = "Doom Builder Map Settings Configuration";
+gameconfig = "ZDoom_Doom.cfg";
+
+maps
+{
+	
+	MAP01
+	{
+		
+		resources
+		{
+		}
+		
+	}
+	
+}
+

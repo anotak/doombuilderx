@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+    <asset>
+        <contributor>
+            <author>Pascal</author>
+            <authoring_tool>NVIDIA FX Composer 2.0</authoring_tool>
+            <comments/>
+            <copyright/>
+        </contributor>
+        <created>2007-10-19T17:06:49</created>
+        <keywords>FXComposer, NVIDIA</keywords>
+        <modified>2007-10-19T17:07:14</modified>
+        <subject/>
+        <title/>
+    </asset>
+    <library_effects>
+        <effect id="Effect" name="display2d">
+            <profile_COMMON>
+                <technique sid="__fxc2_default">
+                    <constant/>
+                </technique>
+            </profile_COMMON>
+            <extra type="import">
+                <technique profile="NVIDIA_FXCOMPOSER">
+                    <import url="../Source/Resources/display2d.fx" compiler_options="" profile="fx"/>
+                </technique>
+            </extra>
+        </effect>
+    </library_effects>
+</COLLADA>

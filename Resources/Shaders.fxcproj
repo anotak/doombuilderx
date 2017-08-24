@@ -1,0 +1,60 @@
+<project>
+  <current_configuration value="Debug" />
+  <configurations>
+    <configuration name="Debug">
+      <settings category="Project\Direct3D\HLSL Compiler">
+        <CompilerOptions value="" />
+      </settings>
+      <settings category="Project\OpenGL\CgCompiler">
+        <CompilerOptions value="" />
+      </settings>
+      <settings category="Project\Paths">
+        <Includes value="" />
+        <Models value="" />
+        <Scripts value="" />
+        <Shaders value="" />
+        <Textures value="" />
+      </settings>
+      <settings category="Project\Settings">
+        <BindLightToUnboundMaterials value="False" />
+      </settings>
+      <settings category="Project\COLLADA Common Profile">
+        <EnvironmentMap value="" />
+        <DisableCommonProfileTransparency value="False" />
+      </settings>
+    </configuration>
+    <configuration name="Release">
+      <settings category="Project\Direct3D\HLSL Compiler">
+        <CompilerOptions value="" />
+      </settings>
+      <settings category="Project\OpenGL\CgCompiler">
+        <CompilerOptions value="" />
+      </settings>
+      <settings category="Project\Paths">
+        <Includes value="" />
+        <Models value="" />
+        <Scripts value="" />
+        <Shaders value="" />
+        <Textures value="" />
+      </settings>
+      <settings category="Project\Settings">
+        <BindLightToUnboundMaterials value="False" />
+      </settings>
+      <settings category="Project\COLLADA Common Profile">
+        <EnvironmentMap value="" />
+        <DisableCommonProfileTransparency value="False" />
+      </settings>
+    </configuration>
+  </configurations>
+  <assetFile uri="base2d.dae" />
+  <activeAssetCollection uri="base2d.dae" />
+  <customConfigurations>
+    <FXComposer.Scene.Services.FXSceneService>
+      <background_color color="0.5 0.5 0.5 1" />
+    </FXComposer.Scene.Services.FXSceneService>
+    <FXComposer.Scene.Services.FXRenderPortService>
+      <renderPort name="Direct3D9" />
+      <renderPort name="OpenGL" />
+    </FXComposer.Scene.Services.FXRenderPortService>
+  </customConfigurations>
+</project>

@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	
+	<title>Game Configuration - Basic Settings</title>
+	
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+	<link rel="stylesheet" type="text/css" href="default.css" media="screen" title="Default" />
+</head>
+<body>
+	
+	<object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+	<param name="keyword" value="Configurations">
+	<param name="keyword" value="Game Configurations">
+	</object>
+	
+	<div id="title"><h1>Game Configuration - Basic Settings</h1></div>
+	
+	<div id="contents">
+	<p>
+		<b class="fat">type</b> (string)<br />
+		This indicates the type of configuration to prevent accedential use of a different configuration. Must always be the string "Doom Builder 2 Game Configuration".<br />
+		<br />
+		<b class="fat">game</b> (string)<br />
+		The name that is displayed in Doom Buider for your Game Configuration.<br />
+		<br />
+		<b class="fat">engine</b> (string)<br />
+		Game engine/sourceport name. This is used as the UDMF namespace for UDMF map format interface. It currently has no other function.<br />
+		<br />
+		<b class="fat">defaultlumpname</b> (string)<br />
+		Default lump name suggested when creating a new map and selecting this configuration.<br />
+		<br />
+		<b class="fat">testparameters</b> (string)<br />
+		Default parameters used to launch the test game engine. See <a href="w_gameconfigurations.html">Game Configurations window</a> for the available parameter placeholders.<br />
+		<br />
+		<b class="fat">testshortpaths</b> (boolean)<br />
+		Set to <b>true</b> to use MSDOS 8.3 format paths and filenames by default. Default is <b>false</b>. The user can still change this in the <a href="w_gameconfigurations.html">Game Configurations window</a>.<br />
+		<br />
+		<b class="fat">defaultsavecompiler</b> (string)<br />
+		Name of the Nodebuilder Compiler Configuration structure to use as the default settings for the compiler that is used when saving the map. The user can still change this in the <a href="w_gameconfigurations.html">Game Configurations window</a>.<br />
+		<br />
+		<b class="fat">defaulttestcompiler</b> (string)<br />
+		Name of the Nodebuilder Compiler Configuration structure to use as the default settings for the compiler that is used when testing the map. The user can still change this in the <a href="w_gameconfigurations.html">Game Configurations window</a>.<br />
+		<br />
+		<b class="fat">skills</b> (structure)<br />
+		This defines the skill options the user has available with this game engine/project. The settings in this structure are expected to be numbers with string values (the descriptive name for the skill level).<br />
+		<br />
+		Example:
+<pre>
+skills
+{
+	1 = "I'm too young to die";
+	2 = "Hey, not too rough";
+	3 = "Hurt me plenty";
+	4 = "Ultra-Violence";
+	5 = "Nightmare!";
+}
+</pre>
+		<br />
+		<b class="fat">linetagindicatesectors</b> (boolean)<br />
+		When <b>true</b>, Doom Builder will highlight sectors associated with the same tag number when a line is highlighted. This is only really useful for Doom format maps, because Hexen format and UDMF format has no single tag on linedefs (in those formats, the arguments of the linedef's action can be tags, which also works to highlight sectors). The default is <b>false</b>.<br />
+		<br />
+		<b class="fat">soundlinedefflag</b> (integer or string)<br />
+		This lets Doom Builder know the <a href="gc_linedefflags.html">linedef flag</a> that indicates where sound should be blocked. Doom Builder uses this to give the line a special color and plugins can use this information to perform operations related to blocking sound lines. For map formats that use numeric flags (Doom and Hexen) this must be an integer specifying the flag value of the Block Sound flag. For map formats that use named flags (UDMF), this must be a string indicating the name of the Block Sound flag.<br />
+		<br />
+		<b class="fat">singlesidedflag</b> (integer or string)<br />
+		This lets Doom Builder know the <a href="gc_linedefflags.html">linedef flag</a> that indicates a line with only one side. Doom Builder will set this flag value on a linedef when it changes a line to become single sided and removes the flag from a linedef when it becomes double sided. Plugins can also use this information to perform operations on linedefs. For map formats that use numeric flags (Doom and Hexen) this must be an integer flag value. For map formats that use named flags (UDMF), this must be a string indicating the name of the flag.<br />
+		<br />
+		<b class="fat">doublesidedflag</b> (integer or string)<br />
+		This lets Doom Builder know the <a href="gc_linedefflags.html">linedef flag</a> that indicates a line with two sides. Doom Builder will set this flag value on a linedef when it changes a line to become double sided and removes the flag from a linedef when it becomes single sided. Plugins can also use this information to perform operations on linedefs. For map formats that use numeric flags (Doom and Hexen) this must be an integer flag value. For map formats that use named flags (UDMF), this must be a string indicating the name of the flag.<br />
+		<br />
+		<b class="fat">impassableflag</b> (integer or string)<br />
+		This lets Doom Builder know the <a href="gc_linedefflags.html">linedef flag</a> that indicates a line which blocks players and monsters. Doom Builder uses this to give the line a special color and plugins can use this information to perform operations related to blocking sound lines. For map formats that use numeric flags (Doom and Hexen) this must be an integer specifying the flag value of the Impassable flag. For map formats that use named flags (UDMF), this must be a string indicating the name of the Impassable flag.<br />
+		<br />
+		<b class="fat">makedoortrack</b> (string)<br />
+		Name of a texture to use on the walls when making a door.<br />
+		<br />
+		<b class="fat">makedooraction</b> (integer)<br />
+		Linedef action number to put on the lines when making a door.<br />
+		<br />
+		<b class="fat">makedoorarg#</b> (0 .. 4) (integer)<br />
+		Arguments for the linedef action number to put on the lines when making a door.<br />
+		<br />
+		<b class="fat">doomlightlevels</b> (boolean)<br />
+		Set this to <b>false</b> to use linear lighting in Doom Builder. Normally Doom Builder uses a simulation of Doom's light levels. Default value is <b>true</b>.<br />
+		<br />
+		<b class="fat">start3dmode</b> (integer)<br />
+		Thing type number that Doom Builder will use to keep your Visual Mode camera position stored in the map. Doom Builder will place a single thing of this type in your map and move it along as you move in Visual Mode.<br />
+		<br />
+		<b class="fat">skyflatname</b> (string)<br />
+		Name of the flat that is interpreted as sky (meaning there is no ceiling). Doom Builder and plugins can use this information for various purposes.<br />
+		<br />
+		<b class="fat">maxtexturenamelength</b> (integer)<br />
+		Maximum length of texture names in characters. This is used by Doom Builder to limit the input fields in the user interface and to check the validity of texture names in resources. This does NOT determine the actual limitation on the texture names in the map file format. Default value is 8.<br />
+		<br />
+		
+		
+	</p>
+	</div>
+</body>

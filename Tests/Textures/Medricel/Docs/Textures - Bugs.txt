@@ -1,0 +1,88 @@
+----------------------------------------
+FEATURE SUGGESTIONS
+----------------------------------------
+
+ForcePallete
+	Forces the texture/patch to be restricted to the game
+	pallete. Useful for blends that look good in software,
+	but turn out really bad in GL.
+
+----------------------------------------
+Bugs with TEXTURES definitions:
+----------------------------------------
+* The Desaturate translation does nothing.
+
+!* Desaturate requires parenthesis or else ZDoom will crash.
+
+=* There is an additional required number for Desaturate that
+	has no effect.
+	
+=* 0-255 Integer RGB values for Blend are read as hexadecimal
+	when the list is enclosed in quotation marks.
+	
+!* Integer values 100-249 cause ZDoom to crash when used.
+	This is possibly related to the hexadecimal bug above.
+	This only affects the Red value, when the list is surr-
+	ounded by quotes.
+	
+!* Integer values 6-36 cause ZDoom to crash when used in a
+	Blend statement. This only applies to a list that is not
+	surrounded by quotes, and only the Red value.
+	
+* Hexadecimal values load as a single string ("8080FF"), but
+	are not displayed properly.
+	
+=* Named translations do not respect patch transparency.
+	This bug manifests itself differently in ZDoom than in
+	GZDoom. In GZ, it happens all the time. In ZD, it only
+	occurs when the patch interacts with a patch with a
+	Style value other than Copy.
+
+=* Blends also do not respect patch transparency.
+
+!* Using out-of-range pallete indexes in translations causes
+	ZDoom to crash.
+
+---------------------------------------	
+Functioning Styles:
+---------------------------------------
+Add
+	Functions completely as expected.
+
+Subtract
+	Inverts patch, Applies Multiply? Blend on Patch
+
+ReverseSubtract
+	Inverts underlying image, Applies Multiply? on Patch
+	
+*	Lower Alpha values make the overall result darker, for
+	  some reason.
+
+Modulate
+*?	Unaffected by Alpha. Algorithm unknown.
+
+---------------------------------------
+Broken Styles:
+---------------------------------------
+Copy
+	Appears to do nothing, even with 0.5 Alpha
+
+CopyAlpha
+	Alpha does nothing. In software mode, seems to cause
+	  some kind of color distortion. Looks exactly like Copy
+	  when in GZDoom GL mode. (GZ r248)
+	CopyAlpha also triggers the transparency bug with
+	  translations
+
+Blend
+	Bad syntax error
+
+---------------------------------------
+Other:
+---------------------------------------
+Multiple translations must be induvidually quoted
+	( "a:b=x:y", "e:h=l:o" ) in order to function properly.
+	
+Styles do not affect other world textures. All styled
+	Patches are automatically blended against black if there
+	is no underlying image data.

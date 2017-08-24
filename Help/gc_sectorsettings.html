@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	
+	<title>Game Configuration - Sectors Settings</title>
+	
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+	<link rel="stylesheet" type="text/css" href="default.css" media="screen" title="Default" />
+</head>
+<body>
+	
+	<object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+	<param name="keyword" value="Configurations">
+	<param name="keyword" value="Game Configurations">
+	</object>
+	
+	<div id="title"><h1>Game Configuration - Sectors Settings</h1></div>
+	
+	<div id="contents">
+	<p>
+		<b class="fat">generalizedsectors</b> (boolean)<br />
+		Set to <b>true</b> to support generalized sector effects. This makes the <b>gen_sectortypes</b> structure mandatory. Default value is <b>false</b>.<br />
+		<br />
+		<b class="fat">sectorbrightness</b> (structure)<br />
+		This structure provides Doom Builder with a list of sector brightness levels that are most common. Doom Builder will use these levels to increase/decrease the brightness quickly. The structure must contain numeric setting names for the brightness levels. The settings don't need a value and any value will be ignored by Doom Builder.<br />
+		<br />
+		Example:
+<pre>
+sectorbrightness
+{
+	96;
+	64;
+	32;
+	0;
+}
+</pre>
+		<br />
+		<b class="fat">gen_sectortypes</b> (structure)<br />
+		Generalized sector types are described in this structure. This structure is required when <b>generalizedsectors</b> is set to <b>true</b>. For each option there should be a structure. The name of the structure is displayed as the option description. Each option structure should contain a setting for the available choices. The setting name must be a numeric value that is added to the final sector effect value along with the values of the choices from other options (so the final sector effect value is the sum of the choices from every option). The setting must have a string value containing the choice description to be displayed.<br />
+		<br />
+		Example:
+<pre>
+gen_sectortypes
+{
+	secret
+	{
+		0 = "No";
+		128 = "Yes";
+	}
+	
+	friction
+	{
+		0 = "Disabled";
+		256 = "Enabled";
+	}
+	
+	wind
+	{
+		0 = "Disabled";
+		512 = "Enabled";
+	}
+}
+</pre>
+		<br />
+		<b class="fat">sectortypes</b> (structure)<br />
+		This is a simple list of all available sector effects that the user can choose from. The setting names must be numeric (the sector effect number) and the value must be a string containing the description to display.<br />
+		<br />
+		Example:
+<pre>
+sectortypes
+{
+	0 = "Normal";
+	1 = "Light Blinks (randomly)";
+	2 = "Light Blinks (2 Hz)";
+	3 = "Light Blinks (1 Hz)";
+	4 = "Damage -10 or 20% health and Light Blinks (2 Hz)";
+	5 = "Damage -5 or 10% health";
+	7 = "Damage -2 or 5% health";
+	8 = "Light Glows (1+ sec)";
+	9 = "Secret";
+}
+</pre>
+		<br />
+
+		
+	</p>
+	</div>
+</body>

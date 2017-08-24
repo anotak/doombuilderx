@@ -1,0 +1,51 @@
+
+Doom Builder has editing features for different data types of
+UDMF fields and standard hexen arguments. This is a list of
+all supported data types:
+
+0 = integer *
+1 = float
+2 = string
+3 = bool
+4 = linedeftype (integer) *
+5 = sectoreffect (integer) *
+6 = texture (string)
+7 = flat (string)
+8 = angle in degrees (integer)
+9 = angle in radians (float)
+10 = XXRRGGBB color (integer)
+11 = enum option (integer) *
+12 = enum bits (integer) *
+13 = sector tag (integer) *
+14 = thing tag (integer) *
+15 = linedef tag (integer) *
+16 = enum option (string)
+17 = angle in degrees (float)
+18 = thing type (integer)
+19 = thing class (string)
+
+- Only types indicates with * are usable for standard hexen args
+- When no type is specified, the default type is 0 (integer)
+- Enum types (11, 12 and 16) cannot be used in custom UDMF fields
+
+For enum types 11, 12 and 16 there must be an "enum" field that
+either specifies the values or refers to an existing enum set:
+
+	enum
+	{
+		0 = "Yes";
+		1 = "No";
+	}
+	
+	OR
+
+	enum = "yesno";
+
+Type 16 uses case-sensitive strings for values and can only be
+used as an option, not as bit flags:
+
+	enum
+	{
+		translucent = "Translucent";
+		add = "Add";
+	}

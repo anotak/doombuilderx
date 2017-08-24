@@ -20,6 +20,10 @@
 x64/
 x86/
 bld/
+Build/
+Build40/
+data/Plugins/*.dll
+data/Plugins/*.pdb
 [Bb]in/
 [Oo]bj/
 [Ll]og/

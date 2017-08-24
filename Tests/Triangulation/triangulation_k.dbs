@@ -1,0 +1,56 @@
+type = "Doom Builder Map Settings Configuration";
+gameconfig = "ZDoom_DoomHexen.cfg";
+strictpatches = 0;
+
+maps
+{
+	
+	MAP01
+	{
+		
+		fieldtypes
+		{
+			
+			linedef
+			{
+				blocking = 3;
+			}
+			
+		}
+		
+		
+		plugins
+		{
+			
+			lighting
+			{
+				
+				lights
+				{
+				}
+				
+			}
+			
+		}
+		
+		
+		resources
+		{
+		}
+		
+		
+		grid
+		{
+			background = "";
+			backsource = 0;
+			backoffsetx = 0;
+			backoffsety = 0;
+			backscalex = 100;
+			backscaley = 100;
+			gridsize = 32;
+		}
+		
+	}
+	
+}
+

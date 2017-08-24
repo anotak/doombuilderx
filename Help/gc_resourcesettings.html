@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	
+	<title>Game Configuration - Resource Settings</title>
+	
+	<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+	<link rel="stylesheet" type="text/css" href="default.css" media="screen" title="Default" />
+</head>
+<body>
+	
+	<object type="application/x-oleobject" classid="clsid:1e2a7bd0-dab9-11d0-b93a-00c04fc99f9e">
+	<param name="keyword" value="Configurations">
+	<param name="keyword" value="Game Configurations">
+	</object>
+	
+	<div id="title"><h1>Game Configuration - Resource Settings</h1></div>
+	
+	<div id="contents">
+	<p>
+		<b class="fat">decorategames</b> (string)<br />
+		Fill this to the game names to support DECORATE actors from. Only the DECORATE actors who's game name is in this string will be loaded. If this setting is not set, DECORATE lumps are not loaded.<br />
+		<br />
+		Example:
+<pre>
+decorategames = "heretic raven";
+</pre>
+		<br />
+		<b class="fat">mixtexturesflats</b> (boolean)<br />
+		Doom Builder will allow the use of flats on walls and textures on floors when this is set to <b>true</b>. Textures and flats will be mixed with priority to the original purpose. For textures this means that textures override flats with the same name, for flats this means that flats override textures with the same name. Default is <b>false</b>.<br />
+		<br />
+		<b class="fat">defaulttexturescale</b> (decimal)<br />
+		The scale of textures when no scale is known. This is a scalar value: 0.5 is half the original size and double the resolution. Default is 1.0.<br />
+		<br />
+		<b class="fat">defaultflatscale</b> (decimal)<br />
+		The scale of flats when no scale is known. This is a scalar value: 0.5 is half the original size and double the resolution. Default is 1.0.<br />
+		<br />
+		<b class="fat">scaledtextureoffsets</b> (boolean)<br />
+		Determines if texture offsets are in world coordinates (unscaled by texture scale) or texture coordinates. Set to <b>true</b> to use texture coordinates. Default is <b>false</b>.<br />
+		<br />
+		<b class="fat">textures</b> (structure)<br />
+		This lists the marker lump names that indicate the begin and end of a list of textures that Doom Builder should load. There must be a separate structure for each range, for which the structure name doesn't matter. The range must have a 'start' setting and an 'end' setting of which the values must be the names of the start and end lumps (strings). Please note that PNAMES, TEXTURE1 and TEXTURE2 lumps do not need to be in the game configuration, they are always loaded when available.<br />
+		<br />
+		Example:
+<pre>
+textures
+{
+	zdoom1
+	{
+		start = "TX_START";
+		end = "TX_END";
+	}
+}
+</pre>
+		<br />
+		<b class="fat">patches</b> (structure)<br />
+		This lists the marker lump names that indicate the begin and end of a list of patches that Doom Builder should load. There must be a separate structure for each range, for which the structure name doesn't matter. The range must have a 'start' setting and an 'end' setting of which the values must be the names of the start and end lumps (strings). Note that Doom Builder does not load all patches, only those that are used by the textures.<br />
+		<br />
+		Example:
+<pre>
+patches
+{
+	standard1
+	{
+		start = "P_START";
+		end = "P_END";
+	}
+	
+	standard2
+	{
+		start = "PP_START";
+		end = "PP_END";
+	}
+}
+</pre>
+		<br />
+		<b class="fat">sprites</b> (structure)<br />
+		This lists the marker lump names that indicate the begin and end of a list of sprites that Doom Builder should load. There must be a separate structure for each range, for which the structure name doesn't matter. The range must have a 'start' setting and an 'end' setting of which the values must be the names of the start and end lumps (strings). Note that Doom Builder does not load all sprites, only those that are used by the <a href="gc_thingsettings.cfg">things</a>.<br />
+		<br />
+		Example:
+<pre>
+sprites
+{
+	standard1
+	{
+		start = "S_START";
+		end = "S_END";
+	}
+}
+</pre>
+		<br />
+		<b class="fat">flats</b> (structure)<br />
+		This lists the marker lump names that indicate the begin and end of a list of flats that Doom Builder should load. There must be a separate structure for each range, for which the structure name doesn't matter. The range must have a 'start' setting and an 'end' setting of which the values must be the names of the start and end lumps (strings).<br />
+		<br />
+		Example:
+<pre>
+flats
+{
+	standard1
+	{
+		start = "F_START";
+		end = "F_END";
+	}
+}
+</pre>
+		<br />
+		<b class="fat">colormaps</b> (structure)<br />
+		This lists the marker lump names that indicate the begin and end of a list of colormaps that Doom Builder should load. There must be a separate structure for each range, for which the structure name doesn't matter. The range must have a 'start' setting and an 'end' setting of which the values must be the names of the start and end lumps (strings).<br />
+		<br />
+		Example:
+<pre>
+colormaps
+{
+	standard1
+	{
+		start = "C_START";
+		end = "C_END";
+	}
+}
+</pre>
+		<br />
+
+		
+	</p>
+	</div>
+</body>
