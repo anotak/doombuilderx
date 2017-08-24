@@ -29,6 +29,7 @@ doom builder 2 patch, "Doombuilder X" <-tentative name (?)
 - remood, doom legacy, and jdoom cfgs disabled (less clutter, improves loading times). to re-enable them, move them from '\Configurations\old' to '\Configurations'.
 - saving wad files with lumps in them unrelated to the current map should be around ~twice as fast
 - logging is moved into its own thread, improving performance. should particularly help ppl with slower hard drives.
+- significant speedups when drawing new geometry with a lot of vertices
 - other misc performance improvements
 - i've been having some issues compiling the visplane explorer plugin, so that isn't included for now :/
 - newer version of zdoom ACC included
