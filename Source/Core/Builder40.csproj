@@ -952,6 +952,9 @@
     <PostBuildEvent>xcopy "$(TargetDir)\..\..\data\*" "$(TargetDir)" /Y /E
 xcopy "$(TargetDir)\..\..\data40\*" "$(TargetDir)" /Y /E</PostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>rd /s /q "$(TargetDir)"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
