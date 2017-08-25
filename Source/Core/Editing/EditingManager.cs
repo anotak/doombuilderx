@@ -413,7 +413,14 @@ namespace CodeImp.DoomBuilder.Editing
 		public void ChangeMode(string classname, params object[] args)
 		{
 			EditModeInfo emi = GetEditModeInfo(classname);
-			if(emi != null) emi.SwitchToMode(args);
+            if (emi != null)
+            {
+                emi.SwitchToMode(args);
+            }
+            else
+            {
+                Logger.WriteLogLine("attempted to switch mode to unknown plugin: " + classname);
+            }
 		}
 
 		// This returns the type name as string
