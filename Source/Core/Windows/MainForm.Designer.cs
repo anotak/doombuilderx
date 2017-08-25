@@ -1498,7 +1498,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.modename.Name = "modename";
             this.modename.Size = new System.Drawing.Size(307, 73);
             this.modename.TabIndex = 4;
-            this.modename.Text = "Vertices";
+            this.modename.Text = "no mode selected? (plugins missing?)";
             this.modename.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.modename.UseMnemonic = false;
             this.modename.Visible = false;

@@ -92,6 +92,11 @@ namespace CodeImp.DoomBuilder.Editing
 			
 			// Bind any methods
 			General.Actions.BindMethods(this);
+
+            if (General.Plugins.Plugins.Count <= 0)
+            {
+                General.ErrorLogger.Add(ErrorType.Error, "There are no plugins!");
+            }
 			
 			// Make list of all editing modes we can find
 			foreach(Plugin p in General.Plugins.Plugins)
