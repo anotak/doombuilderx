@@ -455,7 +455,8 @@ namespace CodeImp.DoomBuilder.BuilderModes
 			
 			// Set cursor
 			General.Interface.SetCursor(Cursors.Cross);
-		}
+            General.Interface.DisplayStatus(StatusType.Info, "Drawing geometry! Hold shift to disable snap-to-grid, ctrl to disable snap-to-vertices, alt for 'pen mode'!");
+        }
 
 		// Disengaging
 		public override void OnDisengage()
