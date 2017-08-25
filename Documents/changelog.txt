@@ -40,6 +40,7 @@ doom builder 2 patch, "Doombuilder X" <-tentative name (?)
 - zokumbsp included
 - default textures changed to CRATOP1 / CRATE1 / CRATOP2
 - removed reject editor plugin because it's been causing crashes :/
+- more explicit error if there are no plugins found
 - removed system.xml and trackbar dependencies
 
 also included are these commits to the SVN version that aren't in the build on the db2 site, these are by codeimp and boris_i
