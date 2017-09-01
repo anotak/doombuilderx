@@ -46,6 +46,8 @@ namespace CodeImp.DoomBuilder.Windows
 			this.browsedir = new System.Windows.Forms.Button();
 			this.dirlocation = new System.Windows.Forms.TextBox();
 			this.pk3filetab = new System.Windows.Forms.TabPage();
+			this.pkelink = new System.Windows.Forms.LinkLabel();
+			this.label7 = new System.Windows.Forms.Label();
 			this.pk3link = new System.Windows.Forms.LinkLabel();
 			this.label4 = new System.Windows.Forms.Label();
 			this.browsepk3 = new System.Windows.Forms.Button();
@@ -88,15 +90,15 @@ namespace CodeImp.DoomBuilder.Windows
 			label3.AutoSize = true;
 			label3.Location = new System.Drawing.Point(15, 20);
 			label3.Name = "label3";
-			label3.Size = new System.Drawing.Size(98, 14);
+			label3.Size = new System.Drawing.Size(120, 14);
 			label3.TabIndex = 3;
-			label3.Text = "PK3 File Resource:";
+			label3.Text = "PK3/PKE File Resource:";
 			// 
 			// tabs
 			// 
-			this.tabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
-						| System.Windows.Forms.AnchorStyles.Right)));
+			this.tabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.tabs.Controls.Add(this.wadfiletab);
 			this.tabs.Controls.Add(this.directorytab);
 			this.tabs.Controls.Add(this.pk3filetab);
@@ -138,7 +140,7 @@ namespace CodeImp.DoomBuilder.Windows
 			this.strictpatches.AutoSize = true;
 			this.strictpatches.Location = new System.Drawing.Point(17, 72);
 			this.strictpatches.Name = "strictpatches";
-			this.strictpatches.Size = new System.Drawing.Size(298, 18);
+			this.strictpatches.Size = new System.Drawing.Size(297, 18);
 			this.strictpatches.TabIndex = 2;
 			this.strictpatches.Text = "Strictly load patches between P_START and P_END only";
 			this.strictpatches.UseVisualStyleBackColor = true;
@@ -192,7 +194,7 @@ namespace CodeImp.DoomBuilder.Windows
 			this.directorylink.LinkColor = System.Drawing.Color.Firebrick;
 			this.directorylink.Location = new System.Drawing.Point(14, 184);
 			this.directorylink.Name = "directorylink";
-			this.directorylink.Size = new System.Drawing.Size(311, 14);
+			this.directorylink.Size = new System.Drawing.Size(310, 14);
 			this.directorylink.TabIndex = 9;
 			this.directorylink.TabStop = true;
 			this.directorylink.Text = "http://www.zdoom.org/wiki/Using_ZIPs_as_WAD_replacement";
@@ -206,7 +208,7 @@ namespace CodeImp.DoomBuilder.Windows
 			this.label5.Size = new System.Drawing.Size(341, 49);
 			this.label5.TabIndex = 8;
 			this.label5.Text = "The directory may use the ZDoom PK3 directory structure, or you can choose to use" +
-				" the options above to load texture or flat images from the directory root.";
+    " the options above to load texture or flat images from the directory root.";
 			// 
 			// dir_flats
 			// 
@@ -251,6 +253,8 @@ namespace CodeImp.DoomBuilder.Windows
 			// 
 			// pk3filetab
 			// 
+			this.pk3filetab.Controls.Add(this.pkelink);
+			this.pk3filetab.Controls.Add(this.label7);
 			this.pk3filetab.Controls.Add(this.pk3link);
 			this.pk3filetab.Controls.Add(this.label4);
 			this.pk3filetab.Controls.Add(this.browsepk3);
@@ -261,8 +265,35 @@ namespace CodeImp.DoomBuilder.Windows
 			this.pk3filetab.Name = "pk3filetab";
 			this.pk3filetab.Size = new System.Drawing.Size(361, 215);
 			this.pk3filetab.TabIndex = 2;
-			this.pk3filetab.Text = "From PK3 File";
+			this.pk3filetab.Text = "From PK3/PKE";
 			this.pk3filetab.UseVisualStyleBackColor = true;
+			// 
+			// pkelink
+			// 
+			this.pkelink.ActiveLinkColor = System.Drawing.Color.Firebrick;
+			this.pkelink.AutoSize = true;
+			this.pkelink.DisabledLinkColor = System.Drawing.SystemColors.GrayText;
+			this.pkelink.LinkArea = new System.Windows.Forms.LinkArea(0, 55);
+			this.pkelink.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
+			this.pkelink.LinkColor = System.Drawing.Color.Firebrick;
+			this.pkelink.Location = new System.Drawing.Point(13, 166);
+			this.pkelink.Name = "pkelink";
+			this.pkelink.Size = new System.Drawing.Size(172, 18);
+			this.pkelink.TabIndex = 9;
+			this.pkelink.TabStop = true;
+			this.pkelink.Text = "http://eternity.youfailit.net/wiki/ZIP";
+			this.pkelink.UseCompatibleTextRendering = true;
+			this.pkelink.VisitedLinkColor = System.Drawing.Color.Firebrick;
+			this.pkelink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.link_Click);
+			// 
+			// label7
+			// 
+			this.label7.AutoSize = true;
+			this.label7.Location = new System.Drawing.Point(14, 138);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(331, 14);
+			this.label7.TabIndex = 8;
+			this.label7.Text = "The PKE file is expected to use the Eternity PKE directory structure.";
 			// 
 			// pk3link
 			// 
@@ -274,10 +305,11 @@ namespace CodeImp.DoomBuilder.Windows
 			this.pk3link.LinkColor = System.Drawing.Color.Firebrick;
 			this.pk3link.Location = new System.Drawing.Point(14, 111);
 			this.pk3link.Name = "pk3link";
-			this.pk3link.Size = new System.Drawing.Size(311, 14);
+			this.pk3link.Size = new System.Drawing.Size(322, 18);
 			this.pk3link.TabIndex = 7;
 			this.pk3link.TabStop = true;
-			this.pk3link.Text = "http://www.zdoom.org/wiki/Using_ZIPs_as_WAD_replacement";
+			this.pk3link.Text = "https://www.zdoom.org/wiki/Using_ZIPs_as_WAD_replacement";
+			this.pk3link.UseCompatibleTextRendering = true;
 			this.pk3link.VisitedLinkColor = System.Drawing.Color.Firebrick;
 			this.pk3link.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.link_Click);
 			// 
@@ -343,8 +375,8 @@ namespace CodeImp.DoomBuilder.Windows
 			// 
 			// pk3filedialog
 			// 
-			this.pk3filedialog.Filter = "Doom PK3 Files (*.pk3)|*.pk3";
-			this.pk3filedialog.Title = "Browse PK3 File";
+			this.pk3filedialog.Filter = "Doom PK3/PKE Files (*.pk3;*.pke)|*.pk3;*.pke";
+			this.pk3filedialog.Title = "Browse PK3/PKE File";
 			// 
 			// notfortesting
 			// 
@@ -373,7 +405,7 @@ namespace CodeImp.DoomBuilder.Windows
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "ResourceOptionsForm";
-			this.Opacity = 0;
+			this.Opacity = 0D;
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -417,5 +449,7 @@ namespace CodeImp.DoomBuilder.Windows
 		private System.Windows.Forms.CheckBox strictpatches;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.CheckBox notfortesting;
-	}
+        private System.Windows.Forms.LinkLabel pkelink;
+        private System.Windows.Forms.Label label7;
+    }
 }
