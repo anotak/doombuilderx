@@ -11,7 +11,7 @@ namespace CodeImp.DoomBuilder
     public class Logger
     {
         public static string logfile;
-        public static Queue<string> toLog;
+        private static Queue<string> toLog; // MUST ALWAYS LOCK WHEN YOU ACCESS THIS
         public static StringBuilder sb;
         public static bool bLogging = true;
         public static Thread loggerthread;
@@ -28,15 +28,33 @@ namespace CodeImp.DoomBuilder
 
         public static void StartLogging(string nlogfile)
         {
+            if (loggerthread != null)
+            {
+                throw new Exception("Logger thread already started!");
+            }
             logfile = nlogfile;
             toLog = new Queue<string>();
             sb = new StringBuilder(128);
-
             loggerthread = new Thread(new ThreadStart(LoggerThread));
             loggerthread.Name = "Logger";
             loggerthread.Priority = ThreadPriority.BelowNormal;
             //loggerthread.IsBackground = true;
             loggerthread.Start();
+        }
+
+        public static void WaitForBufferToClear()
+        {
+            while (!bFinished)
+            {
+                Thread.Sleep(30);
+                lock (toLog)
+                {
+                    if (toLog.Count <= 0)
+                    {
+                        return;
+                    }
+                }
+            }
         }
 
         public static void StopLogging()
@@ -46,9 +64,9 @@ namespace CodeImp.DoomBuilder
             int i = 0;
             while (!bFinished)
             {
-                Thread.Sleep(10);
+                Thread.Sleep(16);
                 i++;
-                if (i > 50) // 500 ms
+                if (i > 60) // a little under a second
                 {
                     return;
                 }
@@ -98,6 +116,7 @@ namespace CodeImp.DoomBuilder
                     Thread.Sleep(100);
                     if (!bLogging)
                     {
+                        Thread.Sleep(100);
                         lock (toLog)
                         {
                             if (toLog.Count == 0)
