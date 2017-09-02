@@ -34,22 +34,23 @@ namespace CodeImp.DoomBuilder.Controls
 {
 	public class RenderTargetControl : Panel
 	{
-		#region ================== Constants
+        #region ================== Constants
 
-		#endregion
+        #endregion
 
-		#region ================== Variables
+        #region ================== Variables
 
-		#endregion
+        #endregion
 
-		#region ================== Properties
+        #region ================== Properties
+        // relative
+        public Point RelativeMousePosition { get { return PointToClient(MousePosition); } }
+        #endregion
 
-		#endregion
+        #region ================== Constructor / Disposer
 
-		#region ================== Constructor / Disposer
-
-		// Constructor
-		internal RenderTargetControl()
+        // Constructor
+        internal RenderTargetControl()
 		{
 			// Initialize
 			this.SetStyle(ControlStyles.FixedWidth, true);

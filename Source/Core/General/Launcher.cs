@@ -233,9 +233,65 @@ namespace CodeImp.DoomBuilder
 		{
 			TestAtSkill(General.Map.ConfigSettings.TestSkill);
 		}
-		
-		// This saves the map to a temporary file and launches a test wit hthe given skill
-		public void TestAtSkill(int skill)
+
+        // ano
+        // This creates a new player at the mouse cursor, saves the map to a temporary file and launches a test
+        [BeginAction("testmaphere")]
+        public void TestHere()
+        {
+            Geometry.Vector2D pos = new Geometry.Vector2D();
+            if (pos.x < General.Map.Config.LeftBoundary || pos.x > General.Map.Config.RightBoundary ||
+                pos.y > General.Map.Config.TopBoundary || pos.y < General.Map.Config.BottomBoundary)
+            {
+                Logger.WriteLogLine("failed to start test at position due to odd position, testing in general");
+                TestAtSkill(General.Map.ConfigSettings.TestSkill);
+                return;
+            }
+
+            // Create thing
+            General.Map.UndoRedo.CreateUndo("Testing at position");
+            Map.Thing t = General.Map.Map.CreateThing();
+            if (t != null)
+            {
+                General.Settings.ApplyDefaultThingSettings(t);
+                t.Type = 1; // set to player FIXME TODO HARDCODED THIS SUX
+                t.UpdateConfiguration();
+
+                if (General.Map.Renderer2D != null && General.Map.Renderer2D is Rendering.Renderer2D && General.Editing.Mode is Editing.ClassicMode)
+                {
+                    Rendering.Renderer2D renderer2D = (Rendering.Renderer2D)General.Map.Renderer2D;
+                    if (renderer2D != null)
+                    {
+                        t.Move(renderer2D.DisplayToMap(
+                            new Geometry.Vector2D(
+                                General.MainWindow.Display.RelativeMousePosition.X,
+                                General.MainWindow.Display.RelativeMousePosition.Y
+                                )));
+                    }
+                }
+                else
+                {
+                    t.Move(General.Map.VisualCamera.Position);
+                    t.Rotate(General.Map.VisualCamera.AngleXY - Geometry.Angle2D.PI);
+                }
+                // Snap to map format accuracy
+                t.SnapToAccuracy();
+
+                TestAtSkill(General.Map.ConfigSettings.TestSkill);
+
+                General.Map.UndoRedo.WithdrawUndo();
+            }
+            else
+            {
+                General.Map.UndoRedo.WithdrawUndo();
+                Logger.WriteLogLine("failed to start test at position due to null t, testing in general");
+                TestAtSkill(General.Map.ConfigSettings.TestSkill);
+                return;
+            }
+        } // public void TestHere()
+
+        // This saves the map to a temporary file and launches a test wit hthe given skill
+        public void TestAtSkill(int skill)
 		{
 			Cursor oldcursor = Cursor.Current;
 			ProcessStartInfo processinfo;
