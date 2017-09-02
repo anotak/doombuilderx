@@ -82,6 +82,7 @@ namespace CodeImp.DoomBuilder
 		private ScriptEditorForm scriptwindow;
 		private List<CompilerError> errors;
 		private VisualCamera visualcamera;
+        private bool issaving;
 		
 		// Disposing
 		private bool isdisposed = false;
@@ -115,6 +116,7 @@ namespace CodeImp.DoomBuilder
 		internal ScriptEditorForm ScriptEditor { get { return scriptwindow; } }
 		public VisualCamera VisualCamera { get { return visualcamera; } set { visualcamera = value; } }
 		public bool IsScriptsWindowOpen { get { return (scriptwindow != null) && !scriptwindow.IsDisposed; } }
+        public bool IsSaving { get { return issaving; } }
 
         // ano - gzdb plugin interop
         public bool UDMF { get { return config.UDMF; } }
@@ -143,7 +145,8 @@ namespace CodeImp.DoomBuilder
 			launcher = new Launcher(this);
 			thingsfilter = new NullThingsFilter();
 			errors = new List<CompilerError>();
-		}
+            issaving = false;
+        }
 		
 		// Disposer
 		internal bool Dispose()
@@ -528,8 +531,11 @@ namespace CodeImp.DoomBuilder
 		}
 
 		// Initializes for an existing map
+        // ano - sets issaving to true, sets to false if it cleanly returns
+        // (for exception handling purposes)
 		internal bool SaveMap(string newfilepathname, SavePurpose purpose)
 		{
+            issaving = true;
 			string nodebuildername, settingsfile;
 			StatusInfo oldstatus;
 			WAD targetwad;
@@ -569,8 +575,12 @@ namespace CodeImp.DoomBuilder
 			// (not when only scripts have changed)
 			if(changed)
 			{
-				// Write the current map structures to the temp file
-				if(!WriteMapToTempFile()) return false;
+                // Write the current map structures to the temp file
+                if (!WriteMapToTempFile())
+                {
+                    issaving = false;
+                    return false;
+                }
 				
 				// Get the corresponding nodebuilder
 				nodebuildername = (purpose == SavePurpose.Testing) ? configinfo.NodebuilderTest : configinfo.NodebuilderSave;
@@ -658,6 +668,7 @@ namespace CodeImp.DoomBuilder
 				General.ShowErrorMessage("IO Error while writing target file: " + newfilepathname + ". Please make sure the location is accessible and not in use by another program.", MessageBoxButtons.OK);
 				data.Resume();
 				Logger.WriteLogLine("Map saving failed");
+                issaving = false;
 				return false;
 			}
 			catch(UnauthorizedAccessException)
@@ -665,6 +676,7 @@ namespace CodeImp.DoomBuilder
 				General.ShowErrorMessage("Error while accessing target file: " + newfilepathname + ". Please make sure the location is accessible and not in use by another program.", MessageBoxButtons.OK);
 				data.Resume();
 				Logger.WriteLogLine("Map saving failed");
+                issaving = false;
 				return false;
 			}
 			
@@ -730,11 +742,12 @@ namespace CodeImp.DoomBuilder
 				changed = false;
 				scriptschanged = false;
 			}
-			
+
+            issaving = false;
 			// Success!
 			Logger.WriteLogLine("Map saving done");
 			return success;
-		}
+		} // savemap
 		
 		#endregion
 

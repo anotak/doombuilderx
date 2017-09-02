@@ -122,7 +122,9 @@ namespace CodeImp.DoomBuilder
         private const string DB2_SETTINGS_FILE = "Builder.cfg";
         private const string SETTINGS_DIR = "Doom Builder";
 		private const string LOG_FILE = "BuilderX.log";
-		private const string GAME_CONFIGS_DIR = "Configurations";
+        private const string CRASH_LOG_FILE = "BuilderX-lastcrash.log";
+        private const string CRASH_SAVE_FILE = "crashbackup.wad";
+        private const string GAME_CONFIGS_DIR = "Configurations";
 		private const string COMPILERS_DIR = "Compilers";
 		private const string PLUGINS_DIR = "Plugins";
 		private const string SCRIPTS_DIR = "Scripting";
@@ -529,6 +531,47 @@ namespace CodeImp.DoomBuilder
         [STAThread]
         internal static void Main(string[] args)
         {
+            settingspath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), SETTINGS_DIR);
+            string logfile = Path.Combine(settingspath, LOG_FILE);
+            // Make program settings directory if missing
+            if (!Directory.Exists(settingspath)) Directory.CreateDirectory(settingspath);
+
+            // Remove the previous log file and start logging
+            Logger.StartLogging(logfile);
+
+            
+            // ano - shoutouts to MXD on this bit, our actual handlers are different tho
+#if DEBUG
+            debugbuild = true;
+            RealMain(args);
+#else
+            debugbuild = false;
+            //mxd. Custom exception dialog.
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+            Application.ThreadException += Application_ThreadException;
+
+            try {
+                RealMain(args);
+            }
+            catch(Exception e)
+            {
+                HandleException(e);
+            }
+#endif
+        }
+
+        // original entry
+        internal static void RealMain(string[] args)
+        {
+            settingspath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), SETTINGS_DIR);
+            string logfile = Path.Combine(settingspath, LOG_FILE);
+
+            // Make program settings directory if missing
+            if (!Directory.Exists(settingspath)) Directory.CreateDirectory(settingspath);
+
+            // Remove the previous log file and start logging
+            Logger.StartLogging(logfile);
+
             stopwatch = new Stopwatch();
             stopwatch.Start();
 
@@ -567,19 +610,13 @@ namespace CodeImp.DoomBuilder
 			// Setup directories
 			temppath = Path.GetTempPath();
 			setuppath = Path.Combine(apppath, SETUP_DIR);
-			settingspath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), SETTINGS_DIR);
-			configspath = Path.Combine(apppath, GAME_CONFIGS_DIR);
+            settingspath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), SETTINGS_DIR);
+            configspath = Path.Combine(apppath, GAME_CONFIGS_DIR);
 			compilerspath = Path.Combine(apppath, COMPILERS_DIR);
 			pluginspath = Path.Combine(apppath, PLUGINS_DIR);
 			scriptspath = Path.Combine(apppath, SCRIPTS_DIR);
 			spritespath = Path.Combine(apppath, SPRITES_DIR);
-			string logfile = Path.Combine(settingspath, LOG_FILE);
 			
-			// Make program settings directory if missing
-			if(!Directory.Exists(settingspath)) Directory.CreateDirectory(settingspath);
-
-            // Remove the previous log file and start logging
-            Logger.StartLogging(logfile);
 			Logger.WriteLogLine("Doom Builder " + thisversion.Major + "." + thisversion.Minor + " startup");
 			Logger.WriteLogLine("Application path:        " + apppath);
 			Logger.WriteLogLine("Temporary path:          " + temppath);
@@ -628,7 +665,7 @@ namespace CodeImp.DoomBuilder
 				// Initialize static classes
 				MapSet.Initialize();
 				ilInit();
-
+                
 				// Create main window
 				Logger.WriteLogLine("Loading main interface window...");
 				mainwindow = new MainForm();
@@ -1822,10 +1859,10 @@ namespace CodeImp.DoomBuilder
 			uint len = GetShortPathName(longpath, shortname, (uint)maxlen);
 			return shortname.ToString();
 		}
-		
-		#endregion
-		
-		/*
+
+        #endregion
+
+        /*
 		[BeginAction("testaction")]
 		internal static void TestAction()
 		{
@@ -1834,6 +1871,110 @@ namespace CodeImp.DoomBuilder
 			t.Dispose();
 		}
 		*/
-	}
+
+        // ano - general skeleton of this is same as some mxd's gzdb code,
+        // but content is just different.  we also don't try to keep running
+        // after an exception.
+        #region ==================  Uncaught exceptions handling
+        private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
+        {
+            HandleException(e.Exception);
+        }
+        
+        private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            HandleException((Exception)e.ExceptionObject);
+        }
+
+        private static void HandleException(Exception e)
+        {
+            bool bAttemptSave = Map != null && !Map.IsSaving;
+            string crashlogfile = Path.Combine(settingspath, CRASH_LOG_FILE);
+            string crashsavefile = Path.Combine(settingspath, CRASH_SAVE_FILE);
+            string errorMsg = "UNHAPPY ERROR :(\nyou should save the "
+                            + crashlogfile
+                            + " and post it at \nhttps://github.com/anotak/doombuilderx/issues\n--------------\n";
+            if (bAttemptSave)
+            {
+                errorMsg += "attempting to save map at " + crashsavefile + "\n";
+            }
+            if (e == null)
+            {
+                errorMsg += "bizarre null exception..\n";
+                Logger.WriteLogLine("extremely bizarre: null exception caught");
+            }
+            else
+            {
+                Logger.WriteLogLine("Exception: " + e.Message);
+
+                Logger.WriteLogLine("Exception: " + e.StackTrace);
+
+                int i = 1;
+                Exception a = e;
+                while (a.InnerException != null)
+                {
+                    a = a.InnerException;
+                    Logger.WriteLogLine("InnerException " + i + ": " + a.Message);
+
+                    Logger.WriteLogLine("InnerException " + i + ": " + a.StackTrace);
+                    i++;
+                }
+                errorMsg += e.Message + "\n";
+                errorMsg += e.StackTrace + "\n";
+            }
+            MessageBox.Show(errorMsg, "Exception!", MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Exclamation);
+
+            if (bAttemptSave)
+            {
+                try
+                {
+                    Logger.WriteLogLine("attempting to crash-save map to " + crashsavefile);
+                    Map.SaveMap(crashsavefile, SavePurpose.AsNewFile);
+                }
+                catch (Exception a)
+                {
+                    Logger.WriteLogLine("Crashsaving Exception: " + a.Message);
+                    Logger.WriteLogLine("Crashsaving Exception: " + a.StackTrace);
+                    int i = 1;
+                    while (a.InnerException != null)
+                    {
+                        a = a.InnerException;
+                        Logger.WriteLogLine("Crashsaving InnerException " + i + ": " + a.Message);
+
+                        Logger.WriteLogLine("Crashsaving InnerException " + i + ": " + a.StackTrace);
+                        i++;
+                    }
+
+                    MessageBox.Show("We're really sorry, trying to save the map also failed.",
+                        "Exception!", MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Exclamation);
+                }
+            }
+
+            try
+            {
+                File.Copy(Logger.logfile, crashlogfile);
+            }
+            catch (Exception a)
+            {
+                Logger.WriteLogLine("Crashlogging Exception: " + a.Message);
+                Logger.WriteLogLine("Crashlogging Exception: " + a.StackTrace);
+                int i = 1;
+                while (a.InnerException != null)
+                {
+                    a = a.InnerException;
+                    Logger.WriteLogLine("Crashlogging InnerException " + i + ": " + a.Message);
+
+                    Logger.WriteLogLine("Crashlogging InnerException " + i + ": " + a.StackTrace);
+                    i++;
+                }
+            }
+
+            // hasta la vista, baby
+            Terminate(false);
+        }
+
+        #endregion
+
+    }
 }
 
