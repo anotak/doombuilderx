@@ -43,6 +43,8 @@ doom builder 2 patch, "Doombuilder X" <-tentative name (?)
 - removed reject editor plugin because it's been causing crashes :/
 - more explicit error if there are no plugins found
 - removed system.xml and trackbar dependencies
+- new error / crashlog handler
+- actions can disregard the alt key (don't worry about it if you don't get it)
 - Allow Eternity .pke files to be used as resources (thanks to Altazimuth)
 
 also included are these commits to the SVN version that aren't in the build on the db2 site, these are by codeimp and boris_i
