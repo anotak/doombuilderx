@@ -569,9 +569,6 @@ namespace CodeImp.DoomBuilder
             // Make program settings directory if missing
             if (!Directory.Exists(settingspath)) Directory.CreateDirectory(settingspath);
 
-            // Remove the previous log file and start logging
-            Logger.StartLogging(logfile);
-
             stopwatch = new Stopwatch();
             stopwatch.Start();
 
@@ -1888,7 +1885,7 @@ namespace CodeImp.DoomBuilder
 
         private static void HandleException(Exception e)
         {
-            bool bAttemptSave = Map != null && !Map.IsSaving;
+            bool bAttemptSave = map != null && !map.IsSaving && !map.IsDisposed;
             string crashlogfile = Path.Combine(settingspath, CRASH_LOG_FILE);
             string crashsavefile = Path.Combine(settingspath, CRASH_SAVE_FILE);
             string errorMsg = "UNHAPPY ERROR :(\nyou should save the "
@@ -1898,6 +1895,7 @@ namespace CodeImp.DoomBuilder
             {
                 errorMsg += "attempting to save map at " + crashsavefile + "\n";
             }
+
             if (e == null)
             {
                 errorMsg += "bizarre null exception..\n";
@@ -1952,6 +1950,63 @@ namespace CodeImp.DoomBuilder
 
             try
             {
+                if (map != null && !map.IsDisposed)
+                {
+                    Logger.WriteLogLine("map info at crash time:::");
+                    Logger.WriteLogLine("filename: " + map.FilePathName);
+                    Logger.WriteLogLine("was saving?: " + map.IsSaving);
+                    Logger.WriteLogLine("UDMF: " + map.UDMF);
+                    Logger.WriteLogLine("config: " + map.ConfigSettings.Name + " ..... " + map.ConfigSettings.Filename);
+                    Logger.WriteLogLine("linecount: " + map.Map.Linedefs.Count);
+                    Logger.WriteLogLine("thingcount: " + map.Map.Things.Count);
+                    Logger.WriteLogLine("sectorcount: " + map.Map.Sectors.Count);
+                    Logger.WriteLogLine("sidedefcount: " + map.Map.Sidedefs.Count);
+                    if (General.Map.UndoRedo != null)
+                    {
+                        List<UndoSnapshot> snapshots = map.UndoRedo.GetUndoList();
+                        Logger.WriteLogLine("undo list:");
+                        foreach (UndoSnapshot s in snapshots)
+                        {
+                            Logger.WriteLogLine(s.Description);
+                        }
+                        Logger.WriteLogLine("-------------\nend undo list");
+                    }
+                    else
+                    {
+                        Logger.WriteLogLine("map.UndoRedo is null");
+                    }
+                }
+                else
+                {
+                    Logger.WriteLogLine("map is null or disposed at crash time");
+                }
+            }
+            catch (Exception a)
+            {
+                Logger.WriteLogLine("Crash Data Logging Exception: " + a.Message);
+                Logger.WriteLogLine("Crash Data Logging Exception: " + a.StackTrace);
+                int i = 1;
+                while (a.InnerException != null)
+                {
+                    a = a.InnerException;
+                    Logger.WriteLogLine("Crash Data Logging InnerException " + i + ": " + a.Message);
+
+                    Logger.WriteLogLine("Crash Data Logging InnerException " + i + ": " + a.StackTrace);
+                    i++;
+                }
+
+                MessageBox.Show("We're really sorry, trying to save the map also failed.",
+                    "Exception!", MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Exclamation);
+            }
+
+            Logger.WaitForBufferToClear();
+
+            try
+            {
+                if (File.Exists(crashlogfile))
+                {
+                    File.Delete(crashlogfile);
+                }
                 File.Copy(Logger.logfile, crashlogfile);
             }
             catch (Exception a)
