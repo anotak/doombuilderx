@@ -71,6 +71,12 @@ namespace CodeImp.DoomBuilder.Controls
 				this.displaytext = text + "\n" + icon.ScaledWidth + " x " + icon.ScaledHeight;
 			else
 				this.displaytext = text;
+
+            if (icon.bIsFlat)
+            {
+                this.displaytext += "*";
+            }
+
 			this.icon = icon;
 			this.Tag = tag;
 		}

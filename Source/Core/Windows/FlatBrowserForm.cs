@@ -115,10 +115,19 @@ namespace CodeImp.DoomBuilder.Windows
             }
 
             // Select the last one that was selected
-            string selectname = General.Settings.ReadSetting("browserwindow.textureset", "");
-			foreach(ListViewItem i in texturesets.Items)
+            // ano - renamed this from "selectname" because there's also a "selectedname"
+            // in scope and it's confusing
+            string cfgTextureSet = General.Settings.ReadSetting("browserwindow.textureset", "");
+
+            // ano - select flats box if we're on a mixflats/textures cfg and we're looking in "All"
+            if (!foundselecttexture && General.Map.Config.MixTexturesFlats && cfgTextureSet == "All")
+            {
+                cfgTextureSet = "Flats";
+            }
+
+            foreach (ListViewItem i in texturesets.Items)
 			{
-				if(i.Text == selectname)
+				if(i.Text == cfgTextureSet)
 				{
 					IFilledTextureSet set = (i.Tag as IFilledTextureSet);
 					foreach(ImageData img in set.Textures)
@@ -152,12 +161,12 @@ namespace CodeImp.DoomBuilder.Windows
 				}
 			}
 
-			// Texture still now found? Then just select the last used set
-			if(!foundselecttexture)
+            // Texture still now found? Then just select the last used set
+            if (!foundselecttexture)
 			{
 				foreach(ListViewItem i in texturesets.Items)
 				{
-					if(i.Text == selectname)
+					if(i.Text == cfgTextureSet)
 					{
 						i.Selected = true;
 						foundselecttexture = true;
@@ -166,10 +175,10 @@ namespace CodeImp.DoomBuilder.Windows
 				}
 			}
 
-			// WARNING: Some strange behavior of the listview here!
-			// When you leave this line out, the list becomes very slow.
-			// Also, this does not change the item selected previously.
-			texturesets.Items[0].Selected = true;
+            // WARNING: Some strange behavior of the listview here!
+            // When you leave this line out, the list becomes very slow.
+            // Also, this does not change the item selected previously.
+            texturesets.Items[0].Selected = true;
 
 			// Texture to select when list is filled
 			selecttextureonfill = selecttexture;
@@ -194,7 +203,6 @@ namespace CodeImp.DoomBuilder.Windows
 			if(this.WindowState == FormWindowState.Normal) this.StartPosition = FormStartPosition.CenterParent;
 			this.ResumeLayout(true);
             bStillLoading = false;
-            texturesets.Items[texturesets.Items.Count - 1].Selected = true;
         }
 		
 		// Selection changed

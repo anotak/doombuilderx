@@ -24,6 +24,7 @@ doom builder 2 patch, "Doombuilder X" <-tentative name (?)
 - error log does not show up in taskbar (matching behavior of other windows)
 - on the error log window, the "close" button is highlighted by default, letting you close it by hitting enter
 - texture browser opens faster, and draws faster for smoother scrolling. mild tradeoff: currently selected item is shown with a solid background, instead of a gradient
+- flats in texture browser have a * after
 - distant stuff in 3d visual mode is no longer obscured by fog. objects beyond the draw distance will "pop in", which may be mildly uglier, but more functional, as you get more draw distance with the same perfomance this way.
 - new-map dialogue window filled in with "MAP01" by default
 - configuration parser is faster -> program startup is faster

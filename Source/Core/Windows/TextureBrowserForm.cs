@@ -111,12 +111,21 @@ namespace CodeImp.DoomBuilder.Windows
                 item.SubItems.Add(General.Map.Data.WallsTextureSet.Textures.Count.ToString(),
                     item.ForeColor, item.BackColor, new Font(item.Font, FontStyle.Regular));
             }
-			
-			// Select the last one that was selected
-			string selectname = General.Settings.ReadSetting("browserwindow.textureset", "");
-			foreach(ListViewItem i in texturesets.Items)
+
+            // Select the last one that was selected
+            // ano - renamed this from "selectname" because there's also a "selectedname"
+            // in scope and it's confusing
+            string cfgTextureSet = General.Settings.ReadSetting("browserwindow.textureset", "");
+
+            // ano - select flats box if we're on a mixflats/textures cfg and we're looking in "All"
+            if (!foundselecttexture && General.Map.Config.MixTexturesFlats && cfgTextureSet == "All")
+            {
+                cfgTextureSet = "Textures";
+            }
+
+            foreach (ListViewItem i in texturesets.Items)
 			{
-				if(i.Text == selectname)
+				if(i.Text == cfgTextureSet)
 				{
 					IFilledTextureSet set = (i.Tag as IFilledTextureSet);
 					foreach(ImageData img in set.Textures)
@@ -156,7 +165,7 @@ namespace CodeImp.DoomBuilder.Windows
 			{
 				foreach(ListViewItem i in texturesets.Items)
 				{
-					if(i.Text == selectname)
+					if(i.Text == cfgTextureSet)
 					{
 						i.Selected = true;
 						foundselecttexture = true;
