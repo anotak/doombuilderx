@@ -51,6 +51,8 @@ namespace CodeImp.DoomBuilder.Controls
 
         private static Brush unselected_backcolor, unselected_forecolor;
 
+        private static StringBuilder sb = new StringBuilder(32);
+
         #endregion
 
         #region ================== Properties
@@ -67,17 +69,24 @@ namespace CodeImp.DoomBuilder.Controls
 		{
 			// Initialize
 			this.Text = text;
-			if(General.Settings.ShowTextureSizes)
-				this.displaytext = text + "\n" + icon.ScaledWidth + " x " + icon.ScaledHeight;
-			else
-				this.displaytext = text;
+            sb.Append(text);
+            if (General.Settings.ShowTextureSizes)
+            {
+                sb.Append('\n');
+                sb.Append(icon.ScaledWidth);
+                sb.Append(" x " );
+                sb.Append(icon.ScaledHeight);
+            }
 
             if (icon.bIsFlat)
             {
-                this.displaytext += "*";
+                sb.Append("*");
             }
+            this.displaytext = sb.ToString();
+            sb.Length = 0;
 
-			this.icon = icon;
+
+            this.icon = icon;
 			this.Tag = tag;
 		}
 		
