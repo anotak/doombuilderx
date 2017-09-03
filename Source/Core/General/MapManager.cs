@@ -322,10 +322,10 @@ namespace CodeImp.DoomBuilder
 			this.changed = false;
 			this.options = options;
 			
-			Logger.WriteLogLine("Opening map '" + options.CurrentName + "' with configuration '" + options.ConfigFile + "'");
+			Logger.WriteLogLine("InitializeOpenMap: Opening map '" + options.CurrentName + "' with configuration '" + options.ConfigFile + "'");
 
 			// Initiate graphics
-			Logger.WriteLogLine("Initializing graphics device...");
+			Logger.WriteLogLine("InitializeOpenMap: Initializing graphics device...");
 			graphics = new D3DDevice(General.MainWindow.Display);
 			if(!graphics.Initialize()) return false;
 
@@ -334,7 +334,7 @@ namespace CodeImp.DoomBuilder
 			renderer3d = new Renderer3D(graphics);
 
 			// Load game configuration
-			Logger.WriteLogLine("Loading game configuration...");
+			Logger.WriteLogLine("InitializeOpenMap: Loading game configuration...");
 			configinfo = General.GetConfigurationInfo(options.ConfigFile);
 			config = new GameConfiguration(General.LoadGameConfiguration(options.ConfigFile));
 			configinfo.ApplyDefaults(config);
@@ -345,7 +345,7 @@ namespace CodeImp.DoomBuilder
 			
 			// Create temp wadfile
 			tempfile = General.MakeTempFilename(temppath);
-			Logger.WriteLogLine("Creating temporary file: " + tempfile);
+			Logger.WriteLogLine("InitializeOpenMap: Creating temporary file: " + tempfile);
 			#if DEBUG
 				tempwad = new WAD(tempfile);
 			#else
@@ -358,7 +358,7 @@ namespace CodeImp.DoomBuilder
 			#endif
 			
 			// Now open the map file
-			Logger.WriteLogLine("Opening source file: " + filepathname);
+			Logger.WriteLogLine("InitializeOpenMap: Opening source file: " + filepathname);
 			#if DEBUG
 				mapwad = new WAD(filepathname, true);
 			#else
@@ -371,7 +371,7 @@ namespace CodeImp.DoomBuilder
 			#endif
 			
 			// Copy the map lumps to the temp file
-			Logger.WriteLogLine("Copying map lumps to temporary file...");
+			Logger.WriteLogLine("InitializeOpenMap: Copying map lumps to temporary file...");
 			CopyLumpsByType(mapwad, options.CurrentName, tempwad, TEMP_MAP_HEADER,
 							true, true, true, true);
 			
@@ -380,9 +380,9 @@ namespace CodeImp.DoomBuilder
 			
 			// Read the map from temp file
 			map.BeginAddRemove();
-			Logger.WriteLogLine("Initializing map format interface " + config.FormatInterface + "...");
+			Logger.WriteLogLine("InitializeOpenMap: Initializing map format interface " + config.FormatInterface + "...");
 			io = MapSetIO.Create(config.FormatInterface, tempwad, this);
-			Logger.WriteLogLine("Reading map data structures from file...");
+			Logger.WriteLogLine("InitializeOpenMap: Reading map data structures from file...");
 			#if DEBUG
 				map = io.Read(map, TEMP_MAP_HEADER);
 			#else
@@ -397,7 +397,7 @@ namespace CodeImp.DoomBuilder
 			map.EndAddRemove();
 			
 			// Load data manager
-			Logger.WriteLogLine("Loading data resources...");
+			Logger.WriteLogLine("InitializeOpenMap: Loading data resources...");
 			data = new DataManager();
 			maplocation = new DataLocation(DataLocation.RESOURCE_WAD, filepathname, options.StrictPatches, false, false);
 			data.Load(configinfo.Resources, options.Resources, maplocation);
@@ -426,7 +426,7 @@ namespace CodeImp.DoomBuilder
 			
 			// Success
 			this.changed = false;
-			Logger.WriteLogLine("Map loading done");
+			Logger.WriteLogLine("InitializeOpenMap: Map loading done");
 			return true;
 		}
 		
