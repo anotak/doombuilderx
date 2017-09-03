@@ -2253,7 +2253,11 @@ namespace CodeImp.DoomBuilder.Map
                     if (current.DistanceToSq(vertices[j].Position) <= joindist2)
                     {
                         bKeep = false;
-                        current.Join(vertices[j]);
+
+                        if (current != vertices[j])
+                        {
+                            current.Join(vertices[j]);
+                        }
                         break;
                     }
                 }
