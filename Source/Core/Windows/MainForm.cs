@@ -555,7 +555,7 @@ namespace CodeImp.DoomBuilder.Windows
 				// Close the map
 				if(General.CloseMap())
 				{
-					Logger.WriteLogLine("Closing main interface window...");
+					Logger.WriteLogLine("MainForm_FormClosing: Closing main interface window...");
 					
 					// Stop timers
 					statusflasher.Stop();

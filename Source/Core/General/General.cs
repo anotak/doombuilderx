@@ -614,7 +614,7 @@ namespace CodeImp.DoomBuilder
 			scriptspath = Path.Combine(apppath, SCRIPTS_DIR);
 			spritespath = Path.Combine(apppath, SPRITES_DIR);
 			
-			Logger.WriteLogLine("Doom Builder " + thisversion.Major + "." + thisversion.Minor + " startup");
+			Logger.WriteLogLine("DBX " + thisversion.Major + "." + thisversion.Minor + " startup");
 			Logger.WriteLogLine("Application path:        " + apppath);
 			Logger.WriteLogLine("Temporary path:          " + temppath);
 			Logger.WriteLogLine("Local settings path:     " + settingspath);
@@ -626,7 +626,7 @@ namespace CodeImp.DoomBuilder
 			ParseCommandLineArgs(args);
 			
 			// Load configuration
-			Logger.WriteLogLine("Loading program configuration...");
+			Logger.WriteLogLine("RealMain: Loading program configuration...");
 			settings = new ProgramConfiguration();
 			string defaultsettingsfile = Path.Combine(apppath, SETTINGS_FILE);
 			string usersettingsfile = nosettings ? defaultsettingsfile : Path.Combine(settingspath, SETTINGS_FILE);
@@ -638,12 +638,12 @@ namespace CodeImp.DoomBuilder
             {
                 try
                 {
-                    Logger.WriteLogLine("Missing cfg file but detected an old DB2 config, attempting to copy...");
+                    Logger.WriteLogLine("RealMain: Missing cfg file but detected an old DB2 config, attempting to copy...");
                     File.Copy(Path.Combine(settingspath, DB2_SETTINGS_FILE), usersettingsfile);
                 }
                 catch (Exception e)
                 {
-                    Logger.WriteLogLine("db2 config copy failed!");
+                    Logger.WriteLogLine("RealMain: db2 config copy failed!");
 
                 }
             }
@@ -664,7 +664,7 @@ namespace CodeImp.DoomBuilder
 				ilInit();
                 
 				// Create main window
-				Logger.WriteLogLine("Loading main interface window...");
+				Logger.WriteLogLine("RealMain: Loading main interface window...");
 				mainwindow = new MainForm();
 				mainwindow.SetupInterface();
 				mainwindow.UpdateInterface();
@@ -673,54 +673,54 @@ namespace CodeImp.DoomBuilder
 				if(!delaymainwindow)
 				{
 					// Show main window
-					Logger.WriteLogLine("Showing main interface window...");
+					Logger.WriteLogLine("RealMain: Showing main interface window...");
 					mainwindow.Show();
 					mainwindow.Update();
 				}
 				
 				// Start Direct3D
-				Logger.WriteLogLine("Starting Direct3D graphics driver...");
+				Logger.WriteLogLine("RealMain: Starting Direct3D driver");
 				try { D3DDevice.Startup(); }
 				catch(Direct3D9NotFoundException) { AskDownloadDirectX(); return; }
 				catch(Direct3DX9NotFoundException) { AskDownloadDirectX(); return; }
 				
 				// Load plugin manager
-				Logger.WriteLogLine("Loading plugins...");
+				Logger.WriteLogLine("RealMain: Loading plugins");
 				plugins = new PluginManager();
 				plugins.LoadAllPlugins();
 				
 				// Load game configurations
-				Logger.WriteLogLine("Loading game configurations...");
+				Logger.WriteLogLine("RealMain: Loading game cfg");
 				LoadAllGameConfigurations();
 
 				// Create editing modes
-				Logger.WriteLogLine("Creating editing modes manager...");
+				Logger.WriteLogLine("RealMain: Creating editing modes manager");
 				editing = new EditingManager();
 				
 				// Now that all settings have been combined (core & plugins) apply the defaults
-				Logger.WriteLogLine("Applying configuration settings...");
+				Logger.WriteLogLine("RealMain: Applying configuration settings...");
 				actions.ApplyDefaultShortcutKeys();
 				mainwindow.ApplyShortcutKeys();
 				foreach(ConfigurationInfo info in configs) info.ApplyDefaults(null);
 				
 				// Load compiler configurations
-				Logger.WriteLogLine("Loading compiler configurations...");
+				Logger.WriteLogLine("RealMain: Loading compiler configs...");
 				LoadAllCompilerConfigurations();
 
 				// Load nodebuilder configurations
-				Logger.WriteLogLine("Loading nodebuilder configurations...");
+				Logger.WriteLogLine("RealMain: Loading nodebuilder configs...");
 				LoadAllNodebuilderConfigurations();
 				
 				// Load script configurations
-				Logger.WriteLogLine("Loading script configurations...");
+				Logger.WriteLogLine("RealMain: Loading script configs...");
 				LoadAllScriptConfigurations();
 				
 				// Load color settings
-				Logger.WriteLogLine("Loading color settings...");
+				Logger.WriteLogLine("RealMain: Loading color settings...");
 				colors = new ColorCollection(settings.Config);
 				
 				// Create types manager
-				Logger.WriteLogLine("Creating types manager...");
+				Logger.WriteLogLine("RealMain: Creating types manager...");
 				types = new TypesManager();
 				
 				// Do auto map loading when window is delayed
@@ -728,7 +728,7 @@ namespace CodeImp.DoomBuilder
 					mainwindow.PerformAutoMapLoading();
 				
 				// All done
-				Logger.WriteLogLine("Startup done");
+				Logger.WriteLogLine("RealMain: Startup done\n-------------------\n");
 				mainwindow.DisplayReady();
 				
 				// Show any errors if preferred
@@ -959,7 +959,7 @@ namespace CodeImp.DoomBuilder
 			// Terminate properly?
 			if(properexit)
 			{
-				Logger.WriteLogLine("Termination requested");
+				Logger.WriteLogLine("Terminate: Termination requested");
 				
 				// Unbind static methods from actions
 				General.Actions.UnbindMethods(typeof(General));
@@ -976,7 +976,7 @@ namespace CodeImp.DoomBuilder
 				// Save settings configuration
 				if(!General.NoSettings)
 				{
-					Logger.WriteLogLine("Saving program configuration...");
+					Logger.WriteLogLine("Terminate: Saving program configuration...");
 					settings.Save(Path.Combine(settingspath, SETTINGS_FILE));
 				}
 				
@@ -990,7 +990,7 @@ namespace CodeImp.DoomBuilder
 				try { D3DDevice.Terminate(); } catch(Exception) { }
 
 				// Application ends right here. right now.
-				Logger.WriteLogLine("Termination done");
+				Logger.WriteLogLine("Terminate: Termination done");
                 Logger.bLogging = false;
                 Logger.StopLogging();
                 Application.Exit();
@@ -998,7 +998,7 @@ namespace CodeImp.DoomBuilder
 			else
 			{
 				// Just end now
-				Logger.WriteLogLine("Immediate program termination");
+				Logger.WriteLogLine("Terminate: Immediate program termination");
                 Logger.StopLogging();
                 Application.Exit();
 			}
@@ -1099,7 +1099,7 @@ namespace CodeImp.DoomBuilder
 			{
 				// Display status
 				mainwindow.DisplayStatus(StatusType.Busy, "Closing map...");
-				Logger.WriteLogLine("Unloading map...");
+				Logger.WriteLogLine("CloseMap: Unloading map...");
 				Cursor.Current = Cursors.WaitCursor;
 				
 				// Trash the current map
@@ -1121,7 +1121,7 @@ namespace CodeImp.DoomBuilder
 				mainwindow.UpdateThingsFilters();
 				mainwindow.UpdateInterface();
 				mainwindow.DisplayReady();
-				Logger.WriteLogLine("Map unload done");
+				Logger.WriteLogLine("CloseMap: Map unload done");
 				return true;
 			}
 			else

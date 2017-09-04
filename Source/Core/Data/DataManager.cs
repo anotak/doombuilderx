@@ -735,7 +735,7 @@ namespace CodeImp.DoomBuilder.Data
 							{
 								loadfinishtime = General.stopwatch.Elapsed.TotalMilliseconds;
 								double deltatimesec = (loadfinishtime - loadstarttime) / 1000.0d;
-								Logger.WriteLogLine("Resources loading took " + deltatimesec.ToString("########0.00") + " seconds");
+								Logger.WriteLogLine("BackgroundLoad: Resources loading took " + deltatimesec.ToString("########0.00") + " seconds");
 							}
 							
 							// Wait longer to release CPU resources
