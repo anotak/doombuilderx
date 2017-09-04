@@ -187,7 +187,6 @@ Global
 		{9F244231-6A0C-42A6-87C5-ED9620DEE096}.Profiling|Win32.ActiveCfg = Profiling|Any CPU
 		{9F244231-6A0C-42A6-87C5-ED9620DEE096}.Profiling|Win32.Build.0 = Profiling|Any CPU
 		{9F244231-6A0C-42A6-87C5-ED9620DEE096}.Profiling|x86.ActiveCfg = Profiling|Any CPU
-		{9F244231-6A0C-42A6-87C5-ED9620DEE096}.Profiling|x86.Build.0 = Profiling|Any CPU
 		{9F244231-6A0C-42A6-87C5-ED9620DEE096}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F244231-6A0C-42A6-87C5-ED9620DEE096}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9F244231-6A0C-42A6-87C5-ED9620DEE096}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
