@@ -3,6 +3,7 @@ based on code by CodeImp, MaxED, boris_i, ZZYZX
 ===================================================
 - new config file named builderx.cfg located in the %LOCALAPPDATA%\Doom Builder folder. it will attempt to copy your old builder.cfg on the first launch if the new file is missing.
 - fixed choppiness in 3d mode if computer has been on too long
+- you can set your own default textures, and even have them randomize on New Map. default textures changed to CRATOP1 / CRATE1 / CRATOP2
 - a basic EE-UDMF config partially based on the GZDB-BF one (thanks Altazimuth, Maxed, Printz, Zzyzx). on mouseover highlights portals like line/sector tags, and includes the new sector scroller properties.
 - hold alt while drawing geometry for "pen mode" (try it and you'll see)
 - moved the inefficient texture categorization for texture browser into background loading thread. you should be able to actually move around and do stuff while loading a wad with a lot of textures sooner now. the textures will take the same total time to actually load in as before though. ideally i'd replace this code completely, as threading it is just sort of moving the problem.
@@ -42,7 +43,6 @@ based on code by CodeImp, MaxED, boris_i, ZZYZX
 - new game cfg linedef action setting "highlightmatchinglineid", used for EE-UDMF type 301 Line_QuickPortal
 - changed titlebar text
 - zokumbsp included
-- default textures changed to CRATOP1 / CRATE1 / CRATOP2
 - removed reject editor plugin because it's been causing crashes :/
 - more explicit error if there are no plugins found
 - removed system.xml and trackbar dependencies
