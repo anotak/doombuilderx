@@ -1123,7 +1123,10 @@ namespace CodeImp.DoomBuilder.Windows
 
 				// Lock and hide the mouse in window
 				originalclip = Cursor.Clip;
-				Cursor.Clip = display.RectangleToScreen(display.ClientRectangle);
+                Rectangle cliprect = display.RectangleToScreen(display.ClientRectangle);
+                cliprect.Height--;
+                cliprect.Width--;
+                Cursor.Clip = cliprect;
 				Cursor.Hide();
 			}
 		}
