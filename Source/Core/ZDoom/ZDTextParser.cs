@@ -83,7 +83,17 @@ namespace CodeImp.DoomBuilder.ZDoom
 		// Returns false on errors
 		public virtual bool Parse(Stream stream, string sourcefilename)
 		{
-			datastream = stream;
+            if (stream == null)
+            {
+                General.ErrorLogger.Add(ErrorType.Error, "unable to open zdtext " + sourcefilename + " due to null ptr");
+                return false;
+            }
+            if (!stream.CanRead)
+            {
+                General.ErrorLogger.Add(ErrorType.Error, "unable to open zdtext " + sourcefilename + " due to unreadable stream");
+                return false;
+            }
+            datastream = stream;
 			datareader = new BinaryReader(stream, Encoding.ASCII);
 			sourcename = sourcefilename;
 			datastream.Seek(0, SeekOrigin.Begin);

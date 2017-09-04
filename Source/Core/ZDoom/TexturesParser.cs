@@ -80,7 +80,10 @@ namespace CodeImp.DoomBuilder.ZDoom
 		// Returns false on errors
 		public override bool Parse(Stream stream, string sourcefilename)
 		{
-			base.Parse(stream, sourcefilename);
+            if (!base.Parse(stream, sourcefilename))
+            {
+                return false;
+            }
 			
 			// Continue until at the end of the stream
 			while(SkipWhitespace(true))
