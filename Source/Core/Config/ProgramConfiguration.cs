@@ -527,11 +527,12 @@ namespace CodeImp.DoomBuilder.Config
 						}
 					}
 				}
-
+                /*
                 if (!foundone && randomizedefaultsectors)
                 {
                     General.Map.Data.TextureNames.Count;
                 }
+                */
 
                 // ano - look at savedefault
                 if (!foundone && (savedefaulttexture != null && !savedefaulttexture.StartsWith("-")))
