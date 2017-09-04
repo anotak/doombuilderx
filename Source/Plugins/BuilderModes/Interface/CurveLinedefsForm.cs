@@ -56,13 +56,14 @@ namespace CodeImp.DoomBuilder.BuilderModes
 		public float Angle { get { return Angle2D.DegToRad((float)-anglebar.Value); } }
 		public bool FixedCurve { get { return circular.Checked; } }
 		public bool Backwards { get { return backwards.Checked; } }
+        public bool SnapToGrid { get { return snaptogridBox.Checked; } }
 
-		#endregion
+        #endregion
 
-		#region ================== Constructor / Disposer
+        #region ================== Constructor / Disposer
 
-		// Constructor
-		public CurveLinedefsForm()
+        // Constructor
+        public CurveLinedefsForm()
 		{
 			// Initialize
 			InitializeComponent();
@@ -187,10 +188,15 @@ namespace CodeImp.DoomBuilder.BuilderModes
 		private void backwards_CheckedChanged(object sender, EventArgs e)
 		{
 			General.Interface.RedrawDisplay();
-		}
-		
-		// Cancel clicked
-		private void cancel_Click(object sender, EventArgs e)
+        }
+
+        private void snaptogridBox_CheckedChanged(object sender, EventArgs e)
+        {
+            General.Interface.RedrawDisplay();
+        }
+
+        // Cancel clicked
+        private void cancel_Click(object sender, EventArgs e)
 		{
 			// Cancel now
 			General.Editing.CancelMode();
@@ -207,7 +213,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 		{
 			General.ShowHelp("e_curvelinedefs.html");
 		}
-		
-		#endregion
-	}
+
+        #endregion
+    }
 }

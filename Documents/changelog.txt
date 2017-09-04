@@ -24,6 +24,7 @@ based on code by CodeImp, MaxED, boris_i, ZZYZX
 - on the error log window, the "close" button is highlighted by default, letting you close it by hitting enter
 - texture browser opens faster, and draws faster for smoother scrolling. mild tradeoff: currently selected item is shown with a solid background, instead of a gradient
 - flats in texture browser have a * after
+- curve linedefs window has a "snap to grid" option. careful about this, sometimes the grid makes it not-so-curvy
 - Allow Eternity .pke files to be used as resources (thanks to Altazimuth)
 - loading pk3/pke resources is significantly faster, but it will use more ram during loading. this ram is freed upon resource loading finishing though. this is a temporary fix until i switch over to sharpcompress for zip file functionality like how gzdb uses
 - distant stuff in 3d visual mode is no longer obscured by fog. objects beyond the draw distance will "pop in", which may be mildly uglier, but more functional, as you get more draw distance with the same perfomance this way.

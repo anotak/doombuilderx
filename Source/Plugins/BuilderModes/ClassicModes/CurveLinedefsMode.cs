@@ -98,6 +98,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 			float angle = BuilderPlug.Me.CurveLinedefsForm.Angle;
 			bool fixedcurve = BuilderPlug.Me.CurveLinedefsForm.FixedCurve;
 			bool backwards = BuilderPlug.Me.CurveLinedefsForm.Backwards;
+            bool snaptogrid = BuilderPlug.Me.CurveLinedefsForm.SnapToGrid;
 
 			// Make list
 			List<Vector2D> points = new List<Vector2D>(vertices);
@@ -144,7 +145,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
 				vertex = new Vector2D((float)x, (float)y).GetRotated(line.Angle + Angle2D.PIHALF);
 				vertex = vertex.GetTransformed(line.GetCenterPoint().x, line.GetCenterPoint().y, 1, 1);
 
-				points.Add(vertex);
+                if (snaptogrid)
+                {
+                    vertex = General.Map.Grid.SnappedToGrid(vertex);
+                }
+
+                points.Add(vertex);
 			}
 
 
