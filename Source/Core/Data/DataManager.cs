@@ -724,6 +724,12 @@ namespace CodeImp.DoomBuilder.Data
 						}
 						else
 						{
+                            foreach (DataReader reader in containers)
+                            {
+                                reader.EndLoading();
+                            }
+                            GC.Collect();
+
 							if(notifiedbusy)
 							{
 								notifiedbusy = false;

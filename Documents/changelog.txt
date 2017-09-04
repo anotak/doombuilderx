@@ -1,7 +1,6 @@
-DoomBuilder X
+DoomBuilder X 2.1.3.0
 based on code by CodeImp, MaxED, boris_i, ZZYZX
-
-doom builder 2 patch, "Doombuilder X" <-tentative name (?)
+===================================================
 - new config file named builderx.cfg located in the %LOCALAPPDATA%\Doom Builder folder. it will attempt to copy your old builder.cfg on the first launch if the new file is missing.
 - fixed choppiness in 3d mode if computer has been on too long
 - a basic EE-UDMF config partially based on the GZDB-BF one (thanks Altazimuth, Maxed, Printz, Zzyzx). on mouseover highlights portals like line/sector tags, and includes the new sector scroller properties.
@@ -25,6 +24,8 @@ doom builder 2 patch, "Doombuilder X" <-tentative name (?)
 - on the error log window, the "close" button is highlighted by default, letting you close it by hitting enter
 - texture browser opens faster, and draws faster for smoother scrolling. mild tradeoff: currently selected item is shown with a solid background, instead of a gradient
 - flats in texture browser have a * after
+- Allow Eternity .pke files to be used as resources (thanks to Altazimuth)
+- loading pk3/pke resources is significantly faster, but it will use more ram during loading. this ram is freed upon resource loading finishing though. this is a temporary fix until i switch over to sharpcompress for zip file functionality like how gzdb uses
 - distant stuff in 3d visual mode is no longer obscured by fog. objects beyond the draw distance will "pop in", which may be mildly uglier, but more functional, as you get more draw distance with the same perfomance this way.
 - new-map dialogue window filled in with "MAP01" by default
 - configuration parser is faster -> program startup is faster
@@ -46,7 +47,6 @@ doom builder 2 patch, "Doombuilder X" <-tentative name (?)
 - removed system.xml and trackbar dependencies
 - new error / crashlog handler
 - actions can disregard the alt key (don't worry about it if you don't get it)
-- Allow Eternity .pke files to be used as resources (thanks to Altazimuth)
 
 also included are these commits to the SVN version that aren't in the build on the db2 site, these are by codeimp and boris_i
 - Added Reject Editor plugin

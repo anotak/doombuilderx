@@ -93,6 +93,11 @@ namespace CodeImp.DoomBuilder.Data
 			issuspended = false;
 		}
 
+        // ano - let it know loading is over, sometimes useful to clear cached stuff
+        public virtual void EndLoading()
+        {
+        }
+
 		#endregion
 
 		#region ================== Palette
