@@ -97,20 +97,26 @@ namespace CodeImp.DoomBuilder.Config
 		
 		// These are not stored in the configuration, only used at runtime
 		private string defaulttexture;
-		private int defaultbrightness = 192;
+        private int defaultbrightness = 192;
 		private int defaultfloorheight = 0;
 		private int defaultceilheight = 128;
 		private string defaultfloortexture;
 		private string defaultceiltexture;
-		private int defaultthingtype = 1;
+        private int defaultthingtype = 1;
 		private float defaultthingangle = 0.0f;
 		private List<string> defaultthingflags;
-		
-		#endregion
 
-		#region ================== Properties
+        // ano - these do get saved
+        private string savedefaulttexture;
+        private string savedefaultfloortexture;
+        private string savedefaultceiltexture;
+        private bool randomizedefaultsectors;
 
-		internal Configuration Config { get { return cfg; } }
+        #endregion
+
+        #region ================== Properties
+
+        internal Configuration Config { get { return cfg; } }
 		//public int UndoLevels { get { return undolevels; } internal set { undolevels = value; } }
 		public bool BlackBrowsers { get { return blackbrowsers; } internal set { blackbrowsers = value; } }
 		public int VisualFOV { get { return visualfov; } internal set { visualfov = value; } }
@@ -179,12 +185,18 @@ namespace CodeImp.DoomBuilder.Config
 		public int DefaultThingType { get { return defaultthingtype; } set { defaultthingtype = value; } }
 		public float DefaultThingAngle { get { return defaultthingangle; } set { defaultthingangle = value; } }
 
-		#endregion
+        // ano - the one that actually gets saved
+        public string SaveDefaultTexture { get { return savedefaulttexture; } set { savedefaulttexture = value; } }
+        public string SaveDefaultFloorTexture { get { return savedefaultfloortexture; } set { savedefaultfloortexture = value; } }
+        public string SaveDefaultCeilingTexture { get { return savedefaultceiltexture; } set { savedefaultceiltexture = value; } }
+        public bool RandomizeDefaultSectors { get { return randomizedefaultsectors; } set { randomizedefaultsectors = value; } }
 
-		#region ================== Constructor / Disposer
+        #endregion
 
-		// Constructor
-		internal ProgramConfiguration()
+        #region ================== Constructor / Disposer
+
+        // Constructor
+        internal ProgramConfiguration()
 		{
 			// We have no destructor
 			GC.SuppressFinalize(this);
@@ -249,9 +261,15 @@ namespace CodeImp.DoomBuilder.Config
 				toolbarfile = cfg.ReadSetting("toolbarfile", true);
 				filteranisotropy = cfg.ReadSetting("filteranisotropy", 8.0f);
 				showtexturesizes = cfg.ReadSetting("showtexturesizes", true);
-				
-				// Success
-				return true;
+
+                // ano - the one that actually gets saved is different
+                savedefaulttexture = cfg.ReadSetting("defaulttexture", "CRATE1");
+                savedefaultfloortexture = cfg.ReadSetting("defaultfloortexture", "CRATOP2");
+                savedefaultceiltexture = cfg.ReadSetting("defaultceiltexture", "CRATOP1");
+                randomizedefaultsectors = cfg.ReadSetting("randomizedefaultsectors", false);
+
+                // Success
+                return true;
 			}
 			else
 			{
@@ -311,9 +329,15 @@ namespace CodeImp.DoomBuilder.Config
 			cfg.WriteSetting("toolbarfile", toolbarfile);
 			cfg.WriteSetting("filteranisotropy", filteranisotropy);
 			cfg.WriteSetting("showtexturesizes", showtexturesizes);
-			
-			// Save settings configuration
-			Logger.WriteLogLine("Saving program configuration...");
+
+            // ano - default textures
+            cfg.WriteSetting("defaulttexture", savedefaulttexture);
+            cfg.WriteSetting("defaultfloortexture", savedefaultfloortexture);
+            cfg.WriteSetting("defaultceiltexture", savedefaultceiltexture);
+            cfg.WriteSetting("randomizedefaultsectors", randomizedefaultsectors);
+
+            // Save settings configuration
+            Logger.WriteLogLine("Saving program configuration...");
 			cfg.SaveConfiguration(filepathname);
 		}
 		
@@ -503,13 +527,32 @@ namespace CodeImp.DoomBuilder.Config
 						}
 					}
 				}
+
+                if (!foundone && randomizedefaultsectors)
+                {
+                    General.Map.Data.TextureNames.Count;
+                }
+
+                // ano - look at savedefault
+                if (!foundone && (savedefaulttexture != null && !savedefaulttexture.StartsWith("-")))
+                {
+                    foreach (string s in General.Map.Data.TextureNames)
+                    {
+                        if (s.StartsWith(savedefaulttexture))
+                        {
+                            foundone = true;
+                            defaulttexture = s;
+                            break;
+                        }
+                    }
+                }
 				
 				// Not found yet?
 				if(!foundone)
 				{
 					// Pick the first STARTAN from the list.
 					// I love the STARTAN texture as default for some reason.
-                    // ano - changing it to FIREBLU1 so people realize there's an issue
+                    // ano - changing it to CRATE1 so people realize there's an issue
 					foreach(string s in General.Map.Data.TextureNames)
 					{
 						if(s.StartsWith("CRAT"))
@@ -547,10 +590,24 @@ namespace CodeImp.DoomBuilder.Config
 						}
 					}
 				}
-				
-				// Pick the first FLOOR from the list.
+
+                // ano - look at savedefault
+                if (!foundone && (savedefaultfloortexture != null && savedefaultfloortexture.Length != 0))
+                {
+                    foreach (string s in General.Map.Data.TextureNames)
+                    {
+                        if (s.StartsWith(savedefaultfloortexture))
+                        {
+                            foundone = true;
+                            defaultfloortexture = s;
+                            break;
+                        }
+                    }
+                }
+
+                // Pick the first FLOOR from the list.
                 // ano - changed
-				if(!foundone)
+                if (!foundone)
 				{
 					foreach(string s in General.Map.Data.FlatNames)
 					{
@@ -589,10 +646,24 @@ namespace CodeImp.DoomBuilder.Config
 						}
 					}
 				}
-				
-				// Pick the first CEIL from the list.
-                // ano - changed to CONS
-				if(!foundone)
+
+                // ano - look at savedefault
+                if (!foundone && (savedefaultceiltexture != null && savedefaultceiltexture.Length != 0))
+                {
+                    foreach (string s in General.Map.Data.TextureNames)
+                    {
+                        if (s.StartsWith(savedefaultceiltexture))
+                        {
+                            foundone = true;
+                            defaultceiltexture = s;
+                            break;
+                        }
+                    }
+                }
+
+                // Pick the first CEIL from the list.
+                // ano - changed to CRATOP
+                if (!foundone)
 				{
 					foreach(string s in General.Map.Data.FlatNames)
 					{

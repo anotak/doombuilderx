@@ -94,9 +94,15 @@ namespace CodeImp.DoomBuilder.Windows
 			toolbar_geometry.Checked = General.Settings.ToolbarGeometry;
 			toolbar_testing.Checked = General.Settings.ToolbarTesting;
 			showtexturesizes.Checked = General.Settings.ShowTextureSizes;
-			
-			// Fill fonts list
-			scriptfontname.BeginUpdate();
+
+            // ano - defaults tab
+            defaultTextureBox.Text = General.Settings.SaveDefaultTexture;
+            defaultFloorBox.Text = General.Settings.SaveDefaultFloorTexture;
+            defaultCeilingBox.Text = General.Settings.SaveDefaultCeilingTexture;
+            randomizedefaultsBox.Checked = General.Settings.RandomizeDefaultSectors;
+
+            // Fill fonts list
+            scriptfontname.BeginUpdate();
 			foreach(FontFamily ff in System.Drawing.FontFamily.Families)
 				scriptfontname.Items.Add(ff.Name);
 			scriptfontname.EndUpdate();
@@ -217,9 +223,15 @@ namespace CodeImp.DoomBuilder.Windows
 			General.Settings.ToolbarGeometry = toolbar_geometry.Checked;
 			General.Settings.ToolbarTesting = toolbar_testing.Checked;
 			General.Settings.ShowTextureSizes = showtexturesizes.Checked;
-			
-			// Script font size
-			int fontsize = 8;
+
+            // ano - defaults tab
+            General.Settings.SaveDefaultTexture = defaultTextureBox.Text;
+            General.Settings.SaveDefaultFloorTexture = defaultFloorBox.Text;
+            General.Settings.SaveDefaultCeilingTexture = defaultCeilingBox.Text;
+            General.Settings.RandomizeDefaultSectors = randomizedefaultsBox.Checked;
+
+            // Script font size
+            int fontsize = 8;
 			int.TryParse(scriptfontsize.Text, out fontsize);
 			General.Settings.ScriptFontSize = fontsize;
 			
@@ -749,8 +761,26 @@ namespace CodeImp.DoomBuilder.Windows
 				hlpevent.Handled = true;
 			}
 		}
-		
-		/*
+
+        #region ================== Defaults Panel
+        // ano
+        private void randomizedefaultsBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (randomizedefaultsBox.Checked)
+            {
+                defaultTextureBox.Enabled = false;
+                defaultFloorBox.Enabled = false;
+                defaultCeilingBox.Enabled = false;
+            }
+            else
+            {
+                defaultTextureBox.Enabled = true;
+                defaultFloorBox.Enabled = true;
+                defaultCeilingBox.Enabled = true;
+            }
+        }
+        #endregion
+        /*
 		// This writes all action help files using a template and some basic info from the actions.
 		// Also writes actioncontents.txt with all files to be inserted into Contents.hhc.
 		// Only used during development. Actual button to call this has been removed.
@@ -782,5 +812,5 @@ namespace CodeImp.DoomBuilder.Windows
 			File.WriteAllText(filename, contents.ToString());
 		}
 		*/
-	}
+    }
 }

@@ -192,6 +192,8 @@ namespace CodeImp.DoomBuilder
 		private static bool delaymainwindow;
 		private static bool nosettings;
 
+        private static Random random;
+
 		#endregion
 
 		#region ================== Properties
@@ -227,6 +229,8 @@ namespace CodeImp.DoomBuilder
 		public static bool NoSettings { get { return nosettings; } }
 		public static EditingManager Editing { get { return editing; } }
 		public static ErrorLogger ErrorLogger { get { return errorlogger; } }
+        // ano - having a global one is just better
+        public static Random Random { get { if (random == null) { random = new Random(); } return random; } }
 		
 		#endregion
 
@@ -1706,7 +1710,7 @@ namespace CodeImp.DoomBuilder
 		{
 			string filename;
 			string chars = "abcdefghijklmnopqrstuvwxyz1234567890";
-			Random rnd = new Random();
+			Random rnd = Random;
 			int i;
 
 			do
@@ -1728,8 +1732,8 @@ namespace CodeImp.DoomBuilder
 		{
 			string dirname;
 			const string chars = "abcdefghijklmnopqrstuvwxyz1234567890";
-			Random rnd = new Random();
-			int i;
+            Random rnd = Random;
+            int i;
 
 			do
 			{
