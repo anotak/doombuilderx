@@ -527,12 +527,36 @@ namespace CodeImp.DoomBuilder.Config
 						}
 					}
 				}
-                /*
+                
+                // ano - randomized
                 if (!foundone && randomizedefaultsectors)
                 {
-                    General.Map.Data.TextureNames.Count;
+                    // try to ignore the wolf textures
+                    int texturecount = General.Map.Data.OnlyTextureNames.IndexOf("ZDOORB1", 400); 
+
+                    if (texturecount < 0)
+                    {
+                        texturecount = General.Map.Data.OnlyTextureNames.Count;
+                    }
+                    defaulttexture = General.Map.Data.OnlyTextureNames[General.Random.Next(texturecount)];
+                    
+                    // try 1 reroll
+                    if (defaulttexture.StartsWith("SW") || defaulttexture.Contains("DOOR"))
+                    {
+                        defaulttexture = General.Map.Data.OnlyTextureNames[General.Random.Next(texturecount)];
+                    }
+                    defaultfloortexture = General.Map.Data.OnlyFlatNames[General.Random.Next(General.Map.Data.OnlyFlatNames.Count)];
+
+                    // try 1 reroll
+                    if (defaultfloortexture == "F_SKY1")
+                    {
+                        defaultfloortexture = General.Map.Data.OnlyFlatNames[General.Random.Next(General.Map.Data.OnlyFlatNames.Count)];
+                    }
+                    defaultceiltexture = General.Map.Data.OnlyFlatNames[General.Random.Next(General.Map.Data.OnlyFlatNames.Count)];
+                    defaultbrightness = General.Random.Next(0,20) * 8 + 96;
+                    defaultceilheight = General.Random.Next(0, 16) * 8 + 64;
+                    foundone = true;
                 }
-                */
 
                 // ano - look at savedefault
                 if (!foundone && (savedefaulttexture != null && !savedefaulttexture.StartsWith("-")))

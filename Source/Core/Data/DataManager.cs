@@ -57,10 +57,12 @@ namespace CodeImp.DoomBuilder.Data
 		// Textures, Flats and Sprites
 		private Dictionary<long, ImageData> textures;
 		private List<string> texturenames;
-		private Dictionary<long, ImageData> flats;
+        private List<string> onlytexturenames;
+        private Dictionary<long, ImageData> flats;
         private Dictionary<long, ImageData> flatsonly;
 		private List<string> flatnames;
-		private Dictionary<long, ImageData> sprites;
+        private List<string> onlyflatnames;
+        private Dictionary<long, ImageData> sprites;
 		private List<MatchingTextureSet> texturesets;
 		private List<ResourceTextureSet> resourcetextures;
 		private AllTextureSet alltextures;
@@ -110,8 +112,10 @@ namespace CodeImp.DoomBuilder.Data
 		public ICollection<ImageData> Textures { get { return textures.Values; } }
 		public ICollection<ImageData> Flats { get { return flats.Values; } }
 		public List<string> TextureNames { get { return texturenames; } }
-		public List<string> FlatNames { get { return flatnames; } }
-		public bool IsDisposed { get { return isdisposed; } }
+        public List<string> OnlyTextureNames { get { return onlytexturenames; } }
+        public List<string> FlatNames { get { return flatnames; } }
+        public List<string> OnlyFlatNames { get { return onlyflatnames; } }
+        public bool IsDisposed { get { return isdisposed; } }
 		public ImageData MissingTexture3D { get { return missingtexture3d; } }
 		public ImageData UnknownTexture3D { get { return unknowntexture3d; } }
 		public ImageData Hourglass3D { get { return hourglass3d; } }
@@ -312,12 +316,14 @@ namespace CodeImp.DoomBuilder.Data
 			
 			// Create collections
 			containers = new List<DataReader>();
-			textures = new Dictionary<long, ImageData>();
-			flats = new Dictionary<long, ImageData>();
+			textures = new Dictionary<long, ImageData>(256);
+			flats = new Dictionary<long, ImageData>(128);
 			sprites = new Dictionary<long, ImageData>();
-			texturenames = new List<string>();
-			flatnames = new List<string>();
-			imageque = new Queue<ImageData>();
+			texturenames = new List<string>(256);
+            onlytexturenames = new List<string>(256);
+            flatnames = new List<string>(128);
+            onlyflatnames = new List<string>(128);
+			imageque = new Queue<ImageData>(64);
 			previews = new PreviewManager();
 			texturesets = new List<MatchingTextureSet>();
 			usedimages = new Dictionary<long, long>();
@@ -389,7 +395,8 @@ namespace CodeImp.DoomBuilder.Data
 			{
 				textures.Add(t.Key, t.Value);
 				texturenames.Add(t.Value.Name);
-			}
+                onlytexturenames.Add(t.Value.Name);
+            }
 			
 			// Process textures
 			foreach(KeyValuePair<long, ImageData> t in texturesonly)
@@ -398,13 +405,15 @@ namespace CodeImp.DoomBuilder.Data
 				{
 					textures.Add(t.Key, t.Value);
 					texturenames.Add(t.Value.Name);
-				}
+                    onlytexturenames.Add(t.Value.Name);
+                }
 			}
 
 			// Process flats
 			foreach(KeyValuePair<long, ImageData> f in flatsonly)
 			{
 				flats.Add(f.Key, f.Value);
+                onlyflatnames.Add(f.Value.Name);
 				flatnames.Add(f.Value.Name);
 			}
 
@@ -438,7 +447,9 @@ namespace CodeImp.DoomBuilder.Data
 			
 			// Sort names
 			texturenames.Sort();
+            onlytexturenames.Sort();
 			flatnames.Sort();
+            onlyflatnames.Sort();
 
 			// Sort things
 			foreach(ThingCategory tc in thingcategories) tc.SortIfNeeded();
@@ -483,8 +494,10 @@ namespace CodeImp.DoomBuilder.Data
 			flats = null;
 			sprites = null;
 			texturenames = null;
-			flatnames = null;
-			imageque = null;
+            onlytexturenames = null;
+            flatnames = null;
+            onlyflatnames = null;
+            imageque = null;
 			internalsprites = null;
 		}
 		
