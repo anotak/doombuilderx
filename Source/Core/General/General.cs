@@ -1015,7 +1015,9 @@ namespace CodeImp.DoomBuilder
 		[BeginAction("newmap")]
 		internal static void NewMap()
 		{
-			MapOptions newoptions = new MapOptions();
+            Logger.WriteLogLine("-------------------\nNewMap()");
+
+            MapOptions newoptions = new MapOptions();
 			MapOptionsForm optionswindow;
 			
 			// Cancel volatile mode, if any
@@ -1099,7 +1101,7 @@ namespace CodeImp.DoomBuilder
 			{
 				// Display status
 				mainwindow.DisplayStatus(StatusType.Busy, "Closing map...");
-				Logger.WriteLogLine("CloseMap: Unloading map...");
+				Logger.WriteLogLine("-------------------\nCloseMap: Unloading map...");
 				Cursor.Current = Cursors.WaitCursor;
 				
 				// Trash the current map
@@ -1185,8 +1187,9 @@ namespace CodeImp.DoomBuilder
 		// This opens the specified file without dialog
 		internal static void OpenMapFileWithOptions(string filename, MapOptions options)
 		{
-			// Display status
-			mainwindow.DisplayStatus(StatusType.Busy, "Opening map file...");
+            Logger.WriteLogLine("-------------------\nOpenMapFileWithOptions()");
+            // Display status
+            mainwindow.DisplayStatus(StatusType.Busy, "Opening map file...");
 			Cursor.Current = Cursors.WaitCursor;
 
 			// Clear the display
@@ -1247,6 +1250,7 @@ namespace CodeImp.DoomBuilder
 		internal static void ActionSaveMap() { SaveMap(); }
 		internal static bool SaveMap()
 		{
+            Logger.WriteLogLine("SaveMap() called");
 			bool result = false;
 
 			if(map == null)
@@ -1305,6 +1309,7 @@ namespace CodeImp.DoomBuilder
 		internal static void ActionSaveMapAs() { SaveMapAs(); }
 		internal static bool SaveMapAs()
 		{
+            Logger.WriteLogLine("SaveMapAs() called");
 			SaveFileDialog savefile;
 			bool result = false;
 
@@ -1378,6 +1383,7 @@ namespace CodeImp.DoomBuilder
 		internal static void ActionSaveMapInto() { SaveMapInto(); }
 		internal static bool SaveMapInto()
 		{
+            Logger.WriteLogLine("SaveMapInto called");
 			SaveFileDialog savefile;
 			bool result = false;
 
@@ -1490,7 +1496,7 @@ namespace CodeImp.DoomBuilder
 		// This shows a major failure
 		public static void Fail(string message)
 		{
-			Logger.WriteLogLine("FAIL: " + message);
+			Logger.WriteLogLine("-------------------\nFAIL: " + message);
 			Debug.Fail(message);
 			Terminate(false);
 		}
