@@ -339,12 +339,13 @@ namespace CodeImp.DoomBuilder.Data
 				// Nothing chosen yet
 				c = null;
 
-				// TODO: Make this work more elegant using reflection.
-				// Make DataLocation.type of type Type and assign the
-				// types of the desired reader classes.
-
-				try
+                // TODO: Make this work more elegant using reflection.
+                // Make DataLocation.type of type Type and assign the
+                // types of the desired reader classes.
+#if !DEBUG
+                try
 				{
+#endif
 					// Choose container type
 					switch(dl.type)
 					{
@@ -363,6 +364,7 @@ namespace CodeImp.DoomBuilder.Data
 							c = new PK3Reader(dl);
 							break;
 					}
+#if !DEBUG
 				}
 				catch(Exception e)
 				{
@@ -371,6 +373,7 @@ namespace CodeImp.DoomBuilder.Data
 					Logger.WriteLogLine(e.StackTrace);
 					continue;
 				}	
+#endif
 
 				// Add container
 				if(c != null)
@@ -501,9 +504,9 @@ namespace CodeImp.DoomBuilder.Data
 			internalsprites = null;
 		}
 		
-		#endregion
+#endregion
 		
-		#region ================== Suspend / Resume
+#region ================== Suspend / Resume
 
 		// This suspends data resources
 		internal void Suspend()
@@ -544,9 +547,9 @@ namespace CodeImp.DoomBuilder.Data
 			StartBackgroundLoader();
 		}
 		
-		#endregion
+#endregion
 
-		#region ================== Background Loading
+#region ================== Background Loading
 		
 		// This starts background loading
 		private void StartBackgroundLoader()
@@ -817,9 +820,9 @@ namespace CodeImp.DoomBuilder.Data
 			}
 		}
 		
-		#endregion
+#endregion
 		
-		#region ================== Palette
+#region ================== Palette
 
 		// This loads the PLAYPAL palette
 		private void LoadPalette()
@@ -840,9 +843,9 @@ namespace CodeImp.DoomBuilder.Data
 			}
 		}
 
-		#endregion
+#endregion
 
-		#region ================== Colormaps
+#region ================== Colormaps
 
 		// This loads the colormaps
 		private int LoadColormaps(Dictionary<long, ImageData> list)
@@ -892,9 +895,9 @@ namespace CodeImp.DoomBuilder.Data
 			return null;
 		}
 
-		#endregion
+#endregion
 
-		#region ================== Textures
+#region ================== Textures
 
 		// This loads the textures
 		private int LoadTextures(Dictionary<long, ImageData> list)
@@ -1013,9 +1016,9 @@ namespace CodeImp.DoomBuilder.Data
 			}
 		}
 		
-		#endregion
+#endregion
 
-		#region ================== Flats
+#region ================== Flats
 
 		// This loads the flats
 		private int LoadFlats(Dictionary<long, ImageData> list)
@@ -1109,9 +1112,9 @@ namespace CodeImp.DoomBuilder.Data
 			return flats[longname];
 		}
 		
-		#endregion
+#endregion
 
-		#region ================== Sprites
+#region ================== Sprites
 
 		// This loads the hard defined sprites (not all the lumps, we do that on a need-to-know basis, see LoadThingSprites)
 		private int LoadSprites()
@@ -1311,9 +1314,9 @@ namespace CodeImp.DoomBuilder.Data
 			}
 		}
 		
-		#endregion
+#endregion
 
-		#region ================== Things
+#region ================== Things
 		
 		// This loads the things from Decorate
 		private int LoadDecorateThings()
@@ -1458,9 +1461,9 @@ namespace CodeImp.DoomBuilder.Data
 			}
 		}
 		
-		#endregion
+#endregion
 		
-		#region ================== Tools
+#region ================== Tools
 
 		/// <summary>
 		/// This finds the first IWAD resource.
@@ -1526,6 +1529,6 @@ namespace CodeImp.DoomBuilder.Data
 			return Lump.MakeLongName(name);
 		}
 		
-		#endregion
+#endregion
 	}
 }

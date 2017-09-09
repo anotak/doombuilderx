@@ -70,7 +70,7 @@ namespace CodeImp.DoomBuilder.Plugins
 			string shortfilename = Path.GetFileName(filename).ToLowerInvariant();
 			name = Path.GetFileNameWithoutExtension(filename);
 
-            if (shortfilename.Equals("slimdx.dll") || shortfilename.Equals("trackbar.dll") || shortfilename.Equals("sharpzip.dll"))
+            if (shortfilename.Equals("slimdx.dll") || shortfilename.Equals("trackbar.dll") || shortfilename.Equals("sharpcompress.dll"))
             {
                 throw new InvalidProgramException();
             }

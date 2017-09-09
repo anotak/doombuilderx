@@ -139,6 +139,7 @@
     <Compile Include="Data\FileImage.cs" />
     <Compile Include="Data\FlatImage.cs" />
     <Compile Include="Data\ImageLoadState.cs" />
+    <Compile Include="Data\SharpCompressHelper.cs" />
     <Compile Include="Data\UnknownImage.cs" />
     <Compile Include="Data\PatchNames.cs" />
     <Compile Include="Data\PK3Reader.cs" />
@@ -516,9 +517,9 @@
     <Compile Include="Rendering\WorldVertex.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Sharpzip, Version=0.85.2.329, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\data\Sharpzip.dll</HintPath>
+    <Reference Include="SharpCompress, Version=0.18.1.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SharpCompress.0.18.1\lib\net35\SharpCompress.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="SlimDX, Version=2.0.13.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=x86">
       <Private>True</Private>
@@ -560,6 +561,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\MissingTexture.png" />
     <None Include="Resources\UnknownImage.png" />
     <None Include="Resources\treeview.png" />

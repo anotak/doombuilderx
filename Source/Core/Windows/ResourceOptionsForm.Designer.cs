@@ -124,7 +124,7 @@ namespace CodeImp.DoomBuilder.Windows
 			this.wadfiletab.Padding = new System.Windows.Forms.Padding(3);
 			this.wadfiletab.Size = new System.Drawing.Size(361, 215);
 			this.wadfiletab.TabIndex = 0;
-			this.wadfiletab.Text = "From WAD File";
+			this.wadfiletab.Text = "WAD";
 			this.wadfiletab.UseVisualStyleBackColor = true;
 			// 
 			// label6
@@ -181,7 +181,7 @@ namespace CodeImp.DoomBuilder.Windows
 			this.directorytab.Padding = new System.Windows.Forms.Padding(3);
 			this.directorytab.Size = new System.Drawing.Size(361, 215);
 			this.directorytab.TabIndex = 1;
-			this.directorytab.Text = "From Directory";
+			this.directorytab.Text = "Directory";
 			this.directorytab.UseVisualStyleBackColor = true;
 			// 
 			// directorylink
@@ -265,7 +265,7 @@ namespace CodeImp.DoomBuilder.Windows
 			this.pk3filetab.Name = "pk3filetab";
 			this.pk3filetab.Size = new System.Drawing.Size(361, 215);
 			this.pk3filetab.TabIndex = 2;
-			this.pk3filetab.Text = "From PK3/PKE";
+			this.pk3filetab.Text = "PK3/PKE";
 			this.pk3filetab.UseVisualStyleBackColor = true;
 			// 
 			// pkelink

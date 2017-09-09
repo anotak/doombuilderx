@@ -25,7 +25,11 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using CodeImp.DoomBuilder.IO;
-using ICSharpCode.SharpZipLib.Zip;
+
+// ano - switching to sharpcompress like gzdb. based on some mxd code
+using SharpCompress.Archives;
+using SharpCompress.Common;
+using SharpCompress.Readers;
 
 #endregion
 
@@ -36,8 +40,9 @@ namespace CodeImp.DoomBuilder.Data
         #region ================== Variables
 
         private DirectoryFilesList files;
-        private Dictionary<string, MemoryStream> cache;
-        private Dictionary<string, int> accesscount_cache;
+        private IArchive archive; //mxd
+        // ano - changed slightly from gzdb behavior but used for cleanup
+        private bool bathmode = true; //mxd
 
         #endregion
 
@@ -51,28 +56,28 @@ namespace CodeImp.DoomBuilder.Data
             if (!File.Exists(location.location))
                 throw new FileNotFoundException("Could not find the file \"" + location.location + "\"", location.location);
 
-            cache = new Dictionary<string, MemoryStream>();
-            accesscount_cache = new Dictionary<string, int>();
-            // Open the zip file
-            ZipInputStream zipstream = OpenPK3File();
-
             // Make list of all files
             List<DirectoryFileEntry> fileentries = new List<DirectoryFileEntry>();
-            ZipEntry entry = zipstream.GetNextEntry();
-            while (entry != null)
-            {
-                if (entry.IsFile) fileentries.Add(new DirectoryFileEntry(entry.Name));
 
-                // Next
-                entry = zipstream.GetNextEntry();
+            ReaderOptions options = new ReaderOptions();
+            options.LeaveStreamOpen = true;
+
+            // Create archive
+            archive = ArchiveFactory.Open(location.location, options);
+            
+            foreach (IArchiveEntry entry in archive.Entries)
+            {
+                if (!entry.IsDirectory && CheckInvalidPathChars(entry.Key))
+                    fileentries.Add(new DirectoryFileEntry(entry.Key));
             }
+
+            // Get rid of archive
+            archive.Dispose();
+            archive = null;
+
 
             // Make files list
             files = new DirectoryFilesList(fileentries);
-
-            // Done with the zip file
-            zipstream.Close();
-            zipstream.Dispose();
 
             // Initialize without path (because we use paths relative to the PK3 file)
             Initialize();
@@ -97,19 +102,10 @@ namespace CodeImp.DoomBuilder.Data
         #endregion
 
         #region ================== Management
-
-        // This opens the zip file for reading
-        private ZipInputStream OpenPK3File()
-        {
-            FileStream filestream = File.Open(location.location, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            filestream.Seek(0, SeekOrigin.Begin);
-            return new ZipInputStream(filestream);
-        }
-
+        
         public override void EndLoading()
         {
-            cache.Clear();
-            accesscount_cache.Clear();
+            UpdateArchive(false);
             base.EndLoading();
         }
 
@@ -277,6 +273,31 @@ namespace CodeImp.DoomBuilder.Data
             }
         }
 
+        // ano - modified bc we dont have DisplayNames
+        //mxd. This replicates System.IO.Path.CheckInvalidPathChars() internal function
+        private bool CheckInvalidPathChars(string path)
+        {
+            foreach (char c in path)
+            {
+                int num = c;
+                switch (num)
+                {
+                    case 34:
+                    case 60:
+                    case 62:
+                    case 124:
+                        General.ErrorLogger.Add(ErrorType.Error, "Error in \"" + location.location + "\": unsupported character \"" + c + "\" in path \"" + path + "\". File loading was skipped.");
+                        return false;
+
+                    default:
+                        if (num >= 32) continue;
+                        else goto case 34;
+                }
+            }
+
+            return true;
+        }
+
         // This returns true if the specified file exists
         protected override bool FileExists(string filename)
         {
@@ -322,109 +343,58 @@ namespace CodeImp.DoomBuilder.Data
             return files.GetFirstFile(path, title, subfolders, ext);
         }
 
+        //mxd
+        private void UpdateArchive(bool enable)
+        {
+            if (enable && archive == null)
+            {
+                archive = ArchiveFactory.Open(location.location);
+            }
+            else if (!enable && !bathmode && archive != null)
+            {
+                archive.Dispose();
+                archive = null;
+            }
+        }
+
         // This loads an entire file in memory and returns the stream
         // NOTE: Callers are responsible for disposing the stream!
         protected override MemoryStream LoadFile(string filename)
         {
             MemoryStream filedata = null;
-            byte[] copybuffer = new byte[4096];
+            string fn = filename.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar); //mxd
 
-            filename = filename.ToLowerInvariant();
-
-            if (cache.ContainsKey(filename))
+            
+            lock (this)
             {
-                filedata = cache[filename];
-                cache.Remove(filename);
-                if (filedata.CanRead)
-                {
-                    int accesscount = accesscount_cache[filename] + 1;
-                    accesscount_cache[filename] = accesscount;
-                    return filedata;
-                }
-                else
-                {
-                    // been disposed
-                    filedata = null;
-                }
-            }
+                UpdateArchive(true);
 
-            // Open the zip file
-            ZipInputStream zipstream = OpenPK3File();
-
-            ZipEntry entry = zipstream.GetNextEntry();
-            while (entry != null)
-            {
-                if (entry.IsFile)
+                foreach (var entry in archive.Entries)
                 {
-                    string entryname = entry.Name.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar).ToLowerInvariant();
+                    if (entry.IsDirectory) continue;
 
                     // Is this the entry we are looking for?
-                    if (!cache.ContainsKey(entryname))
+                    if (string.Compare(entry.Key, fn, true) == 0)
                     {
-                        int expectedsize = (int)entry.Size;
-                        if (expectedsize < 1) expectedsize = 1024;
-
-                        if (entryname != filename)
-                        {
-                            if (expectedsize >= 32768 // 2^16 >~65 kb
-                                || accesscount_cache.ContainsKey(entryname) // already accessed
-                                || entryname.StartsWith("sound")
-                                || entryname.StartsWith("sprite")
-                                || entryname.StartsWith("music")
-                                || entryname.StartsWith("acs")
-                                || entryname.StartsWith("graphics")
-                                || entryname.StartsWith("maps")
-                                || entryname.EndsWith(".mp3")
-                                || entryname.EndsWith(".wad")
-                                || entryname.EndsWith(".wav")
-                                || entryname.EndsWith(".txt")
-                                )
-                            {
-                                // Next
-                                entry = zipstream.GetNextEntry();
-                                continue;
-                            }
-                        }
-
-                        filedata = new MemoryStream(expectedsize);
-                        int readsize = zipstream.Read(copybuffer, 0, copybuffer.Length);
-                        while (readsize > 0)
-                        {
-                            filedata.Write(copybuffer, 0, readsize);
-                            readsize = zipstream.Read(copybuffer, 0, copybuffer.Length);
-                        }
-
-                        cache.Add(entryname, filedata);
-                        if (!accesscount_cache.ContainsKey(entryname))
-                        {
-                            accesscount_cache.Add(entryname, 0);
-                        }
-
-                        if (entryname == filename)
-                        {
-                            accesscount_cache[entryname]++;
-                            break;
-                        }
+                        filedata = new MemoryStream();
+                        entry.WriteTo(filedata);
+                        break;
                     }
                 }
 
-                // Next
-                entry = zipstream.GetNextEntry();
+                UpdateArchive(false);
             }
-
-            // Done with the zip file
-            zipstream.Close();
-            zipstream.Dispose();
 
             // Nothing found?
             if (filedata == null)
             {
-                throw new FileNotFoundException("Cannot find the file " + filename + " in PK3 file " + location.location + ".");
+                //mxd
+                General.ErrorLogger.Add(ErrorType.Error, "Cannot find the file \"" + filename + "\" in archive \"" + location.location + "\".");
+                return null;
             }
-            else
-            {
-                return filedata;
-            }
+
+            filedata.Position = 0; //mxd. rewind before use
+            return filedata;
         }
 
         // This creates a temp file for the speciied file and return the absolute path to the temp file

@@ -143,7 +143,7 @@ namespace CodeImp.DoomBuilder.Windows
 					   (!File.Exists(pk3location.Text)))
 					{
 						// No valid pk3 file specified
-						MessageBox.Show(this, "Please select a valid PK3 File resource.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+						MessageBox.Show(this, "Please select a valid PK3/PKE File resource.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
 					}
 					else
 					{
