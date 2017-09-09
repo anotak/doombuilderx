@@ -281,6 +281,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 highlightasso.Set(0, 0);
                 for (int i = 0; i < NUM_PORTAL_ASSOCIATIONS; i++)
                 {
+                    if (portalasso[i].type != 0)
+                    {
+                        completeredraw = true;
+                    }
                     portalasso[i].Set(0, 0);
                 }
             }
