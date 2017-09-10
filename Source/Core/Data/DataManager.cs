@@ -63,6 +63,7 @@ namespace CodeImp.DoomBuilder.Data
 		private List<string> flatnames;
         private List<string> onlyflatnames;
         private Dictionary<long, ImageData> sprites;
+        private bool bTextureSetsLoading;
 		private List<MatchingTextureSet> texturesets;
 		private List<ResourceTextureSet> resourcetextures;
 		private AllTextureSet alltextures;
@@ -126,7 +127,7 @@ namespace CodeImp.DoomBuilder.Data
 		public List<ThingCategory> ThingCategories { get { return thingcategories; } }
 		public ICollection<ThingTypeInfo> ThingTypes { get { return thingtypes.Values; } }
 		public DecorateParser Decorate { get { return decorate; } }
-		internal ICollection<MatchingTextureSet> TextureSets { get { return texturesets; } }
+		internal ICollection<MatchingTextureSet> TextureSets { get { while (bTextureSetsLoading) { Thread.Sleep(1); } return texturesets; } }
 		internal ICollection<ResourceTextureSet> ResourceTextureSets { get { return resourcetextures; } }
         // since we initialize this in the bg loading thread now gotta make sure null access doesn't happen
 		internal AllTextureSet AllTextureSet { get { while (alltextures == null) { Thread.SpinWait(5); }; return alltextures; } }
@@ -325,6 +326,7 @@ namespace CodeImp.DoomBuilder.Data
             onlyflatnames = new List<string>(128);
 			imageque = new Queue<ImageData>(64);
 			previews = new PreviewManager();
+            bTextureSetsLoading = true;
 			texturesets = new List<MatchingTextureSet>();
 			usedimages = new Dictionary<long, long>();
 			internalsprites = new Dictionary<string, ImageData>();
@@ -471,7 +473,7 @@ namespace CodeImp.DoomBuilder.Data
 		internal void Unload()
 		{
 			// Stop background loader
-			StopBackgroundLoader();
+			StopBackgroundLoader(2000);
 			
 			// Dispose preview manager
 			previews.Dispose();
@@ -571,7 +573,8 @@ namespace CodeImp.DoomBuilder.Data
 		}
 		
 		// This stops background loading
-		private void StopBackgroundLoader()
+        // ano - will wait maxJoinTime to prevent complete hang
+		private void StopBackgroundLoader(int maxJoinTime = 10000)
 		{
 			ImageData img;
 			
@@ -580,7 +583,7 @@ namespace CodeImp.DoomBuilder.Data
 			{
 				// Stop the thread and wait for it to end
 				backgroundloader.Interrupt();
-				backgroundloader.Join();
+				backgroundloader.Join(maxJoinTime);
 
 				// Reset load states on all images in the list
 				while(imageque.Count > 0)
@@ -622,6 +625,7 @@ namespace CodeImp.DoomBuilder.Data
 		{
 			try
 			{
+                bTextureSetsLoading = true;
                 // Load texture sets
                 if (texturesets.Count < 1)
                 {
@@ -646,15 +650,18 @@ namespace CodeImp.DoomBuilder.Data
                     wallstextures = new FlatsWallsTextureSet();
                     wallstextures.Name = "Textures";
 
+                    TextureCategorizer tc = new TextureCategorizer(texturesets);
                     // Add texture names to texture sets
                     foreach (KeyValuePair<long, ImageData> img in textures)
                     {
                         // Add to all sets where it matches
-                        bool matchfound = false;
-
                         ImageData value = img.Value;
+                        tc.PlaceInSets(value, true);
+                        /*
                         foreach (MatchingTextureSet ms in texturesets)
                             matchfound |= ms.AddTexture(value);
+                            */
+                            
 
                         if (General.Map.Config.MixTexturesFlats && !value.bIsFlat)
                         {
@@ -668,11 +675,8 @@ namespace CodeImp.DoomBuilder.Data
                     foreach (KeyValuePair<long, ImageData> img in flats)
                     {
                         // Add to all sets where it matches
-                        bool matchfound = false;
-
                         ImageData value = img.Value;
-                        foreach (MatchingTextureSet ms in texturesets)
-                            matchfound |= ms.AddFlat(value);
+                        tc.PlaceInSets(value, false);
 
                         if (General.Map.Config.MixTexturesFlats && value.bIsFlat)
                         {
@@ -681,7 +685,8 @@ namespace CodeImp.DoomBuilder.Data
                         // Add to all
                         alltextures.AddFlat(value);
                     }
-                }
+                } // done loading sets
+                bTextureSetsLoading = false;
 
                 do
 				{
