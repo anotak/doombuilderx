@@ -6,7 +6,6 @@ based on code by CodeImp, MaxED, boris_i, ZZYZX
 - you can set your own default textures, and even have them randomize on New Map. default textures changed to CRATOP1 / CRATE1 / CRATOP2
 - a basic EE-UDMF config partially based on the GZDB-BF one (thanks Altazimuth, Maxed, Printz, Zzyzx). on mouseover highlights portals like line/sector tags, and includes the new sector scroller properties.
 - hold alt while drawing geometry for "pen mode" (try it and you'll see)
-- moved the inefficient texture categorization for texture browser into background loading thread. you should be able to actually move around and do stuff while loading a wad with a lot of textures sooner now. the textures will take the same total time to actually load in as before though. ideally i'd replace this code completely, as threading it is just sort of moving the problem.
 - new hotkey added to allow you to test your map with a player start at the mouse cursor (you need to assign it in preferences) 
 - some minor stuff to allow some gzdb plugin cross-compatibility (Sound Propagation, sound environ, automap). this is unstable, use at your own risk. some gzdb features are "faked" to the plugins to trick them into running
 - fixed one of the issues that causes it so that you cant click in 3d mode sometimes. lmk if this persists
@@ -25,6 +24,7 @@ based on code by CodeImp, MaxED, boris_i, ZZYZX
 - error log does not show up in taskbar (matching behavior of other windows)
 - on the error log window, the "close" button is highlighted by default, letting you close it by hitting enter
 - texture browser opens faster, and draws faster for smoother scrolling. mild tradeoff: currently selected item is shown with a solid background, instead of a gradient
+- texture categorization much faster (~3500% speedup on my machine). should be noticeably faster to open a level or to reload resources
 - flats in texture browser have a * after
 - curve linedefs window has a "snap to grid" option. careful about this, sometimes the grid makes it not-so-curvy
 - Allow Eternity .pke files to be used as resources (thanks to Altazimuth)

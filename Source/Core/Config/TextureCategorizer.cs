@@ -124,7 +124,7 @@ namespace CodeImp.DoomBuilder.Config
             }
             
             //Logger.WriteLogLine("elapsed texturecategorizer " + (General.stopwatch.ElapsedMilliseconds - startms));
-            Logger.WriteLogLine("size " + size + " size*nodesize " + (size*node_size) + " capacity " + capacity + " mscount " + mscount);
+            //Logger.WriteLogLine("size " + size + " size*nodesize " + (size*node_size) + " capacity " + capacity + " mscount " + mscount);
             
         } // constructor
 
@@ -139,7 +139,7 @@ namespace CodeImp.DoomBuilder.Config
             }
             tree = newtree;
             capacity *= 2;
-            Logger.WriteLogLine("EXTEND");
+            //Logger.WriteLogLine("EXTEND");
         }
 
         int AddNew()
