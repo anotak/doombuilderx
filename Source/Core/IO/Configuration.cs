@@ -174,13 +174,16 @@ namespace CodeImp.DoomBuilder.IO
 		
 		// Configuration root
 		private IDictionary root = null;
-		
-		#endregion
-		
-		#region ================== Properties
-		
-		// Properties
-		public bool ErrorResult { get { return cpErrorResult; } }
+
+        // ano - for speed
+        private StringBuilder ParseValueSb = new StringBuilder(32);
+
+        #endregion
+
+        #region ================== Properties
+
+        // Properties
+        public bool ErrorResult { get { return cpErrorResult; } }
 		public string ErrorDescription { get { return cpErrorDescription; } }
 		public int ErrorLine { get { return cpErrorLine; } }
 		public string ErrorFile { get { return cpErrorFile; } }
@@ -448,9 +451,11 @@ namespace CodeImp.DoomBuilder.IO
 			}
 			else
 			{
-				// Check if there are spaces in the key
-				if(key.IndexOfAny(" ".ToCharArray()) > -1)
-				{
+                // Check if there are spaces in the key
+                // ano - wait why????
+                // if(key.IndexOfAny(" ".ToCharArray()) > -1) 
+                if (key.IndexOf(' ') > -1)
+                {
 					// ERROR: Spaces not allowed in key names
 					if(errorline > -1) RaiseError(file, errorline, ERROR_KEYSPACES);
 					validateresult = false;
@@ -582,99 +587,113 @@ namespace CodeImp.DoomBuilder.IO
 			RaiseError(file, line, ERROR_UNEXPECTED_END);
 			return null;
 		}
-		
-		
-		// This parses a string
-		private string ParseString(ref string file, ref string data, ref int pos, ref int line)
+
+
+        // This parses a string
+        private string ParseString(ref string file, ref string data, ref int pos, ref int line)
 		{
-            StringBuilder val = new StringBuilder();
-			
 			// In escape sequence?
 			bool escape = false;
-			
-			while((pos < data.Length) && !cpErrorResult)
+            ParseValueSb.Length = 0;
+
+            while ((pos < data.Length) && !cpErrorResult)
 			{
 				// Get current character
 				char c = data[pos++];
-				
-				// Check if in an escape sequence
-				if(escape)
-				{
-					// What character?
-					switch(c)
-					{
-						case '\\': val.Append("\\"); break;
-						case 'n': val.Append("\n"); break;
-						case '\"': val.Append("\""); break;
-						case 'r': val.Append("\r"); break;
-						case 't': val.Append("\t"); break;
-						default:
 
-							// Is it a number?
-							if("0123456789".IndexOf(c.ToString(CultureInfo.InvariantCulture)) > -1)
-							{
-								int vv = 0;
-								char vc = '0';
+                // Check if in an escape sequence
+                if (escape)
+                {
+                    // What character?
+                    switch (c)
+                    {
+                        case '\\': ParseValueSb.Append("\\"); break;
+                        case 'n': ParseValueSb.Append("\n"); break;
+                        case '\"': ParseValueSb.Append("\""); break;
+                        case 'r': ParseValueSb.Append("\r"); break;
+                        case 't': ParseValueSb.Append("\t"); break;
+                        default:
 
-								// Convert the next 3 characters to a number
-								string v = data.Substring(pos, 3);
-								try { vv = System.Convert.ToInt32(v.Trim(), CultureInfo.InvariantCulture); }
-								catch(System.FormatException)
-								{
-									// ERROR: Invalid value in assignment
-									RaiseError(file, line, ERROR_VALUEINVALID);
-									return null;
-								}
+                            // Is it a number?
+                            //if ("0123456789".IndexOf(c.ToString(CultureInfo.InvariantCulture)) > -1)
+                            if (c >= '0' && c <= '9')
+                            {
+                                int vv = 0;
+                                char vc = '0';
 
-								// Convert the number to a char
-								try { vc = System.Convert.ToChar(vv, CultureInfo.InvariantCulture); }
-								catch(System.FormatException)
-								{
-									// ERROR: Invalid value in assignment
-									RaiseError(file, line, ERROR_VALUEINVALID);
-									return null;
-								}
+                                // Convert the next 3 characters to a number
+                                string v = data.Substring(pos, 3);
+                                try { vv = System.Convert.ToInt32(v.Trim(), CultureInfo.InvariantCulture); }
+                                catch (System.FormatException)
+                                {
+                                    // ERROR: Invalid value in assignment
+                                    RaiseError(file, line, ERROR_VALUEINVALID);
+                                    return null;
+                                }
+
+                                // Convert the number to a char
+                                try { vc = System.Convert.ToChar(vv, CultureInfo.InvariantCulture); }
+                                catch (System.FormatException)
+                                {
+                                    // ERROR: Invalid value in assignment
+                                    RaiseError(file, line, ERROR_VALUEINVALID);
+                                    return null;
+                                }
 
                                 // Add the char
-                                val.Append(vc.ToString(CultureInfo.InvariantCulture));
-							}
-							else
-							{
+                                ParseValueSb.Append(vc.ToString(CultureInfo.InvariantCulture));
+                            }
+                            else
+                            {
                                 // Add the character as it is
-                                val.Append(c.ToString(CultureInfo.InvariantCulture));
-							}
+                                ParseValueSb.Append(c.ToString(CultureInfo.InvariantCulture));
+                            }
 
-							// Leave switch
-							break;
-					}
+                            // Leave switch
+                            break;
+                    }
 
-					// End of escape sequence
-					escape = false;
-				}
-				else
-				{
-                    // Check for sequence start
-                    if (c == '\\')
+                    // End of escape sequence
+                    escape = false;
+                }
+                else
+                {
+                    switch (c)
                     {
-                        // Next character is of escape sequence
-                        escape = true;
-                    }
-                    // Check if string ends
-                    else if (c == '\"')
-                    {
-                        return val.ToString();
-                    }
-                    // Check for new line
-                    else if (c == '\n')
-                    {
-                        // Count the new line
-                        line++;
-                    }
-                    // Everything else is just part of string
-                    else if (c != '\r' && c != '\t')
-                    {
-                        // Add to value
-                        val.Append(c.ToString(CultureInfo.InvariantCulture));
+                        // Check for sequence start
+                        case '\\':
+                        {
+                            // Next character is of escape sequence
+                            escape = true;
+                            break;
+                        }
+
+                        // Check if string ends
+                        case '\"':
+                        {
+                            return ParseValueSb.ToString();
+                            //break;
+                        }
+
+                        // Check for new line
+                        case '\n':
+                        {
+                            // Count the new line
+                            line++;
+                            break;
+                        }
+
+                        // ignore these 2
+                        case '\r':
+                        case '\t':
+                        {
+                            break;
+                        }
+                        // Everything else is just part of string
+                        default:
+                            // Add to value
+                            ParseValueSb.Append(c);
+                            break;
                     }
 				}
 			}
@@ -687,7 +706,9 @@ namespace CodeImp.DoomBuilder.IO
 		// Parsing a number
 		private object ParseNumber(ref string file, ref string data, ref int pos, ref int line)
 		{
-			string val = "";
+			//string val = "";
+            bool bFloat = false;
+            ParseValueSb.Length = 0;
 			
 			while((pos < data.Length) && !cpErrorResult)
 			{
@@ -702,12 +723,12 @@ namespace CodeImp.DoomBuilder.IO
 					pos--;
 					
 					// Floating point?
-					if(val.IndexOf("f") > -1)
+					if(bFloat)
 					{
 						float fval = 0;
 						
 						// Convert to float (remove the f first)
-						try { fval = System.Convert.ToSingle(val.Trim().Replace("f", ""), CultureInfo.InvariantCulture); }
+						try { fval = System.Convert.ToSingle(ParseValueSb.ToString().Trim(), CultureInfo.InvariantCulture); }
 						catch(System.FormatException)
 						{
 							// ERROR: Invalid value in assignment
@@ -725,7 +746,7 @@ namespace CodeImp.DoomBuilder.IO
 						try
 						{
 							// Convert to value
-							ival = System.Convert.ToInt32(val.Trim(), CultureInfo.InvariantCulture);
+							ival = System.Convert.ToInt32(ParseValueSb.ToString().Trim(), CultureInfo.InvariantCulture);
 							return ival;
 						}
 						catch(System.OverflowException)
@@ -734,7 +755,7 @@ namespace CodeImp.DoomBuilder.IO
 							try
 							{
 								// Convert to value
-								lval = System.Convert.ToInt64(val.Trim(), CultureInfo.InvariantCulture);
+								lval = System.Convert.ToInt64(ParseValueSb.ToString().Trim(), CultureInfo.InvariantCulture);
 								return lval;
 							}
 							catch(System.OverflowException)
@@ -764,10 +785,14 @@ namespace CodeImp.DoomBuilder.IO
 					// Count the new line
 					line++;
 				}
+                else if (c == 'f')
+                {
+                    bFloat = true;
+                }
                 // Everything else is part of the value
                 else if(c != '\r' || c != '\t')
                 {
-					val += c.ToString(CultureInfo.InvariantCulture);
+					ParseValueSb.Append(c);
 				}
 			}
 			
@@ -779,7 +804,8 @@ namespace CodeImp.DoomBuilder.IO
 		// Parsing a keyword
 		private object ParseKeyword(ref string file, ref string data, ref int pos, ref int line)
 		{
-			string val = "";
+            //string val = "";
+            ParseValueSb.Length = 0;
 			
 			while((pos < data.Length) && !cpErrorResult)
 			{
@@ -794,10 +820,10 @@ namespace CodeImp.DoomBuilder.IO
 					pos--;
 					
 					// Validate the keyword
-					if(ValidateKeyword(val.Trim(), file, line))
+					if(ValidateKeyword(ParseValueSb.ToString().Trim(), file, line))
 					{
 						// Return result depending on the keyword
-						switch(val.Trim().ToLowerInvariant())
+						switch(ParseValueSb.ToString().Trim().ToLowerInvariant())
 						{
 							case "true": return (bool)true;
 							case "false": return (bool)false;
@@ -816,7 +842,7 @@ namespace CodeImp.DoomBuilder.IO
 				else if(c != '\t' && c != '\r')
 				{
 					// Add to value
-					val += c.ToString(CultureInfo.InvariantCulture);
+					ParseValueSb.Append(c);
 				}
 			}
 			
