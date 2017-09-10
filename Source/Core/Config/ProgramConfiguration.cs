@@ -398,7 +398,7 @@ namespace CodeImp.DoomBuilder.Config
 				File.Copy(defaultfilepathname, cfgfilepathname);
 				
 				// Load it
-				cfg = new Configuration(cfgfilepathname, true);
+				cfg = new Configuration(cfgfilepathname, false);
 				if(cfg.ErrorResult)
 				{
 					// Error in configuration
