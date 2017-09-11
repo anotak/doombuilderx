@@ -532,7 +532,7 @@ namespace CodeImp.DoomBuilder.Config
                 if (!foundone && randomizedefaultsectors)
                 {
                     // try to ignore the wolf textures
-                    int texturecount = General.Map.Data.OnlyTextureNames.IndexOf("ZDOORB1", 400); 
+                    int texturecount = General.Map.Data.OnlyTextureNames.IndexOf("ZDOORB1", Math.Min(General.Map.Data.OnlyTextureNames.Count, 400)); 
 
                     if (texturecount < 0)
                     {
