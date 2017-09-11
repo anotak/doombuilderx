@@ -121,7 +121,8 @@ namespace CodeImp.DoomBuilder
 		private const string SETTINGS_FILE = "BuilderX.cfg";
         private const string DB2_SETTINGS_FILE = "Builder.cfg";
         private const string SETTINGS_DIR = "Doom Builder";
-		private const string LOG_FILE = "BuilderX.log";
+        private const string TEMP_DIR = "DBX";
+        private const string LOG_FILE = "BuilderX.log";
         private const string CRASH_LOG_FILE = "BuilderX-lastcrash.log";
         private const string CRASH_SAVE_FILE = "crashbackup.wad";
         private const string GAME_CONFIGS_DIR = "Configurations";
@@ -609,7 +610,7 @@ namespace CodeImp.DoomBuilder
 			apppath = Uri.UnescapeDataString(localpath.AbsolutePath);
 			
 			// Setup directories
-			temppath = Path.GetTempPath();
+			temppath = Path.Combine(Path.GetTempPath(), TEMP_DIR);
 			setuppath = Path.Combine(apppath, SETUP_DIR);
             settingspath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), SETTINGS_DIR);
             configspath = Path.Combine(apppath, GAME_CONFIGS_DIR);
