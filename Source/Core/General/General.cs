@@ -776,9 +776,16 @@ namespace CodeImp.DoomBuilder
 				"Do you want to install and/or update Microsoft DirectX now?", "DirectX Error", System.Windows.Forms.MessageBoxButtons.YesNo,
 				System.Windows.Forms.MessageBoxIcon.Exclamation) == System.Windows.Forms.DialogResult.Yes)
 			{
-				// Open DX web setup
-				//System.Diagnostics.Process.Start("http://www.microsoft.com/downloads/details.aspx?FamilyId=2DA43D38-DB71-4C1B-BC6A-9B6652CD92A3").WaitForExit(1000);
-				System.Diagnostics.Process.Start(Path.Combine(setuppath, "dxwebsetup.exe")).WaitForExit(1000);
+                // Open DX web setup
+                //System.Diagnostics.Process.Start("http://www.microsoft.com/downloads/details.aspx?FamilyId=2DA43D38-DB71-4C1B-BC6A-9B6652CD92A3").WaitForExit(1000);
+                try
+                {
+                    Process.Start(Path.Combine(setuppath, "dxwebsetup.exe")).WaitForExit(1000);
+                }
+                catch
+                {
+                    Process.Start(@"https://www.microsoft.com/en-us/download/details.aspx?id=35&44F86079-8679-400C-BFF2-9CA5F2BCBDFC=1");
+                }
 			}
 
 			// End program here
