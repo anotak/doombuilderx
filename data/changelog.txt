@@ -1,6 +1,12 @@
 DoomBuilder X
 based on code by CodeImp, MaxED, boris_i, ZZYZX
 ===================================================
+version 2.1.3.2
+=====================
+- linedef / thing / sector edit windows partially loaded when you open a map. vertex one loads first time you open it. once loaded all these should open about 50-70ms faster, in case of individual objects selected it should open in 4-8ms.
+- fixed plugins issue from 2.1.3.1 (sorry)
+- minor bugfixes
+
 version 2.1.3.1
 =====================
 - fix for issue with Thing/Sector/Linedef/Vertex Edit Windows on smaller resolutions
