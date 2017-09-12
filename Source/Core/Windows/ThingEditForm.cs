@@ -207,7 +207,9 @@ namespace CodeImp.DoomBuilder.Windows
 			}
 
 			preventchanges = false;
-		}
+
+            tabs.SelectedIndex = 0;
+        }
 
         #endregion
 

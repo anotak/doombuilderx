@@ -187,8 +187,9 @@ namespace CodeImp.DoomBuilder.Windows
 			{
 				sectorheight.Visible = false;
 				sectorheightlabel.Visible = false;
-			}
-		}
+            }
+            tabs.SelectedIndex = 0;
+        }
 
 
         public void Cleanup()
