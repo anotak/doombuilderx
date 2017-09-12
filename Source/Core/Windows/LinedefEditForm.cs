@@ -71,19 +71,13 @@ namespace CodeImp.DoomBuilder.Windows
 			activation.Items.AddRange(General.Map.Config.LinedefActivates.ToArray());
 			foreach(LinedefActivateInfo ai in General.Map.Config.LinedefActivates) udmfactivates.Add(ai.Title, ai);
 			
-			// Fill universal fields list
-			fieldslist.ListFixedFields(General.Map.Config.LinedefFields);
-			
-			// Initialize image selectors
-			fronthigh.Initialize();
+            // Initialize image selectors
+            fronthigh.Initialize();
 			frontmid.Initialize();
 			frontlow.Initialize();
 			backhigh.Initialize();
 			backmid.Initialize();
 			backlow.Initialize();
-
-			// Initialize custom fields editor
-			fieldslist.Setup("linedef");
 			
 			// Mixed activations? (UDMF)
 			if(General.Map.FormatInterface.HasMixedActivations)
@@ -145,10 +139,19 @@ namespace CodeImp.DoomBuilder.Windows
 
 			// Get first line
 			fl = General.GetByIndex(lines, 0);
-			
-			// Flags
-			foreach(CheckBox c in flags.Checkboxes)
-				if(fl.Flags.ContainsKey(c.Tag.ToString())) c.Checked = fl.Flags[c.Tag.ToString()];
+
+            // Flags
+            foreach (CheckBox c in flags.Checkboxes)
+            {
+                if (fl.Flags.ContainsKey(c.Tag.ToString()))
+                {
+                    c.Checked = fl.Flags[c.Tag.ToString()];
+                }
+                else
+                {
+                    c.Checked = false;
+                }
+            }
 			
 			// Activations
 			foreach(LinedefActivateInfo ai in activation.Items)
@@ -158,7 +161,14 @@ namespace CodeImp.DoomBuilder.Windows
 			foreach(CheckBox c in udmfactivates.Checkboxes)
 			{
 				LinedefActivateInfo ai = (c.Tag as LinedefActivateInfo);
-				if(fl.Flags.ContainsKey(ai.Key)) c.Checked = fl.Flags[ai.Key];
+                if (fl.Flags.ContainsKey(ai.Key))
+                {
+                    c.Checked = fl.Flags[ai.Key];
+                }
+                else
+                {
+                    c.Checked = false;
+                }
 			}
 
 			// Action/tags
@@ -174,19 +184,31 @@ namespace CodeImp.DoomBuilder.Windows
 			frontside.Checked = (fl.Front != null);
 			backside.Checked = (fl.Back != null);
 
-			// Front settings
-			if(fl.Front != null)
-			{
-				fronthigh.TextureName = fl.Front.HighTexture;
-				frontmid.TextureName = fl.Front.MiddleTexture;
-				frontlow.TextureName = fl.Front.LowTexture;
-				fronthigh.Required = fl.Front.HighRequired();
-				frontmid.Required = fl.Front.MiddleRequired();
-				frontlow.Required = fl.Front.LowRequired();
-				frontsector.Text = fl.Front.Sector.Index.ToString();
-				frontoffsetx.Text = fl.Front.OffsetX.ToString();
-				frontoffsety.Text = fl.Front.OffsetY.ToString();
-			}
+            // Front settings
+            if (fl.Front != null)
+            {
+                fronthigh.TextureName = fl.Front.HighTexture;
+                frontmid.TextureName = fl.Front.MiddleTexture;
+                frontlow.TextureName = fl.Front.LowTexture;
+                fronthigh.Required = fl.Front.HighRequired();
+                frontmid.Required = fl.Front.MiddleRequired();
+                frontlow.Required = fl.Front.LowRequired();
+                frontsector.Text = fl.Front.Sector.Index.ToString();
+                frontoffsetx.Text = fl.Front.OffsetX.ToString();
+                frontoffsety.Text = fl.Front.OffsetY.ToString();
+            }
+            else
+            {
+                fronthigh.TextureName = string.Empty;
+                frontmid.TextureName = string.Empty;
+                frontlow.TextureName = string.Empty;
+                fronthigh.Required = false;
+                frontmid.Required = false;
+                frontlow.Required = false;
+                frontsector.Text = string.Empty;
+                frontoffsetx.Text = string.Empty;
+                frontoffsety.Text = string.Empty;
+            }
 
 			// Back settings
 			if(fl.Back != null)
@@ -201,16 +223,44 @@ namespace CodeImp.DoomBuilder.Windows
 				backoffsetx.Text = fl.Back.OffsetX.ToString();
 				backoffsety.Text = fl.Back.OffsetY.ToString();
 			}
+            else
+            {
+                backhigh.TextureName = string.Empty;
+                backmid.TextureName = string.Empty;
+                backlow.TextureName = string.Empty;
+                backhigh.Required = false;
+                backmid.Required = false;
+                backlow.Required = false;
+                backsector.Text = string.Empty;
+                backoffsetx.Text = string.Empty;
+                backoffsety.Text = string.Empty;
+            }
 
-			// Custom fields
-			fieldslist.SetValues(fl.Fields, true);
+            // reset list
+            fieldslist.ClearFields();
 
-			////////////////////////////////////////////////////////////////////////
-			// Now go for all lines and change the options when a setting is different
-			////////////////////////////////////////////////////////////////////////
+            // Fill universal fields list
+            fieldslist.ListFixedFields(General.Map.Config.LinedefFields);
 
-			// Go for all lines
-			foreach(Linedef l in lines)
+            // Initialize custom fields editor
+            fieldslist.Setup("linedef");
+
+            // Custom fields
+            fieldslist.SetValues(fl.Fields, true);
+
+            ////////////////////////////////////////////////////////////////////////
+            // Now go for all lines and change the options when a setting is different
+            ////////////////////////////////////////////////////////////////////////
+
+            int argResult0 = arg0.GetResult(-1);
+            int argResult1 = arg1.GetResult(-1);
+            int argResult2 = arg2.GetResult(-1);
+            int argResult3 = arg3.GetResult(-1);
+            int argResult4 = arg4.GetResult(-1);
+            int fltag = fl.Tag;
+
+            // Go for all lines
+            foreach (Linedef l in lines)
 			{
 				// Flags
 				foreach(CheckBox c in flags.Checkboxes)
@@ -250,12 +300,12 @@ namespace CodeImp.DoomBuilder.Windows
 
 				// Action/tags
 				if(l.Action != action.Value) action.Empty = true;
-				if(l.Tag.ToString() != tag.Text) tag.Text = "";
-				if(l.Args[0] != arg0.GetResult(-1)) arg0.ClearValue();
-				if(l.Args[1] != arg1.GetResult(-1)) arg1.ClearValue();
-				if(l.Args[2] != arg2.GetResult(-1)) arg2.ClearValue();
-				if(l.Args[3] != arg3.GetResult(-1)) arg3.ClearValue();
-				if(l.Args[4] != arg4.GetResult(-1)) arg4.ClearValue();
+				if(l.Tag != fltag) tag.Text = "";
+                if (l.Args[0] != argResult0) { arg0.ClearValue(); argResult0 = 0; }
+                if (l.Args[1] != argResult1) { arg1.ClearValue(); argResult1 = 0; }
+                if (l.Args[2] != argResult2) { arg2.ClearValue(); argResult2 = 0; }
+                if (l.Args[3] != argResult3) { arg3.ClearValue(); argResult3 = 0; }
+                if (l.Args[4] != argResult4) { arg4.ClearValue(); argResult4 = 0;  }
 				
 				// Front side checkbox
 				if((l.Front != null) != frontside.Checked)
@@ -315,10 +365,19 @@ namespace CodeImp.DoomBuilder.Windows
 			frontlow.Refresh();
 
 			preventchanges = false;
-		}
-		
-		// Front side (un)checked
-		private void frontside_CheckStateChanged(object sender, EventArgs e)
+            tabs.SelectedIndex = 0;
+        }
+
+        #region ================== Methods
+        public void Cleanup()
+        {
+            lines = null;
+            previousaction = 0;
+        }
+        #endregion
+
+        // Front side (un)checked
+        private void frontside_CheckStateChanged(object sender, EventArgs e)
 		{
 			// Enable/disable panel
 			// NOTE: Also enabled when checkbox is grayed!
@@ -481,7 +540,7 @@ namespace CodeImp.DoomBuilder.Windows
 
 			// Update the used textures
 			General.Map.Data.UpdateUsedTextures();
-			
+            Cleanup();
 			// Done
 			General.Map.IsChanged = true;
 			this.DialogResult = DialogResult.OK;
@@ -491,6 +550,7 @@ namespace CodeImp.DoomBuilder.Windows
 		// Cancel clicked
 		private void cancel_Click(object sender, EventArgs e)
 		{
+            Cleanup();
 			// Be gone
 			this.DialogResult = DialogResult.Cancel;
 			this.Close();

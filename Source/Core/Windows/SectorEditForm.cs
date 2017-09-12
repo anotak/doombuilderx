@@ -58,9 +58,6 @@ namespace CodeImp.DoomBuilder.Windows
 
             // Fill effects list
             effect.AddInfo(General.Map.Config.SortedSectorEffects.ToArray());
-			
-			// Fill universal fields list
-			fieldslist.ListFixedFields(General.Map.Config.SectorFields);
 
 			// Initialize image selectors
 			floortex.Initialize();
@@ -81,7 +78,7 @@ namespace CodeImp.DoomBuilder.Windows
 		public void Setup(ICollection<Sector> sectors)
 		{
 			Sector sc;
-			
+
 			// Keep this list
 			this.sectors = sectors;
 			if(sectors.Count > 1) this.Text = "Edit Sectors (" + sectors.Count + ")";
@@ -106,8 +103,17 @@ namespace CodeImp.DoomBuilder.Windows
 			// Action
 			tag.Text = sc.Tag.ToString();
 
-			// Custom fields
-			fieldslist.SetValues(sc.Fields, true);
+
+            if (General.Map.FormatInterface.HasCustomFields)
+            {
+                fieldslist.ClearFields();
+
+                // Fill universal fields list
+                fieldslist.ListFixedFields(General.Map.Config.SectorFields);
+
+                // Custom fields
+                fieldslist.SetValues(sc.Fields, true);
+            }
 			
 			////////////////////////////////////////////////////////////////////////
 			// Now go for all sectors and change the options when a setting is different
@@ -137,8 +143,10 @@ namespace CodeImp.DoomBuilder.Windows
 			UpdateSectorHeight();
 		}
 
-		// This updates the sector height field
-		private void UpdateSectorHeight()
+
+        #region ================== Methods
+        // This updates the sector height field
+        private void UpdateSectorHeight()
 		{
 			bool showheight = true;
 			int delta = 0;
@@ -182,8 +190,15 @@ namespace CodeImp.DoomBuilder.Windows
 			}
 		}
 
-		// OK clicked
-		private void apply_Click(object sender, EventArgs e)
+
+        public void Cleanup()
+        {
+            sectors = null;
+        }
+        #endregion
+
+        // OK clicked
+        private void apply_Click(object sender, EventArgs e)
 		{
 			string undodesc = "sector";
 			
@@ -234,7 +249,8 @@ namespace CodeImp.DoomBuilder.Windows
 			
 			// Update the used textures
 			General.Map.Data.UpdateUsedTextures();
-			
+
+            Cleanup();
 			// Done
 			General.Map.IsChanged = true;
 			this.DialogResult = DialogResult.OK;
@@ -244,8 +260,9 @@ namespace CodeImp.DoomBuilder.Windows
 		// Cancel clicked
 		private void cancel_Click(object sender, EventArgs e)
 		{
-			// Be gone
-			this.DialogResult = DialogResult.Cancel;
+            Cleanup();
+            // Be gone
+            this.DialogResult = DialogResult.Cancel;
 			this.Close();
 		}
 

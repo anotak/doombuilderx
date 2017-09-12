@@ -156,6 +156,11 @@ namespace CodeImp.DoomBuilder.Windows
 
 		// Updating
 		private int lockupdatecount;
+
+        private ThingEditForm editwindow_thing;
+        private SectorEditForm editwindow_sector;
+        private VertexEditForm editwindow_vertex;
+        private LinedefEditForm editwindow_linedef;
 		
 		#endregion
 
@@ -273,9 +278,39 @@ namespace CodeImp.DoomBuilder.Windows
 		{
 			float scalex = this.CurrentAutoScaleDimensions.Width / this.AutoScaleDimensions.Width;
 			float scaley = this.CurrentAutoScaleDimensions.Height / this.AutoScaleDimensions.Height;
-			
-			// Setup docker
-			if(General.Settings.DockersPosition != 2)
+
+            // ano - reset edit windows here
+            if (editwindow_linedef != null)
+            {
+                editwindow_linedef.Dispose();
+                editwindow_linedef = null;
+            }
+            if (editwindow_vertex != null)
+            {
+                editwindow_vertex.Dispose();
+                editwindow_vertex = null;
+            }
+            if (editwindow_sector != null)
+            {
+                editwindow_sector.Dispose();
+                editwindow_sector = null;
+            }
+            if (editwindow_thing != null)
+            {
+                editwindow_thing.Dispose();
+                editwindow_thing = null;
+            }
+            if (General.Map != null)
+            {
+                editwindow_linedef = new LinedefEditForm();
+                editwindow_thing = new ThingEditForm();
+                editwindow_sector = new SectorEditForm();
+                // ano - least used one, so maybe we save on some loading time here
+                //editwindow_vertex = new VertexEditForm();
+            }
+
+            // Setup docker
+            if (General.Settings.DockersPosition != 2)
 			{
 				LockUpdate();
 				dockerspanel.Visible = true;
@@ -2564,24 +2599,29 @@ namespace CodeImp.DoomBuilder.Windows
 			DialogResult result;
 
 			// Show sector edit dialog
-			VertexEditForm f = new VertexEditForm();
-			f.Setup(vertices);
-			result = f.ShowDialog(this);
-			f.Dispose();
+            if (editwindow_vertex == null)
+            {
+                editwindow_vertex = new VertexEditForm();
+            }
 
-			return result;
+            editwindow_vertex.Setup(vertices);
+            result = editwindow_vertex.ShowDialog(this);
+
+            return result;
 		}
 		
 		// This shows the dialog to edit lines
 		public DialogResult ShowEditLinedefs(ICollection<Linedef> lines)
 		{
 			DialogResult result;
-
-			// Show line edit dialog
-			LinedefEditForm f = new LinedefEditForm();
-			f.Setup(lines);
-			result = f.ShowDialog(this);
-			f.Dispose();
+            
+            // Show line edit dialog
+            if (editwindow_linedef == null)
+            {
+                editwindow_linedef = new LinedefEditForm();
+            }
+            editwindow_linedef.Setup(lines);
+            result = editwindow_linedef.ShowDialog(this);
 
 			return result;
 		}
@@ -2591,11 +2631,13 @@ namespace CodeImp.DoomBuilder.Windows
 		{
 			DialogResult result;
 
-			// Show sector edit dialog
-			SectorEditForm f = new SectorEditForm();
-			f.Setup(sectors);
-			result = f.ShowDialog(this);
-			f.Dispose();
+            // Show sector edit dialog
+            if (editwindow_sector == null)
+            {
+                editwindow_sector = new SectorEditForm();
+            }
+            editwindow_sector.Setup(sectors);
+            result = editwindow_sector.ShowDialog(this);
 
 			return result;
 		}
@@ -2605,11 +2647,13 @@ namespace CodeImp.DoomBuilder.Windows
 		{
 			DialogResult result;
 
-			// Show thing edit dialog
-			ThingEditForm f = new ThingEditForm();
-			f.Setup(things);
-			result = f.ShowDialog(this);
-			f.Dispose();
+            // Show thing edit dialog
+            if (editwindow_thing == null)
+            {
+                editwindow_thing = new ThingEditForm();
+            }
+			editwindow_thing.Setup(things);
+			result = editwindow_thing.ShowDialog(this);
 			
 			return result;
 		}

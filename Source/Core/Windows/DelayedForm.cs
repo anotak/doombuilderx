@@ -53,8 +53,11 @@ namespace CodeImp.DoomBuilder.Windows
 			// Let the base class know
 			base.OnShown(e);
 
-			// Start the timer to show the form
-			formshowtimer.Enabled = true;
+            // Start the timer to show the form
+            if (formshowtimer != null)
+            {
+                formshowtimer.Enabled = true;
+            }
 		}
 
 		// When the form is to be shown

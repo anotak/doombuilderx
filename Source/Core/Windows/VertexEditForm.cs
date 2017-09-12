@@ -69,9 +69,6 @@ namespace CodeImp.DoomBuilder.Windows
                 tabs.Height = apply.Location.Y - 15;
             }
 
-            // Fill universal fields list
-            fieldslist.ListFixedFields(General.Map.Config.VertexFields);
-
 			// Custom fields?
 			if(!General.Map.FormatInterface.HasCustomFields)
 				tabs.TabPages.Remove(tabcustom);
@@ -108,32 +105,46 @@ namespace CodeImp.DoomBuilder.Windows
 			// Position
 			positionx.Text = vc.Position.x.ToString();
 			positiony.Text = vc.Position.y.ToString();
-			
-			// Custom fields
-			fieldslist.SetValues(vc.Fields, true);
-			
-			////////////////////////////////////////////////////////////////////////
-			// Now go for all sectors and change the options when a setting is different
-			////////////////////////////////////////////////////////////////////////
 
-			// Go for all vertices
-			foreach(Vertex v in vertices)
-			{
-				// Position
-				if(positionx.Text != v.Position.x.ToString()) positionx.Text = "";
-				if(positiony.Text != v.Position.y.ToString()) positiony.Text = "";
 
-				// Custom fields
-				fieldslist.SetValues(v.Fields, false);
-			}
-		}
-		
-		#endregion
-		
-		#region ================== Events
+            if (General.Map.FormatInterface.HasCustomFields)
+            {
+                fieldslist.ClearFields();
+                // Fill universal fields list
+                fieldslist.ListFixedFields(General.Map.Config.VertexFields);
+                // Custom fields
+                fieldslist.SetValues(vc.Fields, true);
 
-		// OK clicked
-		private void apply_Click(object sender, EventArgs e)
+                ////////////////////////////////////////////////////////////////////////
+                // Now go for all sectors and change the options when a setting is different
+                ////////////////////////////////////////////////////////////////////////
+                fieldslist.ClearFields();
+                // Go for all vertices
+                foreach (Vertex v in vertices)
+                {
+                    // Position
+                    if (positionx.Text != v.Position.x.ToString()) positionx.Text = "";
+                    if (positiony.Text != v.Position.y.ToString()) positiony.Text = "";
+
+                    // Custom fields
+                    fieldslist.SetValues(v.Fields, false);
+                }
+            }
+
+            // ano ?? if people are editing vertices by hand why else would they be 
+            //tabs.SelectedIndex = 0;
+        }
+        
+        public void Cleanup()
+        {
+            vertices = null;
+        }
+        #endregion
+
+        #region ================== Events
+
+        // OK clicked
+        private void apply_Click(object sender, EventArgs e)
 		{
 			string undodesc = "vertex";
 
@@ -161,7 +172,7 @@ namespace CodeImp.DoomBuilder.Windows
 				// Custom fields
 				fieldslist.Apply(v.Fields);
 			}
-			
+            Cleanup();
 			// Done
 			General.Map.IsChanged = true;
 			this.DialogResult = DialogResult.OK;
@@ -171,8 +182,9 @@ namespace CodeImp.DoomBuilder.Windows
 		// Cancel clicked
 		private void cancel_Click(object sender, EventArgs e)
 		{
-			// Just close
-			this.DialogResult = DialogResult.Cancel;
+            Cleanup();
+            // Just close
+            this.DialogResult = DialogResult.Cancel;
 			this.Close();
 		}
 

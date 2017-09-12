@@ -80,13 +80,7 @@ namespace CodeImp.DoomBuilder.Windows
 			// Fill actions list
 			action.GeneralizedCategories = General.Map.Config.GenActionCategories;
 			action.AddInfo(General.Map.Config.SortedLinedefActions.ToArray());
-
-			// Fill universal fields list
-			fieldslist.ListFixedFields(General.Map.Config.ThingFields);
-			
-			// Initialize custom fields editor
-			fieldslist.Setup("thing");
-
+            
 			// Custom fields?
 			if(!General.Map.FormatInterface.HasCustomFields)
 				tabs.TabPages.Remove(tabcustom);
@@ -124,10 +118,17 @@ namespace CodeImp.DoomBuilder.Windows
 			
 			// Set type
 			thingtype.SelectType(ft.Type);
-			
-			// Flags
-			foreach(CheckBox c in flags.Checkboxes)
-				if(ft.Flags.ContainsKey(c.Tag.ToString())) c.Checked = ft.Flags[c.Tag.ToString()];
+
+            // Flags
+            foreach (CheckBox c in flags.Checkboxes)
+            {
+                if (ft.Flags.ContainsKey(c.Tag.ToString()))
+                {
+                    c.Checked = ft.Flags[c.Tag.ToString()];
+                } else {
+                    c.Checked = false;
+                }
+            }
 			
 			// Coordination
 			angle.Text = ft.AngleDoom.ToString();
@@ -142,15 +143,33 @@ namespace CodeImp.DoomBuilder.Windows
 			arg3.SetValue(ft.Args[3]);
 			arg4.SetValue(ft.Args[4]);
 
-			// Custom fields
-			fieldslist.SetValues(ft.Fields, true);
+            if (General.Map.FormatInterface.HasCustomFields)
+            {
+                fieldslist.ClearFields();
 
-			////////////////////////////////////////////////////////////////////////
-			// Now go for all lines and change the options when a setting is different
-			////////////////////////////////////////////////////////////////////////
-			
-			// Go for all things
-			foreach(Thing t in things)
+                // Fill universal fields list
+                fieldslist.ListFixedFields(General.Map.Config.ThingFields);
+
+                // Initialize custom fields editor
+                fieldslist.Setup("thing");
+
+                // Custom fields
+                fieldslist.SetValues(ft.Fields, true);
+            }
+
+            ////////////////////////////////////////////////////////////////////////
+            // Now go for all lines and change the options when a setting is different
+            ////////////////////////////////////////////////////////////////////////
+
+            int argResult0 = arg0.GetResult(-1);
+            int argResult1 = arg1.GetResult(-1);
+            int argResult2 = arg2.GetResult(-1);
+            int argResult3 = arg3.GetResult(-1);
+            int argResult4 = arg4.GetResult(-1);
+            int fttag = ft.Tag;
+
+            // Go for all things
+            foreach (Thing t in things)
 			{
 				// Type does not match?
 				if((thingtype.GetSelectedInfo() != null) &&
@@ -176,26 +195,34 @@ namespace CodeImp.DoomBuilder.Windows
 
 				// Action/tags
 				if(t.Action != action.Value) action.Empty = true;
-				if(t.Tag.ToString() != tag.Text) tag.Text = "";
-				if(t.Args[0] != arg0.GetResult(-1)) arg0.ClearValue();
-				if(t.Args[1] != arg1.GetResult(-1)) arg1.ClearValue();
-				if(t.Args[2] != arg2.GetResult(-1)) arg2.ClearValue();
-				if(t.Args[3] != arg3.GetResult(-1)) arg3.ClearValue();
-				if(t.Args[4] != arg4.GetResult(-1)) arg4.ClearValue();
+                if (t.Tag != fttag) tag.Text = "";
+                if (t.Args[0] != argResult0) { arg0.ClearValue(); argResult0 = 0; }
+                if (t.Args[1] != argResult1) { arg1.ClearValue(); argResult1 = 0; }
+                if (t.Args[2] != argResult2) { arg2.ClearValue(); argResult2 = 0; }
+                if (t.Args[3] != argResult3) { arg3.ClearValue(); argResult3 = 0; }
+                if (t.Args[4] != argResult4) { arg4.ClearValue(); argResult4 = 0; }
 
-				// Custom fields
-				fieldslist.SetValues(t.Fields, false);
+                // Custom fields
+                fieldslist.SetValues(t.Fields, false);
 			}
 
 			preventchanges = false;
 		}
-		
-		#endregion
 
-		#region ================== Interface
+        #endregion
 
-		// This finds a new (unused) tag
-		private void newtag_Click(object sender, EventArgs e)
+        #region ================== Methods
+        public void Cleanup()
+        {
+            things = null;
+            previousaction = 0;
+        }
+        #endregion
+
+        #region ================== Interface
+
+        // This finds a new (unused) tag
+        private void newtag_Click(object sender, EventArgs e)
 		{
 			tag.Text = General.Map.Map.GetNewTag().ToString();
 		}
@@ -372,6 +399,7 @@ namespace CodeImp.DoomBuilder.Windows
 			
 			// Done
 			General.Map.IsChanged = true;
+            Cleanup();
 			this.DialogResult = DialogResult.OK;
 			this.Close();
 		}
@@ -379,8 +407,9 @@ namespace CodeImp.DoomBuilder.Windows
 		// Cancel clicked
 		private void cancel_Click(object sender, EventArgs e)
 		{
-			// Be gone
-			this.DialogResult = DialogResult.Cancel;
+            // Be gone
+            Cleanup();
+            this.DialogResult = DialogResult.Cancel;
 			this.Close();
 		}
 
