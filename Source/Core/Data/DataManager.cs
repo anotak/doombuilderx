@@ -100,6 +100,10 @@ namespace CodeImp.DoomBuilder.Data
 		// Timing
 		private double loadstarttime;
 		private double loadfinishtime;
+
+
+        // ano - shared unknown image
+        private UnknownImage sharedunknownimage;
 		
 		// Disposing
 		private bool isdisposed = false;
@@ -240,8 +244,11 @@ namespace CodeImp.DoomBuilder.Data
 			// We have no destructor
 			GC.SuppressFinalize(this);
 
-			// Load special images
-			missingtexture3d = new ResourceImage("CodeImp.DoomBuilder.Resources.MissingTexture3D.png");
+            // ano - keep only this one
+            sharedunknownimage = new UnknownImage(Properties.Resources.UnknownImage);
+
+            // Load special images
+            missingtexture3d = new ResourceImage("CodeImp.DoomBuilder.Resources.MissingTexture3D.png");
 			missingtexture3d.LoadImage();
 			unknowntexture3d = new ResourceImage("CodeImp.DoomBuilder.Resources.UnknownTexture3D.png");
 			unknowntexture3d.LoadImage();
@@ -267,6 +274,8 @@ namespace CodeImp.DoomBuilder.Data
 			{
 				// Clean up
 				Unload();
+                sharedunknownimage.Dispose();
+                sharedunknownimage = null;
 				missingtexture3d.Dispose();
 				missingtexture3d = null;
 				unknowntexture3d.Dispose();
@@ -1017,7 +1026,7 @@ namespace CodeImp.DoomBuilder.Data
 			else
 			{
 				// Return null image
-				return new UnknownImage(Properties.Resources.UnknownImage);
+				return sharedunknownimage;
 			}
 		}
 		
@@ -1106,7 +1115,7 @@ namespace CodeImp.DoomBuilder.Data
 			else
 			{
 				// Return null image
-				return new UnknownImage(Properties.Resources.UnknownImage);
+				return sharedunknownimage;
 			}
 		}
 
@@ -1272,7 +1281,7 @@ namespace CodeImp.DoomBuilder.Data
 				}
 				else
 				{
-					return new UnknownImage(Properties.Resources.UnknownImage);
+					return sharedunknownimage;
 				}
 			}
 			else
@@ -1313,7 +1322,7 @@ namespace CodeImp.DoomBuilder.Data
 					else
 					{
 						// Return null image
-						return new UnknownImage(Properties.Resources.UnknownImage);
+						return sharedunknownimage;
 					}
 				}
 			}
