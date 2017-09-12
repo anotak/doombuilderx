@@ -58,8 +58,19 @@ namespace CodeImp.DoomBuilder.Windows
 		{
 			InitializeComponent();
 
-			// Fill universal fields list
-			fieldslist.ListFixedFields(General.Map.Config.VertexFields);
+            if (apply.Location.Y > Height)
+            {
+                apply.Location = new Point(apply.Location.X, Height - 70);
+                cancel.Location = new Point(cancel.Location.X, Height - 70);
+            }
+
+            if (tabs.Height > apply.Location.Y - 5)
+            {
+                tabs.Height = apply.Location.Y - 15;
+            }
+
+            // Fill universal fields list
+            fieldslist.ListFixedFields(General.Map.Config.VertexFields);
 
 			// Custom fields?
 			if(!General.Map.FormatInterface.HasCustomFields)

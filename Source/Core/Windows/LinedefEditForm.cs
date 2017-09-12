@@ -47,9 +47,20 @@ namespace CodeImp.DoomBuilder.Windows
             previousaction = 0;
 			// Initialize
 			InitializeComponent();
-			
-			// Fill flags list
-			foreach(KeyValuePair<string, string> lf in General.Map.Config.LinedefFlags)
+
+            if (apply.Location.Y > Height)
+            {
+                apply.Location = new Point(apply.Location.X, Height - 70);
+                cancel.Location = new Point(cancel.Location.X, Height - 70);
+            }
+
+            if (tabs.Height > apply.Location.Y - 5)
+            {
+                tabs.Height = apply.Location.Y - 15;
+            }
+
+            // Fill flags list
+            foreach (KeyValuePair<string, string> lf in General.Map.Config.LinedefFlags)
 				flags.Add(lf.Value, lf.Key);
 
 			// Fill actions list

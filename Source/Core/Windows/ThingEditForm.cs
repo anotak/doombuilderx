@@ -58,8 +58,20 @@ namespace CodeImp.DoomBuilder.Windows
 		// Constructor
 		public ThingEditForm()
 		{
+            //long start = General.stopwatch.ElapsedMilliseconds;
 			// Initialize
 			InitializeComponent();
+
+            if (apply.Location.Y > Height)
+            {
+                apply.Location = new Point(apply.Location.X, Height - 70);
+                cancel.Location = new Point(cancel.Location.X, Height - 70);
+            }
+
+            if(tabs.Height > apply.Location.Y - 5)
+            {
+                tabs.Height = apply.Location.Y - 15;
+            }
             previousaction = 0;
 			// Fill flags list
 			foreach(KeyValuePair<string, string> tf in General.Map.Config.ThingFlags)
@@ -89,7 +101,9 @@ namespace CodeImp.DoomBuilder.Windows
 			
 			// Setup types list
 			thingtype.Setup();
-		}
+            //Logger.WriteLogLine("thingeditformtime: " + (General.stopwatch.ElapsedMilliseconds - start));
+
+        }
 
 		// This sets up the form to edit the given things
 		public void Setup(ICollection<Thing> things)
