@@ -103,6 +103,8 @@ namespace CodeImp.DoomBuilder.Plugins
 				plug = CreateObject<Plug>(t);
 				plug.Plugin = this;
 
+                // ano - this just doesn't really work right because of all the db2 forks floating around
+                /*
 				// Verify minimum revision number
 				int thisrevision = General.ThisAssembly.GetName().Version.Revision;
 				if((thisrevision != 0) && (plug.MinimumRevision > thisrevision))
@@ -111,6 +113,7 @@ namespace CodeImp.DoomBuilder.Plugins
 					General.ErrorLogger.Add(ErrorType.Error, "Could not load plugin \"" + shortfilename + "\", the Plugin is made for Doom Builder 2 core revision " + plug.MinimumRevision + " and you are running revision " + thisrevision + ".");
 					throw new InvalidProgramException();
 				}
+                */
 			}
 			else
 			{
