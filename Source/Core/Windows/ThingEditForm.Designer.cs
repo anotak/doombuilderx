@@ -99,14 +99,12 @@ namespace CodeImp.DoomBuilder.Windows
             // 
             // thingtype
             // 
-            this.thingtype.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.thingtype.AutoSize = true;
+            this.thingtype.Dock = System.Windows.Forms.DockStyle.Fill;
             this.thingtype.Location = new System.Drawing.Point(4, 20);
             this.thingtype.Margin = new System.Windows.Forms.Padding(8);
             this.thingtype.Name = "thingtype";
-            this.thingtype.Size = new System.Drawing.Size(330, 639);
+            this.thingtype.Size = new System.Drawing.Size(328, 645);
             this.thingtype.TabIndex = 0;
             this.thingtype.OnTypeChanged += new CodeImp.DoomBuilder.Controls.ThingBrowserControl.TypeChangedDeletegate(this.thingtype_OnTypeChanged);
             // 
@@ -292,7 +290,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.tabeffects.Margin = new System.Windows.Forms.Padding(4);
             this.tabeffects.Name = "tabeffects";
             this.tabeffects.Padding = new System.Windows.Forms.Padding(4);
-            this.tabeffects.Size = new System.Drawing.Size(817, 561);
+            this.tabeffects.Size = new System.Drawing.Size(817, 692);
             this.tabeffects.TabIndex = 1;
             this.tabeffects.Text = "Action";
             this.tabeffects.UseVisualStyleBackColor = true;
@@ -311,7 +309,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.actiongroup.Margin = new System.Windows.Forms.Padding(4);
             this.actiongroup.Name = "actiongroup";
             this.actiongroup.Padding = new System.Windows.Forms.Padding(4);
-            this.actiongroup.Size = new System.Drawing.Size(800, 448);
+            this.actiongroup.Size = new System.Drawing.Size(800, 579);
             this.actiongroup.TabIndex = 22;
             this.actiongroup.TabStop = false;
             this.actiongroup.Text = " Action ";
@@ -334,7 +332,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.hexenpanel.Location = new System.Drawing.Point(8, 66);
             this.hexenpanel.Margin = new System.Windows.Forms.Padding(4);
             this.hexenpanel.Name = "hexenpanel";
-            this.hexenpanel.Size = new System.Drawing.Size(785, 374);
+            this.hexenpanel.Size = new System.Drawing.Size(785, 505);
             this.hexenpanel.TabIndex = 13;
             // 
             // arg2
@@ -473,7 +471,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.doompanel.Location = new System.Drawing.Point(8, 68);
             this.doompanel.Margin = new System.Windows.Forms.Padding(4);
             this.doompanel.Name = "doompanel";
-            this.doompanel.Size = new System.Drawing.Size(785, 374);
+            this.doompanel.Size = new System.Drawing.Size(785, 505);
             this.doompanel.TabIndex = 12;
             // 
             // groupBox3
@@ -521,7 +519,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.tabcustom.Location = new System.Drawing.Point(4, 25);
             this.tabcustom.Margin = new System.Windows.Forms.Padding(4);
             this.tabcustom.Name = "tabcustom";
-            this.tabcustom.Size = new System.Drawing.Size(817, 561);
+            this.tabcustom.Size = new System.Drawing.Size(817, 692);
             this.tabcustom.TabIndex = 2;
             this.tabcustom.Text = "Custom";
             this.tabcustom.UseVisualStyleBackColor = true;
@@ -540,7 +538,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.fieldslist.Name = "fieldslist";
             this.fieldslist.PropertyColumnVisible = true;
             this.fieldslist.PropertyColumnWidth = 150;
-            this.fieldslist.Size = new System.Drawing.Size(794, 530);
+            this.fieldslist.Size = new System.Drawing.Size(794, 661);
             this.fieldslist.TabIndex = 1;
             this.fieldslist.TypeColumnVisible = true;
             this.fieldslist.TypeColumnWidth = 100;
