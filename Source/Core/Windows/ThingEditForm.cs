@@ -62,16 +62,6 @@ namespace CodeImp.DoomBuilder.Windows
 			// Initialize
 			InitializeComponent();
 
-            if (apply.Location.Y > Height)
-            {
-                apply.Location = new Point(apply.Location.X, Height - 70);
-                cancel.Location = new Point(cancel.Location.X, Height - 70);
-            }
-
-            if(tabs.Height > apply.Location.Y - 5)
-            {
-                tabs.Height = apply.Location.Y - 15;
-            }
             previousaction = 0;
 			// Fill flags list
 			foreach(KeyValuePair<string, string> tf in General.Map.Config.ThingFlags)
@@ -101,23 +91,23 @@ namespace CodeImp.DoomBuilder.Windows
 
 		// This sets up the form to edit the given things
 		public void Setup(ICollection<Thing> things)
-		{
-			Thing ft;
+        {
+            Thing ft;
 
-			preventchanges = true;
+            preventchanges = true;
 
-			// Keep this list
-			this.things = things;
-			if(things.Count > 1) this.Text = "Edit Things (" + things.Count + ")";
-			
-			////////////////////////////////////////////////////////////////////////
-			// Set all options to the first thing properties
-			////////////////////////////////////////////////////////////////////////
+            // Keep this list
+            this.things = things;
+            if (things.Count > 1) this.Text = "Edit Things (" + things.Count + ")";
 
-			ft = General.GetByIndex(things, 0);
-			
-			// Set type
-			thingtype.SelectType(ft.Type);
+            ////////////////////////////////////////////////////////////////////////
+            // Set all options to the first thing properties
+            ////////////////////////////////////////////////////////////////////////
+
+            ft = General.GetByIndex(things, 0);
+
+            // Set type
+            thingtype.SelectType(ft.Type);
 
             // Flags
             foreach (CheckBox c in flags.Checkboxes)
@@ -125,23 +115,25 @@ namespace CodeImp.DoomBuilder.Windows
                 if (ft.Flags.ContainsKey(c.Tag.ToString()))
                 {
                     c.Checked = ft.Flags[c.Tag.ToString()];
-                } else {
+                }
+                else
+                {
                     c.Checked = false;
                 }
             }
-			
-			// Coordination
-			angle.Text = ft.AngleDoom.ToString();
-			height.Text = ((int)ft.Position.z).ToString();
-			
-			// Action/tags
-			action.Value = ft.Action;
-			tag.Text = ft.Tag.ToString();
-			arg0.SetValue(ft.Args[0]);
-			arg1.SetValue(ft.Args[1]);
-			arg2.SetValue(ft.Args[2]);
-			arg3.SetValue(ft.Args[3]);
-			arg4.SetValue(ft.Args[4]);
+
+            // Coordination
+            angle.Text = ft.AngleDoom.ToString();
+            height.Text = ((int)ft.Position.z).ToString();
+
+            // Action/tags
+            action.Value = ft.Action;
+            tag.Text = ft.Tag.ToString();
+            arg0.SetValue(ft.Args[0]);
+            arg1.SetValue(ft.Args[1]);
+            arg2.SetValue(ft.Args[2]);
+            arg3.SetValue(ft.Args[3]);
+            arg4.SetValue(ft.Args[4]);
 
             if (General.Map.FormatInterface.HasCustomFields)
             {
@@ -170,31 +162,31 @@ namespace CodeImp.DoomBuilder.Windows
 
             // Go for all things
             foreach (Thing t in things)
-			{
-				// Type does not match?
-				if((thingtype.GetSelectedInfo() != null) &&
-				   (thingtype.GetSelectedInfo().Index != t.Type))
-					thingtype.ClearSelectedType();
-				
-				// Flags
-				foreach(CheckBox c in flags.Checkboxes)
-				{
-					if(t.Flags.ContainsKey(c.Tag.ToString()))
-					{
-						if(t.Flags[c.Tag.ToString()] != c.Checked)
-						{
-							c.ThreeState = true;
-							c.CheckState = CheckState.Indeterminate;
-						}
-					}
-				}
-				
-				// Coordination
-				if(t.AngleDoom.ToString() != angle.Text) angle.Text = "";
-				if(((int)t.Position.z).ToString() != height.Text) height.Text = "";
+            {
+                // Type does not match?
+                if ((thingtype.GetSelectedInfo() != null) &&
+                   (thingtype.GetSelectedInfo().Index != t.Type))
+                    thingtype.ClearSelectedType();
 
-				// Action/tags
-				if(t.Action != action.Value) action.Empty = true;
+                // Flags
+                foreach (CheckBox c in flags.Checkboxes)
+                {
+                    if (t.Flags.ContainsKey(c.Tag.ToString()))
+                    {
+                        if (t.Flags[c.Tag.ToString()] != c.Checked)
+                        {
+                            c.ThreeState = true;
+                            c.CheckState = CheckState.Indeterminate;
+                        }
+                    }
+                }
+
+                // Coordination
+                if (t.AngleDoom.ToString() != angle.Text) angle.Text = "";
+                if (((int)t.Position.z).ToString() != height.Text) height.Text = "";
+
+                // Action/tags
+                if (t.Action != action.Value) action.Empty = true;
                 if (t.Tag != fttag) tag.Text = "";
                 if (t.Args[0] != argResult0) { arg0.ClearValue(); argResult0 = 0; }
                 if (t.Args[1] != argResult1) { arg1.ClearValue(); argResult1 = 0; }
@@ -204,13 +196,12 @@ namespace CodeImp.DoomBuilder.Windows
 
                 // Custom fields
                 fieldslist.SetValues(t.Fields, false);
-			}
+            }
 
-			preventchanges = false;
+            preventchanges = false;
 
             tabs.SelectedIndex = 0;
         }
-
         #endregion
 
         #region ================== Methods

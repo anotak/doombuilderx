@@ -1,33 +1,33 @@
 namespace CodeImp.DoomBuilder.Windows
 {
-	partial class ThingEditForm
-	{
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
+    partial class ThingEditForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if(disposing && (components != null))
-			{
-				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Windows Form Designer generated code
+        #region Windows Form Designer generated code
 
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.GroupBox groupBox1;
             System.Windows.Forms.GroupBox groupBox2;
             System.Windows.Forms.Label label5;
@@ -66,6 +66,8 @@ namespace CodeImp.DoomBuilder.Windows
             this.fieldslist = new CodeImp.DoomBuilder.Controls.FieldsEditorControl();
             this.cancel = new System.Windows.Forms.Button();
             this.apply = new System.Windows.Forms.Button();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             groupBox1 = new System.Windows.Forms.GroupBox();
             groupBox2 = new System.Windows.Forms.GroupBox();
             label5 = new System.Windows.Forms.Label();
@@ -81,11 +83,13 @@ namespace CodeImp.DoomBuilder.Windows
             this.hexenpanel.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tabcustom.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
             groupBox1.Controls.Add(this.thingtype);
             groupBox1.Location = new System.Drawing.Point(8, 8);
@@ -110,7 +114,7 @@ namespace CodeImp.DoomBuilder.Windows
             // 
             // groupBox2
             // 
-            groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             groupBox2.Controls.Add(this.height);
             groupBox2.Controls.Add(this.angle);
@@ -210,18 +214,18 @@ namespace CodeImp.DoomBuilder.Windows
             // 
             // tabs
             // 
-            this.tabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.tabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabs.Controls.Add(this.tabproperties);
             this.tabs.Controls.Add(this.tabeffects);
             this.tabs.Controls.Add(this.tabcustom);
             this.tabs.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabs.Location = new System.Drawing.Point(12, 12);
+            this.tabs.Location = new System.Drawing.Point(1, 1);
             this.tabs.Margin = new System.Windows.Forms.Padding(1);
             this.tabs.Name = "tabs";
             this.tabs.SelectedIndex = 0;
-            this.tabs.Size = new System.Drawing.Size(825, 721);
+            this.tabs.Size = new System.Drawing.Size(848, 732);
             this.tabs.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabs.TabIndex = 0;
             // 
@@ -236,7 +240,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.tabproperties.Margin = new System.Windows.Forms.Padding(4);
             this.tabproperties.Name = "tabproperties";
             this.tabproperties.Padding = new System.Windows.Forms.Padding(4);
-            this.tabproperties.Size = new System.Drawing.Size(817, 692);
+            this.tabproperties.Size = new System.Drawing.Size(840, 703);
             this.tabproperties.TabIndex = 0;
             this.tabproperties.Text = "Properties";
             this.tabproperties.UseVisualStyleBackColor = true;
@@ -255,8 +259,8 @@ namespace CodeImp.DoomBuilder.Windows
             // 
             // settingsgroup
             // 
-            this.settingsgroup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.settingsgroup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.settingsgroup.Controls.Add(this.flags);
             this.settingsgroup.Location = new System.Drawing.Point(355, 8);
@@ -270,8 +274,8 @@ namespace CodeImp.DoomBuilder.Windows
             // 
             // flags
             // 
-            this.flags.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.flags.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.flags.AutoScroll = true;
             this.flags.Columns = 2;
@@ -297,8 +301,8 @@ namespace CodeImp.DoomBuilder.Windows
             // 
             // actiongroup
             // 
-            this.actiongroup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.actiongroup.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.actiongroup.Controls.Add(this.hexenpanel);
             this.actiongroup.Controls.Add(label7);
@@ -316,8 +320,8 @@ namespace CodeImp.DoomBuilder.Windows
             // 
             // hexenpanel
             // 
-            this.hexenpanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.hexenpanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.hexenpanel.Controls.Add(this.arg2);
             this.hexenpanel.Controls.Add(this.arg1);
@@ -465,8 +469,8 @@ namespace CodeImp.DoomBuilder.Windows
             // 
             // doompanel
             // 
-            this.doompanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.doompanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.doompanel.Location = new System.Drawing.Point(8, 68);
             this.doompanel.Margin = new System.Windows.Forms.Padding(4);
@@ -527,8 +531,8 @@ namespace CodeImp.DoomBuilder.Windows
             // fieldslist
             // 
             this.fieldslist.AllowInsert = true;
-            this.fieldslist.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.fieldslist.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.fieldslist.AutoInsertUserPrefix = true;
             this.fieldslist.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -548,7 +552,7 @@ namespace CodeImp.DoomBuilder.Windows
             // 
             this.cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancel.Location = new System.Drawing.Point(698, 741);
+            this.cancel.Location = new System.Drawing.Point(700, 4);
             this.cancel.Margin = new System.Windows.Forms.Padding(4);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(140, 31);
@@ -560,7 +564,7 @@ namespace CodeImp.DoomBuilder.Windows
             // apply
             // 
             this.apply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.apply.Location = new System.Drawing.Point(549, 741);
+            this.apply.Location = new System.Drawing.Point(552, 4);
             this.apply.Margin = new System.Windows.Forms.Padding(4);
             this.apply.Name = "apply";
             this.apply.Size = new System.Drawing.Size(140, 31);
@@ -569,6 +573,32 @@ namespace CodeImp.DoomBuilder.Windows
             this.apply.UseVisualStyleBackColor = true;
             this.apply.Click += new System.EventHandler(this.apply_Click);
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.tabs, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(850, 784);
+            this.tableLayoutPanel1.TabIndex = 3;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.cancel);
+            this.flowLayoutPanel1.Controls.Add(this.apply);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 737);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(844, 44);
+            this.flowLayoutPanel1.TabIndex = 1;
+            // 
             // ThingEditForm
             // 
             this.AcceptButton = this.apply;
@@ -576,9 +606,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.cancel;
             this.ClientSize = new System.Drawing.Size(850, 784);
-            this.Controls.Add(this.cancel);
-            this.Controls.Add(this.apply);
-            this.Controls.Add(this.tabs);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
@@ -605,44 +633,48 @@ namespace CodeImp.DoomBuilder.Windows
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.tabcustom.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
-		}
+        }
 
-		#endregion
+        #endregion
 
-		private System.Windows.Forms.TabControl tabs;
-		private System.Windows.Forms.TabPage tabproperties;
-		private System.Windows.Forms.TabPage tabeffects;
-		private System.Windows.Forms.Button cancel;
-		private System.Windows.Forms.Button apply;
-		private System.Windows.Forms.TabPage tabcustom;
-		private System.Windows.Forms.GroupBox settingsgroup;
-		private CodeImp.DoomBuilder.Controls.CheckboxArrayControl flags;
-		private System.Windows.Forms.Panel spritetex;
-		private CodeImp.DoomBuilder.Controls.AngleControl anglecontrol;
-		private System.Windows.Forms.GroupBox groupBox3;
-		private System.Windows.Forms.Button newtag;
-		private System.Windows.Forms.GroupBox actiongroup;
-		private System.Windows.Forms.Panel hexenpanel;
-		private System.Windows.Forms.Label arg1label;
-		private System.Windows.Forms.Label arg0label;
-		private System.Windows.Forms.Label arg3label;
-		private System.Windows.Forms.Label arg2label;
-		private System.Windows.Forms.Label arg4label;
-		private CodeImp.DoomBuilder.Controls.ActionSelectorControl action;
-		private System.Windows.Forms.Button browseaction;
-		private System.Windows.Forms.Panel doompanel;
-		private CodeImp.DoomBuilder.Controls.FieldsEditorControl fieldslist;
-		private CodeImp.DoomBuilder.Controls.ArgumentBox arg2;
-		private CodeImp.DoomBuilder.Controls.ArgumentBox arg1;
-		private CodeImp.DoomBuilder.Controls.ArgumentBox arg0;
-		private CodeImp.DoomBuilder.Controls.ArgumentBox arg3;
-		private CodeImp.DoomBuilder.Controls.ArgumentBox arg4;
-		private System.Windows.Forms.Label heightlabel;
-		private CodeImp.DoomBuilder.Controls.ThingBrowserControl thingtype;
-		private CodeImp.DoomBuilder.Controls.ButtonsNumericTextbox angle;
-		private CodeImp.DoomBuilder.Controls.ButtonsNumericTextbox height;
-		private CodeImp.DoomBuilder.Controls.ButtonsNumericTextbox tag;
-	}
+        private System.Windows.Forms.TabControl tabs;
+        private System.Windows.Forms.TabPage tabproperties;
+        private System.Windows.Forms.TabPage tabeffects;
+        private System.Windows.Forms.Button cancel;
+        private System.Windows.Forms.Button apply;
+        private System.Windows.Forms.TabPage tabcustom;
+        private System.Windows.Forms.GroupBox settingsgroup;
+        private CodeImp.DoomBuilder.Controls.CheckboxArrayControl flags;
+        private System.Windows.Forms.Panel spritetex;
+        private CodeImp.DoomBuilder.Controls.AngleControl anglecontrol;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button newtag;
+        private System.Windows.Forms.GroupBox actiongroup;
+        private System.Windows.Forms.Panel hexenpanel;
+        private System.Windows.Forms.Label arg1label;
+        private System.Windows.Forms.Label arg0label;
+        private System.Windows.Forms.Label arg3label;
+        private System.Windows.Forms.Label arg2label;
+        private System.Windows.Forms.Label arg4label;
+        private CodeImp.DoomBuilder.Controls.ActionSelectorControl action;
+        private System.Windows.Forms.Button browseaction;
+        private System.Windows.Forms.Panel doompanel;
+        private CodeImp.DoomBuilder.Controls.FieldsEditorControl fieldslist;
+        private CodeImp.DoomBuilder.Controls.ArgumentBox arg2;
+        private CodeImp.DoomBuilder.Controls.ArgumentBox arg1;
+        private CodeImp.DoomBuilder.Controls.ArgumentBox arg0;
+        private CodeImp.DoomBuilder.Controls.ArgumentBox arg3;
+        private CodeImp.DoomBuilder.Controls.ArgumentBox arg4;
+        private System.Windows.Forms.Label heightlabel;
+        private CodeImp.DoomBuilder.Controls.ThingBrowserControl thingtype;
+        private CodeImp.DoomBuilder.Controls.ButtonsNumericTextbox angle;
+        private CodeImp.DoomBuilder.Controls.ButtonsNumericTextbox height;
+        private CodeImp.DoomBuilder.Controls.ButtonsNumericTextbox tag;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+    }
 }

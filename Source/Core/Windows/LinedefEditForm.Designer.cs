@@ -43,6 +43,14 @@ namespace CodeImp.DoomBuilder.Windows
             System.Windows.Forms.Label activationlabel;
             this.cancel = new System.Windows.Forms.Button();
             this.apply = new System.Windows.Forms.Button();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tabs = new System.Windows.Forms.TabControl();
+            this.tabproperties = new System.Windows.Forms.TabPage();
+            this.idgroup = new System.Windows.Forms.GroupBox();
+            this.tag = new CodeImp.DoomBuilder.Controls.ButtonsNumericTextbox();
+            this.newtag = new System.Windows.Forms.Button();
+            this.settingsgroup = new System.Windows.Forms.GroupBox();
+            this.flags = new CodeImp.DoomBuilder.Controls.CheckboxArrayControl();
             this.actiongroup = new System.Windows.Forms.GroupBox();
             this.argspanel = new System.Windows.Forms.Panel();
             this.arg2 = new CodeImp.DoomBuilder.Controls.ArgumentBox();
@@ -61,14 +69,6 @@ namespace CodeImp.DoomBuilder.Windows
             this.browseaction = new System.Windows.Forms.Button();
             this.udmfpanel = new System.Windows.Forms.Panel();
             this.udmfactivates = new CodeImp.DoomBuilder.Controls.CheckboxArrayControl();
-            this.newtag = new System.Windows.Forms.Button();
-            this.settingsgroup = new System.Windows.Forms.GroupBox();
-            this.flags = new CodeImp.DoomBuilder.Controls.CheckboxArrayControl();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.tabs = new System.Windows.Forms.TabControl();
-            this.tabproperties = new System.Windows.Forms.TabPage();
-            this.idgroup = new System.Windows.Forms.GroupBox();
-            this.tag = new CodeImp.DoomBuilder.Controls.ButtonsNumericTextbox();
             this.tabsidedefs = new System.Windows.Forms.TabPage();
             this.splitter = new System.Windows.Forms.SplitContainer();
             this.frontside = new System.Windows.Forms.CheckBox();
@@ -91,6 +91,8 @@ namespace CodeImp.DoomBuilder.Windows
             this.backhigh = new CodeImp.DoomBuilder.Controls.TextureSelectorControl();
             this.tabcustom = new System.Windows.Forms.TabPage();
             this.fieldslist = new CodeImp.DoomBuilder.Controls.FieldsEditorControl();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.heightpanel1 = new System.Windows.Forms.Panel();
             this.heightpanel2 = new System.Windows.Forms.Panel();
             label2 = new System.Windows.Forms.Label();
@@ -106,14 +108,15 @@ namespace CodeImp.DoomBuilder.Windows
             label11 = new System.Windows.Forms.Label();
             label12 = new System.Windows.Forms.Label();
             activationlabel = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.tabs.SuspendLayout();
+            this.tabproperties.SuspendLayout();
+            this.idgroup.SuspendLayout();
+            this.settingsgroup.SuspendLayout();
             this.actiongroup.SuspendLayout();
             this.argspanel.SuspendLayout();
             this.hexenpanel.SuspendLayout();
             this.udmfpanel.SuspendLayout();
-            this.settingsgroup.SuspendLayout();
-            this.tabs.SuspendLayout();
-            this.tabproperties.SuspendLayout();
-            this.idgroup.SuspendLayout();
             this.tabsidedefs.SuspendLayout();
             this.splitter.Panel1.SuspendLayout();
             this.splitter.Panel2.SuspendLayout();
@@ -121,6 +124,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.frontgroup.SuspendLayout();
             this.backgroup.SuspendLayout();
             this.tabcustom.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label2
@@ -257,7 +261,7 @@ namespace CodeImp.DoomBuilder.Windows
             // 
             this.cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancel.Location = new System.Drawing.Point(569, 740);
+            this.cancel.Location = new System.Drawing.Point(569, 4);
             this.cancel.Margin = new System.Windows.Forms.Padding(4);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(140, 31);
@@ -269,7 +273,7 @@ namespace CodeImp.DoomBuilder.Windows
             // apply
             // 
             this.apply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.apply.Location = new System.Drawing.Point(420, 740);
+            this.apply.Location = new System.Drawing.Point(420, 4);
             this.apply.Margin = new System.Windows.Forms.Padding(4);
             this.apply.Name = "apply";
             this.apply.Size = new System.Drawing.Size(140, 31);
@@ -277,6 +281,120 @@ namespace CodeImp.DoomBuilder.Windows
             this.apply.Text = "OK";
             this.apply.UseVisualStyleBackColor = true;
             this.apply.Click += new System.EventHandler(this.apply_Click);
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.tabs, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(721, 784);
+            this.tableLayoutPanel1.TabIndex = 3;
+            // 
+            // tabs
+            // 
+            this.tabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabs.Controls.Add(this.tabproperties);
+            this.tabs.Controls.Add(this.tabsidedefs);
+            this.tabs.Controls.Add(this.tabcustom);
+            this.tabs.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabs.Location = new System.Drawing.Point(12, 12);
+            this.tabs.Margin = new System.Windows.Forms.Padding(1);
+            this.tabs.Name = "tabs";
+            this.tabs.SelectedIndex = 0;
+            this.tabs.Size = new System.Drawing.Size(696, 720);
+            this.tabs.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            this.tabs.TabIndex = 0;
+            // 
+            // tabproperties
+            // 
+            this.tabproperties.Controls.Add(this.idgroup);
+            this.tabproperties.Controls.Add(this.settingsgroup);
+            this.tabproperties.Controls.Add(this.actiongroup);
+            this.tabproperties.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabproperties.Location = new System.Drawing.Point(4, 25);
+            this.tabproperties.Margin = new System.Windows.Forms.Padding(4);
+            this.tabproperties.Name = "tabproperties";
+            this.tabproperties.Padding = new System.Windows.Forms.Padding(6);
+            this.tabproperties.Size = new System.Drawing.Size(688, 691);
+            this.tabproperties.TabIndex = 0;
+            this.tabproperties.Text = "Properties";
+            this.tabproperties.UseVisualStyleBackColor = true;
+            // 
+            // idgroup
+            // 
+            this.idgroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.idgroup.Controls.Add(this.tag);
+            this.idgroup.Controls.Add(taglabel);
+            this.idgroup.Controls.Add(this.newtag);
+            this.idgroup.Location = new System.Drawing.Point(10, 620);
+            this.idgroup.Margin = new System.Windows.Forms.Padding(4);
+            this.idgroup.Name = "idgroup";
+            this.idgroup.Padding = new System.Windows.Forms.Padding(4);
+            this.idgroup.Size = new System.Drawing.Size(666, 56);
+            this.idgroup.TabIndex = 2;
+            this.idgroup.TabStop = false;
+            this.idgroup.Text = " Identification ";
+            // 
+            // tag
+            // 
+            this.tag.AllowDecimal = false;
+            this.tag.AllowNegative = false;
+            this.tag.AllowRelative = true;
+            this.tag.ButtonStep = 1;
+            this.tag.Location = new System.Drawing.Point(78, 20);
+            this.tag.Margin = new System.Windows.Forms.Padding(5);
+            this.tag.Name = "tag";
+            this.tag.Size = new System.Drawing.Size(94, 27);
+            this.tag.StepValues = null;
+            this.tag.TabIndex = 7;
+            // 
+            // newtag
+            // 
+            this.newtag.Location = new System.Drawing.Point(186, 22);
+            this.newtag.Margin = new System.Windows.Forms.Padding(4);
+            this.newtag.Name = "newtag";
+            this.newtag.Size = new System.Drawing.Size(95, 29);
+            this.newtag.TabIndex = 1;
+            this.newtag.Text = "New Tag";
+            this.newtag.UseVisualStyleBackColor = true;
+            this.newtag.Click += new System.EventHandler(this.newtag_Click);
+            // 
+            // settingsgroup
+            // 
+            this.settingsgroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.settingsgroup.Controls.Add(this.flags);
+            this.settingsgroup.Location = new System.Drawing.Point(10, 10);
+            this.settingsgroup.Margin = new System.Windows.Forms.Padding(4);
+            this.settingsgroup.Name = "settingsgroup";
+            this.settingsgroup.Padding = new System.Windows.Forms.Padding(4);
+            this.settingsgroup.Size = new System.Drawing.Size(666, 204);
+            this.settingsgroup.TabIndex = 0;
+            this.settingsgroup.TabStop = false;
+            this.settingsgroup.Text = " Settings ";
+            // 
+            // flags
+            // 
+            this.flags.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.flags.AutoScroll = true;
+            this.flags.Columns = 3;
+            this.flags.Location = new System.Drawing.Point(22, 20);
+            this.flags.Margin = new System.Windows.Forms.Padding(5);
+            this.flags.Name = "flags";
+            this.flags.Size = new System.Drawing.Size(636, 176);
+            this.flags.TabIndex = 0;
             // 
             // actiongroup
             // 
@@ -487,114 +605,6 @@ namespace CodeImp.DoomBuilder.Windows
             this.udmfactivates.Name = "udmfactivates";
             this.udmfactivates.Size = new System.Drawing.Size(546, 209);
             this.udmfactivates.TabIndex = 0;
-            // 
-            // newtag
-            // 
-            this.newtag.Location = new System.Drawing.Point(186, 22);
-            this.newtag.Margin = new System.Windows.Forms.Padding(4);
-            this.newtag.Name = "newtag";
-            this.newtag.Size = new System.Drawing.Size(95, 29);
-            this.newtag.TabIndex = 1;
-            this.newtag.Text = "New Tag";
-            this.newtag.UseVisualStyleBackColor = true;
-            this.newtag.Click += new System.EventHandler(this.newtag_Click);
-            // 
-            // settingsgroup
-            // 
-            this.settingsgroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.settingsgroup.Controls.Add(this.flags);
-            this.settingsgroup.Location = new System.Drawing.Point(10, 10);
-            this.settingsgroup.Margin = new System.Windows.Forms.Padding(4);
-            this.settingsgroup.Name = "settingsgroup";
-            this.settingsgroup.Padding = new System.Windows.Forms.Padding(4);
-            this.settingsgroup.Size = new System.Drawing.Size(666, 204);
-            this.settingsgroup.TabIndex = 0;
-            this.settingsgroup.TabStop = false;
-            this.settingsgroup.Text = " Settings ";
-            // 
-            // flags
-            // 
-            this.flags.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.flags.AutoScroll = true;
-            this.flags.Columns = 3;
-            this.flags.Location = new System.Drawing.Point(22, 20);
-            this.flags.Margin = new System.Windows.Forms.Padding(5);
-            this.flags.Name = "flags";
-            this.flags.Size = new System.Drawing.Size(636, 176);
-            this.flags.TabIndex = 0;
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.Location = new System.Drawing.Point(0, 0);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(104, 24);
-            this.checkBox1.TabIndex = 0;
-            this.checkBox1.Text = "checkBox1";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // tabs
-            // 
-            this.tabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabs.Controls.Add(this.tabproperties);
-            this.tabs.Controls.Add(this.tabsidedefs);
-            this.tabs.Controls.Add(this.tabcustom);
-            this.tabs.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabs.Location = new System.Drawing.Point(12, 12);
-            this.tabs.Margin = new System.Windows.Forms.Padding(1);
-            this.tabs.Name = "tabs";
-            this.tabs.SelectedIndex = 0;
-            this.tabs.Size = new System.Drawing.Size(696, 720);
-            this.tabs.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-            this.tabs.TabIndex = 0;
-            // 
-            // tabproperties
-            // 
-            this.tabproperties.Controls.Add(this.idgroup);
-            this.tabproperties.Controls.Add(this.settingsgroup);
-            this.tabproperties.Controls.Add(this.actiongroup);
-            this.tabproperties.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabproperties.Location = new System.Drawing.Point(4, 25);
-            this.tabproperties.Margin = new System.Windows.Forms.Padding(4);
-            this.tabproperties.Name = "tabproperties";
-            this.tabproperties.Padding = new System.Windows.Forms.Padding(6);
-            this.tabproperties.Size = new System.Drawing.Size(688, 691);
-            this.tabproperties.TabIndex = 0;
-            this.tabproperties.Text = "Properties";
-            this.tabproperties.UseVisualStyleBackColor = true;
-            // 
-            // idgroup
-            // 
-            this.idgroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.idgroup.Controls.Add(this.tag);
-            this.idgroup.Controls.Add(taglabel);
-            this.idgroup.Controls.Add(this.newtag);
-            this.idgroup.Location = new System.Drawing.Point(10, 620);
-            this.idgroup.Margin = new System.Windows.Forms.Padding(4);
-            this.idgroup.Name = "idgroup";
-            this.idgroup.Padding = new System.Windows.Forms.Padding(4);
-            this.idgroup.Size = new System.Drawing.Size(666, 56);
-            this.idgroup.TabIndex = 2;
-            this.idgroup.TabStop = false;
-            this.idgroup.Text = " Identification ";
-            // 
-            // tag
-            // 
-            this.tag.AllowDecimal = false;
-            this.tag.AllowNegative = false;
-            this.tag.AllowRelative = true;
-            this.tag.ButtonStep = 1;
-            this.tag.Location = new System.Drawing.Point(78, 20);
-            this.tag.Margin = new System.Windows.Forms.Padding(5);
-            this.tag.Name = "tag";
-            this.tag.Size = new System.Drawing.Size(94, 27);
-            this.tag.StepValues = null;
-            this.tag.TabIndex = 7;
             // 
             // tabsidedefs
             // 
@@ -905,6 +915,26 @@ namespace CodeImp.DoomBuilder.Windows
             this.fieldslist.TypeColumnWidth = 100;
             this.fieldslist.ValueColumnVisible = true;
             // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.cancel);
+            this.flowLayoutPanel1.Controls.Add(this.apply);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 737);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(844, 40);
+            this.flowLayoutPanel1.TabIndex = 1;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.Location = new System.Drawing.Point(0, 0);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(104, 24);
+            this.checkBox1.TabIndex = 0;
+            this.checkBox1.Text = "checkBox1";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // heightpanel1
             // 
             this.heightpanel1.BackColor = System.Drawing.Color.Navy;
@@ -932,9 +962,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.cancel;
             this.ClientSize = new System.Drawing.Size(721, 784);
-            this.Controls.Add(this.tabs);
-            this.Controls.Add(this.cancel);
-            this.Controls.Add(this.apply);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.heightpanel1);
             this.Controls.Add(this.heightpanel2);
             this.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -949,17 +977,18 @@ namespace CodeImp.DoomBuilder.Windows
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Edit Linedef";
             this.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.LinedefEditForm_HelpRequested);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tabs.ResumeLayout(false);
+            this.tabproperties.ResumeLayout(false);
+            this.idgroup.ResumeLayout(false);
+            this.idgroup.PerformLayout();
+            this.settingsgroup.ResumeLayout(false);
             this.actiongroup.ResumeLayout(false);
             this.actiongroup.PerformLayout();
             this.argspanel.ResumeLayout(false);
             this.hexenpanel.ResumeLayout(false);
             this.hexenpanel.PerformLayout();
             this.udmfpanel.ResumeLayout(false);
-            this.settingsgroup.ResumeLayout(false);
-            this.tabs.ResumeLayout(false);
-            this.tabproperties.ResumeLayout(false);
-            this.idgroup.ResumeLayout(false);
-            this.idgroup.PerformLayout();
             this.tabsidedefs.ResumeLayout(false);
             this.splitter.Panel1.ResumeLayout(false);
             this.splitter.Panel1.PerformLayout();
@@ -971,6 +1000,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.backgroup.ResumeLayout(false);
             this.backgroup.PerformLayout();
             this.tabcustom.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
 		}
@@ -1029,5 +1059,7 @@ namespace CodeImp.DoomBuilder.Windows
 		private CodeImp.DoomBuilder.Controls.ButtonsNumericTextbox backoffsety;
 		private CodeImp.DoomBuilder.Controls.ButtonsNumericTextbox backoffsetx;
 		private CodeImp.DoomBuilder.Controls.ButtonsNumericTextbox backsector;
-	}
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+    }
 }
