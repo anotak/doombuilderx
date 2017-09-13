@@ -1,10 +1,10 @@
-Doom Builder X 2.1.3.1 - map editor forked from DB2
-[url=https://github.com/anotak/doombuilderx/releases/download/v2.1.3.1/doombuilderx-2.1.3.1.zip]download link[/url]
+Doom Builder X 2.1.3.2 - map editor forked from DB2
+[url=https://github.com/anotak/doombuilderx/releases/download/v2.1.3.2/doombuilderx-2.1.3.2.zip]download link[/url]
 [url=https://www.sf4remix.com/lilith/doombuilderx-latest.zip]alternate mirror[/url]
 
 Doom Builder X is a map editor forked from CodeImp's Doom Builder 2 by me (Anotak). [url=https://github.com/anotak/doombuilderx/]More credits here[/url].
 
-changelog for version here 2.1.3.0 (from last db2)
+changelog for version 2.1.3.0 (from last db2)
 [spoiler]
 - new config file named builderx.cfg located in the %LOCALAPPDATA%\Doom Builder folder. it will attempt to copy your old builder.cfg on the first launch if the new file is missing.
 - fixed choppiness in 3d mode if computer has been on too long
@@ -54,7 +54,7 @@ changelog for version here 2.1.3.0 (from last db2)
 - removed system.xml and trackbar dependencies
 - new error / crashlog handler
 - actions can disregard the alt key (don't worry about it if you don't get it)[/spoiler]
-[url=https://www.sf4remix.com/lilith/doombuilderx-latest.zip]download link[/url]
-dbx, like db2, is GPLv3. [url=https://github.com/anotak/doombuilderx/]the latest source code is here[/url]
-[url=https://github.com/anotak/doombuilderx/releases/download/v2.1.3.1/doombuilderx-2.1.3.1.zip]download link[/url]
+
+[url=https://github.com/anotak/doombuilderx/releases/download/v2.1.3.2/doombuilderx-2.1.3.2.zip]download link[/url]
 [url=https://www.sf4remix.com/lilith/doombuilderx-latest.zip]alternate mirror[/url]
+dbx, like db2, is GPLv3. [url=https://github.com/anotak/doombuilderx/]the latest source code is here[/url]
