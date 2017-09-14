@@ -19,12 +19,15 @@ struct lump_XJOURNAL {
                     // This is so that if the header gets extended in a
                     // future version, we can still try to read.
     
+    // All strings are in this table, and pointed to by index.
+    // Strings are not terminated, length is provided.
     u64 string_table_pointer; // Starting from data_offset, location of magic_ID.
     u32 string_table_count; // Number of pointers+sizes in string table.
                             // 4294967294 max strings;
                             // 0xFFFFFFFF or 4294967295 is reserved as
                             // null or empty string.
-                            
+    
+    // Table of lump_descriptors.
     u64 lump_table_pointer; // Starting from data_offset, location of magic_ID.
     u32 lump_table_count;   // Number of entries+sizes in lump table.
                             // 0xFFFFFFFF or 4294967295 is reserved as null.
@@ -34,6 +37,12 @@ struct lump_XJOURNAL {
     u32 journal_table_count; // Number of entries+sizes in journal table.
                             // 0xFFFFFFFF or 4294967295 is reserved as null.
                             // That's 4294967294 edits.
+    
+    // Extensions are not currently defined, this is here
+    // for future-proofing the format.
+    // Suggestion is that first 4 bytes of extension should identify it.
+    u64 extension_table_pointer; // Starting from data_offset, location of magic_ID.
+    u32 extension_table_count; // Number of entries+sizes in extension table.
     
     // Any number of bytes until data_offset + string_table_pointer
     // These point to lists of bytes with no terminator, just defined by their length.
@@ -49,6 +58,10 @@ struct lump_XJOURNAL {
     // Any number of bytes until data_offset + journal_table_pointer
     // These point to journal_entry
     pointer_table_entry[journal_table_count] journal_table;
+    
+    // Any number of bytes until data_offset + journal_table_pointer
+    // These point to unknown data for future extensions
+    pointer_table_entry[extension_table_count] extension_table;
 }
 
 typedef u32 string_index; // These default to empty string (defined as 0xFFFFFFFF)
@@ -94,8 +107,16 @@ struct lump_descriptor
     u32 last_journal_edit_index; // is this needed?
                         // the rest of the data structure implies it
     
+    u32 extension_count;
+    
     u32 author_count;
     string_index[author_count] authors;
+    
+    // For future extended formats.
+    // Editors are expected to preserve the extra data pointed to
+    // by these even if it is currently undefined.
+    // Pointers start from lump_descriptor's start.
+    u64[extension_count] extensions;
 }
 
 // If there is a mismatch between lump_descriptors and the existing lumps in
