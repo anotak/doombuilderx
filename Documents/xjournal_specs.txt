@@ -1,4 +1,17 @@
-Tentative XJOURNAL lump specs
+Tentative XJOURNAL lump specs by anotak with input from esselfortium, queenjazz, zokum, altazimuth, sirjuddington, 
+
+overall layout should follow this format, this order is required
+0
+data_offset
+    data_offset + lump_table_pointer
+        data_offset + lump_table_pointer + pointers to lump table entries
+    data_offset + journal_table_pointer
+        data_offset + journal_table_pointer + pointers to journal table entries
+    data_offset + string_table_pointer
+        data_offset + string_table_pointer + pointers to string table entries
+    data_offset + extension_table_pointer
+        data_offset + extension_table_pointer + pointers to extension table entries
+
 
 struct lump_XJOURNAL {
     // EVERYTHING IS LITTLE ENDIAN
@@ -19,29 +32,30 @@ struct lump_XJOURNAL {
                     // This is so that if the header gets extended in a
                     // future version, we can still try to read.
     
+    
+    // Table of lump_descriptors.
+    u64 lump_table_pointer; // Starting from data_offset
+    u32 lump_table_count;   // Number of entries+sizes in lump table.
+                            // 0xFFFFFFFF or 4294967295 is reserved as null.
+                            // That's 4294967294 edits.
+    
+    u64 journal_table_pointer; // Starting from data_offset
+    u32 journal_table_count; // Number of entries+sizes in journal table.
+                            // 0xFFFFFFFF or 4294967295 is reserved as null.
+                            // That's 4294967294 edits.
+    
     // All strings are in this table, and pointed to by index.
     // Strings are not terminated, length is provided.
-    u64 string_table_pointer; // Starting from data_offset, location of magic_ID.
+    u64 string_table_pointer; // Starting from data_offset
     u32 string_table_count; // Number of pointers+sizes in string table.
                             // 4294967294 max strings;
                             // 0xFFFFFFFF or 4294967295 is reserved as
                             // null or empty string.
     
-    // Table of lump_descriptors.
-    u64 lump_table_pointer; // Starting from data_offset, location of magic_ID.
-    u32 lump_table_count;   // Number of entries+sizes in lump table.
-                            // 0xFFFFFFFF or 4294967295 is reserved as null.
-                            // That's 4294967294 edits.
-    
-    u64 journal_table_pointer; // Starting from data_offset, location of magic_ID.
-    u32 journal_table_count; // Number of entries+sizes in journal table.
-                            // 0xFFFFFFFF or 4294967295 is reserved as null.
-                            // That's 4294967294 edits.
-    
     // Extensions are not currently defined, this is here
     // for future-proofing the format.
     // Suggestion is that first 4 bytes of extension should identify it.
-    u64 extension_table_pointer; // Starting from data_offset, location of magic_ID.
+    u64 extension_table_pointer; // Starting from data_offset
     u32 extension_table_count; // Number of entries+sizes in extension table.
     
     // Any number of bytes until data_offset + string_table_pointer
@@ -70,7 +84,7 @@ typedef u32 journal_index;
 struct pointer_table_entry {
     // These point to blobs of arbitrary data of arbitrary size
     //(well, less than 4294967295 bytes, or 4.29GB)
-    u64 pointer; // as before, from +data_offset
+    u64 pointer; // relative from data_offset + start of this particular table
     u64 size; // in bytes
 }
 
