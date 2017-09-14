@@ -130,7 +130,7 @@ struct lump_descriptor
     // Editors are expected to preserve the extra data pointed to
     // by these even if it is currently undefined.
     // Pointers start from lump_descriptor's start.
-    u64[extension_count] extensions;
+    pointer_table_entry[extension_count] extensions;
 }
 
 // If there is a mismatch between lump_descriptors and the existing lumps in
