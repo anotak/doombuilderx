@@ -94,10 +94,11 @@ typedef s64 time64; // seconds since 00:00:00 UTC on
                     // 1 January 1970. aka 64-bit unix time
 
 
-struct lump_id // 12 bytes
+struct lump_id // 16 bytes
 {
     string_index lump_name;
     u32 crc32; // 04C11DB7
+    u32 filesize; 
     u32 lump_index; // If using an archive format without an order,
                     // this should always be 0.
                     
@@ -119,6 +120,7 @@ struct lump_descriptor
                         // and creation date.
     
     string_index source_filename; // if copied from another WAD/PK3/?
+                                // or imported
     
     journal_index last_edit_journal_entry; // is this needed?
                         // the rest of the data structure implies it
@@ -179,9 +181,12 @@ enum enum_change32
     Note = 128,
     // change_entry_extendedform
     ExtendedForm = 256,
+    
+    // If tools encounter an unidentified change_entry type,
+    // the tool is required to preserve that data.
 }
 
-// change_entry and related structs have to be 28 bytes each.
+// change_entry and related structs have to be 36 bytes each.
 struct change_entry 
 {
     enum_change32 type;
@@ -201,6 +206,8 @@ struct change_entry_note
     u32 undefined2;
     u32 undefined3;
     u32 undefined4;
+    u32 undefined5;
+    u32 undefined6;
 }
 
 // For future extended formats.
@@ -214,5 +221,7 @@ struct change_entry_extendedform
     u64 extended_size;
     
     // fill remaining;
-    u32 extended_undefined;
+    u32 extended_undefined1;
+    u32 extended_undefined2;
+    u32 extended_undefined3;
 }
