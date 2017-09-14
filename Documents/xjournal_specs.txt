@@ -97,7 +97,10 @@ typedef s64 time64; // seconds since 00:00:00 UTC on
 struct lump_id // 16 bytes
 {
     string_index lump_name;
-    u32 crc32; // 04C11DB7
+    u32 crc32; // using standard 0x04C11DB7 polynomial representation
+                // that most crc32 implementations use
+                // for more info
+                // see https://en.wikipedia.org/wiki/Crc32
     u32 filesize; 
     u32 lump_index; // If using an archive format without an order,
                     // this should always be 0.
