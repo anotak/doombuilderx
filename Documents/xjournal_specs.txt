@@ -112,13 +112,13 @@ struct lump_descriptor
 {
     lump_id identifier;
     
-    journal_index original_entry; // Entry when this lump was added.
+    journal_index original_journal_entry; // Entry when this lump was added.
                         // this gives original author, tool, version
                         // and creation date.
     
     string_index source_filename; // if copied from another WAD/PK3/?
     
-    u32 last_journal_edit_index; // is this needed?
+    journal_index last_edit_journal_entry; // is this needed?
                         // the rest of the data structure implies it
     
     u32 extension_count;
@@ -160,14 +160,18 @@ struct journal_entry {
 enum enum_change32
 {
     // use change_entry
-    Create = 0,
-    Import = 1,
-    Delete = 2,
+    // 1 argument
+    Create = 0, // doesnt use new_lump. created from "scratch"
+    Import = 1, // doesnt use new_lump. imported from file
+    Delete = 2, // doesnt use new_lump.
+    
+    // 2 arguments
     Rename = 3,
     Move = 4,
     Edit = 5,
     Overwrite = 6,
     Copy = 7,
+    
     
     // change_entry_note
     Note = 128,
