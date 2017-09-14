@@ -156,6 +156,8 @@ struct journal_entry {
     string_index tool_name;
     string_index tool_version;
     
+    u32 extension_count;
+    
     // Stuff here for pointers to sub structures for specific types of changes to
     // specific lumps
     
@@ -164,6 +166,12 @@ struct journal_entry {
                                     // Point to change_entry and
                                     // related structures.
                                     // pointers are from start of this journal_entry
+                                    
+    // For future extended formats.
+    // Editors are expected to preserve the extra data pointed to
+    // by these even if it is currently undefined.
+    // Pointers start from lump_descriptor's start.
+    pointer_table_entry[extension_count] extensions;
 }
 
 
@@ -185,8 +193,6 @@ enum enum_change32
     
     // change_entry_note
     Note = 128,
-    // change_entry_extendedform
-    ExtendedForm = 256,
     
     // If tools encounter an unidentified change_entry type,
     // the tool is required to preserve that data.
@@ -214,20 +220,4 @@ struct change_entry_note
     u32 undefined4;
     u32 undefined5;
     u32 undefined6;
-}
-
-// For future extended formats.
-// Editors are expected to preserve the extra data pointed to
-// by these even if it is currently undefined.
-struct change_entry_extendedform
-{
-    enum_change32 type; // 256
-    u32 extended_type;
-    u64 extended_data_pointer; // from journal_entry's start
-    u64 extended_size;
-    
-    // fill remaining;
-    u32 extended_undefined1;
-    u32 extended_undefined2;
-    u32 extended_undefined3;
 }
