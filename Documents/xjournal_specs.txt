@@ -1,0 +1,177 @@
+Tentative XJOURNAL lump specs
+
+struct lump_XJOURNAL {
+    // EVERYTHING IS LITTLE ENDIAN
+    
+    u64 magic_ID; // Should equal to hex bytes
+            // { 0x89,0x58,0x4A,0x52,0x4E,0x1A,0x30,0x00 };
+            // or 
+            // (binary value to make programs that try to open it realize it's binary)
+            // "XJRN"
+            // (binary value that happens to be a EOF for most
+            // command line tools like cat on unix)
+            // "0"
+            // (binary 0/null)
+            
+    u32 version_number; // Should always be 1
+    u64 data_offset; // Position from 0 to start reading any other
+                    // pointers in the header from.
+                    // This is so that if the header gets extended in a
+                    // future version, we can still try to read.
+    
+    u64 string_table_pointer; // Starting from data_offset, location of magic_ID.
+    u32 string_table_count; // Number of pointers+sizes in string table.
+                            // 4294967294 max strings;
+                            // 0xFFFFFFFF or 4294967295 is reserved as
+                            // null or empty string.
+                            
+    u64 lump_table_pointer; // Starting from data_offset, location of magic_ID.
+    u32 lump_table_count;   // Number of entries+sizes in lump table.
+                            // 0xFFFFFFFF or 4294967295 is reserved as null.
+                            // That's 4294967294 edits.
+    
+    u64 journal_table_pointer; // Starting from data_offset, location of magic_ID.
+    u32 journal_table_count; // Number of entries+sizes in journal table.
+                            // 0xFFFFFFFF or 4294967295 is reserved as null.
+                            // That's 4294967294 edits.
+    
+    // Any number of bytes until data_offset + string_table_pointer
+    // These point to lists of bytes with no terminator, just defined by their length.
+    // "Compression" by overlapping pointers is allowed.
+    // (and must be supported by readers)
+    // Writers are not required to support it though.
+    pointer_table_entry[string_table_count] string_table; 
+    
+    // Any number of bytes until data_offset + lump_table_pointer
+    // These point to lump_descriptor
+    pointer_table_entry[lump_table_count] lump_table;
+    
+    // Any number of bytes until data_offset + journal_table_pointer
+    // These point to journal_entry
+    pointer_table_entry[journal_table_count] journal_table;
+}
+
+typedef u32 string_index; // These default to empty string (defined as 0xFFFFFFFF)
+typedef u32 journal_index;
+
+struct pointer_table_entry {
+    // These point to blobs of arbitrary data of arbitrary size
+    //(well, less than 4294967295 bytes, or 4.29GB)
+    u64 pointer; // as before, from +data_offset
+    u64 size; // in bytes
+}
+
+typedef s64 time64; // seconds since 00:00:00 UTC on
+                    // 1 January 1970. aka 64-bit unix time
+
+
+struct lump_id // 12 bytes
+{
+    string_index lump_name;
+    u32 crc32; // 04C11DB7
+    u32 lump_index; // If using an archive format without an order,
+                    // this should always be 0.
+                    
+                    // lump_index should only be used to identify
+                    // lumps in the case of
+                    // duplicate name and crc32, as non-XJOURNAL
+                    // supporting tools can mess w lump order;
+                    // however lump_index should still be stored
+                    // whenever possible.
+}
+
+// only track for currently extant wads
+struct lump_descriptor
+{
+    lump_id identifier;
+    
+    string_index original_author;
+    string_index original_tool;
+    string_index source_filename; // if copied from another WAD/PK3/?
+    
+    time64 creationdate;
+    
+    u32 last_journal_edit_index; // is this needed?
+                        // the rest of the data structure implies it
+    
+    u32 author_count;
+    string_index[author_count] authors;
+}
+
+// If there is a mismatch between lump_descriptors and the existing lumps in
+// the wad file, it should make a 2nd journal entry and ascribe it a tool/author
+// with null (0xFFFFFFFF) info.
+
+struct journal_entry {
+    u32 index; // 0xFFFFFFFF or 4294967295 is invalid bc it's reserved for null
+    
+    time64 write_time;
+    
+    string_index author_name;
+    string_index tool_name;
+    string_index tool_version;
+    
+    // Stuff here for pointers to sub structures for specific types of changes to
+    // specific lumps
+    
+    u32 change_count;
+    change_entry[change_count] change_table;
+                                    // Point to change_entry and
+                                    // related structures.
+                                    // pointers are from start of this journal_entry
+}
+
+
+enum enum_change32
+{
+    // use change_entry
+    Create = 0,
+    Import = 1,
+    Delete = 2,
+    Rename = 3,
+    Move = 4,
+    Edit = 5,
+    Overwrite = 6,
+    Copy = 7,
+    
+    // change_entry_note
+    Note = 128,
+    // change_entry_extendedform
+    ExtendedForm = 256,
+}
+
+// change_entry and related structs have to be 28 bytes each.
+struct change_entry 
+{
+    enum_change32 type;
+    lump_id old_lump; 
+    lump_id new_lump; // This is unused for create/add/delete.
+}
+
+// for text-based notes
+struct change_entry_note
+{
+    // 12 bytes
+    enum_change32 type; // 128
+    string_index note_name;
+    string_index note_contents;
+    // So we need to fill remaining contents.
+    u32 undefined1;
+    u32 undefined2;
+    u32 undefined3;
+    u32 undefined4;
+}
+
+// For future extended formats.
+// Editors are expected to preserve the extra data pointed to
+// by these even if it is currently undefined.
+struct change_entry_extendedform
+{
+    enum_change32 type; // 256
+    u32 extended_type;
+    u64 extended_data_pointer; // from journal_entry's start
+    u64 extended_size;
+    
+    // fill remaining;
+    u32 extended_undefined;
+}
