@@ -37,7 +37,7 @@ struct lump_XJOURNAL {
     u64 lump_table_pointer; // Starting from data_offset
     u32 lump_table_count;   // Number of entries+sizes in lump table.
                             // 0xFFFFFFFF or 4294967295 is reserved as null.
-                            // That's 4294967294 edits.
+                            // That's 4294967294 lumps, same as .wad
     
     u64 journal_table_pointer; // Starting from data_offset
     u32 journal_table_count; // Number of entries+sizes in journal table.
