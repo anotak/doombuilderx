@@ -1,4 +1,4 @@
-Tentative XJOURNAL lump specs by anotak with input from esselfortium, queenjazz, zokum, altazimuth, sirjuddington, 
+Tentative XJOURNAL lump specs by anotak with input from esselfortium, queenjazz, zokum, altazimuth, sirjuddington, vita
 
 file extension .xjn when exported
 
@@ -97,18 +97,21 @@ typedef s64 time64; // seconds since 00:00:00 UTC on
 struct lump_id // 16 bytes
 {
     string_index lump_name;
-    u32 crc32; // using standard 0x04C11DB7 polynomial representation
-                // that most crc32 implementations use
+    
+    u32 crc32; // Using standard 0x04C11DB7 polynomial representation
+                // that most crc32 implementations use.
                 // for more info
                 // see https://en.wikipedia.org/wiki/Crc32
-    u32 filesize; 
+                
+    u32 size; // Max lump size 4.29gb, same as wad format.
+    
     u32 lump_index; // If using an archive format without an order,
                     // this should always be 0.
                     
                     // lump_index should only be used to identify
-                    // lumps in the case of
-                    // duplicate name and crc32, as non-XJOURNAL
-                    // supporting tools can mess w lump order;
+                    // lumps in the case of duplicate name, and
+                    // crc32, and size. Non-XJOURNAL
+                    // supporting tools can mess w lump order,
                     // however lump_index should still be stored
                     // whenever possible.
 }
