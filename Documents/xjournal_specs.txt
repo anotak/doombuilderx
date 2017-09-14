@@ -1,5 +1,7 @@
 Tentative XJOURNAL lump specs by anotak with input from esselfortium, queenjazz, zokum, altazimuth, sirjuddington, 
 
+file extension .xjn when exported
+
 overall layout should follow this format, this order is required
 0
 data_offset
