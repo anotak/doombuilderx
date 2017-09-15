@@ -35,16 +35,21 @@ struct lump_XJOURNAL {
                     // future version, we can still try to read.
     
     
+    // offset 20
     // Table of lump_descriptors.
     u64 lump_table_pointer; // Starting from data_offset
     u32 lump_table_count;   // Number of entries+sizes in lump table.
                             // 0xFFFFFFFF or 4294967295 is reserved as null.
                             // That's 4294967294 lumps, same as .wad
     
+    // offset 32
+    
     u64 journal_table_pointer; // Starting from data_offset
     u32 journal_table_count; // Number of entries+sizes in journal table.
                             // 0xFFFFFFFF or 4294967295 is reserved as null.
                             // That's 4294967294 edits.
+    
+    // offset 44
     
     // All strings are in this table, and pointed to by index.
     // Strings are not terminated, length is provided.
@@ -54,11 +59,16 @@ struct lump_XJOURNAL {
                             // 0xFFFFFFFF or 4294967295 is reserved as
                             // null or empty string.
     
+    // offset 56
+    
     // Extensions are not currently defined, this is here
     // for future-proofing the format.
     // Suggestion is that first 4 bytes of extension should identify it.
     u64 extension_table_pointer; // Starting from data_offset
     u32 extension_table_count; // Number of entries+sizes in extension table.
+    
+    
+    // offset 68 = data_offset
     
     // Any number of bytes until data_offset + string_table_pointer
     // These point to lists of bytes with no terminator, just defined by their length.
@@ -75,7 +85,7 @@ struct lump_XJOURNAL {
     // These point to journal_entry
     pointer_table_entry[journal_table_count] journal_table;
     
-    // Any number of bytes until data_offset + journal_table_pointer
+    // Any number of bytes until data_offset + extension_table_pointer
     // These point to unknown data for future extensions
     pointer_table_entry[extension_table_count] extension_table;
 }
@@ -170,8 +180,10 @@ struct journal_entry {
     // For future extended formats.
     // Editors are expected to preserve the extra data pointed to
     // by these even if it is currently undefined.
-    // Pointers start from lump_descriptor's start.
+    // Pointers start from journal_entry's start.
     pointer_table_entry[extension_count] extensions;
+    
+    // actual extension data here after table
 }
 
 
