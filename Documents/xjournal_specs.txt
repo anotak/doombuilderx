@@ -1,3 +1,6 @@
+TEMPORARILY PUT ON HOLD DUE TO VARIOUS ISSUES
+----------
+
 Tentative XJOURNAL lump specs by anotak with input from esselfortium, queenjazz, zokum, altazimuth, sirjuddington, vita
 
 file extension .xjn when exported
@@ -104,6 +107,8 @@ typedef s64 time64; // seconds since 00:00:00 UTC on
                     // 1 January 1970. aka 64-bit unix time
 
 
+// note, should ignore lumps named XJOURNAL or XJOURNAL.xjn
+// with any case
 struct lump_id // 16 bytes
 {
     string_index lump_name;
