@@ -98,6 +98,7 @@ namespace CodeImp.DoomBuilder.Map
 		public float LengthSq { get { return lengthsq; } }
 		public float Length { get { return length; } }
 		public float LengthInv { get { return lengthinv; } }
+        public float LengthSqInv { get { return lengthsqinv; } }
 		public float Angle { get { return angle; } }
 		public int AngleDeg { get { return (int)(angle * Angle2D.PIDEG); } }
 		public RectangleF Rect { get { return rect; } }

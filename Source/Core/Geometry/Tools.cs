@@ -707,7 +707,9 @@ namespace CodeImp.DoomBuilder.Geometry
 		{
 			List<LabelPositionInfo> positions = new List<LabelPositionInfo>(2);
 			int islandoffset = 0;
-			
+
+
+            float[] trianglevertices = new float[160];
 			// Do we have a triangulation?
 			Triangulation triangles = s.Triangles;
 			if(triangles != null)
@@ -723,15 +725,17 @@ namespace CodeImp.DoomBuilder.Geometry
 					float miny = float.MaxValue;
 					float maxx = float.MinValue;
 					float maxy = float.MinValue;
-					
-					// Make candidate lines that are not along sidedefs
-					// We do this before testing the candidate against the sidedefs so that
-					// we can collect the relevant sidedefs first in the same run
-					for(int t = 0; t < triangles.IslandVertices[i]; t += 3)
+                    
+                    // Make candidate lines that are not along sidedefs
+                    // We do this before testing the candidate against the sidedefs so that
+                    // we can collect the relevant sidedefs first in the same run
+                    int vertex_count = 0;
+                    for (int t = 0; t < triangles.IslandVertices[i]; t += 3)
 					{
 						int triangleoffset = islandoffset + t;
 						Vector2D v1 = triangles.Vertices[triangleoffset + 2];
 						Sidedef sd = triangles.Sidedefs[triangleoffset + 2];
+                        
 						for(int v = 0; v < 3; v++)
 						{
 							Vector2D v2 = triangles.Vertices[triangleoffset + v];
@@ -745,9 +749,21 @@ namespace CodeImp.DoomBuilder.Geometry
 							}
 							else
 							{
-								// This sidedefs is part of this island and must be checked
-								// so add it to the dictionary
-								sides[sd] = sd.Line;
+                                if (!sides.ContainsKey(sd))
+                                {
+                                    sides[sd] = sd.Line;
+                                    if (vertex_count + 5 > trianglevertices.Length)
+                                    {
+                                        Array.Resize(ref trianglevertices, trianglevertices.Length * 2);
+                                    }
+                                    trianglevertices[vertex_count] = sd.Line.Start.Position.x;
+                                    trianglevertices[vertex_count + 1] = sd.Line.Start.Position.y;
+                                    trianglevertices[vertex_count + 2] = sd.Line.End.Position.x;
+                                    trianglevertices[vertex_count + 3] = sd.Line.End.Position.y;
+                                    trianglevertices[vertex_count + 4] = sd.Line.LengthSqInv;
+
+                                    vertex_count += 5;
+                                }
 							}
 							
 							// Make bbox of this island
@@ -770,15 +786,41 @@ namespace CodeImp.DoomBuilder.Geometry
 						{
 							// Check distance against other lines
 							float smallestdist = int.MaxValue;
+                            float px = candidatepos.x;
+                            float py = candidatepos.y;
+
+                            for (int vertex_index = 0; vertex_index < vertex_count; vertex_index += 5)
+                            {
+                                float v1x = trianglevertices[vertex_index];
+                                float v1y = trianglevertices[vertex_index + 1];
+                                float v2x = trianglevertices[vertex_index + 2];
+                                float v2y = trianglevertices[vertex_index + 3];
+                                float lengthsqinv = trianglevertices[vertex_index + 4];
+
+                                // Calculate intersection offset
+                                float u = ((px - v1x) * (v2x - v1x) + (py - v1y) * (v2y - v1y)) * lengthsqinv;
+
+                                // Limit intersection offset to the line
+                                if (u < 0f) u = 0f; else if (u > 1f) u = 1f;
+                                
+                                // distance between intersection and point
+                                // which is the shortest distance to the line
+                                float ldx = px - (v1x + u * (v2x - v1x));
+                                float ldy = py - (v1y + u * (v2y - v1y));
+                                smallestdist = Math.Min(smallestdist, ldx * ldx + ldy * ldy);
+                            }
+
+                            /*
 							foreach(KeyValuePair<Sidedef, Linedef> sd in sides)
 							{
 								// Check the distance
 								float distance = sd.Value.DistanceToSq(candidatepos, true);
 								smallestdist = Math.Min(smallestdist, distance);
 							}
-							
-							// Keep this candidate if it is better than previous
-							if(smallestdist > founddistance)
+                            */
+
+                            // Keep this candidate if it is better than previous
+                            if (smallestdist > founddistance)
 							{
 								foundposition = candidatepos;
 								founddistance = smallestdist;
