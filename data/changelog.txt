@@ -1,6 +1,11 @@
 DoomBuilder X
 based on code by CodeImp, MaxED, boris_i, ZZYZX
 ===================================================
+version 2.1.3.3
+=====================
+- optimized sector label positioning algorithm, should have speedups on initial map load and whenever you do anything that changes geometry
+- fix for slow loading of maps that use a lot of sidedef compression
+
 version 2.1.3.2
 =====================
 - linedef / thing / sector edit windows partially loaded when you open a map. vertex one loads first time you open it. once loaded all these should open about 50-70ms faster, in case of individual objects selected it should open in 4-8ms.

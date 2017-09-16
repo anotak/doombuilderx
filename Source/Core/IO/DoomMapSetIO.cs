@@ -287,8 +287,24 @@ namespace CodeImp.DoomBuilder.IO
 			readline = new BinaryReader(linedefsmem);
 			readside = new BinaryReader(sidedefsmem);
 
-			// Read items from the lump
-			map.SetCapacity(0, map.Linedefs.Count + num, map.Sidedefs.Count + numsides, 0, 0);
+            // Read items from the lump
+            
+            // ano - heuristic to detect sidedef compression
+            if (num > numsides)
+            {
+                // ano - set sidedefs to some larger amount than
+                // numsides before resizing back down
+                // because in the case of sidedef compression the
+                // array will have to be resized a lot
+                map.SetCapacity(0, map.Linedefs.Count + num, map.Sidedefs.Count + (num * 2), 0, 0);
+            }
+            else
+            {
+                // ano - + 32 as extra leniency for some amount of sidedef 
+                // compression that goes undetected by the prev check
+                // note this wont be resized back down but 32 is a neglible amount
+                map.SetCapacity(0, map.Linedefs.Count + num, map.Sidedefs.Count + num + 32, 0, 0);
+            }
 			for(i = 0; i < num; i++)
 			{
 				// Read properties from stream
@@ -390,9 +406,14 @@ namespace CodeImp.DoomBuilder.IO
 					General.ErrorLogger.Add(ErrorType.Warning, "Linedef " + i + " references one or more invalid vertices. Linedef has been removed.");
 				}
 			}
+            if (num > numsides)
+            {
+                // ano - resize the arrays back down
+                map.SetCapacity(0, map.Linedefs.Count, map.Sidedefs.Count, 0, 0);
+            }
 
-			// Done
-			linedefsmem.Dispose();
+            // Done
+            linedefsmem.Dispose();
 			sidedefsmem.Dispose();
 		}
 		
