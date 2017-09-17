@@ -131,7 +131,14 @@ namespace CodeImp.DoomBuilder.Windows
 			
 			// Keep this list
 			this.lines = lines;
-			if(lines.Count > 1) this.Text = "Edit Linedefs (" + lines.Count + ")";
+            if (lines.Count > 1)
+            {
+                this.Text = "Edit Linedefs (" + lines.Count + ")";
+            }
+            else
+            {
+                this.Text = "Edit Linedefs";
+            }
 			
 			////////////////////////////////////////////////////////////////////////
 			// Set all options to the first linedef properties
@@ -143,13 +150,24 @@ namespace CodeImp.DoomBuilder.Windows
             // Flags
             foreach (CheckBox c in flags.Checkboxes)
             {
+                c.ThreeState = false;
                 if (fl.Flags.ContainsKey(c.Tag.ToString()))
                 {
                     c.Checked = fl.Flags[c.Tag.ToString()];
+
+                    if (c.Checked)
+                    {
+                        c.CheckState = CheckState.Checked;
+                    }
+                    else
+                    {
+                        c.CheckState = CheckState.Unchecked;
+                    }
                 }
                 else
                 {
                     c.Checked = false;
+                    c.CheckState = CheckState.Unchecked;
                 }
             }
 			
@@ -161,13 +179,24 @@ namespace CodeImp.DoomBuilder.Windows
 			foreach(CheckBox c in udmfactivates.Checkboxes)
 			{
 				LinedefActivateInfo ai = (c.Tag as LinedefActivateInfo);
+                c.ThreeState = false;
                 if (fl.Flags.ContainsKey(ai.Key))
                 {
                     c.Checked = fl.Flags[ai.Key];
+
+                    if (c.Checked)
+                    {
+                        c.CheckState = CheckState.Checked;
+                    }
+                    else
+                    {
+                        c.CheckState = CheckState.Unchecked;
+                    }
                 }
                 else
                 {
                     c.Checked = false;
+                    c.CheckState = CheckState.Unchecked;
                 }
 			}
 

@@ -98,7 +98,14 @@ namespace CodeImp.DoomBuilder.Windows
 
             // Keep this list
             this.things = things;
-            if (things.Count > 1) this.Text = "Edit Things (" + things.Count + ")";
+            if (things.Count > 1)
+            {
+                this.Text = "Edit Things (" + things.Count + ")";
+            }
+            else
+            {
+                this.Text = "Edit Things";
+            }
 
             ////////////////////////////////////////////////////////////////////////
             // Set all options to the first thing properties
@@ -112,13 +119,24 @@ namespace CodeImp.DoomBuilder.Windows
             // Flags
             foreach (CheckBox c in flags.Checkboxes)
             {
+                c.ThreeState = false;
                 if (ft.Flags.ContainsKey(c.Tag.ToString()))
                 {
                     c.Checked = ft.Flags[c.Tag.ToString()];
+
+                    if (c.Checked)
+                    {
+                        c.CheckState = CheckState.Checked;
+                    }
+                    else
+                    {
+                        c.CheckState = CheckState.Unchecked;
+                    }
                 }
                 else
                 {
                     c.Checked = false;
+                    c.CheckState = CheckState.Unchecked;
                 }
             }
 
