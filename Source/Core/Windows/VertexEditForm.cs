@@ -93,7 +93,14 @@ namespace CodeImp.DoomBuilder.Windows
 		{
 			// Keep this list
 			this.vertices = vertices;
-			if(vertices.Count > 1) this.Text = "Edit Vertices (" + vertices.Count + ")";
+            if (vertices.Count > 1)
+            {
+                this.Text = "Edit Vertices (" + vertices.Count + ")";
+            }
+            else
+            {
+                this.Text = "Edit Vertices";
+            }
 
 			////////////////////////////////////////////////////////////////////////
 			// Set all options to the first vertex properties
