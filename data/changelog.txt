@@ -3,6 +3,7 @@ based on code by CodeImp, MaxED, boris_i, ZZYZX
 ===================================================
 version 2.1.3.3
 =====================
+- fixed bug in 2.1.3.2 with linedef/thing edit windows, please upgrade
 - optimized sector label positioning algorithm, should have speedups on initial map load and whenever you do anything that changes geometry
 - fix for slow loading of maps that use a lot of sidedef compression
 
