@@ -206,6 +206,7 @@ namespace CodeImp.DoomBuilder
 		public static string CompilersPath { get { return compilerspath; } }
 		public static string PluginsPath { get { return pluginspath; } }
 		public static string SpritesPath { get { return spritespath; } }
+        public static string SettingsPath { get { return settingspath; } }
 		public static ICollection<string> CommandArgs { get { return Array.AsReadOnly<string>(cmdargs); } }
 		internal static MainForm MainWindow { get { return mainwindow; } }
 		public static IMainForm Interface { get { return mainwindow; } }

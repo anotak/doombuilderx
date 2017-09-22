@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DBX")]
-[assembly: AssemblyDescription("Doom, Heretic and Hexen map editor")]
+[assembly: AssemblyTitle("WadScript")]
+[assembly: AssemblyDescription("Doom Builder Wadscript Plugin")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("CodeImp")]
-[assembly: AssemblyProduct("DBX")]
-[assembly: AssemblyCopyright("Copyright ©  2007")]
+[assembly: AssemblyCompany("Anotak")]
+[assembly: AssemblyProduct("WadScript")]
+[assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("767cd97a-8b1f-42b3-9086-a5ab9cdbe4ab")]
+[assembly: Guid("e5b6f6f6-f9b5-42f9-b227-49c8e5dcd41f")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -29,4 +29,8 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("2.1.3.4")]
+// You can specify all the values or you can default the Build and Revision Numbers 
+// by using the '*' as shown below:
+// [assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("1.0.0.*")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
