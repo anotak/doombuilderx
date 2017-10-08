@@ -47,8 +47,9 @@ namespace CodeImp.DoomBuilder.Controls
 			InitializeComponent();
 
 			// Hide stuff when in Doom format
+            // 576 is default
 			hexenformatwidth = infopanel.Width;
-			doomformatwidth = infopanel.Width - 190;
+			doomformatwidth = infopanel.Width - 150; // ano - was - 190
 		}
 		
 		// This shows the info
@@ -61,32 +62,62 @@ namespace CodeImp.DoomBuilder.Controls
 			// Show/hide stuff depending on format
 			if(!General.Map.FormatInterface.HasActionArgs)
 			{
-				arglbl1.Visible = false;
-				arglbl2.Visible = false;
-				arglbl3.Visible = false;
-				arglbl4.Visible = false;
-				arglbl5.Visible = false;
-				arg1.Visible = false;
-				arg2.Visible = false;
-				arg3.Visible = false;
-				arg4.Visible = false;
-				arg5.Visible = false;
-				infopanel.Width = doomformatwidth;
-			}
+                arglbl1.Visible = false;
+                arglbl2.Visible = false;
+                arglbl3.Visible = false;
+                arglbl4.Visible = false;
+                arglbl5.Visible = false;
+                arg1.Visible = false;
+                arg2.Visible = false;
+                arg3.Visible = false;
+                arg4.Visible = false;
+                arg5.Visible = false;
+
+                if (arglbl1.Location.X != 708)
+                {
+
+                    arglbl1.Location = new Point(708, 14);
+                    arglbl2.Location = new Point(708, 32);
+                    arglbl3.Location = new Point(708, 51);
+                    arglbl4.Location = new Point(708, 70);
+                    arglbl5.Location = new Point(708, 89);
+
+                    arg1.Location = new Point(766, 14);
+                    arg2.Location = new Point(766, 32);
+                    arg3.Location = new Point(766, 51);
+                    arg4.Location = new Point(766, 70);
+                    arg5.Location = new Point(766, 89);
+                }
+                infopanel.Width = doomformatwidth;
+            }
 			else
 			{
-				arglbl1.Visible = true;
-				arglbl2.Visible = true;
-				arglbl3.Visible = true;
-				arglbl4.Visible = true;
-				arglbl5.Visible = true;
-				arg1.Visible = true;
-				arg2.Visible = true;
-				arg3.Visible = true;
-				arg4.Visible = true;
-				arg5.Visible = true;
-				infopanel.Width = hexenformatwidth;
-			}
+                arglbl1.Visible = true;
+                arglbl2.Visible = true;
+                arglbl3.Visible = true;
+                arglbl4.Visible = true;
+                arglbl5.Visible = true;
+                arg1.Visible = true;
+                arg2.Visible = true;
+                arg3.Visible = true;
+                arg4.Visible = true;
+                arg5.Visible = true;
+                if (arglbl1.Location.X != 308)
+                {
+                    arglbl1.Location = new Point(308, 14);
+                    arglbl2.Location = new Point(308, 32);
+                    arglbl3.Location = new Point(308, 51);
+                    arglbl4.Location = new Point(308, 70);
+                    arglbl5.Location = new Point(308, 89);
+
+                    arg1.Location = new Point(466, 14);
+                    arg2.Location = new Point(466, 32);
+                    arg3.Location = new Point(466, 51);
+                    arg4.Location = new Point(466, 70);
+                    arg5.Location = new Point(466, 89);
+                }
+                infopanel.Width = hexenformatwidth;
+            }
 
 			// Move panels
 			frontpanel.Left = infopanel.Left + infopanel.Width + infopanel.Margin.Right + frontpanel.Margin.Left;

@@ -33,6 +33,7 @@ namespace CodeImp.DoomBuilder.Controls
             System.Windows.Forms.Label label3;
             System.Windows.Forms.Label label2;
             this.infopanel = new System.Windows.Forms.GroupBox();
+            this.action = new System.Windows.Forms.Label();
             this.unpegged = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.arg5 = new System.Windows.Forms.Label();
@@ -52,19 +53,18 @@ namespace CodeImp.DoomBuilder.Controls
             this.tag = new System.Windows.Forms.Label();
             this.angle = new System.Windows.Forms.Label();
             this.length = new System.Windows.Forms.Label();
-            this.action = new System.Windows.Forms.Label();
             this.frontpanel = new System.Windows.Forms.GroupBox();
+            this.frontlowtex = new System.Windows.Forms.Panel();
             this.frontsector = new System.Windows.Forms.Label();
             this.frontlowname = new System.Windows.Forms.Label();
-            this.frontlowtex = new System.Windows.Forms.Panel();
             this.frontmidtex = new System.Windows.Forms.Panel();
             this.fronthighname = new System.Windows.Forms.Label();
             this.fronthightex = new System.Windows.Forms.Panel();
             this.frontmidname = new System.Windows.Forms.Label();
             this.backpanel = new System.Windows.Forms.GroupBox();
+            this.backlowtex = new System.Windows.Forms.Panel();
             this.backsector = new System.Windows.Forms.Label();
             this.backlowname = new System.Windows.Forms.Label();
-            this.backlowtex = new System.Windows.Forms.Panel();
             this.backmidname = new System.Windows.Forms.Label();
             this.backmidtex = new System.Windows.Forms.Panel();
             this.backhighname = new System.Windows.Forms.Label();
@@ -142,8 +142,8 @@ namespace CodeImp.DoomBuilder.Controls
             this.infopanel.Controls.Add(label4);
             this.infopanel.Controls.Add(label3);
             this.infopanel.Controls.Add(label2);
-            this.infopanel.Controls.Add(this.action);
             this.infopanel.Controls.Add(label1);
+            this.infopanel.Controls.Add(this.action);
             this.infopanel.Location = new System.Drawing.Point(0, 0);
             this.infopanel.Margin = new System.Windows.Forms.Padding(4);
             this.infopanel.Name = "infopanel";
@@ -152,6 +152,17 @@ namespace CodeImp.DoomBuilder.Controls
             this.infopanel.TabIndex = 1;
             this.infopanel.TabStop = false;
             this.infopanel.Text = " Linedef ";
+            // 
+            // action
+            // 
+            this.action.BackColor = System.Drawing.Color.Transparent;
+            this.action.Location = new System.Drawing.Point(60, 14);
+            this.action.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.action.Name = "action";
+            this.action.Size = new System.Drawing.Size(500, 18);
+            this.action.TabIndex = 1;
+            this.action.Text = "0 - Big Door that goes Wobbly Wobbly";
+            this.action.UseMnemonic = false;
             // 
             // unpegged
             // 
@@ -364,18 +375,6 @@ namespace CodeImp.DoomBuilder.Controls
             this.length.TabIndex = 5;
             this.length.Text = "1024";
             // 
-            // action
-            // 
-            this.action.AutoEllipsis = true;
-            this.action.BackColor = System.Drawing.Color.Transparent;
-            this.action.Location = new System.Drawing.Point(69, 14);
-            this.action.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.action.Name = "action";
-            this.action.Size = new System.Drawing.Size(286, 18);
-            this.action.TabIndex = 1;
-            this.action.Text = "0 - Big Door that goes Wobbly Wobbly";
-            this.action.UseMnemonic = false;
-            // 
             // frontpanel
             // 
             this.frontpanel.Controls.Add(this.frontlowtex);
@@ -393,6 +392,17 @@ namespace CodeImp.DoomBuilder.Controls
             this.frontpanel.TabIndex = 2;
             this.frontpanel.TabStop = false;
             this.frontpanel.Text = " Front ";
+            // 
+            // frontlowtex
+            // 
+            this.frontlowtex.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.frontlowtex.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.frontlowtex.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.frontlowtex.Location = new System.Drawing.Point(221, 14);
+            this.frontlowtex.Margin = new System.Windows.Forms.Padding(4);
+            this.frontlowtex.Name = "frontlowtex";
+            this.frontlowtex.Size = new System.Drawing.Size(84, 74);
+            this.frontlowtex.TabIndex = 4;
             // 
             // frontsector
             // 
@@ -416,17 +426,6 @@ namespace CodeImp.DoomBuilder.Controls
             this.frontlowname.Text = "BROWNHUG";
             this.frontlowname.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.frontlowname.UseMnemonic = false;
-            // 
-            // frontlowtex
-            // 
-            this.frontlowtex.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.frontlowtex.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.frontlowtex.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.frontlowtex.Location = new System.Drawing.Point(221, 14);
-            this.frontlowtex.Margin = new System.Windows.Forms.Padding(4);
-            this.frontlowtex.Name = "frontlowtex";
-            this.frontlowtex.Size = new System.Drawing.Size(84, 74);
-            this.frontlowtex.TabIndex = 4;
             // 
             // frontmidtex
             // 
@@ -492,6 +491,17 @@ namespace CodeImp.DoomBuilder.Controls
             this.backpanel.TabStop = false;
             this.backpanel.Text = " Back ";
             // 
+            // backlowtex
+            // 
+            this.backlowtex.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.backlowtex.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.backlowtex.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.backlowtex.Location = new System.Drawing.Point(221, 14);
+            this.backlowtex.Margin = new System.Windows.Forms.Padding(4);
+            this.backlowtex.Name = "backlowtex";
+            this.backlowtex.Size = new System.Drawing.Size(84, 74);
+            this.backlowtex.TabIndex = 4;
+            // 
             // backsector
             // 
             this.backsector.AutoSize = true;
@@ -514,17 +524,6 @@ namespace CodeImp.DoomBuilder.Controls
             this.backlowname.Text = "BROWNHUG";
             this.backlowname.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.backlowname.UseMnemonic = false;
-            // 
-            // backlowtex
-            // 
-            this.backlowtex.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.backlowtex.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.backlowtex.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.backlowtex.Location = new System.Drawing.Point(221, 14);
-            this.backlowtex.Margin = new System.Windows.Forms.Padding(4);
-            this.backlowtex.Name = "backlowtex";
-            this.backlowtex.Size = new System.Drawing.Size(84, 74);
-            this.backlowtex.TabIndex = 4;
             // 
             // backmidname
             // 
