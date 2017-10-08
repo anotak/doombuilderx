@@ -346,6 +346,18 @@ namespace CodeImp.DoomBuilder.Map
 			MapSet newset = new MapSet();
 			newset.BeginAddRemove();
 			newset.SetCapacity(numvertices, numlinedefs, numsidedefs, numsectors, numthings);
+
+            if (unidentified_udmf != null)
+            {
+                UniversalCollection newcollection = new UniversalCollection();
+
+                foreach (UniversalEntry u in unidentified_udmf)
+                {
+                    newcollection.Add(u.Key, u.Value);
+                }
+
+                newset.unidentified_udmf = unidentified_udmf;
+            }
 			
 			// Go for all vertices
 			foreach(Vertex v in vertices)
