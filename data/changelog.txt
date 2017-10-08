@@ -4,7 +4,7 @@ based on code by CodeImp, MaxED, boris_i, ZZYZX
 version 2.1.3.4
 =====================
 - fixed linedef special information being blank in the info panel sometimes
-- preserve unidentified udmf fields outside of blocks
+- added editor for udmf fields outside of blocks, preserve any unidentified udmf data (for forward compatibility with future UDMF stuff)
 
 version 2.1.3.3
 =====================

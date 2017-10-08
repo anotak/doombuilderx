@@ -72,6 +72,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.itemgriddec = new System.Windows.Forms.ToolStripMenuItem();
             this.itemgridsetup = new System.Windows.Forms.ToolStripMenuItem();
             this.itemmapoptions = new System.Windows.Forms.ToolStripMenuItem();
+            this.itemmapudmf = new System.Windows.Forms.ToolStripMenuItem();
             this.menuview = new System.Windows.Forms.ToolStripMenuItem();
             this.itemthingsfilter = new System.Windows.Forms.ToolStripMenuItem();
             this.seperatorviewthings = new System.Windows.Forms.ToolStripSeparator();
@@ -409,7 +410,8 @@ namespace CodeImp.DoomBuilder.Windows
             this.itemgriddec,
             this.itemgridsetup,
             this.seperatoreditgrid,
-            this.itemmapoptions});
+            this.itemmapoptions,
+            this.itemmapudmf});
             this.menuedit.Name = "menuedit";
             this.menuedit.Size = new System.Drawing.Size(47, 24);
             this.menuedit.Text = "&Edit";
@@ -535,6 +537,15 @@ namespace CodeImp.DoomBuilder.Windows
             this.itemmapoptions.Tag = "builder_mapoptions";
             this.itemmapoptions.Text = "Map &Options....";
             this.itemmapoptions.Click += new System.EventHandler(this.InvokeTaggedAction);
+            // 
+            // itemmapudmf
+            // 
+            this.itemmapudmf.Image = global::CodeImp.DoomBuilder.Properties.Resources.Properties;
+            this.itemmapudmf.Name = "itemmapudmf";
+            this.itemmapudmf.Size = new System.Drawing.Size(196, 26);
+            this.itemmapudmf.Tag = "builder_editunidentifiedudmf";
+            this.itemmapudmf.Text = "Map UDM&F info....";
+            this.itemmapudmf.Click += new System.EventHandler(this.InvokeTaggedAction);
             // 
             // menuview
             // 
@@ -1688,6 +1699,7 @@ namespace CodeImp.DoomBuilder.Windows
         private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuedit;
         private System.Windows.Forms.ToolStripMenuItem itemmapoptions;
+        private System.Windows.Forms.ToolStripMenuItem itemmapudmf;
         private System.Windows.Forms.ToolStripMenuItem itemreloadresources;
         private CodeImp.DoomBuilder.Controls.LinedefInfoPanel linedefinfo;
         private CodeImp.DoomBuilder.Controls.VertexInfoPanel vertexinfo;

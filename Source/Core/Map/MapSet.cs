@@ -167,7 +167,15 @@ namespace CodeImp.DoomBuilder.Map
 		internal bool AutoRemove { get { return autoremove; } set { autoremove = value; } }
 
         // ano
-        public UniversalCollection UnidentifiedUDMF { get { return unidentified_udmf; } set { unidentified_udmf = value; } }
+        public UniversalCollection UnidentifiedUDMF { get { return unidentified_udmf; }
+            set {
+                if (this == General.Map.Map)
+                {
+                    General.Map.UndoRedo.RecChangeMapUDMF();
+                }
+                unidentified_udmf = value;
+            }
+        }
 
         #endregion
 

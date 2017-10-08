@@ -2140,7 +2140,8 @@ namespace CodeImp.DoomBuilder.Windows
 			itempaste.Enabled = (General.Map != null) && (General.Editing.Mode != null) && General.Editing.Mode.Attributes.AllowCopyPaste;
 			itempastespecial.Enabled = (General.Map != null) && (General.Editing.Mode != null) && General.Editing.Mode.Attributes.AllowCopyPaste;
 			itemmapoptions.Enabled = (General.Map != null);
-			itemsnaptogrid.Enabled = (General.Map != null);
+            itemmapudmf.Enabled = (General.Map != null);
+            itemsnaptogrid.Enabled = (General.Map != null);
 			itemautomerge.Enabled = (General.Map != null);
 			itemgridsetup.Enabled = (General.Map != null);
 			itemgridinc.Enabled = (General.Map != null);
@@ -2300,6 +2301,15 @@ namespace CodeImp.DoomBuilder.Windows
 			// Enable/disable items
 			itemreloadresources.Enabled = (General.Map != null);
 		}
+
+        // ano - udmf fields editor
+        [BeginAction("editunidentifiedudmf")]
+        internal void EditUnidentifiedUDMF()
+        {
+            UDMFMapFieldForm udmf_form = new UDMFMapFieldForm();
+            udmf_form.ShowDialog(this);
+            udmf_form.Dispose();
+        }
 		
 		// Errors and Warnings
 		[BeginAction("showerrors")]

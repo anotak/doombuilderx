@@ -73,7 +73,19 @@ namespace CodeImp.DoomBuilder.Editing
 			AddThing,
 			RemThing,
 			PrpThing,
+            MapUDMFData, // ano
 		}
+
+        private enum UniversalCodes : byte
+        {
+            Int32,
+            Int64,
+            Bool,
+            String,
+            Float,
+            Block,
+            End
+        }
 		
 		#endregion
 
@@ -428,6 +440,7 @@ namespace CodeImp.DoomBuilder.Editing
 						case StreamCodes.AddThing: PlayAddThing(ds); break;
 						case StreamCodes.RemThing: PlayRemThing(ds); break;
 						case StreamCodes.PrpThing: PlayPrpThing(ds); break;
+                        case StreamCodes.MapUDMFData: PlayChangeMapUDMF(ds); break; // ano
 					}
 					
 					// Sanity check
@@ -495,7 +508,7 @@ namespace CodeImp.DoomBuilder.Editing
 		/// <returns>Ticket ID that identifies the created undo level. Returns -1 when no undo level was created.</returns>
 		public int CreateUndo(string description, object groupsource, int groupid, int grouptag)
 		{
-			UndoSnapshot u;
+			//UndoSnapshot u;
 			Plugin p = null;
 			string groupsourcename = "Null";
 			
@@ -1304,6 +1317,136 @@ namespace CodeImp.DoomBuilder.Editing
 			t.Marked = true;
 		}
 
-		#endregion
-	}
+        // ano
+        internal void RecChangeMapUDMF()
+        {
+            if (!BeginRecordData(StreamCodes.MapUDMFData)) return;
+            RecordUniversalCollectionRecursive(General.Map.Map.UnidentifiedUDMF);
+            EndRecordData();
+            propsrecorded = null;
+        }
+
+        // ano
+        private void RecordUniversalCollectionRecursive(UniversalCollection u)
+        {
+            foreach (UniversalEntry entry in u)
+            {
+                if (entry.Value is UniversalCollection)
+                {
+                    ss.wByte((byte)UniversalCodes.Block);
+                    ss.wString(entry.Key);
+                    RecordUniversalCollectionRecursive((UniversalCollection)entry.Value);
+                }
+                else if (entry.Value is bool)
+                {
+                    ss.wByte((byte)UniversalCodes.Bool);
+                    ss.wString(entry.Key);
+                    ss.wBool((bool)entry.Value);
+                }
+                else if (entry.Value is float)
+                {
+                    ss.wByte((byte)UniversalCodes.Float);
+                    ss.wString(entry.Key);
+                    ss.wLong((long)entry.Value);
+                }
+                else if (entry.Value is long)
+                {
+                    ss.wByte((byte)UniversalCodes.Int64);
+                    ss.wString(entry.Key);
+                    ss.wLong((long)entry.Value);
+                }
+                else if (entry.Value is int)
+                {
+                    ss.wByte((byte)UniversalCodes.Int32);
+                    ss.wString(entry.Key);
+                    ss.wInt((int)entry.Value);
+                }
+                else
+                {
+                    ss.wByte((byte)UniversalCodes.String);
+                    ss.wString(entry.Key);
+                    ss.wString(entry.Value.ToString());
+                }
+            } // foreach
+
+            ss.wByte((byte)UniversalCodes.End);
+
+        } // RecordUniversalCollectionRecursive
+
+        // ano
+        internal void PlayChangeMapUDMF(DeserializerStream ds)
+        {
+            General.Map.Map.UnidentifiedUDMF = PlayChangeMapUDMFRecursive(ds, new UniversalCollection());
+        }
+
+        // ano
+        private UniversalCollection PlayChangeMapUDMFRecursive(DeserializerStream ds, UniversalCollection u)
+        {
+            byte entrytype = (byte)UniversalCodes.End;
+            string entryname = "";
+            ds.rByte(out entrytype);
+
+            while (entrytype != (byte)UniversalCodes.End)
+            {
+                ds.rString(out entryname);
+
+                switch (entrytype)
+                {
+                    case (byte)UniversalCodes.Block:
+                        u.Add(
+                            new UniversalEntry(
+                                entryname,
+                                PlayChangeMapUDMFRecursive(ds,new UniversalCollection())
+                                )
+                            );
+                        break;
+                    case (byte)UniversalCodes.Bool:
+                        {
+                            bool val;
+                            ds.rBool(out val);
+                            u.Add(new UniversalEntry(entryname,val));
+                        }
+                        break;
+                    case (byte)UniversalCodes.Float:
+                        {
+                            float val;
+                            ds.rFloat(out val);
+                            u.Add(new UniversalEntry(entryname, val));
+                        }
+                        break;
+                    case (byte)UniversalCodes.Int32:
+                        {
+                            int val;
+                            ds.rInt(out val);
+                            u.Add(new UniversalEntry(entryname, val));
+                        }
+                        break;
+                    case (byte)UniversalCodes.Int64:
+                        {
+                            long val;
+                            ds.rLong(out val);
+                            u.Add(new UniversalEntry(entryname, val));
+                        }
+                        break;
+                    case (byte)UniversalCodes.String:
+                        {
+                            string val;
+                            ds.rString(out val);
+                            u.Add(new UniversalEntry(entryname, val));
+                        }
+                        break;
+                    default:
+                        throw new InvalidDataException("unknown bytecode encountered during UDMF map properties undo");
+                } // switch
+
+                ds.rByte(out entrytype);
+            } // while
+
+            return u;
+        } // PlayChangeMapUDMFRecursive
+
+
+
+        #endregion
+    }
 }

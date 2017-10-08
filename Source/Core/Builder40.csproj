@@ -758,6 +758,12 @@
       <DependentUpon>FlagsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\ToolbarSection.cs" />
+    <Compile Include="Windows\UDMFMapFieldForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\UDMFMapFieldForm.designer.cs">
+      <DependentUpon>UDMFMapFieldForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Windows\VertexEditForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -533,6 +533,7 @@
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Windows\AboutForm.resx">
@@ -773,6 +774,12 @@
       <DependentUpon>FlagsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\ToolbarSection.cs" />
+    <Compile Include="Windows\UDMFMapFieldForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\UDMFMapFieldForm.Designer.cs">
+      <DependentUpon>UDMFMapFieldForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Windows\VertexEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -958,6 +965,9 @@
     <EmbeddedResource Include="Resources\Thing2D_2.png" />
     <EmbeddedResource Include="Resources\White.png" />
     <EmbeddedResource Include="Resources\Font.cfg" />
+    <EmbeddedResource Include="Windows\UDMFMapFieldForm.resx">
+      <DependentUpon>UDMFMapFieldForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Windows\VertexEditForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>VertexEditForm.cs</DependentUpon>
