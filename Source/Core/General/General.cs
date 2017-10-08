@@ -1280,8 +1280,11 @@ namespace CodeImp.DoomBuilder
 			}
 			else
 			{
-				// Display status
-				mainwindow.DisplayStatus(StatusType.Busy, "Saving map file...");
+                // ano - measure saving time
+                double save_start_time = stopwatch.Elapsed.TotalMilliseconds;
+
+                // Display status
+                mainwindow.DisplayStatus(StatusType.Busy, "Saving map file...");
 				Cursor.Current = Cursors.WaitCursor;
 
 				// Set this to false so we can see if errors are added
@@ -1300,14 +1303,16 @@ namespace CodeImp.DoomBuilder
 				// All done
 				mainwindow.UpdateInterface();
 
-				if(errorlogger.IsErrorAdded)
+                double save_delta_time = (stopwatch.Elapsed.TotalMilliseconds - save_start_time) / 1000d;
+
+                if (errorlogger.IsErrorAdded)
 				{
 					// Show any errors if preferred
 					mainwindow.DisplayStatus(StatusType.Warning, "There were errors during saving!");
 					if(!delaymainwindow && General.Settings.ShowErrorsWindow) mainwindow.ShowErrors();
 				}
 				else
-					mainwindow.DisplayStatus(StatusType.Info, "Map saved in " + map.FileTitle + ".");
+					mainwindow.DisplayStatus(StatusType.Info, "Map saved in " + map.FileTitle + "; took " + save_delta_time.ToString("########0.00") + " seconds.");
 
 				Cursor.Current = Cursors.Default;
 			}
@@ -1352,8 +1357,11 @@ namespace CodeImp.DoomBuilder
 				}
 				else
 				{
-					// Display status
-					mainwindow.DisplayStatus(StatusType.Busy, "Saving map file...");
+                    // ano - measure saving time
+                    double save_start_time = stopwatch.Elapsed.TotalMilliseconds;
+
+                    // Display status
+                    mainwindow.DisplayStatus(StatusType.Busy, "Saving map file...");
 					Cursor.Current = Cursors.WaitCursor;
 					
 					// Set this to false so we can see if errors are added
@@ -1371,15 +1379,17 @@ namespace CodeImp.DoomBuilder
 					
 					// All done
 					mainwindow.UpdateInterface();
-					
-					if(errorlogger.IsErrorAdded)
+
+                    double save_delta_time = (stopwatch.Elapsed.TotalMilliseconds - save_start_time) / 1000d;
+
+                    if (errorlogger.IsErrorAdded)
 					{
 						// Show any errors if preferred
 						mainwindow.DisplayStatus(StatusType.Warning, "There were errors during saving!");
 						if(!delaymainwindow && General.Settings.ShowErrorsWindow) mainwindow.ShowErrors();
 					}
 					else
-						mainwindow.DisplayStatus(StatusType.Info, "Map saved in " + map.FileTitle + ".");
+                        mainwindow.DisplayStatus(StatusType.Info, "Map saved in " + map.FileTitle + "; took " + save_delta_time.ToString("########0.00") + " seconds.");
 					
 					Cursor.Current = Cursors.Default;
 				}
@@ -1416,8 +1426,11 @@ namespace CodeImp.DoomBuilder
 			savefile.ValidateNames = true;
 			if(savefile.ShowDialog(mainwindow) == DialogResult.OK)
 			{
-				// Display status
-				mainwindow.DisplayStatus(StatusType.Busy, "Saving map file...");
+                // ano - measure saving time
+                double save_start_time = stopwatch.Elapsed.TotalMilliseconds;
+
+                // Display status
+                mainwindow.DisplayStatus(StatusType.Busy, "Saving map file...");
 				Cursor.Current = Cursors.WaitCursor;
 
 				// Set this to false so we can see if errors are added
@@ -1436,16 +1449,18 @@ namespace CodeImp.DoomBuilder
 				// All done
 				mainwindow.UpdateInterface();
 
-				if(errorlogger.IsErrorAdded)
+                double save_delta_time = (stopwatch.Elapsed.TotalMilliseconds - save_start_time) / 1000d;
+
+                if (errorlogger.IsErrorAdded)
 				{
 					// Show any errors if preferred
 					mainwindow.DisplayStatus(StatusType.Warning, "There were errors during saving!");
 					if(!delaymainwindow && General.Settings.ShowErrorsWindow) mainwindow.ShowErrors();
 				}
 				else
-					mainwindow.DisplayStatus(StatusType.Info, "Map saved into " + map.FileTitle + ".");
+                    mainwindow.DisplayStatus(StatusType.Info, "Map saved into " + map.FileTitle + "; took " + save_delta_time.ToString("########0.00") + " seconds.");
 
-				Cursor.Current = Cursors.Default;
+                Cursor.Current = Cursors.Default;
 			}
 
 			savefile.Dispose();
