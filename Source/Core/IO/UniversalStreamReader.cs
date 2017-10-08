@@ -147,7 +147,9 @@ namespace CodeImp.DoomBuilder.IO
 					sectorlink = ReadSectors(map, textmap);
 					ReadLinedefs(map, textmap, vertexlink, sectorlink);
 					ReadThings(map, textmap);
-				}
+
+                    ReadUnidentifiedEntries(map, textmap); // ano
+                }
 			}
 			catch(Exception e)
 			{
@@ -434,8 +436,34 @@ namespace CodeImp.DoomBuilder.IO
 			}
 		}
 
-		// This validates and returns an entry
-		private T GetCollectionEntry<T>(UniversalCollection c, string entryname, bool required, T defaultvalue, string where)
+        // ano - this returns all the unidentified data for preservation
+        private void ReadUnidentifiedEntries(MapSet map, UniversalParser textmap)
+        {
+            UniversalCollection root = textmap.Root;
+            UniversalCollection unidentified = new UniversalCollection();
+
+            foreach (UniversalEntry e in root)
+            {
+                switch (e.Key)
+                {
+                    case "namespace":
+                    case "vertex":
+                    case "thing":
+                    case "linedef":
+                    case "sector":
+                    case "sidedef":
+                        break;
+                    default:
+                        unidentified.Add(e);
+                        break;
+                } // switch
+            } // foreach
+
+            map.UnidentifiedUDMF = unidentified;
+        } // ReadUnidentifiedEntries
+
+        // This validates and returns an entry
+        private T GetCollectionEntry<T>(UniversalCollection c, string entryname, bool required, T defaultvalue, string where)
 		{
 			T result = default(T);
 			bool found = false;

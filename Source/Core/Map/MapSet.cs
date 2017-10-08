@@ -81,6 +81,10 @@ namespace CodeImp.DoomBuilder.Map
 		private int numsidedefs;
 		private int numsectors;
 		private int numthings;
+
+        // ano - universal fields for preserving unknown UDMF data as
+        // the spec requires
+        private UniversalCollection unidentified_udmf;
 		
 		// Behavior
 		private int freezearrays;
@@ -162,12 +166,15 @@ namespace CodeImp.DoomBuilder.Map
 
 		internal bool AutoRemove { get { return autoremove; } set { autoremove = value; } }
 
-		#endregion
+        // ano
+        public UniversalCollection UnidentifiedUDMF { get { return unidentified_udmf; } set { unidentified_udmf = value; } }
 
-		#region ================== Constructor / Disposer
+        #endregion
 
-		// Constructor for new empty map
-		internal MapSet()
+        #region ================== Constructor / Disposer
+
+        // Constructor for new empty map
+        internal MapSet()
 		{
 			// Initialize
 			vertices = new Vertex[0];
@@ -180,6 +187,7 @@ namespace CodeImp.DoomBuilder.Map
 			sel_sectors = new LinkedList<Sector>();
 			sel_things = new LinkedList<Thing>();
 			indexholes = new List<int>();
+            unidentified_udmf = new UniversalCollection();
 			lastsectorindex = 0;
 			autoremove = true;
 			

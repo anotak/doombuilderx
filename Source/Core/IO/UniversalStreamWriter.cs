@@ -108,7 +108,7 @@ namespace CodeImp.DoomBuilder.IO
 		// writenamespace may be null to omit writing the namespace to the stream
 		public void Write(MapSet map, Stream stream, string writenamespace)
 		{
-			Write(map.Vertices, map.Linedefs, map.Sidedefs, map.Sectors, map.Things, stream, writenamespace);
+			Write(map.Vertices, map.Linedefs, map.Sidedefs, map.Sectors, map.Things, stream, writenamespace, map.UnidentifiedUDMF);
 		}
 
 		// This writes the structures to a stream
@@ -117,12 +117,23 @@ namespace CodeImp.DoomBuilder.IO
 		// If there are missing sidedefs, their reference will be removed from the linedefs.
 		public void Write(ICollection<Vertex> vertices, ICollection<Linedef> linedefs,
 						  ICollection<Sidedef> sidedefs, ICollection<Sector> sectors,
-						  ICollection<Thing> things, Stream stream, string writenamespace)
+						  ICollection<Thing> things, Stream stream, string writenamespace,
+                          UniversalCollection unidentified = null)
 		{
 			UniversalParser textmap = new UniversalParser();
 
 			// Begin with fields that must be at the top
 			if(writenamespace != null) textmap.Root.Add("namespace", writenamespace);
+
+            // ano - write unidentified fields to be preserved here
+            if (unidentified != null)
+            {
+                foreach (UniversalEntry entry in unidentified)
+                {
+                    textmap.Root.Add(entry);
+                }
+            }
+
 
 			Dictionary<Vertex, int> vertexids = new Dictionary<Vertex, int>();
 			Dictionary<Sidedef, int> sidedefids = new Dictionary<Sidedef, int>();
