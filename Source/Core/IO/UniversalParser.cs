@@ -691,8 +691,9 @@ namespace CodeImp.DoomBuilder.IO
 						if(!string.IsNullOrEmpty(c.Comment))
 						{
 							if(whitespace) db.Append("\t");
-							db.Append("// " + c.Comment);
-						}
+							db.Append("//");
+                            db.Append(c.Comment);
+                        }
 						db.Append(newline);
 						db.Append(leveltabs); db.Append("{"); db.Append(newline);
 						db.Append(OutputStructure(c, level + 1, newline, whitespace));
@@ -790,8 +791,8 @@ namespace CodeImp.DoomBuilder.IO
 		
 		
 		// This will output the current configuration as a string
-		public string OutputConfiguration() { return OutputConfiguration("\r\n", true); }
-		public string OutputConfiguration(string newline) { return OutputConfiguration(newline, true); }
+		public string OutputConfiguration() { return OutputConfiguration("\n", false); }
+		public string OutputConfiguration(string newline) { return OutputConfiguration(newline, false); }
 		public string OutputConfiguration(string newline, bool whitespace)
 		{
 			// Simply return the configuration structure as string
