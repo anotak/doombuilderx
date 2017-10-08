@@ -33,7 +33,9 @@ if you notice you are missing from here, please inform me, as I have not found f
 
 ## License
 
-This project is licensed under the GPL3 License - see the [LICENSE](LICENSE) file for details
+Doom Builder X is licensed under the GPL3 License - see the [LICENSE](LICENSE) file for details.
+Individual components like the nodebuilders and ACS compilers have their own licenses.
+WadScript plugin is MIT license.
 
 ## Acknowledgments
 

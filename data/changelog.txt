@@ -1,6 +1,11 @@
 DoomBuilder X
 based on code by CodeImp, MaxED, boris_i, ZZYZX
 ===================================================
+version 2.1.3.4
+=====================
+- fixed linedef special information being blank in the info panel sometimes
+- preserve unidentified udmf fields outside of blocks
+
 version 2.1.3.3
 =====================
 - fixed bug in 2.1.3.2 with linedef/thing edit windows, please upgrade
