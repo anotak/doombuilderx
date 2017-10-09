@@ -243,8 +243,13 @@ namespace CodeImp.DoomBuilder.Geometry
 						LinedefTracePath tracepath = new LinedefTracePath(innerlines);
 						EarClipPolygon innerpoly = tracepath.MakePolygon(true);
 
-						// Check if the front of the line is outside the polygon
-						if(!innerpoly.Intersect(foundline.GetSidePoint(foundlinefront)))
+                        //mxd. Check bbox first...
+                        Vector2D foundsidepoint = foundline.GetSidePoint(foundlinefront);
+                        RectangleF innerbbox = innerpoly.CreateBBox();
+                        bool outsidebbox = (foundsidepoint.x < innerbbox.Left || foundsidepoint.x > innerbbox.Right || foundsidepoint.y < innerbbox.Top || foundsidepoint.y > innerbbox.Bottom);
+
+                        // Check if the front of the line is outside the polygon
+                        if (!innerpoly.Intersect(foundline.GetSidePoint(foundlinefront)))
 						{
 							// Valid hole found!
 							alllines.AddRange(innerlines);
