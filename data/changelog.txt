@@ -5,6 +5,7 @@ version 2.1.3.4
 =====================
 - fixed linedef special information being blank in the info panel sometimes
 - added editor for udmf fields outside of blocks, preserve any unidentified udmf data (for forward compatibility with future UDMF stuff)
+- fixed longstanding DB2 make sectors + undo crash bug
 
 version 2.1.3.3
 =====================

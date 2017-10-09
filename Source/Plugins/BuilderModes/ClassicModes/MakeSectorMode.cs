@@ -288,8 +288,28 @@ namespace CodeImp.DoomBuilder.BuilderModes
 			base.OnMapSetChangeBegin();
 		}
 
-		// Cancel mode
-		public override void OnCancel()
+        // ano
+        public override bool OnRedoBegin()
+        {
+            // No valid region
+            nearestside = null;
+            allsides = null;
+            alllines = null;
+            return base.OnRedoBegin();
+        }
+
+        // ano
+        public override bool OnUndoBegin()
+        {
+            // No valid region
+            nearestside = null;
+            allsides = null;
+            alllines = null;
+            return base.OnUndoBegin();
+        }
+
+        // Cancel mode
+        public override void OnCancel()
 		{
 			base.OnCancel();
 			
