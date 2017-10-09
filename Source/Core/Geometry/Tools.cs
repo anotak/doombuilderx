@@ -1227,8 +1227,10 @@ namespace CodeImp.DoomBuilder.Geometry
 				// self intersections for which splits were made above.
 				map.Update(true, false);
 				map.BeginAddRemove();
-				MapSet.SplitLinesByVertices(newlines, intersectverts, MapSet.STITCH_DISTANCE, null);
-				MapSet.SplitLinesByVertices(newlines, mergeverts, MapSet.STITCH_DISTANCE, null);
+                MapSet.SplitLinesByVertices(newlines, intersectverts, null);
+                MapSet.SplitLinesByVertices(newlines, mergeverts, null);
+                //MapSet.SplitLinesByVertices(newlines, intersectverts, MapSet.STITCH_DISTANCE, null);
+				//MapSet.SplitLinesByVertices(newlines, mergeverts, MapSet.STITCH_DISTANCE, null);
 				map.EndAddRemove();
 				
 				/***************************************************\
