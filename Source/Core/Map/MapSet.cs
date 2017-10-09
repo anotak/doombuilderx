@@ -1987,13 +1987,14 @@ namespace CodeImp.DoomBuilder.Map
 
             // Split moving lines with unselected vertices
             nearbyfixedverts = MapSet.FilterByArea(fixedverts, ref editarea);
-            if (!MapSet.SplitLinesByVertices(movinglines, nearbyfixedverts, MapSet.STITCH_DISTANCE, movinglines))
-                //if (!MapSet.SplitLinesByVertices((List<Linedef>)movinglines, (List<Vertex>)nearbyfixedverts, (List<Linedef>)movinglines))
+            //if (!MapSet.SplitLinesByVertices(movinglines, nearbyfixedverts, MapSet.STITCH_DISTANCE, movinglines))
+            if (!MapSet.SplitLinesByVertices((List<Linedef>)movinglines, (List<Vertex>)nearbyfixedverts, null))
                 return false;
 
             // Split non-moving lines with selected vertices
             fixedlines = MapSet.FilterByArea(fixedlines, ref editarea);
-            if (!MapSet.SplitLinesByVertices(fixedlines, movingverts, MapSet.STITCH_DISTANCE, movinglines))
+            //if (!MapSet.SplitLinesByVertices(fixedlines, movingverts, MapSet.STITCH_DISTANCE, movinglines))
+            if (!MapSet.SplitLinesByVertices((List<Linedef>)fixedlines, (List<Vertex>)movingverts, (List<Linedef>)movinglines))
                 return false;
 
             // Remove looped linedefs
@@ -2342,6 +2343,7 @@ namespace CodeImp.DoomBuilder.Map
             return flipsdone;
         }
 
+        // ano - this is deprecated but we're keeping it bc plugin compat
         /// <summary>This splits the given lines with the given vertices. All affected lines
         /// will be added to changedlines. Returns false when the operation failed.</summary>
         public static bool SplitLinesByVertices(ICollection<Linedef> lines, ICollection<Vertex> verts, float splitdist, ICollection<Linedef> changedlines)
@@ -2419,13 +2421,10 @@ namespace CodeImp.DoomBuilder.Map
         {
             float splitdist2 = MapSet.STITCH_DISTANCE * MapSet.STITCH_DISTANCE;
 
-            if (lines == null || verts == null || changedlines == null)
+            if (lines == null || verts == null)
             {
                 throw new Exception("Error, missing data structure for SplitLinesByVertices");
             }
-
-            int line_count = lines.Count;
-            int vert_count = verts.Count;
 
             bool splitsDone = true;
             while (splitsDone)
@@ -2438,8 +2437,15 @@ namespace CodeImp.DoomBuilder.Map
                     {
                         return 1;
                     }
+                    else if (a.Position.x == b.Position.x)
+                    {
+                        return 0;
+                    }
                     return -1;
                 });
+
+                int line_count = lines.Count;
+                int vert_count = verts.Count;
 
                 for (int line_index = 0; line_index < line_count; line_index++)
                 {
@@ -2454,17 +2460,19 @@ namespace CodeImp.DoomBuilder.Map
                         rightx = temp;
                     }
 
-                    int vert_index = 0;
-                    int vert_max = vert_count;
+                    int vert_index;
+                    int vert_max;
+
                     { // binary search list of verts for place to start vert_index
-                        int lower = vert_index;
-                        int upper = vert_max;
+                        int lower = 0;
+                        int upper = vert_count;
 
                         while (upper - lower > 1)
                         {
                             int m = (upper + lower) / 2;
-                            Vector2D p = verts[m].Position;
-                            if (p.x < leftx)
+                            float px = verts[m].Position.x;
+
+                            if (px < leftx)
                             {
                                 lower = m;
                             }
@@ -2475,13 +2483,14 @@ namespace CodeImp.DoomBuilder.Map
                         }
 
                         vert_index = lower;
-                        upper = vert_max;
+                        upper = vert_count;
 
                         while (upper - lower > 1)
                         {
                             int m = (upper + lower) / 2;
-                            Vector2D p = verts[m].Position;
-                            if (p.x < leftx)
+                            float px = verts[m].Position.x;
+
+                            if (px <= rightx)
                             {
                                 lower = m;
                             }
@@ -2490,7 +2499,7 @@ namespace CodeImp.DoomBuilder.Map
                                 upper = m;
                             }
                         }
-                        vert_max = lower;
+                        vert_max = upper;
                     } // end binary search
 
 
@@ -2522,14 +2531,21 @@ namespace CodeImp.DoomBuilder.Map
                                 nl.UpdateCache();
 
                                 // Add both lines to changedlines
-                                changedlines.Add(l);
-                                changedlines.Add(nl);
+                                if (changedlines != null)
+                                {
+                                    changedlines.Add(l);
+                                    changedlines.Add(nl);
+                                }
 
                                 // keep going
                                 splitsDone = true;
+                                line_index--;
+                                line_count++;
+                                break; // need to break the vert for loop
                             } // if not referencing
                         } // if close enough
                     } // for verts
+                    
                 } // for lines
             }
             return true;
