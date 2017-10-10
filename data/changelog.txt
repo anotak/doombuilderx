@@ -1,9 +1,9 @@
 DoomBuilder X
-based on code by CodeImp, MaxED, boris_i, ZZYZX
-===================================================
+based on code by anotak, CodeImp, MaxED, boris_i, ZZYZX
+=======================================================
 version 2.1.3.4
 =====================
-- big optimizations to drawing new geometry
+- big optimizations to drawing new geometry, brand new algorithms for detecting inner sectors as well as splitting lines by vertices. please let me know if there are any issues.
 - added editor for map-level udmf fields outside of blocks. loading/saving preserve any map level udmf properties (for forward compatibility with future UDMF stuff). (see Edit -> Map UDMF info...)
 - renamed "Deaf" to "Ambush", as it's more correct and matches the Doom source code itself.
 - fixed linedef special information being blank in the info panel sometimes
