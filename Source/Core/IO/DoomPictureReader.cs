@@ -221,6 +221,7 @@ namespace CodeImp.DoomBuilder.IO
 			// Allocate memory
 			pixeldata = new PixelColorBlock(width, height);
 			pixeldata.Clear();
+            int numpixels = width * height;
 			
 			// Go for all columns
 			for(int x = 0; x < width; x++)
@@ -240,6 +241,12 @@ namespace CodeImp.DoomBuilder.IO
 
 					// Skip unused pixel
 					stream.Seek(1, SeekOrigin.Current);
+
+                    if ((y + count - 1) * width + x >= numpixels)
+                    {
+                        // ano - cut early in case of problems
+                        return null;
+                    }
 
 					// Draw post
 					for(int yo = 0; yo < count; yo++)
