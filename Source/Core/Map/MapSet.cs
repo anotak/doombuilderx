@@ -2276,6 +2276,11 @@ namespace CodeImp.DoomBuilder.Map
             int count = vertices.Count;
             List<Vertex> output = new List<Vertex>(count);
 
+            for (int i = 0; i < count; i++)
+            {
+                vertices[i].SnapToAccuracy();
+            }
+
             for (int i = 0; i < count - 1; i++)
             {
                 bool bKeep = true;
