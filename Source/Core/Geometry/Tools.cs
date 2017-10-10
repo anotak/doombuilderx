@@ -138,72 +138,213 @@ namespace CodeImp.DoomBuilder.Geometry
 		/// </summary>
 		public static List<LinedefSide> FindPotentialSectorAt(Linedef line, bool front)
 		{
-			List<LinedefSide> alllines = new List<LinedefSide>();
-			
-			// Find the outer lines
-			EarClipPolygon p = FindOuterLines(line, front, alllines);
-			if(p != null)
-			{
-				// Find the inner lines
-				FindInnerLines(p, alllines);
-				return alllines;
-			}
-			else
-				return null;
+            return FindPotentialSectorAt(line, front, GetSortedMapVerts());
 		}
 
-		// This finds the inner lines of the sector and adds them to the sector polygon
-		private static void FindInnerLines(EarClipPolygon p, List<LinedefSide> alllines)
-		{
-			Vertex foundv;
-			bool vvalid, findmore;
+        private static List<LinedefSide> FindPotentialSectorAt(Linedef line, bool front, Vertex[] sorted_verts)
+        {
+            List<LinedefSide> alllines = new List<LinedefSide>();
+
+            // Find the outer lines
+            EarClipPolygon p = FindOuterLines(line, front, alllines);
+            if (p != null)
+            {
+                // Find the inner lines
+                FindInnerLines(p, alllines,sorted_verts);
+                return alllines;
+            }
+            else
+                return null;
+        }
+
+        // ano
+        public static void SortVertArrayLeftToRight(Vertex[] verts)
+        {
+            Array.Sort(verts,
+                delegate (Vertex a, Vertex b)
+                {
+                    if (a == null)
+                    {
+                        if (b == null)
+                        {
+                            return 0;
+                        }
+                        return -1;
+                    }
+                    else if (b == null)
+                    {
+                        return 1;
+                    }
+                    else if (a.Position.x > b.Position.x)
+                    {
+                        return 1;
+                    }
+                    else if (a.Position.x == b.Position.x)
+                    {
+                        return 0;
+                    }
+                    return -1;
+                });
+        }
+
+        // ano - returns General.Map.Map.Vertices sorted left to right
+        private static Vertex[] GetSortedMapVerts()
+        {
+            int count = General.Map.Map.Vertices.Count;
+            Vertex[] verts = new Vertex[count];
+            if (General.Map.Map.Vertices is Map.MapElementCollection<Vertex>)
+            {
+                ((Map.MapElementCollection<Vertex>)General.Map.Map.Vertices).CopyTo(verts, 0);
+            }
+            else
+            {
+                Array.Copy((Vertex[])General.Map.Map.Vertices, verts, count);
+            }
+
+            SortVertArrayLeftToRight(verts);
+
+            return verts;
+        }
+
+        // This finds the inner lines of the sector and adds them to the sector polygon
+        private static void FindInnerLines(EarClipPolygon p, List<LinedefSide> alllines)
+        {
+            FindInnerLines(p, alllines, GetSortedMapVerts());
+        }
+        // ano - moved here
+        // PRECONDITION - verts must be sorted left to right
+        private static void FindInnerLines(EarClipPolygon p, List<LinedefSide> alllines, Vertex[] sorted_verts)
+        {
+			bool findmore;
 			Linedef foundline;
 			float foundangle = 0f;
-			bool foundlinefront;
-			RectangleF bbox = p.CreateBBox();
-			
-			do
+            RectangleF bbox = p.CreateBBox();
+            bool foundlinefront;
+
+            int vert_count = sorted_verts.Length;
+            int vert_lower = 0;
+            int vert_upper = vert_count;
+
+            // initialize array of falses
+            bool[] dontcheck = new bool[vert_count];
+
+            { // binary search list of verts for upper / lower bound of bbox
+                int lower = 0;
+                int upper = vert_count;
+                float leftx = bbox.Left;
+                float rightx = bbox.Right;
+
+                while (upper - lower > 1)
+                {
+                    int m = (upper + lower) / 2;
+
+                    if (sorted_verts[m] == null)
+                    {
+                        lower = m;
+                    }
+                    else
+                    {
+                        float px = sorted_verts[m].Position.x;
+
+                        if (px < leftx)
+                        {
+                            lower = m;
+                        }
+                        else
+                        {
+                            upper = m;
+                        }
+                    }
+                }
+
+                vert_lower = lower;
+                upper = vert_count;
+
+                // ano - beware - we dont need the null check here because of the previous loop
+                // and the sorted nature of the list, if either of those things change tho,
+                // this needs to change too
+                while (upper - lower > 1)
+                {
+                    int m = (upper + lower) / 2;
+
+                    float px = sorted_verts[m].Position.x;
+
+                    if (px <= rightx)
+                    {
+                        lower = m;
+                    }
+                    else
+                    {
+                        upper = m;
+                    }
+                }
+                vert_upper = upper;
+            } // end binary search
+
+            do
 			{
 				findmore = false;
 
 				// Go for all vertices to find the right-most vertex inside the polygon
-				foundv = null;
-				foreach(Vertex v in General.Map.Map.Vertices)
-				{
-					// Inside the polygon bounding box?
-					if((v.Position.x >= bbox.Left) && (v.Position.x <= bbox.Right) &&
-					   (v.Position.y >= bbox.Top) && (v.Position.y <= bbox.Bottom))
-					{
-						// More to the right?
-						if((foundv == null) || (v.Position.x >= foundv.Position.x))
-						{
-							// Vertex is inside the polygon?
-							if(p.Intersect(v.Position))
-							{
-								// Vertex has lines attached?
-								if(v.Linedefs.Count > 0)
-								{
-									// Go for all lines to see if the vertex is not of the polygon itsself
-									vvalid = true;
-									foreach(LinedefSide ls in alllines)
-									{
-										if((ls.Line.Start == v) || (ls.Line.End == v))
-										{
-											vvalid = false;
-											break;
-										}
-									}
+				Vertex foundv = null;
 
-									// Valid vertex?
-									if(vvalid) foundv = v;
-								}
-							}
-						}
-					}
-				}
+                // ano - iterate over verts within bbox right to left (counting down)
+                for (int vert_index = vert_upper - 1; vert_index >= vert_lower; vert_index--)
+                {
+                    Vertex v = sorted_verts[vert_index];
+                    bool vvalid = true;
+                    if (dontcheck[vert_index])
+                    {
+                        continue;
+                    }
 
-				// Found a vertex inside the polygon?
-				if(foundv != null)
+                    if (v == null)
+                    {
+                        dontcheck[vert_index] = true;
+                        continue; // for
+                    }
+
+                    // vertex is in bounding box?
+                    // Vertex is inside the polygon?
+                    // && Vertex has lines attached?
+                    if (
+                            (v.Position.y > bbox.Top || v.Position.y < bbox.Bottom)
+                            && p.Intersect(v.Position)
+                            && v.Linedefs.Count > 0
+                        )
+                    {
+                        // Go for all lines to see if the vertex is not of the polygon itsself
+                        foreach (LinedefSide ls in alllines)
+                        {
+                            if ((ls.Line.Start == v) || (ls.Line.End == v))
+                            {
+                                vvalid = false;
+                                break; // foreach
+                            }
+                        }
+                    }
+                    else
+                    {
+                        dontcheck[vert_index] = true;
+                        vvalid = false;
+                    }
+
+                    if (!vvalid)
+                    {
+                        dontcheck[vert_index] = true;
+                    }
+                    else
+                    {
+                        dontcheck[vert_index] = true;
+                        vert_upper = vert_index;
+                        foundv = v;
+                        break; // for
+                    }
+                } // for verts right to left
+
+
+                // Found a vertex inside the polygon?
+                if (foundv != null)
 				{
 					// Find the attached linedef with the smallest angle to the right
 					float targetangle = Angle2D.PIHALF;
@@ -242,12 +383,12 @@ namespace CodeImp.DoomBuilder.Geometry
 						// Make polygon
 						LinedefTracePath tracepath = new LinedefTracePath(innerlines);
 						EarClipPolygon innerpoly = tracepath.MakePolygon(true);
-
+                        
                         //mxd. Check bbox first...
                         Vector2D foundsidepoint = foundline.GetSidePoint(foundlinefront);
                         RectangleF innerbbox = innerpoly.CreateBBox();
                         bool outsidebbox = (foundsidepoint.x < innerbbox.Left || foundsidepoint.x > innerbbox.Right || foundsidepoint.y < innerbbox.Top || foundsidepoint.y > innerbbox.Bottom);
-
+                        
                         // Check if the front of the line is outside the polygon
                         if (!innerpoly.Intersect(foundline.GetSidePoint(foundlinefront)))
 						{
@@ -259,13 +400,12 @@ namespace CodeImp.DoomBuilder.Geometry
 					}
 				}
 			}
-			// Continue until no more holes found
-			while(findmore);
-		}
+			while(findmore); // Continue until no more holes found
+        } // find inner lines
 
-		// This finds the outer lines of the sector as a polygon
-		// Returns null when no valid outer polygon can be found
-		private static EarClipPolygon FindOuterLines(Linedef line, bool front, List<LinedefSide> alllines)
+        // This finds the outer lines of the sector as a polygon
+        // Returns null when no valid outer polygon can be found
+        private static EarClipPolygon FindOuterLines(Linedef line, bool front, List<LinedefSide> alllines)
 		{
 			Linedef scanline = line;
 			bool scanfront = front;
@@ -1325,7 +1465,13 @@ namespace CodeImp.DoomBuilder.Geometry
 				bool sidescreated = false;
 				bool[] frontsdone = new bool[newlines.Count];
 				bool[] backsdone = new bool[newlines.Count];
-				for(int i = 0; i < newlines.Count; i++)
+#if DEBUG && BUILDER40
+                // ano - debugging crap;
+                Vertex[] vertex_pre = new Vertex[map.Vertices.Count];
+                map.Vertices.CopyTo(vertex_pre, 0);
+#endif
+                Vertex[] sorted_map_verts = GetSortedMapVerts();
+                for (int i = 0; i < newlines.Count; i++)
 				{
 					Linedef ld = newlines[i];
 
@@ -1333,7 +1479,7 @@ namespace CodeImp.DoomBuilder.Geometry
 					if((ld.FrontInterior && !frontsdone[i]) || (!ld.FrontInterior && !backsdone[i]))
 					{
 						// Find a way to create a sector here
-						List<LinedefSide> sectorlines = Tools.FindPotentialSectorAt(ld, ld.FrontInterior);
+						List<LinedefSide> sectorlines = Tools.FindPotentialSectorAt(ld, ld.FrontInterior, sorted_map_verts);
 						if(sectorlines != null)
 						{
 							sidescreated = true;
@@ -1386,7 +1532,7 @@ namespace CodeImp.DoomBuilder.Geometry
 					if((ld.FrontInterior && !backsdone[i]) || (!ld.FrontInterior && !frontsdone[i]))
 					{
 						// Find a way to create a sector here
-						List<LinedefSide> sectorlines = Tools.FindPotentialSectorAt(ld, !ld.FrontInterior);
+						List<LinedefSide> sectorlines = Tools.FindPotentialSectorAt(ld, !ld.FrontInterior, sorted_map_verts);
 						if(sectorlines != null)
 						{
 							// Check if any of the surrounding lines originally have sidedefs we can join
@@ -1436,14 +1582,26 @@ namespace CodeImp.DoomBuilder.Geometry
 							}
 						}
 					}
-				}
+				} // for newlines.count;
+#if DEBUG && BUILDER40
+                // ano - debugging crap
+                if (System.Linq.Enumerable.SequenceEqual<Vertex>(vertex_pre, map.Vertices))
+                {
+                    Logger.WriteLogLine("DEBUGGING: vertex_pre equal!");
+                }
+                else
+                {
+                    Logger.WriteLogLine("DEBUGGING: vertex_pre NOT EQUAL!");
+                    throw new Exception("vertex_pre NOT EQUAL");
+                }
+#endif
 
-				/***************************************************\
+                /***************************************************\
 					Corrections and clean up
 				\***************************************************/
 
-				// Make corrections for backward linedefs
-				MapSet.FlipBackwardLinedefs(newlines);
+                // Make corrections for backward linedefs
+                MapSet.FlipBackwardLinedefs(newlines);
 
 				// Check if any of our new lines have sides
 				if(sidescreated)
@@ -1466,9 +1624,9 @@ namespace CodeImp.DoomBuilder.Geometry
 			return true;
 		}
 		
-		#endregion
+#endregion
 
-		#region ================== Flat Floodfill
+#region ================== Flat Floodfill
 
 		// This performs flat floodfill over sector floors or ceilings that match with the same flat
 		// NOTE: This method uses the sectors marking to indicate which sides have been filled
@@ -1521,9 +1679,9 @@ namespace CodeImp.DoomBuilder.Geometry
 			}
 		}
 
-		#endregion
+#endregion
 
-		#region ================== Texture Floodfill
+#region ================== Texture Floodfill
 
 		// This performs texture floodfill along all walls that match with the same texture
 		// NOTE: This method uses the sidedefs marking to indicate which sides have been filled
@@ -1616,9 +1774,9 @@ namespace CodeImp.DoomBuilder.Geometry
 			}
 		}
 
-		#endregion
+#endregion
 
-		#region ================== Texture Alignment
+#region ================== Texture Alignment
 
 		// This performs texture alignment along all walls that match with the same texture
 		// NOTE: This method uses the sidedefs marking to indicate which sides have been aligned
@@ -1751,9 +1909,9 @@ namespace CodeImp.DoomBuilder.Geometry
 				   ((sd.LongMiddleTexture == texturelongname) && (sd.MiddleRequired() || ((sd.MiddleTexture.Length > 0) && (sd.MiddleTexture[0] != '-')))) ;
 		}
 		
-		#endregion
+#endregion
 		
-		#region ================== Tags and Actions
+#region ================== Tags and Actions
 		
 		/// <summary>
 		/// This removes all tags on the marked geometry.
@@ -1831,9 +1989,9 @@ namespace CodeImp.DoomBuilder.Geometry
 			}
 		}
 		
-		#endregion
+#endregion
 		
-		#region ================== Misc Exported Functions
+#region ================== Misc Exported Functions
 
 		/// <summary>
 		/// This performs a Hermite spline interpolation and returns the result position.
@@ -1853,6 +2011,6 @@ namespace CodeImp.DoomBuilder.Geometry
 			return D3DDevice.V3D(Vector3.Hermite(D3DDevice.V3(p1), D3DDevice.V3(t1), D3DDevice.V3(p2), D3DDevice.V3(t2), u));
 		}
 
-		#endregion
+#endregion
 	}
 }

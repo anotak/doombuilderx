@@ -2431,6 +2431,7 @@ namespace CodeImp.DoomBuilder.Map
             {
                 splitsDone = false;
 
+                // TODO - split this out?
                 verts.Sort(delegate (Vertex a, Vertex b)
                 {
                     if (a.Position.x > b.Position.x)
