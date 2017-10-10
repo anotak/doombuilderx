@@ -1620,9 +1620,20 @@ namespace CodeImp.DoomBuilder.Geometry
 				foreach(Vertex v in newverts) v.Marked = true;
 				foreach(Linedef l in newlines) l.Marked = true;
 			}
+#if DEBUG
+            // ano - if this comes up with anything, there's an issue.
+            // a few situations in db2 caused this already.
+            foreach (Linedef l in newlines)
+            {
+                if (l.Length < 1)
+                {
+                    Logger.WriteLogLine("DEBUG WARNING: line #" + l.Index + " is too short! " + l.Length);
+                }
+            }
+#endif
 
-			return true;
-		}
+            return true;
+		} // DrawLines
 		
 #endregion
 
