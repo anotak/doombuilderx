@@ -2201,6 +2201,88 @@ namespace CodeImp.DoomBuilder.Map
             return linesremoved;
         }
 
+        /// <summary>This removes looped linedefs (linedefs which reference the same vertex for
+        /// start and end) and returns the number of linedefs removed.</summary>
+        // ano - cleanup to prevent old db2 bug
+        public static List<Linedef> RemoveLoopedAndZeroLengthLinedefs(List<Linedef> lines)
+        {
+            int count = lines.Count;
+            List<Linedef> out_lines = new List<Linedef>(count);
+            bool bNeedCheck = true;
+            float min_line_length = General.Map.FormatInterface.MinLineLength;
+
+            while (bNeedCheck)
+            {
+                bNeedCheck = false;
+
+                for (int i = 0; i < count; i++)
+                {
+                    bool bKept = false;
+                    Linedef l = lines[i];
+                    if (l != null && !l.IsDisposed)
+                    {
+                        if (l.Start == l.End)
+                        {
+                            l.Dispose();
+                        }
+                        else
+                        {
+                            int l2_count = l.Start.Linedefs.Count;
+                            LinkedListNode<Linedef> node = ((LinkedList<Linedef>)l.Start.Linedefs).First;
+
+                            bool bDoneFirst = false;
+                            while(node != null)
+                            {
+                                Linedef l2 = node.Value;
+                                LinkedListNode<Linedef> next = node.Next;
+                                
+                                if (l2 != null && !l2.IsDisposed && l2 != l && l2.Length < min_line_length)
+                                {
+                                    //Logger.WriteLogLine("l2start too short #" + l2.Index + " with length " + l2.Length);
+
+                                    // Remove this line
+                                    if (l2.Start != l2.End)
+                                    {
+                                        l2.Start.Join(l2.End);
+                                    }
+                                    l2.Dispose();
+                                }
+
+                                if (next == null && !bDoneFirst)
+                                {
+                                    node = ((LinkedList<Linedef>)l.End.Linedefs).First;
+                                    bDoneFirst = true;
+                                }
+                                else
+                                {
+                                    node = next;
+                                }
+                            } // while(node != null)
+
+                            bKept = true;
+                            out_lines.Add(l);
+                        } // else
+                    } // if != null && !disposed
+
+                    if (!bKept)
+                    {
+                        bNeedCheck = true;
+                    }
+                } // for
+
+                if (bNeedCheck)
+                {
+                    lines = out_lines;
+                    count = lines.Count;
+                    out_lines = new List<Linedef>(count);
+                }
+
+            } // while (bNeedCheck)
+
+            // Return result
+            return out_lines;
+        }
+
         /// <summary>This joins nearby vertices from two collections. This does NOT join vertices
         /// within the same collection, only if they exist in both collections.
         /// The vertex from the second collection is moved to match the first vertex.
@@ -2275,11 +2357,6 @@ namespace CodeImp.DoomBuilder.Map
             float joindist2 = joindist * joindist;
             int count = vertices.Count;
             List<Vertex> output = new List<Vertex>(count);
-
-            for (int i = 0; i < count; i++)
-            {
-                vertices[i].SnapToAccuracy();
-            }
 
             for (int i = 0; i < count - 1; i++)
             {
@@ -2377,10 +2454,13 @@ namespace CodeImp.DoomBuilder.Map
                             // Line is not already referencing v?
                             Vector2D deltastart = l.Start.Position - v.Position;
                             Vector2D deltaend = l.End.Position - v.Position;
-                            if (((Math.Abs(deltastart.x) > 0.001f) ||
-                                (Math.Abs(deltastart.y) > 0.001f)) &&
-                               ((Math.Abs(deltaend.x) > 0.001f) ||
-                                (Math.Abs(deltaend.y) > 0.001f)))
+                            if (
+                                (  (Math.Abs(deltastart.x) > 0.001f)
+                                   || (Math.Abs(deltastart.y) > 0.001f)  )
+                                &&
+                                (  (Math.Abs(deltaend.x) > 0.001f)
+                                   || (Math.Abs(deltaend.y) > 0.001f)  )
+                               )
                             {
                                 // Split line l with vertex v
                                 Linedef nl = l.Split(v);
@@ -2519,10 +2599,13 @@ namespace CodeImp.DoomBuilder.Map
                             // Line is not already referencing v?
                             Vector2D deltastart = l.Start.Position - v.Position;
                             Vector2D deltaend = l.End.Position - v.Position;
-                            if (((Math.Abs(deltastart.x) > 0.001f) ||
-                                (Math.Abs(deltastart.y) > 0.001f)) &&
-                               ((Math.Abs(deltaend.x) > 0.001f) ||
-                                (Math.Abs(deltaend.y) > 0.001f)))
+                            if (
+                                ((Math.Abs(deltastart.x) > 0.001f)
+                                   || (Math.Abs(deltastart.y) > 0.001f))
+                                &&
+                                ((Math.Abs(deltaend.x) > 0.001f)
+                                   || (Math.Abs(deltaend.y) > 0.001f))
+                               )
                             {
                                 // Split line l with vertex v
                                 Linedef nl = l.Split(v);

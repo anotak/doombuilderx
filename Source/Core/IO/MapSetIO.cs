@@ -56,6 +56,7 @@ namespace CodeImp.DoomBuilder.IO
 		public abstract int MinTextureOffset { get; }
 		public abstract int MaxTextureOffset { get; }
 		public abstract int VertexDecimals { get; }
+        public abstract float MinLineLength { get; } // ano - related to VertexDecimals
 		public abstract string DecimalsFormat { get; }
 		public abstract bool HasLinedefTag { get; }
 		public abstract bool HasThingTag { get; }

@@ -54,7 +54,8 @@ namespace CodeImp.DoomBuilder.IO
 		public override int MinTextureOffset { get { return short.MinValue; } }
 		public override int MaxTextureOffset { get { return short.MaxValue; } }
 		public override int VertexDecimals { get { return 0; } }
-		public override string DecimalsFormat { get { return "0"; } }
+        public override float MinLineLength { get { return 1f; } } // ano - related to VertexDecimals
+        public override string DecimalsFormat { get { return "0"; } }
 		public override bool HasLinedefTag { get { return true; } }
 		public override bool HasThingTag { get { return false; } }
 		public override bool HasThingAction { get { return false; } }

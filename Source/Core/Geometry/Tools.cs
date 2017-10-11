@@ -1375,8 +1375,8 @@ namespace CodeImp.DoomBuilder.Geometry
                 MapSet.SplitLinesByVertices(newlines, intersectverts, null);
                 MapSet.SplitLinesByVertices(newlines, mergeverts, null);
                 //MapSet.SplitLinesByVertices(newlines, intersectverts, MapSet.STITCH_DISTANCE, null);
-				//MapSet.SplitLinesByVertices(newlines, mergeverts, MapSet.STITCH_DISTANCE, null);
-				map.EndAddRemove();
+                //MapSet.SplitLinesByVertices(newlines, mergeverts, MapSet.STITCH_DISTANCE, null);
+                map.EndAddRemove();
 				
 				/***************************************************\
 					Determine drawing interior
@@ -1600,6 +1600,9 @@ namespace CodeImp.DoomBuilder.Geometry
 					Corrections and clean up
 				\***************************************************/
 
+                General.Map.Map.SnapAllToAccuracy();
+                MapSet.RemoveLoopedAndZeroLengthLinedefs(newlines);
+
                 // Make corrections for backward linedefs
                 MapSet.FlipBackwardLinedefs(newlines);
 
@@ -1614,8 +1617,8 @@ namespace CodeImp.DoomBuilder.Geometry
 					}
 				}
 
-				// Mark new geometry only
-				General.Map.Map.ClearMarkedLinedefs(false);
+                // Mark new geometry only
+                General.Map.Map.ClearMarkedLinedefs(false);
 				General.Map.Map.ClearMarkedVertices(false);
 				foreach(Vertex v in newverts) v.Marked = true;
 				foreach(Linedef l in newlines) l.Marked = true;
