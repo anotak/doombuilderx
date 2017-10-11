@@ -411,6 +411,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
 				pos.y > General.Map.Config.TopBoundary || pos.y < General.Map.Config.BottomBoundary)
 				return false;
 
+            if (points.Count > 0 && (points[points.Count - 1].pos - pos).GetLengthSq() < 0.001f)
+            {
+                return true;
+            }
+
 			DrawnVertex newpoint = new DrawnVertex();
 			newpoint.pos = pos;
 			newpoint.stitch = stitch;
