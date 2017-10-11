@@ -18,6 +18,35 @@ namespace CodeImp.DoomBuilder.WadScript
     {
         public static string[] Types = { "void", "int", "string", "float" };
         public static string[] FlowControl = { "for", "if", "while", "else" }; // foreach (?)
+
+        private static Dictionary<string, int> operator_precedence;
+        public static Dictionary<string, int> OperatorPrecedence
+        {
+            get
+            {
+                if (operator_precedence == null)
+                {
+                    operator_precedence = new Dictionary<string, int>();
+                    // multiplying
+                    operator_precedence.Add("*", 64);
+                    operator_precedence.Add("/", 64);
+                    operator_precedence.Add("%", 64);
+                    //adding
+                    operator_precedence.Add("+", 32);
+                    operator_precedence.Add("-", 32);
+                    // comparisons
+                    operator_precedence.Add("<", 16);
+                    operator_precedence.Add(">", 16);
+                    operator_precedence.Add("==", 16);
+                    operator_precedence.Add("<=", 16);
+                    operator_precedence.Add(">=", 16);
+                    // boolean operations
+                    operator_precedence.Add("&&", 8);
+                    operator_precedence.Add("||", 8);
+                }
+                return operator_precedence;
+            }
+        }
     }
 
     public class IdentifierNode
@@ -27,9 +56,11 @@ namespace CodeImp.DoomBuilder.WadScript
         public List<IdentifierNode> subscopes;
         public int token_index;
         public IdentifierNode parent;
+        public string scope_text_id;
 
         public IdentifierNode()
         {
+            scope_text_id = "R";
             identifierDict = new Dictionary<string, int>();
         }
 
@@ -42,6 +73,7 @@ namespace CodeImp.DoomBuilder.WadScript
             {
                 subscopes = new List<IdentifierNode>();
             }
+            output.scope_text_id = scope_text_id + "." + subscopes.Count;
             subscopes.Add(output);
             return output;
         }
@@ -57,6 +89,7 @@ namespace CodeImp.DoomBuilder.WadScript
         public int tokenindex;
         public int value;
         public float floatvalue;
+        public int operator_precedence;
         public SyntaxType type;
         public List<SyntaxNode> children;
         public IdentifierNode scope;
@@ -83,13 +116,16 @@ namespace CodeImp.DoomBuilder.WadScript
         Comma,
         Symbol,
         BinaryOperator,
+        //LeftHandSide, // binary
+        //RightHandSide, // binary
         Identifier // variable / function names
     }
 
     public enum ChildSyntaxPlacement
     {
         Normal,
-        ChildOfPrevious
+        ChildOfPrevious,
+        //BinaryOperatorPlacement
     }
 
     public enum TokenizerState

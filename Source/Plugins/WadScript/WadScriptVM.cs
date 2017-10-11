@@ -29,7 +29,7 @@ namespace CodeImp.DoomBuilder.WadScript
         protected List<int> arguments;
         protected List<string> stringTable;
         protected List<int> linenumbers;
-        internal string[] lines;
+        internal List<string> lines;
 
         public DrawnVertex origin;
         public Vector2D cursor;
@@ -56,10 +56,12 @@ namespace CodeImp.DoomBuilder.WadScript
             stringTable = new List<string>();
             linenumbers = new List<int>();
             stack = new Stack<int>(128);
+            lines = new List<string>();
 
 
             Compiler compiler = new Compiler();
             compiler.CompileFromFilename(Path.Combine(General.SettingsPath,@"scripts\test.wadscript"), this);
+            //compiler.CompileFromFilename(Path.Combine(General.SettingsPath, @"scripts\orderofoperations.wadscript"), this);
             //InsertTestProgram();
         }
 

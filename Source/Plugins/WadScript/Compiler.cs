@@ -118,6 +118,8 @@ namespace CodeImp.DoomBuilder.WadScript
                 return false;
             }
 
+            vm.lines = lines;
+
             for (int i = 0; i < tokens.Count; i++)
             {
                 Logger.WriteLogLine(tokenTypes[i].ToString() + " token \"" + tokens[i] + "\" at line number " + tokenLineNumbers[i]);
@@ -126,17 +128,28 @@ namespace CodeImp.DoomBuilder.WadScript
             SyntaxGen();
 
             Logger.WriteLogLine(DebugPrintParseTree(string.Empty,syntaxtree, 0));
-
+            
             return true;
         }
 
         public string DebugPrintParseTree(string input, SyntaxNode node, int level)
         {
             string valuestring = node.type == SyntaxType.FloatLiteral ? node.floatvalue.ToString() +"f" : node.value.ToString();
+            string operatorstring = node.operator_precedence != 0 ? node.operator_precedence.ToString() : string.Empty;
+            string scopestring = " (null)";
+
+            if (node.scope != null)
+            {
+                scopestring = " (" + node.scope.scope_text_id + ")";
+            }
+
             input += tokenLineNumbers[node.tokenindex].ToString();
             input += new String(' ', Math.Max(2 + (level*4) - tokenLineNumbers[node.tokenindex].ToString().Length,1))
-                + node.type.ToString() + ": "
-                + new String(' ', Math.Max(50 - node.type.ToString().Length - level * 4, 1))
+                + node.type.ToString()
+                + operatorstring
+                + scopestring
+                + ": "
+                + new String(' ', Math.Max(70 - node.type.ToString().Length - operatorstring.Length - scopestring.Length - level * 4, 1))
                 + valuestring
                 + new String(' ', Math.Max(16 - valuestring.Length, 1))
                 + "`"
@@ -167,10 +180,17 @@ namespace CodeImp.DoomBuilder.WadScript
 
         public SyntaxNode SyntaxBlock(SyntaxNode node, int token_count, IdentifierNode scope)
         {
-            node.children = new List<SyntaxNode>();
+            if (node.children == null)
+            {
+                node.children = new List<SyntaxNode>();
+            }
+            node.scope = scope;
 
             while (syntax_index < token_count)
             {
+                //Logger.WriteLogLine("w" + tokenLineNumbers[syntax_index] + ", " + syntax_index + ": " + tokens[syntax_index] + " " + node.value + " " + node.type);
+                bool bReturnAfterAdding = false;
+
                 SyntaxNode child = new SyntaxNode();
 
                 child.tokenindex = syntax_index;
@@ -222,7 +242,7 @@ namespace CodeImp.DoomBuilder.WadScript
                         }
 
                         syntax_index++;
-                        child = SyntaxBlock(child, token_count, scope);
+                        child = SyntaxBlock(child, token_count, scope.AddNewChild(syntax_index-1));
                     }
                     else
                     {
@@ -237,6 +257,7 @@ namespace CodeImp.DoomBuilder.WadScript
                             }
                             else
                             {
+                                child.type = SyntaxType.Identifier;
                                 scope.identifierDict.Add(tokens[syntax_index], 0);
                             }
                         }
@@ -245,8 +266,10 @@ namespace CodeImp.DoomBuilder.WadScript
                             child.type = SyntaxType.Statement;
                             child = SyntaxBlock(child, token_count, scope);
                         }
-
-                        child.type = SyntaxType.Identifier;
+                        else
+                        {
+                            child.type = SyntaxType.Identifier;
+                        }
                     }
                 } // name
                 else if (tokenTypes[syntax_index] == TokenType.Symbol)
@@ -275,6 +298,16 @@ namespace CodeImp.DoomBuilder.WadScript
                                 SyntaxError("unexpected binary operator `" + tokens[syntax_index] + "` without statement (you probably don't have anything it goes with ?)");
                             }
                             child.type = SyntaxType.BinaryOperator;
+                            child.operator_precedence = CompilerConstants.OperatorPrecedence[tokens[syntax_index]];
+
+                            /*
+                            if (node.type == SyntaxType.RightHandSide && child.operator_precedence < node.operator_precedence)
+                            {
+                                return node;
+                            }
+
+                            placement = ChildSyntaxPlacement.BinaryOperatorPlacement;
+                            */
                             break;
                         case ",":
                             if (node.type == SyntaxType.BaseDeclaration
@@ -293,16 +326,20 @@ namespace CodeImp.DoomBuilder.WadScript
                             {
                                 SyntaxError("unexpected `;` ender in function declaration");
                             }
+                            else if (node.type == SyntaxType.Assignment)
+                            {
+                                return node;
+                            }
                             else if (node.type == SyntaxType.BaseDeclaration
                                 || node.type == SyntaxType.VarDeclaration
-                                || node.type == SyntaxType.Assignment
                                 || node.type == SyntaxType.Statement)
+                                //|| node.type == SyntaxType.RightHandSide)
                             {
                                 if (node.type == SyntaxType.BaseDeclaration)
                                 {
                                     node.type = SyntaxType.VarDeclaration;
                                 }
-                                syntax_index++;
+                                //syntax_index++;
                                 return node;
                             }
                             child.type = SyntaxType.Semicolon;
@@ -347,9 +384,24 @@ namespace CodeImp.DoomBuilder.WadScript
                             }
 
                             child.type = SyntaxType.Block;
-                            placement = ChildSyntaxPlacement.ChildOfPrevious;
+                            /*if (node.children.Count != 0
+                                && node.children[node.children.Count-1].type == SyntaxType.Statement)*/
+                                /*
+                            if(node.type == SyntaxType.FlowControl
+                                || node.type == SyntaxType.FuncDeclaration)
+                            {
+                                placement = ChildSyntaxPlacement.ChildOfPrevious;
+                            }
+                            */
                             syntax_index++;
                             child = SyntaxBlock(child, token_count, scope.AddNewChild(syntax_index-1));
+
+                            if (node.type == SyntaxType.FlowControl
+                                || node.type == SyntaxType.FuncDeclaration)
+                            {
+                                bReturnAfterAdding = true;
+                            }
+
                             break;
                         case "(":
                             if (node.type == SyntaxType.ArgDeclaration)
@@ -384,8 +436,7 @@ namespace CodeImp.DoomBuilder.WadScript
                                 {
                                     SyntaxError("couldn't find matching closed ']' for open '[' due to unexpected '}' ");
                                 }
-
-                                if (node.type == SyntaxType.BaseDeclaration
+                                else if (node.type == SyntaxType.BaseDeclaration
                                     || node.type == SyntaxType.VarDeclaration
                                     || node.type == SyntaxType.FuncDeclaration
                                     || node.type == SyntaxType.ArgDeclaration
@@ -402,7 +453,7 @@ namespace CodeImp.DoomBuilder.WadScript
                             return node;
                         case ")":
                             // end parensblock
-                            if (node.type != SyntaxType.ParensBlock)
+                            if (node.type != SyntaxType.ParensBlock) //&& node.type != SyntaxType.RightHandSide)
                             {
                                 if (node.type == SyntaxType.Block)
                                 {
@@ -480,6 +531,13 @@ namespace CodeImp.DoomBuilder.WadScript
                     //return node;
                 } // string
 
+
+                if (child.scope == null)
+                {
+                    child.scope = scope;
+                }
+
+
                 switch (placement)
                 {
                     case ChildSyntaxPlacement.ChildOfPrevious:
@@ -498,13 +556,53 @@ namespace CodeImp.DoomBuilder.WadScript
                             node.children[node.children.Count - 1] = prev;
                         }
                         break;
+                        /*
+                    case ChildSyntaxPlacement.BinaryOperatorPlacement:
+                        {
+                            if (node.children.Count <= 0)
+                            {
+                                SyntaxError("binary operator `" + tokens[syntax_index] + "` with no lefthand side!");
+                            }
+                            SyntaxNode lhs = new SyntaxNode();
+                            lhs.children = node.children;
+                            lhs.tokenindex = node.children[0].tokenindex;
+                            lhs.type = SyntaxType.LeftHandSide;
+                            lhs.operator_precedence = child.operator_precedence;
+                            child.children = new List<SyntaxNode>();
+                            
+                            SyntaxNode rhs = new SyntaxNode();
+                            rhs.type = SyntaxType.RightHandSide;
+
+                            syntax_index++;
+                            rhs.tokenindex = syntax_index;
+                            rhs.operator_precedence = child.operator_precedence;
+                            rhs = SyntaxBlock(rhs, token_count, scope);
+
+                            child.children.Add(lhs);
+                            child.children.Add(rhs);
+
+                            node.children = new List<SyntaxNode>();
+                            node.children.Add(child);
+                            return node;
+                        }
+                        */
+                        //break;
+
                     case ChildSyntaxPlacement.Normal:
                     default:
                         node.children.Add(child);
                         break;
+                } // switch placement
+
+
+                if (bReturnAfterAdding)
+                {
+                    return node;
                 }
+
+
                 syntax_index++;
-            }
+            } // while
 
             if (node.type == SyntaxType.Block)
             {
@@ -598,7 +696,7 @@ namespace CodeImp.DoomBuilder.WadScript
                                         tokenBuilder.Append(c);
                                         lineBuilder.Append(c);
                                     }
-                                    else if (bIsInt)
+                                    else
                                     {
                                         bIsInt = false;
                                         if (tokenBuilder.Length > 0)
@@ -609,11 +707,6 @@ namespace CodeImp.DoomBuilder.WadScript
                                             tokenLineNumbers.Add(linenumber);
                                         }
                                         state = TokenizerState.Default;
-                                    }
-                                    else
-                                    {
-                                        TokenizerError("unexpected duplicate 'f' or 'F' char in float", lineBuilder.Length,linenumber);
-                                        return false;
                                     }
                                     break;
                                 case '.':
