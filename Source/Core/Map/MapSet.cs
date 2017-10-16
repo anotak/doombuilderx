@@ -3068,7 +3068,31 @@ namespace CodeImp.DoomBuilder.Map
         public Linedef NearestLinedef(Vector2D pos) { return MapSet.NearestLinedef(linedefs, pos); }
 
         /// <summary>This finds the line closest to the specified position.</summary>
-        public Linedef NearestLinedefRange(Vector2D pos, float maxrange) { return MapSet.NearestLinedefRange(linedefs, pos, maxrange); }
+        public Linedef NearestLinedefRange(Vector2D pos, float maxrange)
+        {
+            // ano - some speedups here
+            Linedef closest = null;
+            float distance = float.MaxValue;
+            float maxrangesq = maxrange * maxrange;
+            int count = linedefs.Length;
+
+            // Go for all linedefs in selection
+            for (int i = 0; i < count; i++)
+            {
+                Linedef l = linedefs[i];
+
+                float d = l.DistanceToSq(pos, true);
+
+                if ((d <= maxrangesq) && (d < distance))
+                {
+                    // This one is closer
+                    closest = l;
+                    distance = d;
+                }
+            }
+
+            return closest;
+        }
 
         /// <summary>This finds the vertex closest to the specified position.</summary>
         public Vertex NearestVertex(Vector2D pos) { return MapSet.NearestVertex(vertices, pos); }
