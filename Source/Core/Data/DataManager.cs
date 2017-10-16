@@ -754,22 +754,23 @@ namespace CodeImp.DoomBuilder.Data
 						}
 						else
 						{
-                            foreach (DataReader reader in containers)
-                            {
-                                reader.EndLoading();
-                            }
-                            GC.Collect();
-
 							if(notifiedbusy)
 							{
 								notifiedbusy = false;
 								General.SendMessage(General.MainWindow.Handle, (int)MainForm.ThreadMessages.UpdateStatus, 0, 0);
 							}
 							
-							// Timing
+                            // ano - finish loading
 							if(loadfinishtime == 0)
 							{
-								loadfinishtime = General.stopwatch.Elapsed.TotalMilliseconds;
+                                foreach (DataReader reader in containers)
+                                {
+                                    reader.EndLoading();
+                                }
+
+                                GC.Collect();
+
+                                loadfinishtime = General.stopwatch.Elapsed.TotalMilliseconds;
 								double deltatimesec = (loadfinishtime - loadstarttime) / 1000.0d;
 								Logger.WriteLogLine("BackgroundLoad: Resources loading took " + deltatimesec.ToString("########0.00") + " seconds");
 							}
