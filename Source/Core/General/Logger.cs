@@ -13,9 +13,9 @@ namespace CodeImp.DoomBuilder
         public static string logfile;
         private static Queue<string> toLog; // MUST ALWAYS LOCK WHEN YOU ACCESS THIS
         public static StringBuilder sb;
-        public static bool bLogging = true;
+        public static volatile bool bLogging = true;
         public static Thread loggerthread;
-        public static bool bFinished = false;
+        public static volatile bool bFinished = false;
 
         // This outputs log information
         public static void WriteLogLine(string line)
