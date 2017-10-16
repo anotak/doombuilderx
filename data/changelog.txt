@@ -10,7 +10,9 @@ version 2.1.3.4
 - fixed longstanding DB2 crash related to make sectors + undo/redo
 - fixed longstanding DB2 bug where vertices would not merge correctly under some circumstances
 - Disabled ally/strifeally from the udmf configs as it does the same thing as friendly. you can still set it manually using the UDMF window.
+- fixed a serious performance issue on maps with a lot of geometry (for example, vela pax map01)
 - fixed a crash loading malformed patches & sprites (for example, daedalus.wad)
+- minor tweaks to logging system
 
 version 2.1.3.3
 =====================
