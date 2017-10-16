@@ -1542,8 +1542,45 @@ namespace CodeImp.DoomBuilder.Rendering
 		// This renders a set of linedefs
 		public void PlotLinedefSet(ICollection<Linedef> linedefs)
 		{
-			// Go for all linedefs
-			foreach(Linedef l in linedefs) PlotLinedef(l, DetermineLinedefColor(l));
+            //double time = General.stopwatch.Elapsed.TotalMilliseconds;
+            //int count = linedefs.Count;
+
+            // Go for all linedefs
+            // ano - special case for Linedef[], faster
+            if (linedefs is Linedef[])
+            {
+                Linedef[] array = (Linedef[])linedefs;
+                int count = array.Length;
+
+                for (int i = 0; i < count; i++)
+                {
+                    Linedef l = array[i];
+                    PixelColor color = DetermineLinedefColor(l);
+
+                    // Transform vertex coordinates
+                    Vector2D v1 = l.Start.Position.GetTransformed(translatex, translatey, scale, -scale);
+                    Vector2D v2 = l.End.Position.GetTransformed(translatex, translatey, scale, -scale);
+
+                    // Draw line
+                    plotter.DrawLineSolid((int)v1.x, (int)v1.y, (int)v2.x, (int)v2.y, ref color);
+                    
+                    // Calculate normal indicator
+                    float mx = (v2.x - v1.x) * 0.5f;
+                    float my = (v2.y - v1.y) * 0.5f;
+
+                    // Draw normal indicator
+                    plotter.DrawLineSolid((int)(v1.x + mx), (int)(v1.y + my),
+                                          (int)((v1.x + mx) - (my * l.LengthInv * linenormalsize)),
+                                          (int)((v1.y + my) + (mx * l.LengthInv * linenormalsize)), ref color);
+
+                }
+            } else {
+                foreach (Linedef l in linedefs) PlotLinedef(l, DetermineLinedefColor(l));
+            }
+            /*
+            time = General.stopwatch.Elapsed.TotalMilliseconds - time;
+            Logger.WriteLogLine("plotting " + count + " lines in " + time.ToString("0.00000") + " total or " + (time / (double)count).ToString("0.00000") + " per line");
+            */
 		}
 
 		// This renders a single vertex
