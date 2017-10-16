@@ -2140,15 +2140,15 @@ namespace CodeImp.DoomBuilder.Windows
 			itempaste.Enabled = (General.Map != null) && (General.Editing.Mode != null) && General.Editing.Mode.Attributes.AllowCopyPaste;
 			itempastespecial.Enabled = (General.Map != null) && (General.Editing.Mode != null) && General.Editing.Mode.Attributes.AllowCopyPaste;
 			itemmapoptions.Enabled = (General.Map != null);
-            itemmapudmf.Enabled = (General.Map != null);
             itemsnaptogrid.Enabled = (General.Map != null);
 			itemautomerge.Enabled = (General.Map != null);
 			itemgridsetup.Enabled = (General.Map != null);
 			itemgridinc.Enabled = (General.Map != null);
 			itemgriddec.Enabled = (General.Map != null);
+            itemmapudmf.Enabled = (General.Map != null) && General.Map.Config.UDMF;
 
-			// Determine undo description
-			if(itemundo.Enabled)
+            // Determine undo description
+            if (itemundo.Enabled)
 				itemundo.Text = "Undo " + General.Map.UndoRedo.NextUndo.Description;
 			else
 				itemundo.Text = "Undo";
@@ -2306,9 +2306,12 @@ namespace CodeImp.DoomBuilder.Windows
         [BeginAction("editunidentifiedudmf")]
         internal void EditUnidentifiedUDMF()
         {
-            UDMFMapFieldForm udmf_form = new UDMFMapFieldForm();
-            udmf_form.ShowDialog(this);
-            udmf_form.Dispose();
+            if (General.Map != null && General.Map.Config.UDMF)
+            {
+                UDMFMapFieldForm udmf_form = new UDMFMapFieldForm();
+                udmf_form.ShowDialog(this);
+                udmf_form.Dispose();
+            }
         }
 		
 		// Errors and Warnings
