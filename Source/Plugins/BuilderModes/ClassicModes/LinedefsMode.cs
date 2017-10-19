@@ -839,8 +839,77 @@ namespace CodeImp.DoomBuilder.BuilderModes
 				General.Editing.ChangeMode(new CurveLinedefsMode(new LinedefsMode()));
 			}
 		}
-		
-		[BeginAction("fliplinedefs")]
+
+        // ano - increment tags
+        [BeginAction("incrementtag", BaseAction = true)]
+        public void IncrementTags()
+        {
+            if (!General.Map.FormatInterface.HasLinedefTag)
+            {
+                return;
+            }
+            General.Interface.DisplayStatus(StatusType.Action, "Incremented linedef tag(s).");
+            General.Map.UndoRedo.CreateUndo("Increment linedef tag(s)");
+
+            // No selected lines?
+            ICollection<Linedef> selected = General.Map.Map.GetSelectedLinedefs(true);
+            if (selected.Count == 0)
+            {
+                // Anything highlighted?
+                if (highlighted != null)
+                {
+                    // Select the highlighted item
+                    highlighted.Selected = true;
+                    selected.Add(highlighted);
+                }
+            }
+            foreach (Linedef l in selected)
+            {
+                l.Tag++;
+            }
+
+            // Update
+            General.Interface.RefreshInfo();
+            General.Map.IsChanged = true;
+        }
+
+        // ano - decrement tags
+        [BeginAction("decrementtag", BaseAction = true)]
+        public void DecrementTags()
+        {
+            if (!General.Map.FormatInterface.HasLinedefTag)
+            {
+                return;
+            }
+            General.Interface.DisplayStatus(StatusType.Action, "Decremented linedef tag(s).");
+            General.Map.UndoRedo.CreateUndo("Decrement linedef tag(s)");
+
+            // No selected lines?
+            ICollection<Linedef> selected = General.Map.Map.GetSelectedLinedefs(true);
+            if (selected.Count == 0)
+            {
+                // Anything highlighted?
+                if (highlighted != null)
+                {
+                    // Select the highlighted item
+                    highlighted.Selected = true;
+                    selected.Add(highlighted);
+                }
+            }
+            foreach (Linedef l in selected)
+            {
+                if (l.Tag > 0)
+                {
+                    l.Tag--;
+                }
+            }
+
+            // Update
+            General.Interface.RefreshInfo();
+            General.Map.IsChanged = true;
+        }
+
+        [BeginAction("fliplinedefs")]
 		public void FlipLinedefs()
 		{
 			// No selected lines?

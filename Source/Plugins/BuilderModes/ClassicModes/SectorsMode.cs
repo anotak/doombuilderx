@@ -1434,8 +1434,51 @@ namespace CodeImp.DoomBuilder.BuilderModes
 			General.Map.IsChanged = true;
 		}
 
-		// This clears the selection
-		[BeginAction("clearselection", BaseAction = true)]
+        // ano - increment tags
+        [BeginAction("incrementtag", BaseAction = true)]
+        public void IncrementTags()
+        {
+            General.Interface.DisplayStatus(StatusType.Action, "Incremented sector tag(s).");
+            General.Map.UndoRedo.CreateUndo("Increment sector tag(s)");
+
+            // Change heights
+            ICollection<Sector> selected = General.Map.Map.GetSelectedSectors(true);
+            if ((selected.Count == 0) && (highlighted != null) && !highlighted.IsDisposed) selected.Add(highlighted);
+            foreach (Sector s in selected)
+            {
+                s.Tag++;
+            }
+
+            // Update
+            General.Interface.RefreshInfo();
+            General.Map.IsChanged = true;
+        }
+
+        // ano - increment tags
+        [BeginAction("decrementtag", BaseAction = true)]
+        public void DecrementTags()
+        {
+            General.Interface.DisplayStatus(StatusType.Action, "Decremented sector tag(s).");
+            General.Map.UndoRedo.CreateUndo("Decrement sector tag(s)");
+
+            // Change heights
+            ICollection<Sector> selected = General.Map.Map.GetSelectedSectors(true);
+            if ((selected.Count == 0) && (highlighted != null) && !highlighted.IsDisposed) selected.Add(highlighted);
+            foreach (Sector s in selected)
+            {
+                if (s.Tag > 0)
+                {
+                    s.Tag--;
+                }
+            }
+
+            // Update
+            General.Interface.RefreshInfo();
+            General.Map.IsChanged = true;
+        }
+
+        // This clears the selection
+        [BeginAction("clearselection", BaseAction = true)]
 		public void ClearSelection()
 		{
 			// Clear selection

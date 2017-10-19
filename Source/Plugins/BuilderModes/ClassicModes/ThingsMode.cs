@@ -715,7 +715,78 @@ namespace CodeImp.DoomBuilder.BuilderModes
 				General.Interface.RedrawDisplay();
 			}
 		}
-		
-		#endregion
-	}
+
+        // ano - increment tags
+        [BeginAction("incrementtag", BaseAction = true)]
+        public void IncrementTags()
+        {
+            if (!General.Map.FormatInterface.HasThingTag)
+            {
+                return;
+            }
+            General.Interface.DisplayStatus(StatusType.Action, "Incremented thing tag(s).");
+            General.Map.UndoRedo.CreateUndo("Increment thing tag(s)");
+
+            // Determine target things
+            ICollection<Thing> sel = null;
+            if (General.Map.Map.SelectedThingsCount > 0)
+                sel = General.Map.Map.GetSelectedThings(true);
+            else if (highlighted != null)
+            {
+                sel = new List<Thing>();
+                sel.Add(highlighted);
+            }
+
+            if (sel != null)
+            {
+                foreach (Thing t in sel)
+                {
+                    t.Tag++;
+                }
+            }
+
+            // Update
+            General.Interface.RefreshInfo();
+            General.Map.IsChanged = true;
+        }
+
+        // ano - decrement tags
+        [BeginAction("decrementtag", BaseAction = true)]
+        public void DecrementTags()
+        {
+            if (!General.Map.FormatInterface.HasThingTag)
+            {
+                return;
+            }
+            General.Interface.DisplayStatus(StatusType.Action, "Decremented thing tag(s).");
+            General.Map.UndoRedo.CreateUndo("Decrement thing tag(s)");
+
+            // Determine target things
+            ICollection<Thing> sel = null;
+            if (General.Map.Map.SelectedThingsCount > 0)
+                sel = General.Map.Map.GetSelectedThings(true);
+            else if (highlighted != null)
+            {
+                sel = new List<Thing>();
+                sel.Add(highlighted);
+            }
+
+            if (sel != null)
+            {
+                foreach (Thing t in sel)
+                {
+                    if (t.Tag > 0)
+                    {
+                        t.Tag--;
+                    }
+                }
+            }
+
+            // Update
+            General.Interface.RefreshInfo();
+            General.Map.IsChanged = true;
+        }
+
+        #endregion
+    }
 }
