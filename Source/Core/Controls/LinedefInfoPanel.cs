@@ -62,6 +62,7 @@ namespace CodeImp.DoomBuilder.Controls
 			TypeHandler th;
 			bool upperunpegged, lowerunpegged;
 			string peggedness;
+            //double starttime = General.stopwatch.Elapsed.TotalMilliseconds;
             SuspendLayout();
 
 			// Show/hide stuff depending on format
@@ -298,6 +299,7 @@ namespace CodeImp.DoomBuilder.Controls
 
             bNeedSetup = false;
 
+            //Logger.WriteLogLine((General.stopwatch.Elapsed.TotalMilliseconds - starttime) + " milliseconds for linedefinfopanel.showinfo");
         }
 
         // When visible changed
