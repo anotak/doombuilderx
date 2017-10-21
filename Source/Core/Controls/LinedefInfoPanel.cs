@@ -58,7 +58,9 @@ namespace CodeImp.DoomBuilder.Controls
 			TypeHandler th;
 			bool upperunpegged, lowerunpegged;
 			string peggedness;
-			
+
+            SuspendLayout();
+
 			// Show/hide stuff depending on format
 			if(!General.Map.FormatInterface.HasActionArgs)
 			{
@@ -73,21 +75,7 @@ namespace CodeImp.DoomBuilder.Controls
                 arg4.Visible = false;
                 arg5.Visible = false;
 
-                if (arglbl1.Location.X != 708)
-                {
-
-                    arglbl1.Location = new Point(708, 14);
-                    arglbl2.Location = new Point(708, 32);
-                    arglbl3.Location = new Point(708, 51);
-                    arglbl4.Location = new Point(708, 70);
-                    arglbl5.Location = new Point(708, 89);
-
-                    arg1.Location = new Point(766, 14);
-                    arg2.Location = new Point(766, 32);
-                    arg3.Location = new Point(766, 51);
-                    arg4.Location = new Point(766, 70);
-                    arg5.Location = new Point(766, 89);
-                }
+                tableLayoutPanel1.ColumnStyles[1].Width = 0f;
                 infopanel.Width = doomformatwidth;
             }
 			else
@@ -102,20 +90,8 @@ namespace CodeImp.DoomBuilder.Controls
                 arg3.Visible = true;
                 arg4.Visible = true;
                 arg5.Visible = true;
-                if (arglbl1.Location.X != 308)
-                {
-                    arglbl1.Location = new Point(308, 14);
-                    arglbl2.Location = new Point(308, 32);
-                    arglbl3.Location = new Point(308, 51);
-                    arglbl4.Location = new Point(308, 70);
-                    arglbl5.Location = new Point(308, 89);
 
-                    arg1.Location = new Point(466, 14);
-                    arg2.Location = new Point(466, 32);
-                    arg3.Location = new Point(466, 51);
-                    arg4.Location = new Point(466, 70);
-                    arg5.Location = new Point(466, 89);
-                }
+                tableLayoutPanel1.ColumnStyles[1].Width = 37.5f;
                 infopanel.Width = hexenformatwidth;
             }
 
@@ -294,7 +270,7 @@ namespace CodeImp.DoomBuilder.Controls
 			// Position labels
 			frontsector.Left = frontlowtex.Right - frontsector.Width;
 			backsector.Left = backlowtex.Right - backsector.Width;
-
+            ResumeLayout();
 			// Show the whole thing
 			this.Show();
             //this.Update(); // ano - don't think this is needed, and is slow
