@@ -39,6 +39,8 @@ namespace CodeImp.DoomBuilder.Controls
 		private int hexenformatwidth;
 		private int doomformatwidth;
         private static StringBuilder sb = new StringBuilder(64);
+        private bool bUsingArgsAlready;
+        private bool bNeedSetup;
 		
 		// Constructor
 		public LinedefInfoPanel()
@@ -50,7 +52,9 @@ namespace CodeImp.DoomBuilder.Controls
             // 576 is default
 			hexenformatwidth = infopanel.Width;
 			doomformatwidth = infopanel.Width - 150; // ano - was - 190
-		}
+            bNeedSetup = true;
+            bUsingArgsAlready = false;
+        }
 		
 		// This shows the info
 		public void ShowInfo(Linedef l)
@@ -58,41 +62,48 @@ namespace CodeImp.DoomBuilder.Controls
 			TypeHandler th;
 			bool upperunpegged, lowerunpegged;
 			string peggedness;
-
             SuspendLayout();
 
 			// Show/hide stuff depending on format
 			if(!General.Map.FormatInterface.HasActionArgs)
 			{
-                arglbl1.Visible = false;
-                arglbl2.Visible = false;
-                arglbl3.Visible = false;
-                arglbl4.Visible = false;
-                arglbl5.Visible = false;
-                arg1.Visible = false;
-                arg2.Visible = false;
-                arg3.Visible = false;
-                arg4.Visible = false;
-                arg5.Visible = false;
+                if (bUsingArgsAlready || bNeedSetup)
+                {
+                    arglbl1.Visible = false;
+                    arglbl2.Visible = false;
+                    arglbl3.Visible = false;
+                    arglbl4.Visible = false;
+                    arglbl5.Visible = false;
+                    arg1.Visible = false;
+                    arg2.Visible = false;
+                    arg3.Visible = false;
+                    arg4.Visible = false;
+                    arg5.Visible = false;
 
-                tableLayoutPanel1.ColumnStyles[1].Width = 0f;
-                infopanel.Width = doomformatwidth;
+                    tableLayoutPanel1.ColumnStyles[1].Width = 0f;
+                    infopanel.Width = doomformatwidth;
+                    bUsingArgsAlready = false;
+                }
             }
 			else
 			{
-                arglbl1.Visible = true;
-                arglbl2.Visible = true;
-                arglbl3.Visible = true;
-                arglbl4.Visible = true;
-                arglbl5.Visible = true;
-                arg1.Visible = true;
-                arg2.Visible = true;
-                arg3.Visible = true;
-                arg4.Visible = true;
-                arg5.Visible = true;
+                if (!bUsingArgsAlready || bNeedSetup)
+                {
+                    arglbl1.Visible = true;
+                    arglbl2.Visible = true;
+                    arglbl3.Visible = true;
+                    arglbl4.Visible = true;
+                    arglbl5.Visible = true;
+                    arg1.Visible = true;
+                    arg2.Visible = true;
+                    arg3.Visible = true;
+                    arg4.Visible = true;
+                    arg5.Visible = true;
 
-                tableLayoutPanel1.ColumnStyles[1].Width = 37.5f;
-                infopanel.Width = hexenformatwidth;
+                    tableLayoutPanel1.ColumnStyles[1].Width = 37.5f;
+                    infopanel.Width = hexenformatwidth;
+                    bUsingArgsAlready = true;
+                }
             }
 
 			// Move panels
@@ -130,47 +141,50 @@ namespace CodeImp.DoomBuilder.Controls
 			tag.Text = l.Tag.ToString();
 			unpegged.Text = peggedness;
 
-            // Arguments
-            sb.Append(act.Args[0].Title);
-            sb.Append(':');
-            arglbl1.Text = sb.ToString();
-            sb.Length = 0;
-            sb.Append(act.Args[1].Title);
-            sb.Append(':');
-            arglbl2.Text = sb.ToString();
-            sb.Length = 0;
-            sb.Append(act.Args[2].Title);
-            sb.Append(':');
-            arglbl3.Text = sb.ToString();
-            sb.Length = 0;
-            sb.Append(act.Args[3].Title);
-            sb.Append(':');
-            arglbl4.Text = sb.ToString();
-            sb.Length = 0;
-            sb.Append(act.Args[4].Title);
-            sb.Append(':');
-            arglbl5.Text = sb.ToString();
-            sb.Length = 0;
-            arglbl1.Enabled = act.Args[0].Used;
-			arglbl2.Enabled = act.Args[1].Used;
-			arglbl3.Enabled = act.Args[2].Used;
-			arglbl4.Enabled = act.Args[3].Used;
-			arglbl5.Enabled = act.Args[4].Used;
-			arg1.Enabled = act.Args[0].Used;
-			arg2.Enabled = act.Args[1].Used;
-			arg3.Enabled = act.Args[2].Used;
-			arg4.Enabled = act.Args[3].Used;
-			arg5.Enabled = act.Args[4].Used;
-			th = General.Types.GetArgumentHandler(act.Args[0]);
-			th.SetValue(l.Args[0]); arg1.Text = th.GetStringValue();
-			th = General.Types.GetArgumentHandler(act.Args[1]);
-			th.SetValue(l.Args[1]); arg2.Text = th.GetStringValue();
-			th = General.Types.GetArgumentHandler(act.Args[2]);
-			th.SetValue(l.Args[2]); arg3.Text = th.GetStringValue();
-			th = General.Types.GetArgumentHandler(act.Args[3]);
-			th.SetValue(l.Args[3]); arg4.Text = th.GetStringValue();
-			th = General.Types.GetArgumentHandler(act.Args[4]);
-			th.SetValue(l.Args[4]); arg5.Text = th.GetStringValue();
+            if (bUsingArgsAlready)
+            {
+                // Arguments
+                sb.Append(act.Args[0].Title);
+                sb.Append(':');
+                arglbl1.Text = sb.ToString();
+                sb.Length = 0;
+                sb.Append(act.Args[1].Title);
+                sb.Append(':');
+                arglbl2.Text = sb.ToString();
+                sb.Length = 0;
+                sb.Append(act.Args[2].Title);
+                sb.Append(':');
+                arglbl3.Text = sb.ToString();
+                sb.Length = 0;
+                sb.Append(act.Args[3].Title);
+                sb.Append(':');
+                arglbl4.Text = sb.ToString();
+                sb.Length = 0;
+                sb.Append(act.Args[4].Title);
+                sb.Append(':');
+                arglbl5.Text = sb.ToString();
+                sb.Length = 0;
+                arglbl1.Enabled = act.Args[0].Used;
+                arglbl2.Enabled = act.Args[1].Used;
+                arglbl3.Enabled = act.Args[2].Used;
+                arglbl4.Enabled = act.Args[3].Used;
+                arglbl5.Enabled = act.Args[4].Used;
+                arg1.Enabled = act.Args[0].Used;
+                arg2.Enabled = act.Args[1].Used;
+                arg3.Enabled = act.Args[2].Used;
+                arg4.Enabled = act.Args[3].Used;
+                arg5.Enabled = act.Args[4].Used;
+                th = General.Types.GetArgumentHandler(act.Args[0]);
+                th.SetValue(l.Args[0]); arg1.Text = th.GetStringValue();
+                th = General.Types.GetArgumentHandler(act.Args[1]);
+                th.SetValue(l.Args[1]); arg2.Text = th.GetStringValue();
+                th = General.Types.GetArgumentHandler(act.Args[2]);
+                th.SetValue(l.Args[2]); arg3.Text = th.GetStringValue();
+                th = General.Types.GetArgumentHandler(act.Args[3]);
+                th.SetValue(l.Args[3]); arg4.Text = th.GetStringValue();
+                th = General.Types.GetArgumentHandler(act.Args[4]);
+                th.SetValue(l.Args[4]); arg5.Text = th.GetStringValue();
+            }
 
 			// Front side available?
 			if(l.Front != null)
@@ -203,20 +217,23 @@ namespace CodeImp.DoomBuilder.Controls
 			}
 			else
 			{
-				// Show no info
-				frontpanel.Text = " Front Sidedef ";
-				frontsector.Text = "";
-				frontsector.Visible = false;
-				frontoffsetlabel.Enabled = false;
-				frontoffset.Enabled = false;
-				frontpanel.Enabled = false;
-				frontoffset.Text = "--, --";
-				fronthighname.Text = "";
-				frontmidname.Text = "";
-				frontlowname.Text = "";
-				fronthightex.BackgroundImage = null;
-				frontmidtex.BackgroundImage = null;
-				frontlowtex.BackgroundImage = null;
+                if (frontsector.Visible)
+                {
+                    // Show no info
+                    frontpanel.Text = " Front Sidedef ";
+                    frontsector.Text = "";
+                    frontsector.Visible = false;
+                    frontoffsetlabel.Enabled = false;
+                    frontoffset.Enabled = false;
+                    frontpanel.Enabled = false;
+                    frontoffset.Text = "--, --";
+                    fronthighname.Text = "";
+                    frontmidname.Text = "";
+                    frontlowname.Text = "";
+                    fronthightex.BackgroundImage = null;
+                    frontmidtex.BackgroundImage = null;
+                    frontlowtex.BackgroundImage = null;
+                }
 			}
 
 			// Back size available?
@@ -251,20 +268,23 @@ namespace CodeImp.DoomBuilder.Controls
 			}
 			else
 			{
-				// Show no info
-				backpanel.Text = " Back Sidedef ";
-				backsector.Text = "";
-				backsector.Visible = false;
-				backoffsetlabel.Enabled = false;
-				backoffset.Enabled = false;
-				backpanel.Enabled = false;
-				backoffset.Text = "--, --";
-				backhighname.Text = "";
-				backmidname.Text = "";
-				backlowname.Text = "";
-				backhightex.BackgroundImage = null;
-				backmidtex.BackgroundImage = null;
-				backlowtex.BackgroundImage = null;
+                if (backsector.Visible)
+                {
+                    // Show no info
+                    backpanel.Text = " Back Sidedef ";
+                    backsector.Text = "";
+                    backsector.Visible = false;
+                    backoffsetlabel.Enabled = false;
+                    backoffset.Enabled = false;
+                    backpanel.Enabled = false;
+                    backoffset.Text = "--, --";
+                    backhighname.Text = "";
+                    backmidname.Text = "";
+                    backlowname.Text = "";
+                    backhightex.BackgroundImage = null;
+                    backmidtex.BackgroundImage = null;
+                    backlowtex.BackgroundImage = null;
+                }
 			}
 			
 			// Position labels
@@ -273,7 +293,11 @@ namespace CodeImp.DoomBuilder.Controls
             ResumeLayout();
 			// Show the whole thing
 			this.Show();
+            this.Invalidate();
             //this.Update(); // ano - don't think this is needed, and is slow
+
+            bNeedSetup = false;
+
         }
 
         // When visible changed
