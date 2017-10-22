@@ -541,18 +541,54 @@ namespace CodeImp.DoomBuilder.Config
                     defaulttexture = General.Map.Data.OnlyTextureNames[General.Random.Next(texturecount)];
                     
                     // try 1 reroll
-                    if (defaulttexture.StartsWith("SW") || defaulttexture.Contains("DOOR"))
+                    if (defaulttexture.StartsWith("SW")
+                        || defaulttexture.Contains("DOOR")
+                        || defaulttexture.StartsWith("DBRAIN")
+                        || defaulttexture.StartsWith("MID"))
                     {
                         defaulttexture = General.Map.Data.OnlyTextureNames[General.Random.Next(texturecount)];
                     }
                     defaultfloortexture = General.Map.Data.OnlyFlatNames[General.Random.Next(General.Map.Data.OnlyFlatNames.Count)];
 
                     // try 1 reroll
-                    if (defaultfloortexture == "F_SKY1")
+                    if (defaultfloortexture == "F_SKY1"
+                        || defaultfloortexture.StartsWith("GATE")
+                        || defaultfloortexture.StartsWith("NUKAGE")
+                        || defaultfloortexture.StartsWith("LAVA")
+                        || defaultfloortexture.StartsWith("FWATER")
+                        || defaultfloortexture.StartsWith("BLOOD")
+                        || defaultfloortexture == "SLIME01"
+                        || defaultfloortexture == "SLIME02"
+                        || defaultfloortexture == "SLIME03"
+                        || defaultfloortexture == "SLIME04"
+                        || defaultfloortexture == "SLIME05"
+                        || defaultfloortexture == "SLIME06"
+                        || defaultfloortexture == "SLIME07"
+                        || defaultfloortexture == "SLIME08"
+                        || defaultfloortexture == "SLIME09")
                     {
                         defaultfloortexture = General.Map.Data.OnlyFlatNames[General.Random.Next(General.Map.Data.OnlyFlatNames.Count)];
                     }
                     defaultceiltexture = General.Map.Data.OnlyFlatNames[General.Random.Next(General.Map.Data.OnlyFlatNames.Count)];
+
+                    if(defaultceiltexture.StartsWith("GATE")
+                        || defaultceiltexture.StartsWith("NUKAGE")
+                        || defaultceiltexture.StartsWith("LAVA")
+                        || defaultceiltexture.StartsWith("FWATER")
+                        || defaultfloortexture.StartsWith("BLOOD")
+                        || defaultceiltexture == "SLIME01"
+                        || defaultceiltexture == "SLIME02"
+                        || defaultceiltexture == "SLIME03"
+                        || defaultceiltexture == "SLIME04"
+                        || defaultceiltexture == "SLIME05"
+                        || defaultceiltexture == "SLIME06"
+                        || defaultceiltexture == "SLIME07"
+                        || defaultceiltexture == "SLIME08"
+                        || defaultceiltexture == "SLIME09")
+                    {
+                        defaultceiltexture = General.Map.Data.OnlyFlatNames[General.Random.Next(General.Map.Data.OnlyFlatNames.Count)];
+                    }
+
                     defaultbrightness = General.Random.Next(0,20) * 8 + 96;
                     defaultceilheight = General.Random.Next(0, 16) * 8 + 64;
                     foundone = true;
