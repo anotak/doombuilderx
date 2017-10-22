@@ -192,6 +192,7 @@ namespace CodeImp.DoomBuilder.Controls
             // 
             // action
             // 
+            this.action.AutoEllipsis = true;
             this.action.Dock = System.Windows.Forms.DockStyle.Fill;
             this.action.Location = new System.Drawing.Point(63, 0);
             this.action.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
