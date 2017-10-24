@@ -116,10 +116,10 @@ namespace CodeImp.DoomBuilder.Data
 		public PreviewManager Previews { get { return previews; } }
 		public ICollection<ImageData> Textures { get { return textures.Values; } }
 		public ICollection<ImageData> Flats { get { return flats.Values; } }
-		public List<string> TextureNames { get { return texturenames; } }
-        public List<string> OnlyTextureNames { get { return onlytexturenames; } }
-        public List<string> FlatNames { get { return flatnames; } }
-        public List<string> OnlyFlatNames { get { return onlyflatnames; } }
+		public List<string> TextureNames { get { while (texturenames == null) { Thread.SpinWait(1); } return texturenames; } }
+        public List<string> OnlyTextureNames { get { while (onlytexturenames == null) { Thread.SpinWait(1); } return onlytexturenames; } }
+        public List<string> FlatNames { get { while (flatnames == null) { Thread.SpinWait(1); } return flatnames; } }
+        public List<string> OnlyFlatNames { get { while (onlyflatnames == null) { Thread.SpinWait(1); } return onlyflatnames; } }
         public bool IsDisposed { get { return isdisposed; } }
 		public ImageData MissingTexture3D { get { return missingtexture3d; } }
 		public ImageData UnknownTexture3D { get { return unknowntexture3d; } }
