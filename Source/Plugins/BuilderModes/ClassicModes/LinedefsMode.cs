@@ -1016,6 +1016,60 @@ namespace CodeImp.DoomBuilder.BuilderModes
 			}
 		}
 
-		#endregion
-	}
+        // ano - swap upper and lower textures
+        [BeginAction("swapupperlowertex")]
+        public void SwapUpperLowerTex()
+        {
+            // No selected lines?
+            ICollection<Linedef> selected = General.Map.Map.GetSelectedLinedefs(true);
+            if (selected.Count == 0)
+            {
+                // Anything highlighted?
+                if (highlighted != null)
+                {
+                    // Select the highlighted item
+                    highlighted.Selected = true;
+                    selected.Add(highlighted);
+                }
+            }
+
+            // Make undo
+            if (selected.Count > 1)
+            {
+                General.Map.UndoRedo.CreateUndo("Swap " + selected.Count + " upper/lower textures");
+                General.Interface.DisplayStatus(StatusType.Action, "Swapped " + selected.Count + " upper/lower textures.");
+            }
+            else
+            {
+                General.Map.UndoRedo.CreateUndo("Swap upper/lower textures");
+                General.Interface.DisplayStatus(StatusType.Action, "Swapped upper/lower textures.");
+            }
+
+            // Flip sidedefs in all selected linedefs
+            foreach (Linedef l in selected)
+            {
+                if (l.Front != null)
+                {
+                    string temp = l.Front.HighTexture;
+                    l.Front.SetTextureHigh(l.Front.LowTexture);
+                    l.Front.SetTextureLow(temp);
+                    l.Front.Sector.UpdateNeeded = true;
+                }
+                if (l.Back != null)
+                {
+                    string temp = l.Back.HighTexture;
+                    l.Back.SetTextureHigh(l.Front.LowTexture);
+                    l.Back.SetTextureLow(temp);
+                    l.Back.Sector.UpdateNeeded = true;
+                }
+            }
+
+            General.Map.Map.Update();
+            General.Map.IsChanged = true;
+            General.Interface.RefreshInfo();
+            General.Interface.RedrawDisplay();
+        }
+
+        #endregion
+    }
 }
