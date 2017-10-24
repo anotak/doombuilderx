@@ -1,11 +1,26 @@
-Doom Builder X 2.1.3.3 - map editor forked from DB2
-[url=https://github.com/anotak/doombuilderx/releases/download/v2.1.3.3/doombuilderx-2.1.3.3.zip]download link[/url]
+Doom Builder X 2.1.3.4 - map editor forked from DB2
+[url=https://github.com/anotak/doombuilderx/releases/download/v2.1.3.4/doombuilderx-2.1.3.4.zip]download link[/url]
 [url=https://www.sf4remix.com/lilith/doombuilderx-latest.zip]alternate mirror[/url]
 
-Doom Builder X is a map editor forked from CodeImp's Doom Builder 2 by me (Anotak). [url=https://github.com/anotak/doombuilderx/]More credits here[/url].
+Doom Builder X is a map editor forked from CodeImp's Doom Builder 2 by me (Anotak). More credits here.
+DBX is intended as a continuation of DB2, in design and spirit. Bugfixes, optimizations, and tweaks to keep DB2 up to date with new formats like EE-UDMF are the goal. I intend to preserve your workflow from DB2, and if anything I change interferes with that, please let me know. DBX can be installed side-by-side with DB2 and will keep track of its preferences separately (but will copy DB2 preferences it finds the first time it loads). DBX shares compatibility with plugins and configuration files from DB2. 
 
 changelog:
 [spoiler]
+version 2.1.3.4
+=====================
+- big optimizations to drawing new geometry, brand new algorithms for detecting inner sectors as well as splitting lines by vertices. please let me know if there are any issues.
+- added editor for map-level udmf fields outside of blocks. loading/saving preserve any map level udmf properties (for forward compatibility with future UDMF stuff). (see Edit -> Map UDMF info...)
+- renamed "Deaf" to "Ambush", as it's more correct and matches the Doom source code itself.
+- new hotkey for incrementing/decrementing tag of currently selected element in classic 2d modes. you have to set the hotkey yourself in the menu
+- fixed linedef special information being blank in the info panel sometimes
+- fixed longstanding DB2 crash related to make sectors + undo/redo
+- fixed longstanding DB2 bug where vertices would not merge correctly under some circumstances
+- Disabled ally/strifeally from the udmf configs as it does the same thing as friendly. you can still set it manually using the UDMF window.
+- fixed a serious performance issue on maps with a lot of geometry (for example, vela pax map01)
+- fixed a crash loading malformed patches & sprites (for example, daedalus.wad)
+- minor tweaks to logging system
+
 version 2.1.3.3
 =====================
 - fixed bug in 2.1.3.2 with linedef/thing edit windows, please upgrade
@@ -76,6 +91,6 @@ version 2.1.3.0
 - new error / crashlog handler
 - actions can disregard the alt key (don't worry about it if you don't get it)[/spoiler]
 
-[url=https://github.com/anotak/doombuilderx/releases/download/v2.1.3.3/doombuilderx-2.1.3.3.zip]download link[/url]
+[url=https://github.com/anotak/doombuilderx/releases/download/v2.1.3.4/doombuilderx-2.1.3.4.zip]download link[/url]
 [url=https://www.sf4remix.com/lilith/doombuilderx-latest.zip]alternate mirror[/url]
 dbx, like db2, is GPLv3. [url=https://github.com/anotak/doombuilderx/]the latest source code is here[/url]
