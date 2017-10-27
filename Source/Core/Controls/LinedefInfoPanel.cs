@@ -118,7 +118,7 @@ namespace CodeImp.DoomBuilder.Controls
 			upperunpegged = l.IsFlagSet(General.Map.Config.UpperUnpeggedFlag);
 			lowerunpegged = l.IsFlagSet(General.Map.Config.LowerUnpeggedFlag);
 			if(upperunpegged && lowerunpegged)
-				peggedness = "Upper & Lower";
+				peggedness = "Upper/Lower";
 			else if(upperunpegged)
 				peggedness = "Upper";
 			else if(lowerunpegged)

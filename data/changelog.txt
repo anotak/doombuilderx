@@ -4,6 +4,7 @@ based on code by anotak, CodeImp, MaxED, boris_i, ZZYZX
 version 2.1.3.6
 =====================
 - new hotkey for swapping upper/lower textures in classic 2d linedef mode. you have to set the hotkey yourself in the menu
+- fixed "upper/lower" being cut off sometimes in the linedef info panel if you had both checked.
 
 version 2.1.3.4
 =====================

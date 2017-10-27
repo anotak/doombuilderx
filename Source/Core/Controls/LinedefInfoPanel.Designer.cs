@@ -207,8 +207,8 @@ namespace CodeImp.DoomBuilder.Controls
             this.tableLayoutPanel5.ColumnCount = 4;
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.33811F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.94556F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 26.47887F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24.78873F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24.22535F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.04225F));
             this.tableLayoutPanel5.Controls.Add(label2, 0, 0);
             this.tableLayoutPanel5.Controls.Add(this.backoffset, 3, 2);
             this.tableLayoutPanel5.Controls.Add(this.unpegged, 3, 0);
@@ -235,20 +235,20 @@ namespace CodeImp.DoomBuilder.Controls
             // backoffset
             // 
             this.backoffset.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.backoffset.Location = new System.Drawing.Point(270, 46);
+            this.backoffset.Location = new System.Drawing.Point(262, 46);
             this.backoffset.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.backoffset.Name = "backoffset";
-            this.backoffset.Size = new System.Drawing.Size(81, 23);
+            this.backoffset.Size = new System.Drawing.Size(89, 23);
             this.backoffset.TabIndex = 17;
             this.backoffset.Text = "100, 100";
             // 
             // unpegged
             // 
             this.unpegged.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.unpegged.Location = new System.Drawing.Point(270, 0);
+            this.unpegged.Location = new System.Drawing.Point(262, 0);
             this.unpegged.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.unpegged.Name = "unpegged";
-            this.unpegged.Size = new System.Drawing.Size(81, 23);
+            this.unpegged.Size = new System.Drawing.Size(89, 23);
             this.unpegged.TabIndex = 29;
             this.unpegged.Text = "None";
             this.unpegged.UseMnemonic = false;
@@ -256,8 +256,8 @@ namespace CodeImp.DoomBuilder.Controls
             // backoffsetlabel
             // 
             this.backoffsetlabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.backoffsetlabel.Location = new System.Drawing.Point(177, 46);
-            this.backoffsetlabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.backoffsetlabel.Location = new System.Drawing.Point(173, 46);
+            this.backoffsetlabel.Margin = new System.Windows.Forms.Padding(0);
             this.backoffsetlabel.Name = "backoffsetlabel";
             this.backoffsetlabel.Size = new System.Drawing.Size(85, 23);
             this.backoffsetlabel.TabIndex = 14;
@@ -276,18 +276,18 @@ namespace CodeImp.DoomBuilder.Controls
             // frontoffset
             // 
             this.frontoffset.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.frontoffset.Location = new System.Drawing.Point(270, 23);
+            this.frontoffset.Location = new System.Drawing.Point(262, 23);
             this.frontoffset.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.frontoffset.Name = "frontoffset";
-            this.frontoffset.Size = new System.Drawing.Size(81, 23);
+            this.frontoffset.Size = new System.Drawing.Size(89, 23);
             this.frontoffset.TabIndex = 11;
             this.frontoffset.Text = "100, 100";
             // 
             // label6
             // 
             this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label6.Location = new System.Drawing.Point(177, 0);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Location = new System.Drawing.Point(173, 0);
+            this.label6.Margin = new System.Windows.Forms.Padding(0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(85, 23);
             this.label6.TabIndex = 28;
@@ -296,8 +296,8 @@ namespace CodeImp.DoomBuilder.Controls
             // frontoffsetlabel
             // 
             this.frontoffsetlabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.frontoffsetlabel.Location = new System.Drawing.Point(177, 23);
-            this.frontoffsetlabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.frontoffsetlabel.Location = new System.Drawing.Point(173, 23);
+            this.frontoffsetlabel.Margin = new System.Windows.Forms.Padding(0);
             this.frontoffsetlabel.Name = "frontoffsetlabel";
             this.frontoffsetlabel.Size = new System.Drawing.Size(85, 23);
             this.frontoffsetlabel.TabIndex = 8;
