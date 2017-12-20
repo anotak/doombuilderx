@@ -315,9 +315,11 @@ namespace CodeImp.DoomBuilder
 			WAD mapwad;
 			string tempfile;
 			DataLocation maplocation;
-			
-			// Apply settings
-			this.filetitle = Path.GetFileName(filepathname);
+
+            double time = General.stopwatch.Elapsed.TotalMilliseconds;
+
+            // Apply settings
+            this.filetitle = Path.GetFileName(filepathname);
 			this.filepathname = filepathname;
 			this.changed = false;
 			this.options = options;
@@ -426,8 +428,10 @@ namespace CodeImp.DoomBuilder
 			
 			// Success
 			this.changed = false;
-			Logger.WriteLogLine("InitializeOpenMap: Map loading done");
-			return true;
+            time = General.stopwatch.Elapsed.TotalMilliseconds - time;
+            Logger.WriteLogLine("InitializeOpenMap: Map loading done in " + time.ToString("0.00000") + "ms.");
+
+            return true;
 		}
 		
 		#endregion
