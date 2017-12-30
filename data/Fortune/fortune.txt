@@ -1,0 +1,553 @@
+The quotations that appear on this screen are intended to be allowed under fair use doctrine.
+However, if you would like me to remove your quote from future versions of DBX, feel free to contact me (anotak).
+An easy way is the DBX forum thread at www.doomworld.com
+%%
+"The more specific a design idea is, the greater its appeal is likely to be."
+
+- Matthew Frederick, 101 Things I Learned In Architecture School
+%%
+"Beauty is due more to harmonious relationships among the elements of a composition than to the elements themselves."
+
+- Matthew Frederick,
+101 Things I Learned In Architecture School
+%%
+"A window can frame a view, bathe a wall with light, orient a building user to the exterior landscape, express the thickness of the wall, describe the structural system of the building, and acknowledge an axial relationship with another architectural element."
+
+- Matthew Frederick,
+101 Things I Learned In Architecture School
+%%
+"Do not draw a rectangle -- or any other arbitrary shape -- on a floor plan, label it, and assume it will be suited to its intended use. "
+
+- Matthew Frederick,
+101 Things I Learned In Architecture School
+%%
+"Our experience of an architectural space is strongly influenced by how we arrive in it."
+
+- Matthew Frederick,
+101 Things I Learned In Architecture School
+%%
+"Don't confuse 'interesting' with 'fun'."
+
+- Mark Rosewater,
+Magic: the Gathering: Twenty Years, Twenty Lessons Learned
+%%
+"Understand what emotion your game is trying to evoke."
+
+- Mark Rosewater,
+Magic: the Gathering: Twenty Years, Twenty Lessons Learned
+%%
+"Allow the players the ability to make the game personal."
+
+- Mark Rosewater,
+Magic: the Gathering: Twenty Years, Twenty Lessons Learned
+%%
+"The details are where the players fall in love with your game."
+
+- Mark Rosewater,
+Magic: the Gathering: Twenty Years, Twenty Lessons Learned
+%%
+"Allow your players to have a sense of ownership."
+
+- Mark Rosewater,
+Magic: the Gathering: Twenty Years, Twenty Lessons Learned
+%%
+"Don't design to prove you can do something."
+
+- Mark Rosewater,
+Magic: the Gathering: Twenty Years, Twenty Lessons Learned
+%%
+"Make the fun part also the correct strategy to win."
+
+- Mark Rosewater,
+Magic: the Gathering: Twenty Years, Twenty Lessons Learned
+%%
+"Be more afraid of boring your players than challenging them."
+
+- Mark Rosewater,
+Magic: the Gathering: Twenty Years, Twenty Lessons Learned
+%%
+"You don't have to change much to change everything."
+
+- Mark Rosewater,
+Magic: the Gathering: Twenty Years, Twenty Lessons Learned
+%%
+"Your audience is good at recognizing problems and bad at solving them."
+
+- Mark Rosewater,
+Magic: the Gathering: Twenty Years, Twenty Lessons Learned
+%%
+You can disable these tips and quotes in the preferences menu.
+%%
+"Have I been making assumptions about this game that really have nothing to do with its true purpose?"
+
+- Jesse Schell,
+The Art of Game Design: A Book of Lenses
+%%
+"The most important skill for a game designer is listening."
+
+- Jesse Schell,
+The Art of Game Design: A Book of Lenses
+%%
+"Fun is pleasure with surprises."
+
+- Jesse Schell,
+The Art of Game Design: A Book of Lenses
+%%
+"The best themes are ones that resonate with players -- themes that touch players deeply."
+
+- Jesse Schell,
+The Art of Game Design: A Book of Lenses
+%%
+"What questions does my game put into the player's mind?"
+
+- Jesse Schell,
+The Art of Game Design: A Book of Lenses
+%%
+"Linedefs are the lines you draw in your editor to define every structure in Doom. Walls, windows, ledges, doors, everything in Doom is constructed from linedefs."
+
+- Ron Allen and Bill McClendon,
+The Unofficial Wad Designers' Handbook 2.1
+%%
+"The most elemental level component, vertices are the endpoints of linedefs. Every linedef has exactly two vertices."
+
+- Ron Allen and Bill McClendon,
+The Unofficial Wad Designers' Handbook 2.1
+%%
+"A visible surface in the game that does not have a texture applied to it will result in the infamous HOM, or Hall Of Mirrors, error."
+
+- Ron Allen and Bill McClendon,
+The Unofficial Wad Designers' Handbook 2.1
+%%
+"The opinion on the importance of the storyline varies widely among players."
+
+- Ron Allen and Bill McClendon,
+The Unofficial Wad Designers' Handbook 2.1
+%%
+"Unfortunately, there is no practical way to explain or even define exactly what that Doom-style realism is."
+
+- Ron Allen and Bill McClendon,
+The Unofficial Wad Designers' Handbook 2.1
+%%
+"Another way to create and maintain a visual theme is to use similar structures throughout your level."
+
+- Ron Allen and Bill McClendon,
+The Unofficial Wad Designers' Handbook 2.1
+%%
+"Lighting is the most underused, overlooked, and generally ignored of level design issues."
+
+- Ron Allen and Bill McClendon,
+The Unofficial Wad Designers' Handbook 2.1
+%%
+"Just six strategically placed imps can inflict an incredible amount of damage on a player."
+
+- Ron Allen and Bill McClendon,
+The Unofficial Wad Designers' Handbook 2.1
+%%
+"In addition to the monsters, you may also require your players to fight the environment of the level itself."
+
+- Ron Allen and Bill McClendon,
+The Unofficial Wad Designers' Handbook 2.1
+%%
+"As a rule of thumb, the puzzles you design will be five times more difficult than you think they will be."
+
+- Ron Allen and Bill McClendon,
+The Unofficial Wad Designers' Handbook 2.1
+%%
+"The Medusa Effect gets its name because it looks like snakes and turns your computer to stone."
+
+- Ron Allen and Bill McClendon,
+The Unofficial Wad Designers' Handbook 2.1
+%%
+"Although such unbeatable traps are considered fair because they do exist in official id Software levels, most players really hate them."
+
+- Ron Allen and Bill McClendon,
+The Unofficial Wad Designers' Handbook 2.1
+%%
+"Creation of a successful Doom level requires that the PWAD designer be aware of the 'physical' sizes and limitations of the Doom world."
+
+- Scott Ampoker,
+Doom Metrics
+%%
+"Simply put, the blast area is like an imaginary 'cone' or 'fan' of damage traces that briefly extends outward from the attacking player. The cone always points in the direction that the weapon was fired."
+
+- Doug Bora and Chris McAllen,
+The BFG FAQ, Version 2.1
+%%
+"If you have a button that builds stairs, or a trigger that raises a bridge or some similar device, point the player towards the event so that he can watch it take place."
+
+- Sandy Petersen
+%%
+"Architects see buildings in terms of spaces, not walls. Once you start creating your rooms as spaces, they'll look a lot better, and be better to play in."
+
+- Sandy Petersen
+%%
+"If all the doors suddenly open and a million imps pour out, that's not really scary. What is scary is opening a door and seeing a dark room, empty but for a rocket launcher. Now, you know that when you grab it, all Hell is going to break loose: so you get nervous."
+
+- Sandy Petersen
+%%
+"Every switch is a reward. A player should always want to flip a switch or push a button, so doing this should never be a complete disaster."
+
+- Sandy Petersen
+%%
+"Small is claustrophobic, and claustrophobic is scary."
+
+- Sandy Petersen
+%%
+"If you do have a puzzle that requires a brilliant solution, make sure the player doesn't have to solve it to finish the level."
+
+- Sandy Petersen
+%%
+"The first guiding principle in laying out your maps is that no lines must ever cross. If they meet, all lines must be connected by means of a vertex."
+
+- Linguica,
+Lesson 3: Measuring and Mapping Doom
+%%
+"Doom's hitscan enemies are designed not to eliminate movement, but to carefully squeeze it; to force the player to take action, moving along vectors towards positions of safety."
+
+- Trashbang,
+The Lost Legacy of Doom's Hitscan Enemies
+%%
+"Detailing is a powerful tool to improve your maps' visuals; but detailing alone is not enough to make a map aesthetically pleasing; done tastelessly it will instead detract from your map."
+
+- Tormentor667,
+Mapping Art - High Detail
+%%
+"When you're judging a shot, what's the first thing you look for?
+Is it balance? Leading lines? Golden ratio? Color? Light? Shapes?
+I think these are all essential, and they're all part of good images.
+But there's one thing I always notice first:
+Movement."
+
+- Taylor Ramos and Tony Zhou,
+Akira Kurosawa: Composing Movement
+%%
+"As you walk through the main entrance of the base, you hear animal-like growls echoing throughout the distant corridors.
+They know you're here. There's no turning back now. "
+
+- id Software,
+Doom Shareware README.TXT
+%%
+"We made a lot of halls because of Tom's last name."
+
+- John Romero,
+Doom: A Classic Game Post-Mortem
+%%
+"Every type of level demands its own process."
+
+- rdwpa
+%%
+"You can see that horrible texture with the brown crap on it and the red stripe."
+
+- John Romero,
+Doom: A Classic Game Post-Mortem
+%%
+"Forget the square cement rooms with the hallways at 90 degrees. I wanted the shapes that were more interesting."
+
+- John Romero,
+Doom: A Classic Game Post-Mortem
+%%
+"I was trying to make a level didn't feel realistic, but you could still identify it as a place that might be a military base."
+
+- John Romero,
+Doom: A Classic Game Post-Mortem
+%%
+"I wanted it to be more interesting to explore, so that's where I started playing around with a lot of contrast in room heights, and a lot of contrast in lighting."
+
+- John Romero,
+Doom: A Classic Game Post-Mortem
+%%
+You can rotate or resize selected level geometry in Edit Selection Mode.
+%%
+"Making a great level requires a ton of iteration, and a ton of play. You need to play your own level."
+
+- John Romero,
+Doom: A Classic Game Post-Mortem
+%%
+"And yes, withholding the backpack is intentional!"
+
+- Back To Saturn X txt file
+%%
+"Use monsters in such a way that they put conflicting movement demands on the player."
+
+- rdwpa
+%%
+"Use resources to push the player to explore further."
+
+- rdwpa
+%%
+Hold shift to temporarily disable snap-to-grid.
+%%
+Why do Arch-Viles like libraries anyway?
+%%
+"// I love the STARTAN texture as default for some reason."
+
+- CodeImp,
+Doom Builder 2 Source Code
+%%
+"Experimentation is great; I love experimenting with architecture and trying to do things I haven't done before."
+
+- Esselfortium,
+Essel's Mapping Tips and Tricks
+%%
+"Just draw some shapes and you're good to go!"
+
+- Da Spadger
+%%
+"When I was a child, I went hiking and found a lake. It was quite a surprise for me to stumble upon it. When I traveled around the country without a map, trying to find my way, stumbling on amazing things as I went, I realized how it felt to go on an adventure like this."
+
+- Shigeru Miyamoto
+%%
+"How do the spaces in the level fit together? Where is the player supposed to go, and will she know how to get there?"
+
+- Mike Stout,
+Learning From The Masters: Level Design In The Legend Of Zelda
+%%
+"The critical path is the shortest path through a level without using secrets, shortcuts, or cheats. Basically, it's the path the designer intends the player to take through the level unless she gets really clever."
+
+- Mike Stout,
+Learning From The Masters: Level Design In The Legend Of Zelda
+%%
+"If possible, build your level with a 'gimmick' in mind--some tricky gamism bit that players will remember."
+
+- Paul Jaquays (edited by Marc Saltzman),
+Secrets of the Sages: Level Design
+%%
+"Test gimmicks of gameplay, tricks, and traps in test levels before building them into your game level."
+
+- Paul Jaquays (edited by Marc Saltzman),
+Secrets of the Sages: Level Design
+%%
+"Small maps can be relatively similar throughout. Large maps should have distinctive, memorable locations that the player can use to orient himself in the map."
+
+- Paul Jaquays (edited by Marc Saltzman),
+Secrets of the Sages: Level Design
+%%
+"Everything in the level should somehow contribute to that goal--even detours, diversions, and distractions should figure into the overall scheme, thematically."
+
+- Mark Laidlaw (edited by Marc Saltzman),
+Secrets of the Sages: Level Design
+%%
+"What kind of mood are you trying to create in the player? One of horror? One of pure action? Are you trying to create a mood that contrasts with preceding or subsequent levels?"
+
+- Mark Laidlaw (edited by Marc Saltzman),
+Secrets of the Sages: Level Design
+%%
+You can set a hotkey to flip linedefs.
+Check in the preferences menu (default key: F).
+%%
+You can set a hotkey to swap upper and lower sidedefs.
+Check in the preferences menu.
+%%
+You can assign selection to groups, and recall that selection later.
+The default hotkeys for this are Ctrl + a number to set a group, and just that number to recall the group.
+%%
+There are hotkeys to auto-align textures in Visual Mode.
+Check in the preferences menu.
+(default key: A and Shift-A).
+%%
+You can set hotkeys to gradient sector lighting, floor heights, and ceiling heights.
+Check in the preferences menu.
+%%
+You can set hotkeys to flip selected map elements horizontally or vertically.
+Check in the preferences menu for what key it is.
+%%
+You can view the map in Classic Modes either with floor textures, ceiling textures, brightness, or wireframe views.
+%%
+"The 'level designer' is a AAA game industry invention, an artificial separation between 'form' (game design) and 'content' (level design)."
+
+- Robert Yang,
+Local Level Design, and a History / Future of Level Design
+%%
+"Lack of decoration is a style of decoration in itself. There is no such thing as 'pure form.'"
+
+- Robert Yang,
+Local Level Design, and a History / Future of Level Design
+%%
+"The cost of adding a feature isn't just the time it takes to code it. The cost also includes the addition of an obstacle to future expansion. The trick is to pick the features that don't fight each other."
+
+- John Carmack
+%%
+"If you aren't sure which way to do something, do it both ways and see which works better."
+
+- John Carmack
+%%
+"Floors and ceilings kind of don't exist in Doom."
+
+- Jazz Mickle
+%%
+"Self-referencing sectors are the most well-known and widely used approach for creating invisible floors and deep water effects for vanilla maps."
+
+- Making a self-referencing sector,
+The Doom Wiki @ doomwiki.org
+%%
+"A dummy sector is a sector polygon disconnected or at least hidden from the playable area, which is typically used to achieve special effects."
+
+- Dummy sector,
+The Doom Wiki @ doomwiki.org
+%%
+"A 'false wall' is a two-sided linedef with a visible middle texture, often with the lower unpegged flag on and the impassable flag off."
+
+- False wall,
+The Doom Wiki @ doomwiki.org
+%%
+"Building your layout before beautifying it can save you a lot of headache. It's easier to make big changes when you're working in broad strokes with simple shapes!"
+
+- Esselfortium
+%%
+"Between gameplay and presentation emerges affordances and intentionality. Between presentation and story emerges world building. Between story and gameplay emerges interactive narrative."
+
+- Steve Lee,
+An Approach to Holistic Level Design
+%%
+"We design layouts partly to present options to the player about where they can go and what they can do."
+
+- Steve Lee,
+An Approach to Holistic Level Design
+%%
+"Design is really an act of communication, which means having a deep understanding of the person with whom the designer is communicating."
+
+- Don Norman,
+The Design of Everyday Things
+%%
+"Rule of thumb: if you think something is clever and sophisticated beware
+-- it is probably self-indulgence."
+
+- Don Norman,
+The Design of Everyday Things
+%%
+"In my experience, human error usually is a result of poor design: it should be called system error. Humans err continually; it is an intrinsic part of our nature. System design should take this into account."
+
+- Don Norman,
+The Design of Everyday Things
+%%
+"I want intertextuality. I want content that makes me think about the worlds I explore whenever I load up a PWAD, content that allows me to have more visceral and surprising sensations whenever I play Doom."
+
+- an_mutt
+%%
+"The whole is greater than the sum of its parts."
+
+- Aristotle
+%%
+"Communicate to the player the possiblity space, and how much agency they have. There's no use in designing a big complex level full of different stuff if they don't realize it's non-linear while playing."
+
+- Steve Lee,
+An Approach to Holistic Level Design
+%%
+"That thing where you find a lever in a game, and you pull the lever because it's a lever in a video game, and you're always supposed to pull levers in video games. That's not acting with intentionality."
+
+- Steve Lee,
+An Approach to Holistic Level Design
+%%
+"Reliance on frequent surprises, where the player has no way of knowing what's going on until it's in their face, has a side effect of killing a lot of the player's ability to act with intentionality."
+
+- Steve Lee,
+An Approach to Holistic Level Design
+%%
+"Hallways, hallways, and more hallways."
+
+- AgentSpork,
+Ultimate Simplicity MAP02
+%%
+"Show your work to some friends and ask what they think."
+
+- Joel Murdoch,
+What Makes a Good Level?
+%%
+"A good mix of indoor and outdoor areas lends appeal to a level."
+
+- Rex Claussen,
+Doom Editing Basics
+%%
+"Start small, but stay ambitious."
+
+- Rex Claussen,
+Doom Editing Basics
+%%
+"Remember also that the DOOM world is quite static so anything in the architecture that moves adds interest..."
+
+- John Bishop,
+Getting Started with DooM Editing
+%%
+"Think about using the animated textures, floor lower and raises and ceiling crushers, lifts and stairs that are triggered automatically, and window shutters that open and close all the time."
+
+- John Bishop,
+Getting Started with DooM Editing
+%%
+"'Would you like to go left or right or straight on?' This is a really bad choice. This is the archetypical dreadful choice, and it has been in more than half the games I've ever played."
+
+- Alexis Kennedy,
+Choice, Consequence and Complicity
+%%
+"It's very easy to overload a context with choices, on the basis the more choices, the better. They're often not."
+
+- Alexis Kennedy,
+Choice, Consequence and Complicity
+%%
+"We can't go on auto-pilot when playing Doom, we always have to stay engaged, and we have to keep learning, and learning is actually fun."
+
+- Matthias Worch,
+Meaningful Choice in Game Level Design
+%%
+"The worst trope for me personally would be trying to copy a supposed trope poorly despite not liking said supposed trope at all."
+
+- Nine Inch Heels,
+in Doomworld thread "Level design tropes you dislike"
+%%
+"Decide where the fun stems from. Is it the cyberdemon in the middle of the room piling pressure onto the player and giving him the run-around? Good - keep that cyberdemon."
+
+- Alfonzo,
+in Doomworld thread "Balancing Lower Difficulties"
+%%
+"Level design is where the rubber hits the road."
+
+- Jay Wilbur
+%%
+"A keen sense of space is a significant contributor to mapping pace. For the relative size and organization of map geometry, 'getting it right the first time' can spare you (at least in my experience) a rather large motivational hurdle."
+
+- Ribbiks
+%%
+"The trouble with writing fiction is that it has to make sense, whereas real life doesn't."
+
+- Iain M. Banks
+%%
+"Secrets...are the very root of cool."
+
+- William Gibson
+%%
+"When you want to know how things really work, study them when they're coming apart."
+
+- William Gibson
+%%
+If you encounter a crash, please post the file from
+%LOCALAPPDATA%\Doom Builder\BuilderX-lastcrash.log
+at the DBX thread at doomworld.com, or as a github issue.
+%%
+"Another element of visual design of great use to level designers is the concept of framing. Framing describes the use of foreground elements to surround the view of something important in an environment as though it were in a frame."
+
+- Christopher W. Totten,
+An Architectural Approach to Level Design
+%%
+"Scale in architecture is not solely determined by technical, structural, and economic factors; the dimensions of the human body as well as man's perceptions, behavioural patterns and emotions must also be taken into consideration."
+
+- Rob Krier,
+Architectural Composition
+%%
+"Dear John Romero,
+Do you know you created an art scene?
+Do you know you created a new underground cultural timeline?
+Do you know you created an art form?"
+
+- Jazz Mickle,
+Doom Modding is an Art Scene
+%%
+You can change the floor height of many selected sectors by using "++" or "--" in the Edit Sectors window. For example, if you wanted to lower a group of sectors by 128 without setting them to an absolute number, you can type in "--128". This works for tag numbers too.
+%%
+"The audience only experiences the final product."
+
+- Matthew Tropiano,
+Twenty Years a Doom Modder
+%%
+"It's a real-time, three-dimensional, 256-color, fully texture-mapped, multi-player battle from the safe shores of our universe into the horrifying depths of the netherworld!"
+
+- Tom Hall,
+The Doom Bible
