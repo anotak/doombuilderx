@@ -3,6 +3,7 @@ based on code by anotak, CodeImp, MaxED, boris_i, ZZYZX
 =======================================================
 version 2.1.3.6
 =====================
+- optional feature: instead of displaying the logo on startup, a tip or a hopefully helpful quote about mapping is displayed. you can disable this in the Tools -> Preferences -> Interface tab. if i quoted you and you want the quote removed (for any reason, no questions asked), feel free to contact me and i'll make sure to remove it in the next version.
 - new hotkey for swapping upper/lower textures in classic 2d linedef mode. you have to set the hotkey yourself in the menu
 - fixed "upper/lower" being cut off sometimes in the linedef info panel if you had both checked.
 - fixed a crash on changing map settings

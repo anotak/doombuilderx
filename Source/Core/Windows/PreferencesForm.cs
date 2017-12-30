@@ -84,7 +84,8 @@ namespace CodeImp.DoomBuilder.Windows
 			animatevisualselection.Checked = General.Settings.AnimateVisualSelection;
 			dockersposition.SelectedIndex = General.Settings.DockersPosition;
 			collapsedockers.Checked = General.Settings.CollapseDockers;
-			toolbar_file.Checked = General.Settings.ToolbarFile;
+            showstartupfortune.Checked = General.Settings.ShowStartupFortune; // ano
+            toolbar_file.Checked = General.Settings.ToolbarFile;
 			toolbar_script.Checked = General.Settings.ToolbarScript;
 			toolbar_undo.Checked = General.Settings.ToolbarUndo;
 			toolbar_copy.Checked = General.Settings.ToolbarCopy;
@@ -213,7 +214,8 @@ namespace CodeImp.DoomBuilder.Windows
 			General.Settings.AnimateVisualSelection = animatevisualselection.Checked;
 			General.Settings.DockersPosition = dockersposition.SelectedIndex;
 			General.Settings.CollapseDockers = collapsedockers.Checked;
-			General.Settings.ToolbarFile = toolbar_file.Checked;
+            General.Settings.ShowStartupFortune = showstartupfortune.Checked; // ano
+            General.Settings.ToolbarFile = toolbar_file.Checked;
 			General.Settings.ToolbarScript = toolbar_script.Checked;
 			General.Settings.ToolbarUndo = toolbar_undo.Checked;
 			General.Settings.ToolbarCopy = toolbar_copy.Checked;

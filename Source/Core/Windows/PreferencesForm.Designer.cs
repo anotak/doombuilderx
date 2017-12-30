@@ -145,6 +145,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.label21 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
+            this.showstartupfortune = new System.Windows.Forms.CheckBox();
             label7 = new System.Windows.Forms.Label();
             label6 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
@@ -659,6 +660,7 @@ namespace CodeImp.DoomBuilder.Windows
             // 
             // tabinterface
             // 
+            this.tabinterface.Controls.Add(this.showstartupfortune);
             this.tabinterface.Controls.Add(this.groupBox5);
             this.tabinterface.Controls.Add(this.groupBox4);
             this.tabinterface.Controls.Add(this.groupBox2);
@@ -801,7 +803,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.groupBox4.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox4.Size = new System.Drawing.Size(411, 216);
+            this.groupBox4.Size = new System.Drawing.Size(411, 116);
             this.groupBox4.TabIndex = 3;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = " Side Panels ";
@@ -1636,6 +1638,17 @@ namespace CodeImp.DoomBuilder.Windows
             this.label18.TabIndex = 0;
             this.label18.Text = "Default Texture:";
             // 
+            // showstartupfortune
+            // 
+            this.showstartupfortune.AutoSize = true;
+            this.showstartupfortune.Location = new System.Drawing.Point(514, 558);
+            this.showstartupfortune.Margin = new System.Windows.Forms.Padding(4);
+            this.showstartupfortune.Name = "showstartupfortune";
+            this.showstartupfortune.Size = new System.Drawing.Size(197, 20);
+            this.showstartupfortune.TabIndex = 5;
+            this.showstartupfortune.Text = "Display startup tips/quotes";
+            this.showstartupfortune.UseVisualStyleBackColor = true;
+            // 
             // PreferencesForm
             // 
             this.AcceptButton = this.apply;
@@ -1669,6 +1682,7 @@ namespace CodeImp.DoomBuilder.Windows
             ((System.ComponentModel.ISupportInitialize)(this.doublesidedalpha)).EndInit();
             this.tabs.ResumeLayout(false);
             this.tabinterface.ResumeLayout(false);
+            this.tabinterface.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox4.ResumeLayout(false);
@@ -1809,5 +1823,6 @@ namespace CodeImp.DoomBuilder.Windows
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.CheckBox randomizedefaultsBox;
+        private System.Windows.Forms.CheckBox showstartupfortune;
     }
 }
