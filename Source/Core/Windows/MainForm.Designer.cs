@@ -172,6 +172,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.sectorinfo = new CodeImp.DoomBuilder.Controls.SectorInfoPanel();
             this.redrawtimer = new System.Windows.Forms.Timer(this.components);
             this.display = new CodeImp.DoomBuilder.Controls.RenderTargetControl();
+            this.quoteLabel = new System.Windows.Forms.Label();
             this.processor = new System.Windows.Forms.Timer(this.components);
             this.statusflasher = new System.Windows.Forms.Timer(this.components);
             this.statusresetter = new System.Windows.Forms.Timer(this.components);
@@ -1555,6 +1556,18 @@ namespace CodeImp.DoomBuilder.Windows
             this.redrawtimer.Interval = 1;
             this.redrawtimer.Tick += new System.EventHandler(this.redrawtimer_Tick);
             // 
+            // quoteLabel
+            // 
+            //this.quoteLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.quoteLabel.AutoSize = true;
+            this.quoteLabel.MaximumSize = new System.Drawing.Size(640, 0);
+            this.quoteLabel.Location = new System.Drawing.Point(101, 116);
+            this.quoteLabel.Name = "quoteLabel";
+            this.quoteLabel.Size = new System.Drawing.Size(46, 16);
+            this.quoteLabel.TabIndex = 8;
+            this.quoteLabel.Text = "Something something something something ;'=[]./.,123547";
+            this.quoteLabel.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            // 
             // display
             // 
             this.display.BackColor = System.Drawing.SystemColors.AppWorkspace;
@@ -1622,7 +1635,9 @@ namespace CodeImp.DoomBuilder.Windows
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(1265, 866);
+
             this.Controls.Add(this.dockerspanel);
+            this.Controls.Add(this.quoteLabel);
             this.Controls.Add(this.display);
             this.Controls.Add(this.panelinfo);
             this.Controls.Add(this.dockersspace);
@@ -1805,5 +1820,6 @@ namespace CodeImp.DoomBuilder.Windows
         private System.Windows.Forms.ToolStripSeparator seperatorfilerecent;
         private System.Windows.Forms.ToolStripSeparator seperatoreditgrid;
         private System.Windows.Forms.ToolStripSeparator seperatoreditcopypaste;
+        private System.Windows.Forms.Label quoteLabel;
     }
 }

@@ -112,6 +112,9 @@ namespace CodeImp.DoomBuilder.Config
         private string savedefaultceiltexture;
         private bool randomizedefaultsectors;
 
+        // ano
+        private bool showstartupfortune;
+
         #endregion
 
         #region ================== Properties
@@ -191,6 +194,9 @@ namespace CodeImp.DoomBuilder.Config
         public string SaveDefaultCeilingTexture { get { return savedefaultceiltexture; } set { savedefaultceiltexture = value; } }
         public bool RandomizeDefaultSectors { get { return randomizedefaultsectors; } set { randomizedefaultsectors = value; } }
 
+        // ano
+        public bool ShowStartupFortune { get { return showstartupfortune; } set { showstartupfortune = value; } }
+
         #endregion
 
         #region ================== Constructor / Disposer
@@ -268,6 +274,9 @@ namespace CodeImp.DoomBuilder.Config
                 savedefaultceiltexture = cfg.ReadSetting("defaultceiltexture", "CRATOP1");
                 randomizedefaultsectors = cfg.ReadSetting("randomizedefaultsectors", false);
 
+                // ano
+                showstartupfortune = cfg.ReadSetting("showstartupfortune", true);
+
                 // Success
                 return true;
 			}
@@ -316,7 +325,8 @@ namespace CodeImp.DoomBuilder.Config
 			cfg.WriteSetting("currentversion", v.Major * 1000000 + v.Revision);
 			cfg.WriteSetting("dockersposition", dockersposition);
 			cfg.WriteSetting("collapsedockers", collapsedockers);
-			cfg.WriteSetting("dockerswidth", dockerswidth);
+            cfg.WriteSetting("showstartupfortune", showstartupfortune); // ano
+            cfg.WriteSetting("dockerswidth", dockerswidth);
 			pasteoptions.WriteConfiguration(cfg, "pasteoptions");
 			cfg.WriteSetting("toolbarscript", toolbarscript);
 			cfg.WriteSetting("toolbarundo", toolbarundo);

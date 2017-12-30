@@ -92,8 +92,18 @@ namespace CodeImp.DoomBuilder.Controls
 			this.SetStyle(ControlStyles.Opaque, false);
 			this.UpdateStyles();
 			this.BackColor = System.Drawing.SystemColors.AppWorkspace;
-			this.BackgroundImage = global::CodeImp.DoomBuilder.Properties.Resources.Splash3_trans;
-			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+
+            // ano
+            if (General.Settings.ShowStartupFortune)
+            {
+                this.BackgroundImage = null;
+                this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            }
+            else
+            {
+                this.BackgroundImage = global::CodeImp.DoomBuilder.Properties.Resources.Splash3_trans;
+                this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            }
 		}
 		
 		// This sets up the control for manual rendering

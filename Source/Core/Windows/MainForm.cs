@@ -189,6 +189,51 @@ namespace CodeImp.DoomBuilder.Windows
 		{
 			// Setup controls
 			InitializeComponent();
+
+            // ano - quote display
+            try
+            {
+                if (General.Settings.ShowStartupFortune)
+                {
+                    using (BinaryReader reader = new BinaryReader(File.OpenRead(@"Fortune\fortune.fortune")))
+                    {
+                        int count = (int)reader.ReadUInt32();
+                        int index = General.Random.Next(count);
+                        reader.BaseStream.Seek(4 + 8 * index, SeekOrigin.Begin);
+                        int fortune_size = (int)reader.ReadUInt32();
+                        uint fortune_ptr = reader.ReadUInt32();
+
+                        reader.BaseStream.Seek(fortune_ptr, SeekOrigin.Begin);
+
+                        quoteLabel.MaximumSize = display.Size;
+
+                        string fortune = ASCIIEncoding.ASCII.GetString(reader.ReadBytes((int)fortune_size));
+                        quoteLabel.Text = fortune;
+                        quoteLabel.TextAlign = ContentAlignment.MiddleCenter;
+                        quoteLabel.BackColor = System.Drawing.SystemColors.AppWorkspace;
+                        quoteLabel.Location = new Point(
+                                                        Size.Width / 2 - quoteLabel.Size.Width / 2,
+                                                        Size.Height / 2 - quoteLabel.Size.Height / 2
+                                                        );
+
+                        Logger.WriteLogLine("fortune " + index + ": " + quoteLabel.Text);
+                    }
+                }
+                else
+                {
+                    quoteLabel.Visible = false;
+                    quoteLabel.SendToBack();
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.WriteLogLine("error reading fortune file???");
+                Logger.WriteLogLine(e.Message);
+                Logger.WriteLogLine(e.StackTrace);
+                quoteLabel.SendToBack();
+            }
+            // end quote display
+
 			pluginbuttons = new List<PluginToolbarButton>();
 			editmodeitems = new List<ToolStripItem>();
 			labelcollapsedinfo.Text = "";
@@ -526,7 +571,8 @@ namespace CodeImp.DoomBuilder.Windows
 			// Info panel state?
 			bool expandedpanel = General.Settings.ReadSetting("mainwindow.expandedinfopanel", true);
 			if(expandedpanel != IsInfoPanelExpanded) ToggleInfoPanel();
-		}
+            CheckQuoteLocation();
+        }
 
 		// Window receives focus
 		private void MainForm_Activated(object sender, EventArgs e)
@@ -562,14 +608,35 @@ namespace CodeImp.DoomBuilder.Windows
 
 		// Window resizes
 		private void MainForm_Resize(object sender, EventArgs e)
-		{
-			// Resizing
-			//this.SuspendLayout();
-			//resized = true;
-		}
+        {
+            // Resizing
+            //this.SuspendLayout();
+            //resized = true;
+            CheckQuoteLocation();
+        }
 
-		// Window was resized
-		private void MainForm_ResizeEnd(object sender, EventArgs e)
+        // ano - make sure the quote isnt poking out into other ui elements
+        private void CheckQuoteLocation()
+        {
+            if (quoteLabel.Visible)
+            {
+                quoteLabel.Location = new Point(
+                                                Size.Width / 2 - quoteLabel.Size.Width / 2,
+                                                Size.Height / 2 - quoteLabel.Size.Height / 2
+                                                );
+                if (quoteLabel.Bottom > display.Bottom)
+                {
+                    quoteLabel.Location = new Point(quoteLabel.Location.X, display.Location.Y);
+                    if (quoteLabel.Bottom > display.Bottom)
+                    {
+                        quoteLabel.Visible = false;
+                    }
+                }
+            }
+        }
+
+        // Window was resized
+        private void MainForm_ResizeEnd(object sender, EventArgs e)
 		{
 			// Normal windowstate?
 			if(this.WindowState == FormWindowState.Normal)
@@ -922,6 +989,10 @@ namespace CodeImp.DoomBuilder.Windows
 		// This clears the display
 		internal void ClearDisplay()
 		{
+            // ano - hide quotes display
+            quoteLabel.SendToBack();
+            quoteLabel.Visible = false;
+
 			// Clear the display
 			display.SetManualRendering();
 			this.Update();
@@ -2108,9 +2179,17 @@ namespace CodeImp.DoomBuilder.Windows
 			SizeF strsize = g.MeasureString(str, this.Font);
 			return strsize.Width;
 		}
-		
-		// Exit clicked
-		private void itemexit_Click(object sender, EventArgs e) { this.Close(); }
+
+        // ano - This returns the height of a string
+        private float GetStringHeight(string str)
+        {
+            Graphics g = Graphics.FromHwndInternal(this.Handle);
+            SizeF strsize = g.MeasureString(str, this.Font);
+            return strsize.Height;
+        }
+
+        // Exit clicked
+        private void itemexit_Click(object sender, EventArgs e) { this.Close(); }
 
 		// Recent item clicked
 		private void recentitem_Click(object sender, EventArgs e)
