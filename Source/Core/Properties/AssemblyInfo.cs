@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("DBX")]
-[assembly: AssemblyDescription("Doom, Heretic and Hexen map editor")]
+[assembly: AssemblyDescription("id Tech 1 map editor")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("CodeImp")]
 [assembly: AssemblyProduct("DBX")]
@@ -29,4 +29,4 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("2.1.3.4")]
+[assembly: AssemblyVersion("2.1.3.6")]
