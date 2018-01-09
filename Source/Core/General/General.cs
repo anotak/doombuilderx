@@ -620,7 +620,7 @@ namespace CodeImp.DoomBuilder
 			scriptspath = Path.Combine(apppath, SCRIPTS_DIR);
 			spritespath = Path.Combine(apppath, SPRITES_DIR);
 			
-			Logger.WriteLogLine("DBX " + thisversion.Major + "." + thisversion.Minor + " startup");
+			Logger.WriteLogLine("DBX " + Application.ProductVersion + " startup");
 			Logger.WriteLogLine("Application path:        " + apppath);
 			Logger.WriteLogLine("Temporary path:          " + temppath);
 			Logger.WriteLogLine("Local settings path:     " + settingspath);
