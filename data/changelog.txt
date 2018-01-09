@@ -4,6 +4,7 @@ based on code by anotak, CodeImp, MaxED, boris_i, ZZYZX
 version 2.1.3.8
 =====================
 - update to ACC 1.56
+- fixed inconsistency with linedef info panel
 
 version 2.1.3.6
 =====================

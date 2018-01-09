@@ -218,23 +218,20 @@ namespace CodeImp.DoomBuilder.Controls
 			}
 			else
 			{
-                if (frontsector.Visible)
-                {
-                    // Show no info
-                    frontpanel.Text = " Front Sidedef ";
-                    frontsector.Text = "";
-                    frontsector.Visible = false;
-                    frontoffsetlabel.Enabled = false;
-                    frontoffset.Enabled = false;
-                    frontpanel.Enabled = false;
-                    frontoffset.Text = "--, --";
-                    fronthighname.Text = "";
-                    frontmidname.Text = "";
-                    frontlowname.Text = "";
-                    fronthightex.BackgroundImage = null;
-                    frontmidtex.BackgroundImage = null;
-                    frontlowtex.BackgroundImage = null;
-                }
+                // Show no info
+                frontpanel.Text = " Front Sidedef ";
+                frontsector.Text = "";
+                frontsector.Visible = false;
+                frontoffsetlabel.Enabled = false;
+                frontoffset.Enabled = false;
+                frontpanel.Enabled = false;
+                frontoffset.Text = "--, --";
+                fronthighname.Text = "";
+                frontmidname.Text = "";
+                frontlowname.Text = "";
+                fronthightex.BackgroundImage = null;
+                frontmidtex.BackgroundImage = null;
+                frontlowtex.BackgroundImage = null;
 			}
 
 			// Back size available?
@@ -269,23 +266,20 @@ namespace CodeImp.DoomBuilder.Controls
 			}
 			else
 			{
-                if (backsector.Visible)
-                {
-                    // Show no info
-                    backpanel.Text = " Back Sidedef ";
-                    backsector.Text = "";
-                    backsector.Visible = false;
-                    backoffsetlabel.Enabled = false;
-                    backoffset.Enabled = false;
-                    backpanel.Enabled = false;
-                    backoffset.Text = "--, --";
-                    backhighname.Text = "";
-                    backmidname.Text = "";
-                    backlowname.Text = "";
-                    backhightex.BackgroundImage = null;
-                    backmidtex.BackgroundImage = null;
-                    backlowtex.BackgroundImage = null;
-                }
+                // Show no info
+                backpanel.Text = " Back Sidedef ";
+                backsector.Text = "";
+                backsector.Visible = false;
+                backoffsetlabel.Enabled = false;
+                backoffset.Enabled = false;
+                backpanel.Enabled = false;
+                backoffset.Text = "--, --";
+                backhighname.Text = "";
+                backmidname.Text = "";
+                backlowname.Text = "";
+                backhightex.BackgroundImage = null;
+                backmidtex.BackgroundImage = null;
+                backlowtex.BackgroundImage = null;
 			}
 			
 			// Position labels
