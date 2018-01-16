@@ -102,7 +102,6 @@ namespace CodeImp.DoomBuilder.Rendering
 		private VertexBuffer thingsvertices;
 		
 		// Render settings
-		private bool thingsfront;
 		private int vertexsize;
 		private RenderLayers renderlayer = RenderLayers.None;
 		

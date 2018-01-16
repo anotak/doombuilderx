@@ -583,7 +583,6 @@ namespace CodeImp.DoomBuilder.Config
 		private void LoadLinedefActivations()
 		{
 			IDictionary dic;
-			int bitvalue;
 
 			// Get linedef activations
 			dic = cfg.ReadSetting("linedefactivations", new Hashtable());

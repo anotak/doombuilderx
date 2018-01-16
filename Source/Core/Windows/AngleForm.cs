@@ -38,7 +38,7 @@ namespace CodeImp.DoomBuilder.Windows
 	{
 		#region ================== Variables
 
-		private bool setup;
+		//private bool setup;
 		private int value;
 
 		#endregion
@@ -86,10 +86,10 @@ namespace CodeImp.DoomBuilder.Windows
 		// Setup from EnumList
 		public void Setup(int value)
 		{
-			setup = true;
+			//setup = true;
 			this.value = value;
 			angle.Value = value;
-			setup = false;
+			//setup = false;
 		}
 		
 		// This shows the dialog

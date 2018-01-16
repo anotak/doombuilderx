@@ -184,9 +184,10 @@ namespace CodeImp.DoomBuilder.Map
 			if(map == General.Map.Map)
 				General.Map.UndoRedo.RecPrpLinedef(this);
 		}
-		
-		// Serialize / deserialize (passive: doesn't record)
-		internal void ReadWrite(IReadWriteStream s)
+
+        // Serialize / deserialize (passive: doesn't record)
+        // ano - using new keyword to shadow (and get rid of old DB2 warning)
+        internal new void ReadWrite(IReadWriteStream s)
 		{
 			if(!s.IsWriting)
 			{
@@ -273,7 +274,7 @@ namespace CodeImp.DoomBuilder.Map
 		}
 		
 		// This copies all properties to another line
-		new public void CopyPropertiesTo(Linedef l)
+		public void CopyPropertiesTo(Linedef l)
 		{
 			l.BeforePropsChange();
 			

@@ -169,7 +169,8 @@ namespace CodeImp.DoomBuilder.Windows
 		public bool ShiftState { get { return shift; } }
 		public bool CtrlState { get { return ctrl; } }
 		public bool AltState { get { return alt; } }
-		public MouseButtons MouseButtons { get { return mousebuttons; } }
+        // ano - using new keyword to shadow (and get rid of old DB2 warning)
+		public new MouseButtons MouseButtons { get { return mousebuttons; } }
 		public bool MouseInDisplay { get { return mouseinside; } }
 		public RenderTargetControl Display { get { return display; } }
 		public bool SnapToGrid { get { return buttonsnaptogrid.Checked; } }

@@ -149,12 +149,9 @@ namespace CodeImp.DoomBuilder.Rendering
 		// This updates the text if needed
 		internal void Update(float translatex, float translatey, float scalex, float scaley)
 		{
-			FlatVertex[] verts;
 			RectangleF absview;
 			float beginx = 0;
 			float beginy = 0;
-			bool colorcode = false;
-			int characters = 0;
 			byte[] textbytes;
 			DataStream stream;
 

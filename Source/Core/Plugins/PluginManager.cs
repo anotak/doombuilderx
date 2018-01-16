@@ -104,9 +104,6 @@ namespace CodeImp.DoomBuilder.Plugins
 		public void LoadAllPlugins()
 		{
 			List<string> filenames;
-			Type[] editclasses;
-			EditModeAttribute[] emattrs;
-			EditModeInfo editmodeinfo;
 			Configuration cfg;
 			IDictionary loadorderfiles = new ListDictionary();
 			Plugin p;

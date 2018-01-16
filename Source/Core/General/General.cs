@@ -307,7 +307,7 @@ namespace CodeImp.DoomBuilder
 		{
 			Configuration cfg;
 			string[] filenames;
-			string name, fullfilename;
+			string fullfilename;
 			
 			// Display status
 			mainwindow.DisplayStatus(StatusType.Busy, "Loading game configurations...");
@@ -650,7 +650,8 @@ namespace CodeImp.DoomBuilder
                 catch (Exception e)
                 {
                     Logger.WriteLogLine("RealMain: db2 config copy failed!");
-
+                    Logger.WriteLogLine("exception info: " + e.Message);
+                    Logger.WriteLogLine(" ... " + e.StackTrace);
                 }
             }
 

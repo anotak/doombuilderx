@@ -44,7 +44,6 @@ namespace CodeImp.DoomBuilder.Types
 		#region ================== Variables
 
 		private float value;
-        private float defaultvalue;
 
 		#endregion
 

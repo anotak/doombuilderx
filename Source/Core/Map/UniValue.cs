@@ -125,8 +125,10 @@ namespace CodeImp.DoomBuilder.Map
 				case UniversalType.Float:
 				{
 					float v = 0.0f;
-					try { v = (float)value; } catch(NullReferenceException e) { }
-					s.rwFloat(ref v);
+                    //mxd. Seems to work faster this way
+                    //try { v = (float)value; } catch(NullReferenceException e) { }
+                    if (value != null) v = (float)value;
+                    s.rwFloat(ref v);
 					value = v;
 					break;
 				}
@@ -144,8 +146,10 @@ namespace CodeImp.DoomBuilder.Map
                 case UniversalType.PortalTag:
 				{
 					int v = 0;
-					try { v = (int)value; } catch(NullReferenceException e) { }
-					s.rwInt(ref v);
+                    //mxd. Seems to work faster this way
+                    //try { v = (int)value; } catch(NullReferenceException e) { }
+                    if (value != null) v = (int)value;
+                    s.rwInt(ref v);
 					value = v;
 					break;
 				}
@@ -153,8 +157,10 @@ namespace CodeImp.DoomBuilder.Map
 				case UniversalType.Boolean:
 				{
 					bool v = false;
-					try { v = (bool)value; } catch(NullReferenceException e) { }
-					s.rwBool(ref v);
+                    //mxd. Seems to work faster this way
+                    //try { v = (bool)value; } catch(NullReferenceException e) { }
+                    if (value != null) v = (bool)value;
+                    s.rwBool(ref v);
 					value = v;
 					break;
 				}

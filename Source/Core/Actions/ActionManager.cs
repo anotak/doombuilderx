@@ -120,8 +120,8 @@ namespace CodeImp.DoomBuilder.Actions
 			Stream actionsdata;
 			StreamReader actionsreader;
 			Configuration cfg;
-			string cat, name, title, desc, shortname;
-			bool amouse, akeys, ascroll, debugonly, noshift, repeat;
+			string name, shortname;
+			bool debugonly;
 			string[] resnames;
 			AssemblyName asmname = asm.GetName();
 

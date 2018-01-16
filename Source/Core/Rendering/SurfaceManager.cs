@@ -156,7 +156,6 @@ namespace CodeImp.DoomBuilder.Rendering
 													Usage.WriteOnly | Usage.Dynamic, VertexFormat.None, Pool.Default);
 
 					// Start refilling the buffer with sector geometry
-					int vertexoffset = 0;
 					DataStream bstream = b.Lock(0, FlatVertex.Stride * set.Value.buffersizes[i], LockFlags.Discard);
 					foreach(SurfaceEntry e in set.Value.entries)
 					{

@@ -143,9 +143,10 @@ namespace CodeImp.DoomBuilder.Map
 			if(map == General.Map.Map)
 				General.Map.UndoRedo.RecPrpThing(this);
 		}
-		
-		// Serialize / deserialize
-		internal void ReadWrite(IReadWriteStream s)
+
+        // Serialize / deserialize
+        // ano - using new keyword to shadow (and get rid of old DB2 warning)
+        internal new void ReadWrite(IReadWriteStream s)
 		{
 			if(!s.IsWriting) BeforePropsChange();
 			
@@ -236,8 +237,6 @@ namespace CodeImp.DoomBuilder.Map
 		// This determines which sector the thing is in and links it
 		public void DetermineSector(VisualBlockMap blockmap)
 		{
-			Linedef nl;
-
 			// Find nearest sectors using the blockmap
 			List<Sector> possiblesectors = blockmap.GetBlock(blockmap.GetBlockCoordinates(pos)).Sectors;
 

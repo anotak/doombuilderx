@@ -133,11 +133,12 @@ namespace CodeImp.DoomBuilder.VisualModes
 			this.ModulateColor = new PixelColor(255, 255, 255, 255);
 		}
 
-		/// <summary>
-		/// This creates visual geometry that is bound to a sidedef. This geometry is only visible when the sidedef is visible. It is automatically back-face culled during rendering and automatically XY intersection tested as well as back-face culled during object picking.
-		/// </summary>
-		/// <param name="sd"></param>
-		public VisualGeometry(VisualSector vs, Sidedef sd)
+        /// <summary>
+        /// This creates visual geometry that is bound to a sidedef. This geometry is only visible when the sidedef is visible. It is automatically back-face culled during rendering and automatically XY intersection tested as well as back-face culled during object picking.
+        /// </summary>
+        /// <param name="vs"></param>
+        /// <param name="sd"></param>
+        public VisualGeometry(VisualSector vs, Sidedef sd)
 		{
 			this.sector = vs;
 			this.sidedef = sd;

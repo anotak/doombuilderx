@@ -35,9 +35,7 @@ namespace CodeImp.DoomBuilder.Data
 	public class DynamicBitmapImage : BitmapImage, ID3DResource
 	{
 		#region ================== Variables
-
-		// Image source
-		private Bitmap img;
+        
 
 		#endregion
 

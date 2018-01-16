@@ -29,6 +29,8 @@ using CodeImp.DoomBuilder.Map;
 
 #endregion
 
+// ano - cleaning up unused variable warnings
+#pragma warning disable 0649
 namespace CodeImp.DoomBuilder.Controls
 {
 	internal struct NotifyHeader
@@ -430,3 +432,4 @@ namespace CodeImp.DoomBuilder.Controls
 	}
 }
 
+#pragma warning restore 0649

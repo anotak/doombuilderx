@@ -43,7 +43,6 @@ namespace CodeImp.DoomBuilder.Windows
 		#region ================== Variables
 
 		private ICollection<Thing> things;
-		private List<TreeNode> nodes;
 		private ThingTypeInfo thinginfo;
 		private bool preventchanges = false;
         private int previousaction;

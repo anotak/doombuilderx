@@ -105,7 +105,7 @@ namespace CodeImp.DoomBuilder.Map
 		// Constructor to load from Doom Builder Map Settings Configuration
 		internal MapOptions(Configuration cfg, string mapname)
 		{
-			IDictionary mapinfo, resinfo;
+			IDictionary resinfo;
 			DataLocation res;
 			
 			// Initialize

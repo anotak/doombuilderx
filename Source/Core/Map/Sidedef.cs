@@ -161,9 +161,10 @@ namespace CodeImp.DoomBuilder.Map
 			if(map == General.Map.Map)
 				General.Map.UndoRedo.RecPrpSidedef(this);
 		}
-		
-		// Serialize / deserialize (passive: this doesn't record)
-		internal void ReadWrite(IReadWriteStream s)
+
+        // Serialize / deserialize (passive: this doesn't record)
+        // ano - using new keyword to shadow (and get rid of old DB2 warning)
+        internal new void ReadWrite(IReadWriteStream s)
 		{
 			if(!s.IsWriting) BeforePropsChange();
 			

@@ -110,8 +110,22 @@ namespace CodeImp.DoomBuilder.Geometry
 			if((!object.Equals(a, null)) && (object.Equals(b, null))) return true;
 			if((object.Equals(a, null)) && (!object.Equals(b, null))) return true;
 			return (a.line != b.line) || (a.front != b.front);
-		}
+        }
 
-		#endregion
-	}
+        //mxd. Addeed to make compiler a bit more happy...
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        //mxd. Addeed to make compiler a bit more happy...
+        public override bool Equals(object obj)
+        {
+            if (object.Equals(obj, null)) return false;
+            LinedefSide other = (LinedefSide)obj;
+            return (this.line == other.line) && (this.front == other.front);
+        }
+
+        #endregion
+    }
 }

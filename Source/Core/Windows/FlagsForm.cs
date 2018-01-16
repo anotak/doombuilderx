@@ -14,7 +14,7 @@ namespace CodeImp.DoomBuilder.Windows
 	{
 		#region ================== Variables
 
-		private bool setup;
+		//private bool setup;
 		private string value;
 		private IDictionary<string, string> flagdefs;
 
@@ -36,7 +36,7 @@ namespace CodeImp.DoomBuilder.Windows
 		// Setup from EnumList
 		public void Setup(string value, IDictionary<string, string> inflags)
 		{
-			setup = true;
+			//setup = true;
 			this.value = value;
 			flagdefs = inflags;
 
@@ -63,7 +63,7 @@ namespace CodeImp.DoomBuilder.Windows
 				}
 			}
 
-			setup = false;
+			//setup = false;
 		}
 
 		// This shows the dialog

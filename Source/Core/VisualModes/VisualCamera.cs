@@ -55,7 +55,6 @@ namespace CodeImp.DoomBuilder.VisualModes
 		{
 			// Initialize
 			this.movemultiplier = new Vector3D(1.0f, 1.0f, 1.0f);
-			this.position = position;
 			this.anglexy = 0.0f;
 			this.anglez = Angle2D.PI;
 			this.sector = null;

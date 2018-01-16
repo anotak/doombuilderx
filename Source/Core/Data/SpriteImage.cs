@@ -35,8 +35,8 @@ namespace CodeImp.DoomBuilder.Data
 	{
 		#region ================== Variables
 
-		protected int offsetx;
-		protected int offsety;
+		private int offsetx;
+		private int offsety;
 		
 		#endregion
 

@@ -106,7 +106,6 @@ namespace CodeImp.DoomBuilder.Types
 		{
 			// Setup
 			this.forargument = false;
-			this.arginfo = arginfo;
 			if(attr != null)
 			{
 				// Set attributes

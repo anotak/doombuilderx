@@ -69,8 +69,6 @@ namespace CodeImp.DoomBuilder.Types
 
 		public override void SetValue(object value)
 		{
-			bool result;
-
 			// null?
 			if(value == null)
 			{

@@ -6,6 +6,7 @@ version 2.1.3.8
 - update to ACC 1.56
 - fixed inconsistency with linedef info panel
 - improved logging information
+- cleanup for a bunch of compilation warnings left over from DB2 (should hopefully help prevent future bugs). some of this is based on MaxED's GZDoomBuilder code. may slightly improve performance.
 
 version 2.1.3.6
 =====================

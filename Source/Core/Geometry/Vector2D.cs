@@ -349,8 +349,26 @@ namespace CodeImp.DoomBuilder.Geometry
 		public bool IsFinite()
 		{
 			return !float.IsNaN(x) && !float.IsNaN(y) && !float.IsInfinity(x) && !float.IsInfinity(y);
-		}
+        }
 
-		#endregion
-	}
+        //mxd. Addeed to make compiler a bit more happy...
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        //mxd. Addeed to make compiler a bit more happy...
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Vector2D)) return false;
+
+            Vector2D other = (Vector2D)obj;
+
+            if (x != other.x) return false;
+            if (y != other.y) return false;
+            return true;
+        }
+
+        #endregion
+    }
 }

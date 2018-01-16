@@ -30,6 +30,8 @@ using System.Runtime.InteropServices;
 
 #endregion
 
+#pragma warning disable 0649
+#pragma warning disable 0067
 namespace CodeImp.DoomBuilder.Controls
 {
 	// This is only a wrapper for the Scintilla editor control. Most of this code is
@@ -1847,7 +1849,7 @@ namespace CodeImp.DoomBuilder.Controls
 
 		/// <summary>
 		/// Change the way control characters are displayed:
-		/// If symbol is < 32, keep the drawn way, else, use the given character.
+		/// If symbol is less than 32, keep the drawn way, else, use the given character.
 		/// Get the way control characters are displayed.
 		/// 
 		/// </summary>
@@ -2532,7 +2534,7 @@ namespace CodeImp.DoomBuilder.Controls
 									{
 										textstr = System.Runtime.InteropServices.Marshal.PtrToStringAuto(scn.text);
 									}
-									catch(IndexOutOfRangeException e)
+									catch(IndexOutOfRangeException)
 									{
 										// I don't know why this is happening, but I don't need the text here anyways
 									}
@@ -4992,3 +4994,5 @@ namespace CodeImp.DoomBuilder.Controls
 		#endregion
 	}
 }
+#pragma warning restore 0649
+#pragma warning restore 0067

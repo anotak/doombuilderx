@@ -159,8 +159,9 @@ namespace CodeImp.DoomBuilder.Map
 			}
 		}
 
-		// Serialize / deserialize
-		internal void ReadWrite(IReadWriteStream s)
+        // Serialize / deserialize
+        // ano - using new keyword to shadow (and get rid of old DB2 warning)
+        internal new void ReadWrite(IReadWriteStream s)
 		{
 			if(!s.IsWriting) BeforePropsChange();
 			

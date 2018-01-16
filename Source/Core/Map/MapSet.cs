@@ -233,8 +233,6 @@ namespace CodeImp.DoomBuilder.Map
         // Disposer
         internal void Dispose()
         {
-            ArrayList list;
-
             // Not already disposed?
             if (!isdisposed)
             {
@@ -1194,7 +1192,7 @@ namespace CodeImp.DoomBuilder.Map
 
                 default:
                     throw new ArgumentException("Unsupported selection target conversion");
-                    break;
+                    //break;
             }
 
             // New selection type
