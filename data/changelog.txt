@@ -3,6 +3,7 @@ based on code by anotak, CodeImp, MaxED, boris_i, ZZYZX
 =======================================================
 version 2.1.3.8
 =====================
+- fixed a bug with setting back sidedefs in the linedef edit window
 - update to ACC 1.56
 - fixed inconsistency with linedef info panel
 - improved logging information

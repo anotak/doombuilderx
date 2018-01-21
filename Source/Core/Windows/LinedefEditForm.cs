@@ -208,10 +208,30 @@ namespace CodeImp.DoomBuilder.Windows
 			arg2.SetValue(fl.Args[2]);
 			arg3.SetValue(fl.Args[3]);
 			arg4.SetValue(fl.Args[4]);
-			
-			// Front side and back side checkboxes
-			frontside.Checked = (fl.Front != null);
-			backside.Checked = (fl.Back != null);
+
+            // Front side and back side checkboxes
+            // ano - fix for bug, needed to expand this to consider ThreeState
+            if (fl.Front != null)
+            {
+                frontside.CheckState = CheckState.Checked;
+                frontside.Checked = true;
+            }
+            else
+            {
+                frontside.CheckState = CheckState.Unchecked;
+                frontside.Checked = false;
+            }
+
+            if (fl.Back != null)
+            {
+                backside.CheckState = CheckState.Checked;
+                backside.Checked = true;
+            }
+            else
+            {
+                backside.CheckState = CheckState.Unchecked;
+                backside.Checked = false;
+            }
 
             // Front settings
             if (fl.Front != null)
