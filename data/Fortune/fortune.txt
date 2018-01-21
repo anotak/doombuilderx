@@ -4,7 +4,8 @@ An easy way is the DBX forum thread at www.doomworld.com
 %%
 "The more specific a design idea is, the greater its appeal is likely to be."
 
-- Matthew Frederick, 101 Things I Learned In Architecture School
+- Matthew Frederick,
+101 Things I Learned In Architecture School
 %%
 "Beauty is due more to harmonious relationships among the elements of a composition than to the elements themselves."
 
@@ -207,7 +208,9 @@ Lesson 3: Measuring and Mapping Doom
 - Trashbang,
 The Lost Legacy of Doom's Hitscan Enemies
 %%
-"Detailing is a powerful tool to improve your maps' visuals; but detailing alone is not enough to make a map aesthetically pleasing; done tastelessly it will instead detract from your map."
+"Detailing is a powerful tool to improve your maps' visuals;
+but detailing alone is not enough to make a map aesthetically pleasing;
+done tastelessly it will instead detract from your map."
 
 - Tormentor667,
 Mapping Art - High Detail
@@ -349,7 +352,7 @@ You can set hotkeys to gradient sector lighting, floor heights, and ceiling heig
 Check in the preferences menu.
 %%
 You can set hotkeys to flip selected map elements horizontally or vertically.
-Check in the preferences menu for what key it is.
+Check in the preferences menu.
 %%
 You can view the map in Classic Modes either with floor textures, ceiling textures, brightness, or wireframe views.
 %%
@@ -358,7 +361,8 @@ You can view the map in Classic Modes either with floor textures, ceiling textur
 - Robert Yang,
 Local Level Design, and a History / Future of Level Design
 %%
-"Lack of decoration is a style of decoration in itself. There is no such thing as 'pure form.'"
+"Lack of decoration is a style of decoration in itself.
+There is no such thing as 'pure form.'"
 
 - Robert Yang,
 Local Level Design, and a History / Future of Level Design
@@ -463,7 +467,7 @@ Doom Editing Basics
 - Rex Claussen,
 Doom Editing Basics
 %%
-"Remember also that the DOOM world is quite static so anything in the architecture that moves adds interest..."
+"Remember also that the DOOM world is quite static so anything in the architecture that moves adds interest."
 
 - John Bishop,
 Getting Started with DooM Editing
@@ -510,7 +514,7 @@ in Doomworld thread "Balancing Lower Difficulties"
 
 - Iain M. Banks
 %%
-"Secrets...are the very root of cool."
+"Secrets... are the very root of cool."
 
 - William Gibson
 %%
@@ -551,3 +555,84 @@ Twenty Years a Doom Modder
 
 - Tom Hall,
 The Doom Bible
+%%
+"As your gaze is usually downward, you tend notice small things on the ground more easily than larger ones in the ceiling."
+
+- Aki Maatta,
+Realistic Level Design in Max Payne
+%%
+"The level is constantly asking what the player does and does not have line of sight to. It asks 'Why are we giving the player line of sight to this thing right now?' and 'Why are we denying the player line of sight to that thing over there right now?'"
+
+- Brendon Chung,
+How to Tell Stories and Guide Players Through Level Design
+%%
+"We hammer wood for a house,
+but it is the inner space
+that makes it livable.
+
+We work with being,
+but non-being is what we use."
+
+- Laozi,
+Tao Te Ching
+(translated by Stephen Mitchell)
+%%
+"Longer maps have the benefit of letting you create a setting and a journey, but the nice thing about smaller maps is that they really let you isolate a concept."
+
+- Tarnsman,
+Doom Radio interview with Mouldy
+%%
+"When you're playing a game, you're part of the creative process."
+
+- Mouldy,
+Doom Radio interview
+%%
+"One of the most useful things I've ever found is actually watching people play your maps."
+
+- Mouldy,
+Doom Radio interview
+%%
+"So you draw a bunch of associated shapes and you think 'What interesting gameplay situations can I create with this shape, and then should I start from there, building an encounter that way?'"
+
+- Ribbiks,
+Doom Radio Interview
+%%
+Do you ever wonder what your level smells like?
+%%
+Reminder: you can use the Automap Mode to clean up the automap. Or to dirty it.
+%%
+The messages on this screen are meant as suggestions to point you in interesting directions, not hard rules.
+%%
+"Architecture should not only be judged by the problems it solves,
+but by the problems it creates."
+
+- Lebbeus Woods
+%%
+"I loved it most when I'd try some weird experimental thing. Then John Carmack would berate me for stretching the engine too far. Then Romero, McGee, and Green would do a bunch of levels imitating it, because they liked it. Then John Carmack would change the engine."
+
+- Sandy Petersen
+%%
+"Contrast is how we make any sense of the world. We look for differences and carve stuff up into groups based on those differences."
+
+- Eevee,
+You Should Make a Doom Level, Part 2: Design 
+%%
+"You can't confuse the player, they should see where they want to go. They just have to figure out how to do it."
+
+- Dario Casali,
+Dev Game Club Episode 70: Half-Life Interview
+%%
+"Once you have the basics down, develop a personal style. No shame in borrowing stuff someone else does but if you develop an idea or technique on your own, often you'll understand it more deeply and your use of it will be both distinctive and effective."
+
+- JP LeBreton
+%%
+"In most WADs, it's hard to overestimate the visual importance of your sky art. Decide on which sky to use at the start and think about how its color and texture inform the geo that will be seen in front of it."
+
+- JP LeBreton
+%%
+"Doom is about 'maneuverability as defense'."
+
+- JP LeBreton,
+Coelacanth: Lessons from Doom
+%%
+I'm feeling a bit COMPBLU today.
