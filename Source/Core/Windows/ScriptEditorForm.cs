@@ -57,6 +57,9 @@ namespace CodeImp.DoomBuilder.Windows
 		{
 			InitializeComponent();
 			editor.Initialize();
+
+            // ano - focus when tabbed back into
+            Activated += ScriptEditorForm_Activated;
 		}
 		
 		#endregion
@@ -188,6 +191,12 @@ namespace CodeImp.DoomBuilder.Windows
 			General.ShowHelp("w_scripteditor.html");
 			hlpevent.Handled = true;
 		}
+
+        // ano - focus script editor properly if alt tabbed back into or whatever
+        private void ScriptEditorForm_Activated(object senders, EventArgs eventargs)
+        {
+            editor.ForceFocus();
+        }
 		
 		#endregion
 	}
