@@ -53,7 +53,7 @@ namespace CodeImp.DoomBuilder.Windows
 
 			// Keep settings
 			this.options = options;
-            int selectedIndex = 0;
+            int selectedIndex = -1;
 
 			// Go for all configurations
 			for(int i = 0; i < General.Configs.Count; i++)
@@ -67,11 +67,16 @@ namespace CodeImp.DoomBuilder.Windows
                     // Select this item
                     selectedIndex = index;
                 }
-                else if (selectedIndex == 0 && General.Configs[i].Filename == "EE_DoomUDMF.cfg")
+                else if (selectedIndex == -1 && General.Configs[i].Filename == "EE_DoomUDMF.cfg")
                 {
                     selectedIndex = index;
                 }
 			}
+            if (selectedIndex == -1)
+            {
+                selectedIndex = 0;
+            }
+
             config.SelectedIndex = selectedIndex;
 
             // Set the level name
