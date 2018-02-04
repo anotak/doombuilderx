@@ -5,6 +5,7 @@ version 2.1.3.10
 =====================
 - fixed some weirdnesses with the Map Options screen if you had the first game config selected (Boom by default)
 - when you alt-tab back into the script editor, the keyboard focus goes to the text box as expected
+- additional logging for shader loading crashes
 
 version 2.1.3.8
 =====================

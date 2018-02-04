@@ -115,12 +115,13 @@ namespace CodeImp.DoomBuilder.Rendering
 			{
 				// Compile effect
 				fx = Effect.FromStream(General.Map.Graphics.Device, fxdata, null, null, null, ShaderFlags.None, null, out errors);
+                
 				if(!string.IsNullOrEmpty(errors))
 				{
 					throw new Exception("Errors in effect file " + fxfile + ": " + errors);
 				}
 			}
-			catch(Exception)
+			catch(Exception e_first)
 			{
 				// Compiling failed, try with debug information
 				try
@@ -129,13 +130,13 @@ namespace CodeImp.DoomBuilder.Rendering
 					fx = Effect.FromStream(General.Map.Graphics.Device, fxdata, null, null, null, ShaderFlags.Debug, null, out errors);
 					if(!string.IsNullOrEmpty(errors))
 					{
-						throw new Exception("Errors in effect file " + fxfile + ": " + errors);
+						throw new Exception("Errors in effect file " + fxfile + ": " + errors, e_first);
 					}
 				}
 				catch(Exception e)
 				{
 					// No debug information, just crash
-					throw new Exception(e.GetType().Name + " while loading effect " + fxfile + ": " + e.Message);
+					throw new Exception("Warning: You may need to install DirectX 9.\n" + e.GetType().Name + " while loading effect " + fxfile + ": " + e.Message, e);
 				}
 			}
 			
