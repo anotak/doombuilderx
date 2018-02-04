@@ -1346,7 +1346,13 @@ namespace CodeImp.DoomBuilder
 			savefile.CheckPathExists = true;
 			savefile.OverwritePrompt = true;
 			savefile.ValidateNames = true;
-			if(savefile.ShowDialog(mainwindow) == DialogResult.OK)
+            // ano - fill in filename if it's not a new file
+            if (map.FilePathName != "")
+            {
+                savefile.FileName = map.FileTitle;
+            }
+
+            if (savefile.ShowDialog(mainwindow) == DialogResult.OK)
 			{
 				// Check if we're saving to the same file as the original.
 				// Because some muppets use Save As even when saving to the same file.
