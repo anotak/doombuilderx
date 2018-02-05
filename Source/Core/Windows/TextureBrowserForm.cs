@@ -74,12 +74,16 @@ namespace CodeImp.DoomBuilder.Windows
 			// Fill texture sets list with normal texture sets
 			foreach(IFilledTextureSet ts in General.Map.Data.TextureSets)
 			{
-				item = texturesets.Items.Add(ts.Name);
-				item.Tag = ts;
-				item.ImageIndex = 0;
-				item.UseItemStyleForSubItems = false;
-				item.SubItems.Add(ts.Textures.Count.ToString(), item.ForeColor,
-						item.BackColor, new Font(item.Font, FontStyle.Regular));
+                // ano - hide empty texturesets
+                if (ts.Textures.Count > 0)
+                {
+                    item = texturesets.Items.Add(ts.Name);
+                    item.Tag = ts;
+                    item.ImageIndex = 0;
+                    item.UseItemStyleForSubItems = false;
+                    item.SubItems.Add(ts.Textures.Count.ToString(), item.ForeColor,
+                            item.BackColor, new Font(item.Font, FontStyle.Regular));
+                }
 			}
 
 			// Add container-specific texture sets
