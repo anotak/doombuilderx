@@ -72,6 +72,11 @@ namespace CodeImp.DoomBuilder.Data
 		{
 			lock(this)
 			{
+                // ano -- to prevent potential race conditions
+                if (bitmap == null || isdisposed)
+                {
+                    return Properties.Resources.UnknownImage;
+                }
 				// Make a copy
 				return new Bitmap(loadbitmap);
 			}
