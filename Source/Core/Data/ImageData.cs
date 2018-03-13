@@ -65,9 +65,12 @@ namespace CodeImp.DoomBuilder.Data
 		// References
 		private volatile bool usedinmap;
 		private volatile int references;
-		
-		// GDI bitmap
-		protected Bitmap bitmap;
+        protected volatile bool bCleanWhenZeroReferences; // ano - dont clean up when there are 0 references
+                                                          // defaults to true
+                                                          // this is false for UnknownImage
+
+        // GDI bitmap
+        protected Bitmap bitmap;
 		
 		// Direct3D texture
 		private int mipmaplevels = 0;	// 0 = all mipmaps
@@ -113,6 +116,7 @@ namespace CodeImp.DoomBuilder.Data
 		{
             // Defaults
             bIsFlat = false;
+            bCleanWhenZeroReferences = true;
 			usecolorcorrection = true;
 			allowunload = true;
 		}
@@ -172,7 +176,7 @@ namespace CodeImp.DoomBuilder.Data
 		{
 			references--;
 			if(references < 0) General.Fail("FAIL! (references < 0) Somewhere this image is dereferenced more than it was referenced.");
-			if(references == 0) General.Map.Data.ProcessImage(this);
+			if(references == 0 && bCleanWhenZeroReferences) General.Map.Data.ProcessImage(this);
 		}
 		
 		// This sets the name

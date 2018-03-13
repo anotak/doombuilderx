@@ -51,7 +51,13 @@ namespace CodeImp.DoomBuilder.Data
 			SetName("");
 			
 			LocalLoadImage();
-			
+
+            // ano - this is a hacky workaround to the fact that
+            // we should never unload this image from references == 0
+            // more reasonable ways to fix this issue are prevented
+            // by maintaining plugin compatibility unfortunately
+            bCleanWhenZeroReferences = false;
+
 			// We have no destructor
 			GC.SuppressFinalize(this);
 		}
