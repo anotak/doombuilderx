@@ -388,10 +388,10 @@ namespace CodeImp.DoomBuilder.Geometry
                         Vector2D foundsidepoint = foundline.GetSidePoint(foundlinefront);
                         RectangleF innerbbox = innerpoly.CreateBBox();
                         bool outsidebbox = (foundsidepoint.x < innerbbox.Left || foundsidepoint.x > innerbbox.Right || foundsidepoint.y < innerbbox.Top || foundsidepoint.y > innerbbox.Bottom);
-                        
+
                         // Check if the front of the line is outside the polygon
-                        if (!innerpoly.Intersect(foundline.GetSidePoint(foundlinefront)))
-						{
+                        if (outsidebbox || !innerpoly.Intersect(foundsidepoint))
+                        {
 							// Valid hole found!
 							alllines.AddRange(innerlines);
 							p.InsertChild(innerpoly);

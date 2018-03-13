@@ -11,6 +11,7 @@ version 2.1.3.10
 - fixed crash when creating a new level with no resources selected and randomized textures
 - fixed a crash when going in 3d mode with no resources loaded
 - fixed a potential threading error with unknown images
+- crossported one of MaxED's optimization to drawing new geometry from gzdb
 - hide matching texture sets with 0 textures in the texture browser
 - additional logging for shader loading crashes
 
