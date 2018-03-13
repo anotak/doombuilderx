@@ -2514,7 +2514,10 @@ namespace CodeImp.DoomBuilder.Map
             {
                 splitsDone = false;
 
-                // TODO - split this out?
+                // ano - we're sorting the vertices left to right
+                // so that we can use that assumption to limit the
+                // number of vertices we have to check intersections
+                // TODO - ano - split this out into separate method?
                 verts.Sort(delegate (Vertex a, Vertex b)
                 {
                     if (a.Position.x > b.Position.x)
@@ -2534,6 +2537,8 @@ namespace CodeImp.DoomBuilder.Map
                 for (int line_index = 0; line_index < line_count; line_index++)
                 {
                     Linedef l = lines[line_index];
+                    // ano - the left and right bounds of our line
+                    // used to limit the set of vertices
                     float leftx = l.Start.Position.x;
                     float rightx = l.End.Position.x;
 
@@ -2544,10 +2549,15 @@ namespace CodeImp.DoomBuilder.Map
                         rightx = temp;
                     }
 
+                    // ano - we need to account for floating point imprecision
+                    leftx -= MapSet.STITCH_DISTANCE;
+                    rightx += MapSet.STITCH_DISTANCE;
+
+                    // ano - the range of vertices to check
                     int vert_index;
                     int vert_max;
 
-                    { // binary search list of verts for place to start vert_index
+                    { // ano - binary search list of verts for place to start vert_index
                         int lower = 0;
                         int upper = vert_count;
 
@@ -2569,6 +2579,7 @@ namespace CodeImp.DoomBuilder.Map
                         vert_index = lower;
                         upper = vert_count;
 
+                        // ano - now do vert_max
                         while (upper - lower > 1)
                         {
                             int m = (upper + lower) / 2;
@@ -2584,7 +2595,7 @@ namespace CodeImp.DoomBuilder.Map
                             }
                         }
                         vert_max = upper;
-                    } // end binary search
+                    } // ano - end binary search
 
 
                     for (; vert_index < vert_max; vert_index++)
@@ -2634,7 +2645,7 @@ namespace CodeImp.DoomBuilder.Map
                     } // for verts
                     
                 } // for lines
-            }
+            } // while(splitsDone)
             return true;
         }
 
