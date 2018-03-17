@@ -367,7 +367,9 @@ There is no such thing as 'pure form.'"
 - Robert Yang,
 Local Level Design, and a History / Future of Level Design
 %%
-"The cost of adding a feature isn't just the time it takes to code it. The cost also includes the addition of an obstacle to future expansion. The trick is to pick the features that don't fight each other."
+"The cost of adding a feature isn't just the time it takes to code it.
+The cost also includes the addition of an obstacle to future expansion.
+The trick is to pick the features that don't fight each other."
 
 - John Carmack
 %%
@@ -599,7 +601,8 @@ Doom Radio Interview
 %%
 Do you ever wonder what your level smells like?
 %%
-Reminder: you can use the Automap Mode to clean up the automap. Or to dirty it.
+Reminder: you can use the Automap Mode to clean up the automap.
+Or to dirty it.
 %%
 The messages on this screen are meant as suggestions to point you in interesting directions, not hard rules.
 %%
@@ -636,3 +639,57 @@ Dev Game Club Episode 70: Half-Life Interview
 Coelacanth: Lessons from Doom
 %%
 I'm feeling a bit COMPBLU today.
+%%
+If you hold the alt key while creating new lines, it will place vertices wherever possible.
+Try it out!
+%%
+"[Doom] is pretty much more popular than football."
+
+- Shawn Green
+%%
+"I hate demons."
+
+- John Romero,
+A Visit to id Software (November 1993)
+%%
+"Oh, man! That looked neat though!"
+
+- Bobby Prince reacting to a Hall of Mirrors bug,
+A Visit to id Software (November 1993)
+%%
+The camera in Visual 3D mode moves faster if you hold shift.
+%%
+"When you light a candle, you also cast a shadow."
+
+- Ursula Le Guin
+%%
+"The creative adult is the child who has survived."
+
+- Ursula Le Guin
+%%
+"The unread story is not a story; it is little black marks on wood pulp.
+The reader, reading it, makes it live: a live thing, a story."
+
+- Ursula Le Guin
+%%
+"Wow! Now I'm in a completely different place!"
+
+- The Doom Comic
+%%
+"Are you really sure that a floor can't also be a ceiling?"
+
+- M.C. Escher
+%%
+While drawing new geometry, you can press the Remove Previous Vertex hotkey to undo the last click without starting over drawing.
+The default key is Backspace, but check in the preferences menu.
+%%
+Drawing new geometry clockwise inside another sector will default to the front sides facing inward.
+Counterclockwise will default to outward.
+%%
+"Hungry Vowel."
+
+- the Mancubus
+%%
+"A donut is a very specialized linedef type that lowers a pillar in a surrounding pool, while raising the pool and changing its texture and type. "
+
+- boomref.txt, TeamTNT
