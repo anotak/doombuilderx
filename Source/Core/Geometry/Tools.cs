@@ -1118,7 +1118,10 @@ namespace CodeImp.DoomBuilder.Geometry
 				// Join merge vertices so that overlapping vertices in the draw become one.
 				map.BeginAddRemove();
                 //MapSet.JoinVertices(mergeverts, mergeverts, false, MapSet.STITCH_DISTANCE);
-                // anotak - faster this way
+                // anotak - faster using this function
+                // ano - NOTE: a precondition of the rest of this process
+                // is that the vertices must be joined in the same order
+                // as JoinVerticesOneList does
                 mergeverts = MapSet.JoinVerticesOneList(mergeverts, MapSet.STITCH_DISTANCE);
 				map.EndAddRemove();
 				

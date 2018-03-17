@@ -2356,12 +2356,12 @@ namespace CodeImp.DoomBuilder.Map
             int count = vertices.Count;
             List<Vertex> output = new List<Vertex>(count);
 
-            for (int i = 0; i < count - 1; i++)
+            for (int i = count - 1; i > 0; i--)
             {
                 bool bKeep = true;
                 Vertex current = vertices[i];
 
-                for (int j = i + 1; j < count; j++)
+                for (int j = i - 1; j >= 0; j--)
                 {
                     if (current.DistanceToSq(vertices[j].Position) <= joindist2)
                     {
@@ -2380,8 +2380,8 @@ namespace CodeImp.DoomBuilder.Map
                 }
             }
 
-            output.Add(vertices[count - 1]);
-
+            output.Add(vertices[0]);
+            output.Reverse();
             return output;
         }
 
