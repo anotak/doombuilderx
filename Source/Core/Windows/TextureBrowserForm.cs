@@ -35,9 +35,12 @@ using CodeImp.DoomBuilder.Controls;
 
 namespace CodeImp.DoomBuilder.Windows
 {
-	internal partial class TextureBrowserForm : Form
+    // ano - as of may-31-2018 this has been merged with flatbrowserform
+    // this is partially based on
+    // mxd's merging of the two in the gzdb source code
+    // greatly reduces code duplication
+    internal partial class TextureBrowserForm : Form
 	{
-		// Constants
 		private const int COLUMN_WIDTH_COUNT = 52;
 		
 		// Variables
@@ -48,72 +51,142 @@ namespace CodeImp.DoomBuilder.Windows
 		private ListViewGroup availgroup;
 		private ListViewItem selectedset;
 		private string selecttextureonfill;
-		
-		// Properties
-		public string SelectedName { get { return selectedname; } }
-		
-		// Constructor
-		public TextureBrowserForm(string selecttexture)
-		{
-			Cursor.Current = Cursors.WaitCursor;
-			ListViewItem item;
-			bool foundselecttexture = false;
-			long longname = Lump.MakeLongName(selecttexture ?? "");
-			
-			// Initialize
-			InitializeComponent();
-			browser.ApplySettings();
-			
-			// Update the used textures
-			General.Map.Data.UpdateUsedTextures();
-			
-			// Resize columns to maximize available width
-			countcolumn.Width = COLUMN_WIDTH_COUNT;
-			namecolumn.Width = texturesets.ClientRectangle.Width - SystemInformation.VerticalScrollBarWidth - countcolumn.Width - 2;
-			
-			// Fill texture sets list with normal texture sets
-			foreach(IFilledTextureSet ts in General.Map.Data.TextureSets)
-			{
+
+        public bool bStillLoading;
+        // Properties
+        public string SelectedName { get { return selectedname; } }
+
+        private readonly bool browseflats; //mxd
+
+        // Constructor
+        public TextureBrowserForm(string selecttexture, bool nbrowseflats)
+        {
+            bStillLoading = true;
+
+            browseflats = nbrowseflats;
+
+            Cursor.Current = Cursors.WaitCursor;
+            ListViewItem item;
+            bool foundselecttexture = false;
+            long longname = Lump.MakeLongName(selecttexture ?? "");
+
+            // Initialize
+            InitializeComponent();
+            browser.ApplySettings();
+
+            // Update the used textures
+            General.Map.Data.UpdateUsedTextures();
+
+            // Resize columns to maximize available width
+            countcolumn.Width = COLUMN_WIDTH_COUNT;
+            namecolumn.Width = texturesets.ClientRectangle.Width - SystemInformation.VerticalScrollBarWidth - countcolumn.Width - 2;
+
+            // Fill texture sets list with normal texture sets
+            foreach (IFilledTextureSet ts in General.Map.Data.TextureSets)
+            {
+                int textureCount;
+                if (General.Map.Config.MixTexturesFlats)
+                {
+                    textureCount = ts.Flats.Count + ts.Textures.Count;
+                }
+                else if (browseflats)
+                {
+                    textureCount = ts.Flats.Count;
+                }
+                else
+                {
+                    textureCount = ts.Textures.Count;
+                }
+
                 // ano - hide empty texturesets
-                if (ts.Textures.Count > 0)
+                if (textureCount > 0)
                 {
                     item = texturesets.Items.Add(ts.Name);
                     item.Tag = ts;
                     item.ImageIndex = 0;
                     item.UseItemStyleForSubItems = false;
-                    item.SubItems.Add(ts.Textures.Count.ToString(), item.ForeColor,
+                    item.SubItems.Add(textureCount.ToString(), item.ForeColor,
                             item.BackColor, new Font(item.Font, FontStyle.Regular));
                 }
-			}
+            }
 
-			// Add container-specific texture sets
-			foreach(ResourceTextureSet ts in General.Map.Data.ResourceTextureSets)
-			{
-				item = texturesets.Items.Add(ts.Name);
-				item.Tag = ts;
-				item.ImageIndex = 2 + ts.Location.type;
-				item.UseItemStyleForSubItems = false;
-				item.SubItems.Add(ts.Textures.Count.ToString(), item.ForeColor,
-						item.BackColor, new Font(item.Font, FontStyle.Regular));
-			}
-			
-			// Add All textures set
-			item = texturesets.Items.Add(General.Map.Data.AllTextureSet.Name);
-			item.Tag = General.Map.Data.AllTextureSet;
-			item.ImageIndex = 1;
-			item.UseItemStyleForSubItems = false;
-			item.SubItems.Add(General.Map.Data.AllTextureSet.Textures.Count.ToString(),
-				item.ForeColor, item.BackColor, new Font(item.Font, FontStyle.Regular));
-
-            if (General.Map.Config.MixTexturesFlats && General.Map.Data.WallsTextureSet != null)
+            // Add container-specific texture sets
+            foreach (ResourceTextureSet ts in General.Map.Data.ResourceTextureSets)
             {
-                // Add All textures set
-                item = texturesets.Items.Add(General.Map.Data.WallsTextureSet.Name);
-                item.Tag = General.Map.Data.WallsTextureSet;
+                int textureCount;
+                if (General.Map.Config.MixTexturesFlats)
+                {
+                    textureCount = ts.Flats.Count + ts.Textures.Count;
+                }
+                else if (browseflats)
+                {
+                    textureCount = ts.Flats.Count;
+                }
+                else
+                {
+                    textureCount = ts.Textures.Count;
+                }
+
+                item = texturesets.Items.Add(ts.Name);
+                item.Tag = ts;
+                item.ImageIndex = 2 + ts.Location.type;
+                item.UseItemStyleForSubItems = false;
+                item.SubItems.Add(textureCount.ToString(), item.ForeColor,
+                        item.BackColor, new Font(item.Font, FontStyle.Regular));
+            }
+
+            // Add All textures set
+            {
+                int textureCount;
+                if (General.Map.Config.MixTexturesFlats)
+                {
+                    textureCount = General.Map.Data.AllTextureSet.Flats.Count + General.Map.Data.AllTextureSet.Textures.Count;
+                }
+                else if (browseflats)
+                {
+                    textureCount = General.Map.Data.AllTextureSet.Flats.Count;
+                }
+                else
+                {
+                    textureCount = General.Map.Data.AllTextureSet.Textures.Count;
+                }
+
+                item = texturesets.Items.Add(General.Map.Data.AllTextureSet.Name);
+                item.Tag = General.Map.Data.AllTextureSet;
                 item.ImageIndex = 1;
                 item.UseItemStyleForSubItems = false;
-                item.SubItems.Add(General.Map.Data.WallsTextureSet.Textures.Count.ToString(),
+                item.SubItems.Add(textureCount.ToString(),
                     item.ForeColor, item.BackColor, new Font(item.Font, FontStyle.Regular));
+            }
+
+            if (General.Map.Config.MixTexturesFlats)
+            {
+                if (General.Map.Data.WallsTextureSet != null)
+                {
+                    // Add all Textures-only set
+                    int textureCount;
+                    textureCount = General.Map.Data.WallsTextureSet.Textures.Count;
+
+                    item = texturesets.Items.Add(General.Map.Data.WallsTextureSet.Name);
+                    item.Tag = General.Map.Data.WallsTextureSet;
+                    item.ImageIndex = 1;
+                    item.UseItemStyleForSubItems = false;
+                    item.SubItems.Add(textureCount.ToString(),
+                        item.ForeColor, item.BackColor, new Font(item.Font, FontStyle.Regular));
+                }
+                else if (browseflats && General.Map.Data.FlatsTextureSet != null)
+                {
+                    // Add All flats-only set
+                    int textureCount;
+                    textureCount = General.Map.Data.FlatsTextureSet.Textures.Count;
+
+                    item = texturesets.Items.Add(General.Map.Data.FlatsTextureSet.Name);
+                    item.Tag = General.Map.Data.FlatsTextureSet;
+                    item.ImageIndex = 1;
+                    item.UseItemStyleForSubItems = false;
+                    item.SubItems.Add(textureCount.ToString(),
+                        item.ForeColor, item.BackColor, new Font(item.Font, FontStyle.Regular));
+                }
             }
 
             // Select the last one that was selected
@@ -124,7 +197,7 @@ namespace CodeImp.DoomBuilder.Windows
             // ano - select flats box if we're on a mixflats/textures cfg and we're looking in "All"
             if (!foundselecttexture && General.Map.Config.MixTexturesFlats && cfgTextureSet == "All")
             {
-                cfgTextureSet = "Textures";
+                cfgTextureSet = browseflats ? "Textures" : "Flats";
             }
 
             foreach (ListViewItem i in texturesets.Items)
@@ -187,25 +260,34 @@ namespace CodeImp.DoomBuilder.Windows
 			selecttextureonfill = selecttexture;
 			
 			// Make groups
-			usedgroup = browser.AddGroup("Used Textures");
-			availgroup = browser.AddGroup("Available Textures");
+			usedgroup = browser.AddGroup(browseflats ? "Used Flats" : "Used Textures");
+			availgroup = browser.AddGroup(browseflats ? "Available Flats" : "Available Textures");
 			
 			// Keep last position and size
 			lastposition = this.Location;
 			lastsize = this.Size;
-			
-			// Position window from configuration settings
-			this.SuspendLayout();
-			/*
+
+            // ano - rename labels if we're browsing flats
+            if (browseflats)
+            {
+                Text = "Browse Flats";
+                browser.LabelText = "Select or enter a flat name:";
+            }
+
+            // Position window from configuration settings
+            this.SuspendLayout();
+
+            /*
 			this.Location = new Point(General.Settings.ReadSetting("browserwindow.positionx", this.Location.X),
 									  General.Settings.ReadSetting("browserwindow.positiony", this.Location.Y));
 			*/
-			this.Size = new Size(General.Settings.ReadSetting("browserwindow.sizewidth", this.Size.Width),
+            this.Size = new Size(General.Settings.ReadSetting("browserwindow.sizewidth", this.Size.Width),
 								 General.Settings.ReadSetting("browserwindow.sizeheight", this.Size.Height));
 			this.WindowState = (FormWindowState)General.Settings.ReadSetting("browserwindow.windowstate", (int)FormWindowState.Normal);
 			if(this.WindowState == FormWindowState.Normal) this.StartPosition = FormStartPosition.CenterParent;
 			this.ResumeLayout(true);
-		}
+            bStillLoading = false;
+        }
 
 		// Selection changed
 		private void browser_SelectedItemChanged()
@@ -311,9 +393,9 @@ namespace CodeImp.DoomBuilder.Windows
 
 		// Static method to browse for texture
 		// Returns null when cancelled.
-		public static string Browse(IWin32Window parent, string select)
+		public static string Browse(IWin32Window parent, string select, bool browseflats)
 		{
-			TextureBrowserForm browser = new TextureBrowserForm(select);
+			TextureBrowserForm browser = new TextureBrowserForm(select, browseflats);
 			if(browser.ShowDialog(parent) == DialogResult.OK)
 			{
 				// Return result
@@ -329,8 +411,13 @@ namespace CodeImp.DoomBuilder.Windows
 		// Texture set selected
 		private void texturesets_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			// Anything slected?
-			if(texturesets.SelectedItems.Count > 0)
+            if (bStillLoading)
+            {
+                return;
+            }
+
+            // Anything slected?
+            if (texturesets.SelectedItems.Count > 0)
 			{
 				selectedset = texturesets.SelectedItems[0];
 				FillImagesList();
@@ -345,20 +432,37 @@ namespace CodeImp.DoomBuilder.Windows
 
 		// This fills the list of textures, depending on the selected texture set
 		private void FillImagesList()
-		{
-			// Get the selected texture set
-			IFilledTextureSet set = (selectedset.Tag as IFilledTextureSet);
+        {
+            if (bStillLoading)
+            {
+                return;
+            }
+            // Get the selected texture set
+            IFilledTextureSet set = (selectedset.Tag as IFilledTextureSet);
 			
 			// Start adding
 			browser.BeginAdding(false);
-			
-			// Add all available textures and mark the images for temporary loading
-			foreach(ImageData img in set.Textures)
-				browser.Add(img.Name, img, img, availgroup);
-			
-			// Add all used textures and mark the images for permanent loading
-			foreach(ImageData img in set.Textures)
-				if(img.UsedInMap) browser.Add(img.Name, img, img, usedgroup);
+
+            if (browseflats)
+            {
+                // Add all available flats
+                foreach (ImageData img in set.Flats)
+                    browser.Add(img.Name, img, img, availgroup);
+
+                // Add all used flats
+                foreach (ImageData img in set.Flats)
+                    if (img.UsedInMap) browser.Add(img.Name, img, img, usedgroup);
+            }
+            else
+            {
+                // Add all available textures and mark the images for temporary loading
+                foreach (ImageData img in set.Textures)
+                    browser.Add(img.Name, img, img, availgroup);
+
+                // Add all used textures and mark the images for permanent loading
+                foreach (ImageData img in set.Textures)
+                    if (img.UsedInMap) browser.Add(img.Name, img, img, usedgroup);
+            }
 			
 			// Done adding
 			browser.EndAdding();
@@ -373,6 +477,7 @@ namespace CodeImp.DoomBuilder.Windows
 
 		private void TextureBrowserForm_Shown(object sender, EventArgs e)
 		{
+            bStillLoading = false;
             browser.bStillLoading = false;
             FillImagesList();
 			// Select texture
@@ -382,5 +487,5 @@ namespace CodeImp.DoomBuilder.Windows
 				selecttextureonfill = null;
 			}
 		}
-	}
-}
+	} // class
+} // ns

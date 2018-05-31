@@ -58,7 +58,7 @@ namespace CodeImp.DoomBuilder.Types
 
 		public override void Browse(IWin32Window parent)
 		{
-			this.value = FlatBrowserForm.Browse(parent, this.value);
+			this.value = TextureBrowserForm.Browse(parent, this.value, true);
 		}
 
 		public override void SetValue(object value)

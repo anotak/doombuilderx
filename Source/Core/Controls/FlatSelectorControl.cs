@@ -71,7 +71,7 @@ namespace CodeImp.DoomBuilder.Controls
 			string result;
 
 			// Browse for texture
-			result = FlatBrowserForm.Browse(this.ParentForm, imagename);
+			result = TextureBrowserForm.Browse(this.ParentForm, imagename, true);
 			if(result != null) return result; else return imagename;
 		}
 	}

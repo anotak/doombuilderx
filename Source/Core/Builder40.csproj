@@ -282,12 +282,6 @@
     <Compile Include="Controls\FieldsEditorControl.Designer.cs">
       <DependentUpon>FieldsEditorControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Windows\FlatBrowserForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Windows\FlatBrowserForm.Designer.cs">
-      <DependentUpon>FlatBrowserForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Windows\DelayedForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -596,10 +590,6 @@
     <EmbeddedResource Include="Controls\FieldsEditorControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>FieldsEditorControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Windows\FlatBrowserForm.resx">
-      <DependentUpon>FlatBrowserForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Windows\DelayedForm.resx">
       <SubType>Designer</SubType>

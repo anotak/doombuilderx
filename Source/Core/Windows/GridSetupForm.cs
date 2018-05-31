@@ -95,7 +95,7 @@ namespace CodeImp.DoomBuilder.Windows
 			string result;
 			
 			// Browse for texture
-			result = TextureBrowserForm.Browse(this, backgroundname);
+			result = TextureBrowserForm.Browse(this, backgroundname, false);
 			if(result != null)
 			{
 				// Set this texture as background
@@ -113,7 +113,7 @@ namespace CodeImp.DoomBuilder.Windows
 			string result;
 
 			// Browse for flat
-			result = FlatBrowserForm.Browse(this, backgroundname);
+			result = TextureBrowserForm.Browse(this, backgroundname, true);
 			if(result != null)
 			{
 				// Set this flat as background
