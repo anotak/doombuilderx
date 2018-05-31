@@ -497,8 +497,6 @@ namespace CodeImp.DoomBuilder.Data
 
                         if (subfolder.Length > 0)
                         {
-                            General.WriteLogLine(subfolder);
-
                             if (!subtexturesets.ContainsKey(subfolder))
                             {
                                 subtexturesets.Add(subfolder, new ResourceTextureSet(subfolder + " (" + GetTitle() + ")", location));
