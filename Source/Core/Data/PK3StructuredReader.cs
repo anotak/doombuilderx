@@ -25,6 +25,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using CodeImp.DoomBuilder.IO;
+using CodeImp.DoomBuilder.Config;
 
 #endregion
 
@@ -165,13 +166,30 @@ namespace CodeImp.DoomBuilder.Data
 			
 			// Error when suspended
 			if(issuspended) throw new Exception("Data reader is suspended");
-			
+            
+            subtexturesets = new Dictionary<string, ResourceTextureSet>();
+
 			// Load from wad files (NOTE: backward order, because the last wad's images have priority)
 			for(int i = wads.Count - 1; i >= 0; i--)
 			{
 				collection = wads[i].LoadTextures(pnames);
-				AddImagesToList(images, collection);
-			}
+
+                ResourceTextureSet wadTextureSet = new ResourceTextureSet(wads[i].GetTitle(), location);
+                // ano - moved this loop out from AddImagesToList
+                // because we need to add the images to a
+                // wad-specific list
+                foreach (ImageData src in collection)
+                {
+                    // Check if exists in target list
+                    if (!images.ContainsKey(src.LongName))
+                    {
+                        images.Add(src.LongName, src);
+                        wadTextureSet.AddTexture(src);
+                    }
+                } // foreach
+
+                subtexturesets.Add(wadTextureSet.Name, wadTextureSet);
+			} // for(wads)
 			
 			// Should we load the images in this directory as textures?
 			if(roottextures)
@@ -181,8 +199,7 @@ namespace CodeImp.DoomBuilder.Data
 			}
 			
 			// Add images from texture directory
-			collection = LoadDirectoryImages(TEXTURES_DIR, ImageDataFormat.DOOMPICTURE, true);
-			AddImagesToList(images, collection);
+			collection = LoadDirectoryImagesAndCategorize(TEXTURES_DIR, ImageDataFormat.DOOMPICTURE, images, false);
 			
 			// Load TEXTURE1 lump file
 			imgset.Clear();
@@ -286,8 +303,7 @@ namespace CodeImp.DoomBuilder.Data
 			}
 			
 			// Add images from flats directory
-			collection = LoadDirectoryImages(FLATS_DIR, ImageDataFormat.DOOMFLAT, true);
-			AddImagesToList(images, collection);
+			collection = LoadDirectoryImagesAndCategorize(FLATS_DIR, ImageDataFormat.DOOMFLAT, images, true);
 
 			// Add images to the container-specific texture set
 			foreach(ImageData img in images.Values)
@@ -449,9 +465,69 @@ namespace CodeImp.DoomBuilder.Data
 			// Return result
 			return images;
 		}
-		
-		// This copies images from a collection unless they already exist in the list
-		private void AddImagesToList(Dictionary<long, ImageData> targetlist, ICollection<ImageData> sourcelist)
+
+        // ano - loads images in this directory including subdirectories
+        // adds them to targetlist
+        // as well as categorizes them to appropriate subtexturesets
+        private ICollection<ImageData> LoadDirectoryImagesAndCategorize(string path, int imagetype, Dictionary<long, ImageData> targetlist, bool bFlat)
+        {
+            List<ImageData> images = new List<ImageData>();
+            string[] files;
+            string name;
+            
+            // Go for all files
+            files = GetAllFiles(path, true);
+            foreach (string f in files)
+            {
+                // Make the texture name from filename without extension
+                name = Path.GetFileNameWithoutExtension(f).ToUpperInvariant();
+                if (name.Length > 8) name = name.Substring(0, 8);
+                if (name.Length > 0)
+                {
+                    // Add image to list
+                    ImageData src = CreateImage(name, f, imagetype);
+
+                    // Check if exists in target list
+                    if (!targetlist.ContainsKey(src.LongName))
+                    {
+                        targetlist.Add(src.LongName, src);
+                        
+                        // can't be out of bounds by definition
+                        string subfolder = Path.GetDirectoryName(f.Substring(path.Length + 1));
+
+                        if (subfolder.Length > 0)
+                        {
+                            General.WriteLogLine(subfolder);
+
+                            if (!subtexturesets.ContainsKey(subfolder))
+                            {
+                                subtexturesets.Add(subfolder, new ResourceTextureSet(subfolder + " (" + GetTitle() + ")", location));
+                            }
+
+                            if (bFlat)
+                            {
+                                subtexturesets[subfolder].AddFlat(src);
+                            }
+                            else
+                            {
+                                subtexturesets[subfolder].AddTexture(src);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // Can't load image without name
+                    General.ErrorLogger.Add(ErrorType.Error, "Can't load an unnamed texture from \"" + path + "\". Please consider giving names to your resources.");
+                }
+            }
+
+            // Return result
+            return images;
+        }
+
+        // This copies images from a collection unless they already exist in the list
+        private void AddImagesToList(Dictionary<long, ImageData> targetlist, ICollection<ImageData> sourcelist)
 		{
 			// Go for all source images
 			foreach(ImageData src in sourcelist)
@@ -471,8 +547,8 @@ namespace CodeImp.DoomBuilder.Data
 		// This must return all files in a given directory
 		protected abstract string[] GetAllFiles(string path, bool subfolders);
 
-		// This must return all files in a given directory that have the given file title
-		protected abstract string[] GetAllFilesWithTitle(string path, string title, bool subfolders);
+        // This must return all files in a given directory that have the given file title
+        protected abstract string[] GetAllFilesWithTitle(string path, string title, bool subfolders);
 
 		// This must return all files in a given directory that match the given extension
 		protected abstract string[] GetFilesWithExt(string path, string extension, bool subfolders);

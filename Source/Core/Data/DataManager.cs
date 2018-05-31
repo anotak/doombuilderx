@@ -465,6 +465,25 @@ namespace CodeImp.DoomBuilder.Data
 			flatnames.Sort();
             onlyflatnames.Sort();
 
+            // ano - add our subtexturesets if they are relevant
+            // we need to do this here because we don't construct
+            // subtexturesets until 
+            foreach (DataReader dr in containers)
+            {
+                if (dr.SubTextureSets != null)
+                {
+                    foreach (ResourceTextureSet subtextureset in dr.SubTextureSets)
+                    {
+                        if (General.Map.Config.MixTexturesFlats)
+                        {
+                            subtextureset.MixTexturesAndFlats();
+                        }
+
+                        resourcetextures.Add(subtextureset);
+                    }
+                }
+            }
+
 			// Sort things
 			foreach(ThingCategory tc in thingcategories) tc.SortIfNeeded();
 

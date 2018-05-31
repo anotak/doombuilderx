@@ -40,15 +40,19 @@ namespace CodeImp.DoomBuilder.Data
 		protected bool issuspended = false;
 		protected bool isdisposed = false;
 		protected ResourceTextureSet textureset;
+        // ano - list of subtexturesets if appropriate
+        // this might be null!
+        protected Dictionary<string, ResourceTextureSet> subtexturesets;
 
-		#endregion
+        #endregion
 
-		#region ================== Properties
+        #region ================== Properties
 
-		public DataLocation Location { get { return location; } }
+        public DataLocation Location { get { return location; } }
 		public bool IsDisposed { get { return isdisposed; } }
 		public bool IsSuspended { get { return issuspended; } }
 		public ResourceTextureSet TextureSet { get { return textureset; } }
+        public ICollection<ResourceTextureSet> SubTextureSets { get { return subtexturesets == null ? null : subtexturesets.Values; } } // ano - warning this may be null
 
 		#endregion
 
@@ -70,6 +74,7 @@ namespace CodeImp.DoomBuilder.Data
 			{
 				// Done
 				textureset = null;
+                subtexturesets = null;
 				isdisposed = true;
 			}
 		}
