@@ -15,15 +15,32 @@ namespace CodeImp.DoomBuilder.DBXLua
         [MoonSharpHidden]
         internal Vector2D vec;
 
+        public float x
+        {
+            get
+            {
+                return vec.x;
+            }
+        }
+
+        public float y
+        {
+            get
+            {
+                return vec.y;
+            }
+        }
+
         public LuaVector2D(float x, float y)
         {
             vec = new Vector2D(x, y);
         }
 
-        private LuaVector2D(Vector2D v)
+        [MoonSharpHidden]
+        public LuaVector2D(Vector2D v)
         {
             vec = v;
-        }
+        }        
 
         public static LuaVector2D From(float a)
         {
@@ -142,6 +159,21 @@ namespace CodeImp.DoomBuilder.DBXLua
             return new LuaVector2D(Vector2D.FromAngle(angle, length));
         }
 
+        public static LuaVector2D SnappedToGrid(LuaVector2D v)
+        {
+            return new LuaVector2D(General.Map.Grid.SnappedToGrid(v.vec));
+        }
+
+        public static LuaVector2D SnappedToAccuracy(LuaVector2D v)
+        {
+            return new LuaVector2D(
+                    new Vector2D(
+                        (float)Math.Round(v.vec.x, General.Map.FormatInterface.VertexDecimals),
+                        (float)Math.Round(v.vec.y, General.Map.FormatInterface.VertexDecimals)
+                    )
+                );
+        }
+
         public static float GetAngle(LuaVector2D a, LuaVector2D b)
         {
             return Vector2D.GetAngle(a.vec, b.vec);
@@ -160,6 +192,16 @@ namespace CodeImp.DoomBuilder.DBXLua
         public static float ManhattanDistance(LuaVector2D a, LuaVector2D b)
         {
             return Vector2D.ManhattanDistance(a.vec, b.vec);
+        }
+
+        public LuaVector2D WithX(float nx)
+        {
+            return new LuaVector2D(new Vector2D(nx, vec.y));
+        }
+
+        public LuaVector2D WithY(float ny)
+        {
+            return new LuaVector2D(new Vector2D(vec.x, ny));
         }
 
         public LuaVector2D GetPerpendicular()

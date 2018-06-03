@@ -21,5 +21,15 @@ namespace CodeImp.DoomBuilder.DBXLua
             }
             return l;
         }
+
+        public static List<LuaVertex> GetVertices()
+        {
+            List<LuaVertex> l = new List<LuaVertex>();
+            foreach (Vertex v in General.Map.Map.Vertices)
+            {
+                l.Add(new LuaVertex(v));
+            }
+            return l;
+        }
     } // class
 } // ns

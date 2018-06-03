@@ -105,7 +105,7 @@ namespace CodeImp.DoomBuilder.DBXLua
                 General.Interface.SetCursor(Cursors.AppStarting);
 
                 General.Interface.DisplayStatus(StatusType.Info, "Executing script!");
-                                
+                bool bScriptSuccess = true;
                 string scriptCode = "";
                 string scriptPath = Path.Combine(General.SettingsPath, @"scripts\test.lua");
                 try
@@ -115,9 +115,15 @@ namespace CodeImp.DoomBuilder.DBXLua
                 catch (IOException e)
                 {
                     General.ShowErrorMessage("IO Error while opening lua file: " + scriptPath + ". Please make sure the location is accessible and not in use by another program.\n\n" + e.Message, MessageBoxButtons.OK);
+                    bScriptSuccess = false;
                 }
+                
                 ScriptContext scriptRunner = new ScriptContext(renderer, mousemappos);
-                bool bScriptSuccess = scriptRunner.RunScript(scriptCode);
+
+                if (bScriptSuccess)
+                {
+                    bScriptSuccess = scriptRunner.RunScript(scriptCode);
+                }
 
                 // Snap to map format accuracy
                 General.Map.Map.SnapAllToAccuracy();
@@ -154,10 +160,17 @@ namespace CodeImp.DoomBuilder.DBXLua
                 }
                 else
                 {
+                    General.Map.UndoRedo.WithdrawUndo();
+
                     General.Interface.DisplayStatus(StatusType.Warning,
                         "Lua script error in "
                         + (stopwatch.Elapsed.TotalMilliseconds / 1000d).ToString("########0.00")
                         + " seconds.");
+
+                    if (scriptRunner.errorText.Length > 0)
+                    {
+                        General.ShowErrorMessage(scriptRunner.errorText + "\n\n", MessageBoxButtons.OK);
+                    }
                 }
             } 
             // add support for mouseless scripts 
