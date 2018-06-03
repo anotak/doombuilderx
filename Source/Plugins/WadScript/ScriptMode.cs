@@ -145,25 +145,41 @@ namespace CodeImp.DoomBuilder.DBXLua
                 General.Interface.RedrawDisplay();
 
                 stopwatch.Stop();
+
+                // check for warnings
                 if (bScriptSuccess)
                 {
+                    string warnings = scriptRunner.GetWarnings();
+                    if (warnings.Length > 0)
+                    {
+                        if (ScriptWarningForm.AskUndo(warnings))
+                        {
+                            bScriptSuccess = false;
+                        }
+                    }
+                }
+
+                // actual success
+                if(bScriptSuccess)
+                {
                     General.Interface.DisplayStatus(StatusType.Info,
-                        "Lua script success in "
-                        + (stopwatch.Elapsed.TotalMilliseconds / 1000d).ToString("########0.00")
-                        + " seconds.");
+                    "Lua script success in "
+                    + (stopwatch.Elapsed.TotalMilliseconds / 1000d).ToString("########0.00")
+                    + " seconds.");
 
                     string scriptLog = scriptRunner.ScriptLog;
                     if (scriptLog.Length > 0)
                     {
-                        General.ShowWarningMessage(scriptLog.ToString(), System.Windows.Forms.MessageBoxButtons.OK);
+                        General.ShowWarningMessage(scriptLog, MessageBoxButtons.OK);
                     }
                 }
                 else
                 {
+                    // okay failure
                     General.Map.UndoRedo.WithdrawUndo();
 
                     General.Interface.DisplayStatus(StatusType.Warning,
-                        "Lua script error in "
+                        "Lua script failed in "
                         + (stopwatch.Elapsed.TotalMilliseconds / 1000d).ToString("########0.00")
                         + " seconds.");
 

@@ -19,9 +19,12 @@ namespace CodeImp.DoomBuilder.DBXLua
 {
     public class ScriptContext
     {
+        internal static ScriptContext context;
+
         internal Script script;
         internal float rendererscale;
         internal Vector2D mousemappos;
+        private HashSet<string> features_warning;
         private StringBuilder scriptlog_sb;
 
         public string errorText;
@@ -39,14 +42,15 @@ namespace CodeImp.DoomBuilder.DBXLua
 
         public ScriptContext(IRenderer2D renderer, Vector2D inmappos)
         {
+            errorText = "";
+            context = this;
+
             mousemappos = inmappos;
             rendererscale = renderer.Scale;
             scriptlog_sb = new StringBuilder();
 
             UserData.RegisterAssembly();
             script = new Script(CoreModules.Preset_SoftSandbox);
-
-            Pen.scriptContext = this;
 
             script.Globals["Vector2D"] = typeof(LuaVector2D);
             script.Globals["Map"] = typeof(LuaMap);
@@ -70,6 +74,32 @@ namespace CodeImp.DoomBuilder.DBXLua
                 General.WriteLogLine(e.DecoratedMessage);
                 return false;
             }
+        }
+
+        public string GetWarnings()
+        {
+            StringBuilder sb = new StringBuilder();
+            if (features_warning != null)
+            {
+                sb.Append("Map format '");
+                sb.Append(General.Map.Config.Name);
+                sb.Append("' does not support the following features:\n");
+                foreach (string s in features_warning)
+                {
+                    sb.Append(s);
+                    sb.Append(",");
+                }
+            }
+            return sb.ToString();
+        }
+
+        internal void WarnFormatIncompatible(string name)
+        {
+            if (features_warning == null)
+            {
+                features_warning = new HashSet<string>();
+            }
+            features_warning.Add(name);
         }
 
         #region LuaFunctions

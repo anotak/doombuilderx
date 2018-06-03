@@ -42,6 +42,11 @@ namespace CodeImp.DoomBuilder.DBXLua
             vertex = v;
         }
 
+        public bool IsDisposed()
+        {
+            return vertex.IsDisposed;
+        }
+
         public void SnapToGrid()
         {
             if (vertex.IsDisposed)

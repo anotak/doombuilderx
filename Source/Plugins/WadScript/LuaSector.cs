@@ -158,6 +158,11 @@ namespace CodeImp.DoomBuilder.DBXLua
             sector = s;
         }
 
+        public bool IsDisposed()
+        {
+            return sector.IsDisposed;
+        }
+
         public bool Intersect(LuaVector2D p)
         {
             if (sector.IsDisposed)
@@ -176,7 +181,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             return sector.ToString();
         }
 
-        // TODO: join, createbbox
+        // TODO  join, createbbox
 
     } // sector
 } // ns

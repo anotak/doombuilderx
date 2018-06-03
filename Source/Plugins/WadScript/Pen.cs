@@ -30,9 +30,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         public bool snaptogrid;
 
         public float stitchrange;
-
-        [MoonSharpHidden]
-        internal static ScriptContext scriptContext;
+        
 
         public Pen(LuaVector2D newpos)
         {
@@ -44,12 +42,12 @@ namespace CodeImp.DoomBuilder.DBXLua
 
         public static Pen FromClick()
         {
-            return new Pen(new LuaVector2D(General.Map.Grid.SnappedToGrid(scriptContext.mousemappos)));
+            return new Pen(new LuaVector2D(General.Map.Grid.SnappedToGrid(ScriptContext.context.mousemappos)));
         }
 
         public static Pen FromClickNoSnap()
         {
-            return new Pen(new LuaVector2D(scriptContext.mousemappos));
+            return new Pen(new LuaVector2D(ScriptContext.context.mousemappos));
         }
 
         public static Pen From(float x, float y)
@@ -178,7 +176,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
         // ano - negative stitchrange defaults to builderplug.me.stitchrange which comes from config file
         // most of this is codeimps code
-        // FIXME PREVIOUS COMMENT IS WRONG BUT MAKE IT RIGHT
+        // FIXME PREVIOUS COMMENT IS WRONG BUT MAKE IT RIGHT ???
         [MoonSharpHidden]
         internal PenVertex GetVertexAt(
             Vector2D mappos, bool snaptonearest, bool snaptogrid, float stitchrange,
