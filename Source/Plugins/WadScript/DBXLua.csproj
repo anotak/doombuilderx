@@ -45,6 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuilderPlug.cs" />
+    <Compile Include="LuaMap.cs" />
+    <Compile Include="LuaSector.cs" />
+    <Compile Include="LuaVector2D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptContext.cs" />
     <Compile Include="ScriptMode.cs" />

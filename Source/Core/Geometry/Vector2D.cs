@@ -336,7 +336,7 @@ namespace CodeImp.DoomBuilder.Geometry
 		}
 		
         // Rotate (Added by Anders Åstrand 2008-05-18)
-        public unsafe Vector2D GetRotated(float theta)
+        public Vector2D GetRotated(float theta)
         {
 			double cos = Math.Cos(theta);
 			double sin = Math.Sin(theta);

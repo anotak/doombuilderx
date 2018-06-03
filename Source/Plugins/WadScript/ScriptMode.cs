@@ -145,6 +145,12 @@ namespace CodeImp.DoomBuilder.DBXLua
                         "Lua script success in "
                         + (stopwatch.Elapsed.TotalMilliseconds / 1000d).ToString("########0.00")
                         + " seconds.");
+
+                    string scriptLog = scriptRunner.ScriptLog;
+                    if (scriptLog.Length > 0)
+                    {
+                        General.ShowWarningMessage(scriptLog.ToString(), System.Windows.Forms.MessageBoxButtons.OK);
+                    }
                 }
                 else
                 {

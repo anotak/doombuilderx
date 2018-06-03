@@ -23,18 +23,36 @@ namespace CodeImp.DoomBuilder.DBXLua
         internal float rendererscale;
         internal List<DrawnVertex> drawnVertices;
         internal Vector2D mappos;
+        private StringBuilder scriptlog_sb;
+        public string ScriptLog {
+            get
+            {
+                if (scriptlog_sb == null)
+                {
+                    return "";
+                }
+                return scriptlog_sb.ToString();
+            }
+        }
 
         public ScriptContext(IRenderer2D renderer, Vector2D inmappos)
         {
             mappos = inmappos;
             rendererscale = renderer.Scale;
             drawnVertices = new List<DrawnVertex>();
+            scriptlog_sb = new StringBuilder();
 
-            script = new Script();
+            UserData.RegisterAssembly();
+            script = new Script(CoreModules.Preset_SoftSandbox);
 
+            script.Globals["Vector2D"] = typeof(LuaVector2D);
+            script.Globals["Map"] = typeof(LuaMap);
+
+            script.Globals["LogLine"] = (Func<string,bool>)LogLine;
             script.Globals["DrawVertexAtCursor"] = (Func<int>)DrawVertexAtCursor;
-            script.Globals["MoveCursorX"] = (Func<float,float>)MoveCursorX;
+            script.Globals["MoveCursorX"] = (Func<float, float>)MoveCursorX;
             script.Globals["MoveCursorY"] = (Func<float, float>)MoveCursorY;
+            script.Globals["FinishPlacingVertices"] = (Func<bool>)FinishPlacingVertices;
             script.Globals["FinishPlacingVertices"] = (Func<bool>)FinishPlacingVertices;
         }
 
@@ -54,6 +72,13 @@ namespace CodeImp.DoomBuilder.DBXLua
         }
 
         #region LuaFunctions
+        protected bool LogLine(string line)
+        {
+            scriptlog_sb.Append(line);
+            scriptlog_sb.Append('\n');
+            return true;
+        }
+
         protected int DrawVertexAtCursor()
         {
             drawnVertices.Add(GetVertexAt(mappos, true, true, 0.001f, false, drawnVertices));
