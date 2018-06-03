@@ -654,7 +654,7 @@
     <EmbeddedResource Include="Resources\Thing2D_0.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App40.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Copy.png" />
