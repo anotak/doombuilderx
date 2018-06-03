@@ -18,6 +18,7 @@ and
 and the rest listed alphabetically
 
 * Anotak (Doom Builder X)
+* Anders Anstrad (some DB2 code)
 * Andrew Apted (included glBSP (like DB2))
 * Boris (several plugins used, contributed source to DB2)
 * Randi Heit (included Zdoom ACC and ZDBSP (like DB2))
@@ -35,7 +36,7 @@ if you notice you are missing from here, please inform me, as I have not found f
 
 Doom Builder X is licensed under the GPL3 License - see the [LICENSE](LICENSE) file for details.
 Individual components like the nodebuilders and ACS compilers have their own licenses.
-WadScript plugin is MIT license.
+WadScript/DBXLua plugin is MIT license.
 
 ## Acknowledgments
 
