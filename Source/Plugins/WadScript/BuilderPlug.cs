@@ -15,7 +15,7 @@ using CodeImp.DoomBuilder.Config;
 using CodeImp.DoomBuilder.Data;
 using CodeImp.DoomBuilder.Controls;
 
-namespace CodeImp.DoomBuilder.WadScript
+namespace CodeImp.DoomBuilder.DBXLua
 {
     // ano - uses code from codeimp's stats plugin
     public class BuilderPlug : Plug
@@ -27,7 +27,7 @@ namespace CodeImp.DoomBuilder.WadScript
 
         #region PROPERTIES
         public static BuilderPlug Me { get { return me; } }
-        public override string Name { get { return "WadScript"; } }
+        public override string Name { get { return "Lua"; } }
         public float StitchRange { get { return stitchrange; } }
         #endregion
 

@@ -290,3 +290,5 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+data/Plugins/Dependencies/MoonSharp.Interpreter.dll
+data/Plugins/Dependencies/MoonSharp.Interpreter.xml

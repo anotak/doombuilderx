@@ -7,8 +7,8 @@
     <ProjectGuid>{E5B6F6F6-F9B5-42F9-B227-49C8E5DCD41F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CodeImp.DoomBuilder.WadScript</RootNamespace>
-    <AssemblyName>WadScript</AssemblyName>
+    <RootNamespace>CodeImp.DoomBuilder.DBXLua</RootNamespace>
+    <AssemblyName>DBXLua</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -34,6 +34,10 @@
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\MoonSharp.2.0.0.0\lib\net35-client\MoonSharp.Interpreter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -41,10 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuilderPlug.cs" />
-    <Compile Include="Compiler.cs" />
-    <Compile Include="WadScriptDataStructures.cs" />
-    <Compile Include="WadScriptVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScriptContext.cs" />
     <Compile Include="ScriptMode.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -59,10 +61,16 @@
   <ItemGroup>
     <EmbeddedResource Include="wadscripticon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(TargetName)$(TargetExt)" "$(TargetDir)..\..\..\data\Plugins\$(TargetName)$(TargetExt)"
-copy "$(TargetDir)$(TargetName).pdb" "$(TargetDir)..\..\..\data\Plugins\$(TargetName).pdb"</PostBuildEvent>
+copy "$(TargetDir)$(TargetName).pdb" "$(TargetDir)..\..\..\data\Plugins\$(TargetName).pdb"
+copy "$(TargetDir)MoonSharp.Interpreter.dll" "$(TargetDir)..\..\..\data\Plugins\Dependencies\MoonSharp.Interpreter.dll"
+copy "$(TargetDir)MoonSharp.Interpreter.xml" "$(TargetDir)..\..\..\data\Plugins\Dependencies\MoonSharp.Interpreter.xml"
+copy "$(TargetDir)MoonSharp.Interpreter.pdb" "$(TargetDir)..\..\..\data\Plugins\Dependencies\MoonSharp.Interpreter.pdb"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
