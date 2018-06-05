@@ -8,8 +8,13 @@ using MoonSharp.Interpreter;
 
 namespace CodeImp.DoomBuilder.DBXLua
 {
-    // wrapper over Map for lua
-    // TODO: GetUnselectedblah
+    // wrapper over MapSet for lua
+    // TODO: GetUnselectedblah, getmarkedblah, joinoverlappinglines,
+    // removeloopedlinedefs, removeloopedandzerolengthlinedefs, joinverticesonelist, joinvertices
+    // flipbackwardslinedefs, splitlinesbyvertices
+    // nearests with selection
+    //  NearestVertexSquareRange
+    //  NearestThingSquareRange
     [MoonSharpUserData]
     public class LuaMap
     {
@@ -106,6 +111,89 @@ namespace CodeImp.DoomBuilder.DBXLua
                 output.Add(new LuaThing(l));
             }
             return output;
+        }
+
+        public static void StitchGeometry()
+        {
+            if (!General.Map.Map.StitchGeometry())
+            {
+                throw new ScriptRuntimeException("stitch failed");
+            }
+        }
+
+        public static LuaSector NearestSector(LuaVector2D pos)
+        {
+            return new LuaSector(MapSet.NearestSidedef(General.Map.Map.Sidedefs, pos.vec).Sector);
+        }
+
+        // ano - based on Thing.DetermineSector by CodeImp
+        public static LuaSector DetermineSector(LuaVector2D pos)
+        {
+            Linedef nl;
+
+            // Find the nearest linedef on the map
+            nl = General.Map.Map.NearestLinedef(pos.vec);
+            Sector sector;
+            if (nl != null)
+            {
+                // Check what side of line we are at
+                if (nl.SideOfLine(pos.vec) < 0f)
+                {
+                    // Front side
+                    if (nl.Front != null) sector = nl.Front.Sector; else sector = null;
+                }
+                else
+                {
+                    // Back side
+                    if (nl.Back != null) sector = nl.Back.Sector; else sector = null;
+                }
+            }
+            else
+            {
+                sector = null;
+            }
+
+            return new LuaSector(sector);
+        }
+
+        public static LuaSidedef NearestSidedef(LuaVector2D pos)
+        {
+            return new LuaSidedef(MapSet.NearestSidedef(General.Map.Map.Sidedefs, pos.vec));
+        }
+
+        public static LuaLinedef NearestLinedef(LuaVector2D pos)
+        {
+            return new LuaLinedef(MapSet.NearestLinedef(General.Map.Map.Linedefs, pos.vec));
+        }
+
+        public static LuaLinedef NearestLinedefRange(LuaVector2D pos, float range)
+        {
+            return new LuaLinedef(MapSet.NearestLinedefRange(General.Map.Map.Linedefs, pos.vec, range));
+        }
+
+        public static LuaVertex NearestVertex(LuaVector2D pos)
+        {
+            return new LuaVertex(MapSet.NearestVertex(General.Map.Map.Vertices, pos.vec));
+        }
+
+        public static LuaThing NearestThing(LuaVector2D pos)
+        {
+            return new LuaThing(MapSet.NearestThing(General.Map.Map.Things, pos.vec));
+        }
+
+        public static void SnapAllToAccuracy()
+        {
+            General.Map.Map.SnapAllToAccuracy();
+        }
+
+        public static int GetNewTag()
+        {
+            return General.Map.Map.GetNewTag();
+        }
+
+        public static void RemoveUnusedVertices()
+        {
+            General.Map.Map.RemoveUnusedVertices();
         }
     } // class
 } // ns

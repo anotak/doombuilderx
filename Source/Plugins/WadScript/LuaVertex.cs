@@ -16,7 +16,6 @@ namespace CodeImp.DoomBuilder.DBXLua
         [MoonSharpHidden]
         internal Vertex vertex;
 
-        // ????? should we snaptoaccuracy here
         public LuaVector2D position {
             get
             {
@@ -45,6 +44,52 @@ namespace CodeImp.DoomBuilder.DBXLua
         public bool IsDisposed()
         {
             return vertex.IsDisposed;
+        }
+
+        public List<LuaLinedef> GetLines()
+        {
+            if (vertex.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Vertex has been disposed, can't GetLines()");
+            }
+            List<LuaLinedef> output = new List<LuaLinedef>();
+
+            foreach (Linedef l in vertex.Linedefs)
+            {
+                if (!l.IsDisposed)
+                {
+                    output.Add(new LuaLinedef(l));
+                }
+            }
+
+            return output;
+        }
+
+        // returns false if other is same vertex
+        public bool SharesLine(LuaVertex other)
+        {
+            if (vertex.IsDisposed || other.vertex.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Vertex has been disposed, can't SharesLines()");
+            }
+            if (vertex == other.vertex)
+            {
+                // FIXME add a warning for this probably
+                // is it possible for this to ever actually be correct and true
+                return false;
+            }
+            foreach (Linedef l in vertex.Linedefs)
+            {
+                if (!l.IsDisposed)
+                {
+                    if (l.Start == other.vertex || l.End == other.vertex)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         public void SnapToGrid()

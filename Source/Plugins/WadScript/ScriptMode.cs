@@ -106,23 +106,13 @@ namespace CodeImp.DoomBuilder.DBXLua
 
                 General.Interface.DisplayStatus(StatusType.Info, "Executing script!");
                 bool bScriptSuccess = true;
-                string scriptCode = "";
                 string scriptPath = Path.Combine(General.SettingsPath, @"scripts\test.lua");
-                try
-                {
-                    scriptCode = File.ReadAllText(scriptPath);
-                }
-                catch (IOException e)
-                {
-                    General.ShowErrorMessage("IO Error while opening lua file: " + scriptPath + ". Please make sure the location is accessible and not in use by another program.\n\n" + e.Message, MessageBoxButtons.OK);
-                    bScriptSuccess = false;
-                }
                 
                 ScriptContext scriptRunner = new ScriptContext(renderer, mousemappos);
 
                 if (bScriptSuccess)
                 {
-                    bScriptSuccess = scriptRunner.RunScript(scriptCode);
+                    bScriptSuccess = scriptRunner.RunScript(scriptPath);
                 }
 
                 // Snap to map format accuracy
@@ -149,10 +139,17 @@ namespace CodeImp.DoomBuilder.DBXLua
                 // check for warnings
                 if (bScriptSuccess)
                 {
-                    string warnings = scriptRunner.GetWarnings();
-                    if (warnings.Length > 0)
+                    string warningsText = scriptRunner.GetWarnings();
+                    if (warningsText.Length > 0)
                     {
-                        if (ScriptWarningForm.AskUndo(warnings))
+                        string debugLog = scriptRunner.DebugLog;
+                        if (debugLog.Length > 0)
+                        {
+                            warningsText += "\nSCRIPT DEBUG LOG:\n" + debugLog;
+                        }
+                        warningsText += debugLog;
+
+                        if (ScriptWarningForm.AskUndo(warningsText))
                         {
                             bScriptSuccess = false;
                         }
@@ -170,7 +167,7 @@ namespace CodeImp.DoomBuilder.DBXLua
                     string scriptLog = scriptRunner.ScriptLog;
                     if (scriptLog.Length > 0)
                     {
-                        General.ShowWarningMessage(scriptLog, MessageBoxButtons.OK);
+                        ScriptMessageForm.ShowMessage(scriptLog);
                     }
                 }
                 else
@@ -183,9 +180,34 @@ namespace CodeImp.DoomBuilder.DBXLua
                         + (stopwatch.Elapsed.TotalMilliseconds / 1000d).ToString("########0.00")
                         + " seconds.");
 
-                    if (scriptRunner.errorText.Length > 0)
+                    string errorText = scriptRunner.errorText;
+
+                    string warnings = scriptRunner.GetWarnings();
+
+                    if (warnings.Length > 0)
                     {
-                        General.ShowErrorMessage(scriptRunner.errorText + "\n\n", MessageBoxButtons.OK);
+                        errorText += "\nSCRIPT WARNING:\n" + warnings;
+                    }
+
+                    string scriptLog = scriptRunner.ScriptLog;
+                    if (scriptLog.Length > 0)
+                    {
+                        errorText += "\nSCRIPT LOG:\n" + scriptLog;
+                    }
+
+                    string debugLog = scriptRunner.DebugLog;
+                    if (debugLog.Length > 0)
+                    {
+                        errorText += "\nSCRIPT DEBUG LOG:\n" + debugLog;
+                    }
+
+                    if (errorText.Length > 0)
+                    {
+                        ScriptErrorForm.ShowError(errorText);
+                    }
+                    else
+                    {
+                        ScriptErrorForm.ShowError("unable to produce error message. possibly a big problem");
                     }
                 }
             } 

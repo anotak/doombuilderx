@@ -148,22 +148,33 @@ namespace CodeImp.DoomBuilder.DBXLua
             drawnVertices.Add(GetVertexAt(newVec.vec, snaptonearest, snaptogrid, stitchrange, drawnVertices));
         }
 
+        // FIXME does this actually need a return value?
         public bool FinishPlacingVertices()
         {
-            return FinishDrawingPoints(drawnVertices);
+            bool b = FinishDrawingPoints(drawnVertices);
+            drawnVertices = new List<PenVertex>();
+            return b;
         }
 
         [MoonSharpHidden]
         public bool FinishDrawingPoints(List<PenVertex> points)
         {
             List<DrawnVertex> d = new List<DrawnVertex>(points.Count);
+
+            // convert and also remove consecutive duplicates
+            int previndex = -1;
+            float vrange = General.Map.FormatInterface.MinLineLength * 0.9f;
+            vrange = vrange * vrange;
             foreach (PenVertex p in points)
             {
                 DrawnVertex nd = new DrawnVertex();
                 nd.pos = p.pos.vec;
                 nd.stitch = p.stitch;
                 nd.stitchline = p.stitchline;
-                d.Add(nd);
+                if (previndex == -1 || Vector2D.DistanceSq(nd.pos, d[previndex].pos) > vrange)
+                {
+                    d.Add(nd);
+                }
             }
 
             // Make the drawing
@@ -171,6 +182,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 throw new ScriptRuntimeException("Unknown failure drawing pen vertices!");
             }
+
             return true;
         }
 
@@ -205,6 +217,10 @@ namespace CodeImp.DoomBuilder.DBXLua
                             //Logger.WriteLogLine("a");//debugcrap
                             return p;
                         }
+                    }
+                    if (points.Count > 0 && p.pos == points[points.Count - 1].pos)
+                    {
+                        return points[points.Count - 1];
                     }
                 }
 

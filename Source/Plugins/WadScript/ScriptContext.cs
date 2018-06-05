@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 using CodeImp.DoomBuilder.Windows;
 using CodeImp.DoomBuilder.IO;
@@ -26,8 +27,11 @@ namespace CodeImp.DoomBuilder.DBXLua
         internal Vector2D mousemappos;
         private HashSet<string> features_warning;
         private StringBuilder scriptlog_sb;
+        private StringBuilder debuglog_sb;
 
         public string errorText;
+
+        public string scriptPath;
 
         public string ScriptLog {
             get
@@ -40,6 +44,18 @@ namespace CodeImp.DoomBuilder.DBXLua
             }
         }
 
+        public string DebugLog
+        {
+            get
+            {
+                if (debuglog_sb == null)
+                {
+                    return "";
+                }
+                return debuglog_sb.ToString();
+            }
+        }
+
         public ScriptContext(IRenderer2D renderer, Vector2D inmappos)
         {
             errorText = "";
@@ -48,6 +64,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             mousemappos = inmappos;
             rendererscale = renderer.Scale;
             scriptlog_sb = new StringBuilder();
+            debuglog_sb = new StringBuilder();
 
             UserData.RegisterAssembly();
             script = new Script(CoreModules.Preset_SoftSandbox);
@@ -55,23 +72,33 @@ namespace CodeImp.DoomBuilder.DBXLua
             script.Globals["Vector2D"] = typeof(LuaVector2D);
             script.Globals["Map"] = typeof(LuaMap);
             script.Globals["Pen"] = typeof(Pen);
-
-            script.Globals["LogLine"] = (Func<string,bool>)LogLine;
+            script.Globals["UI"] = typeof(LuaUI);
+            script.Globals["dofile"] = (Func<string, DynValue>)DoFile;
         }
 
-        public bool RunScript(string scriptCode)
+        public bool RunScript(string nscriptpath)
         {
+            scriptPath = nscriptpath;
+
             try
             {
-                DynValue returnValue = script.DoString(scriptCode);
-                General.WriteLogLine(returnValue.ToDebugPrintString());
-                return true;
+                try
+                {
+                    DynValue returnValue = script.DoFile(scriptPath);
+                    //General.WriteLogLine(returnValue.ToDebugPrintString());
+                    return true;
+                }
+                catch (InterpreterException e)
+                {
+                    errorText = e.DecoratedMessage;
+
+                    General.WriteLogLine(e.DecoratedMessage);
+                    return false;
+                }
             }
-            catch (InterpreterException e)
+            catch (IOException e)
             {
-                errorText = e.DecoratedMessage;
-                
-                General.WriteLogLine(e.DecoratedMessage);
+                errorText = "Unable to open file:\n" + e.Message;
                 return false;
             }
         }
@@ -83,12 +110,13 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 sb.Append("Map format '");
                 sb.Append(General.Map.Config.Name);
-                sb.Append("' does not support the following features:\n");
+                sb.Append("' does not support the following features:\n    ");
                 foreach (string s in features_warning)
                 {
                     sb.Append(s);
                     sb.Append(",");
                 }
+                sb.Append("\n");
             }
             return sb.ToString();
         }
@@ -103,11 +131,115 @@ namespace CodeImp.DoomBuilder.DBXLua
         }
 
         #region LuaFunctions
-        protected bool LogLine(string line)
+        internal void LogLine(string line)
         {
             scriptlog_sb.Append(line);
             scriptlog_sb.Append('\n');
-            return true;
+        }
+
+        internal void DebugLogLine(string line)
+        {
+            debuglog_sb.Append(line);
+            debuglog_sb.Append('\n');
+        }
+
+        internal DynValue DoFile(string filename)
+        {
+            // references used:
+            // https://msdn.microsoft.com/en-us/library/windows/desktop/aa365247(v=vs.85).aspx
+            // http://gavinmiller.io/2016/creating-a-secure-sanitization-function/
+            // https://github.com/madrobby/zaru/blob/master/test/test_zaru.rb
+            filename = filename.Trim();
+
+            filename.Replace('/', '\\');
+            filename.Replace("\x00", "");
+
+            string[] unsafeChars = { "?", "%", "*", ":", "|", "<", ">", "\"", "..", @".\", @"\." };
+            foreach (string c in unsafeChars)
+            {
+                if (filename.Contains(c))
+                {
+                    throw new ScriptRuntimeException("improper filename " + filename + " for DoFile, contains '" + c + "'");
+                }
+            }
+
+            if (Path.IsPathRooted(filename) || filename.StartsWith("\\"))
+            {
+                throw new ScriptRuntimeException("improper filename " + filename + " for DoFile, must use relative path");
+            }
+
+            if (filename.StartsWith("."))
+            {
+                throw new ScriptRuntimeException("improper filename " + filename + " for DoFile, can't start with '.'");
+            }
+
+            if (!Path.GetExtension(filename).ToLower().StartsWith(".lua"))
+            {
+                throw new ScriptRuntimeException("improper filename " + filename + " for DoFile, must be .lua file, was " + Path.GetExtension(filename));
+            }
+
+            // try current lua file path -> wad path -> wad path\lua
+            // -> settings path\lua -> plugin path\lua -> app path\lua
+            string tryFile = Path.Combine(Path.GetDirectoryName(scriptPath),filename);
+            if (General.Map.FilePathName.Length > 1)
+            {
+                if (!File.Exists(tryFile))
+                {
+                    tryFile = Path.Combine(General.Map.FilePathName, filename);
+                }
+                if (!File.Exists(tryFile))
+                {
+                    tryFile = Path.Combine(Path.Combine(General.Map.FilePathName, "lua"), filename);
+                }
+            }
+            if (!File.Exists(tryFile))
+            {
+                tryFile = Path.Combine(Path.Combine(General.SettingsPath, "lua"), filename);
+            }
+            if (!File.Exists(tryFile))
+            {
+                tryFile = Path.Combine(Path.Combine(General.PluginsPath, "lua"), filename);
+            }
+            if (!File.Exists(tryFile))
+            {
+                tryFile = Path.Combine(Path.Combine(General.AppPath, "lua"), filename);
+            }
+            if (!File.Exists(tryFile))
+            {
+                if (General.Map.FilePathName.Length > 1)
+                {
+                    throw new ScriptRuntimeException(
+                        "dofile target " + filename + " does not exist in any of the searched paths."
+                        + "\nthe currently searched paths (in order of preference) were:\n"
+                        + Path.Combine(Path.GetDirectoryName(scriptPath), filename) + "\n"
+                        + Path.Combine(General.Map.FilePathName, filename) + "\n"
+                        + Path.Combine(Path.Combine(General.Map.FilePathName, "lua"), filename) + "\n"
+                        + Path.Combine(Path.Combine(General.SettingsPath, "lua"), filename) + "\n"
+                        + Path.Combine(Path.Combine(General.PluginsPath, "lua"), filename) + "\n"
+                        + Path.Combine(Path.Combine(General.AppPath, "lua"), filename) + "\n");
+                }
+                else
+                {
+                    throw new ScriptRuntimeException(
+                        "dofile target " + filename + " does not exist in any of the searched paths."
+                        + "\nthe currently searched paths (in order of preference) were:\n"
+                        + Path.Combine(Path.GetDirectoryName(scriptPath), filename) + "\n"
+                        + Path.Combine(Path.Combine(General.SettingsPath, "lua"), filename) + "\n"
+                        + Path.Combine(Path.Combine(General.PluginsPath, "lua"), filename) + "\n"
+                        + Path.Combine(Path.Combine(General.AppPath, "lua"), filename) + "\n");
+                }
+            }
+
+            filename = tryFile;
+
+            try
+            {
+                return script.DoFile(filename);
+            }
+            catch (Exception e)
+            {
+                throw new ScriptRuntimeException(e);
+            }
         }
         #endregion
     }

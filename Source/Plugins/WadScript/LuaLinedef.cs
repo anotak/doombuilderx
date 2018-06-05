@@ -91,11 +91,20 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             get
             {
+                
                 if (linedef.IsDisposed)
                 {
                     throw new ScriptRuntimeException("Linedef has been disposed, can't get tag!");
                 }
-                return linedef.Tag;
+                if (General.Map.FormatInterface.HasLinedefTag)
+                {
+                    return linedef.Tag;
+                }
+                else
+                {
+                    ScriptContext.context.WarnFormatIncompatible("Linedef Tag Numbers");
+                    return 0;
+                }
             }
             set
             {
@@ -103,7 +112,51 @@ namespace CodeImp.DoomBuilder.DBXLua
                 {
                     throw new ScriptRuntimeException("Linedef has been disposed, can't set tag!");
                 }
-                linedef.Tag = value;
+                if (General.Map.FormatInterface.HasLinedefTag)
+                {
+                    linedef.Tag = value;
+                }
+                else
+                {
+                    ScriptContext.context.WarnFormatIncompatible("Linedef Tag Numbers");
+                }
+            }
+        }
+
+        public int arg0
+        {
+            get
+            {
+
+                if (linedef.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't get tag!");
+                }
+                if (General.Map.FormatInterface.HasActionArgs)
+                {
+                    return linedef.Args[0];
+                }
+                else
+                {
+                    ScriptContext.context.WarnFormatIncompatible("Action Arguments");
+                    return 0;
+                }
+            }
+            set
+            {
+                if (linedef.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't set tag!");
+                }
+                if (General.Map.FormatInterface.HasActionArgs)
+                {
+                    
+                    linedef.Args[0] = value;
+                }
+                else
+                {
+                    ScriptContext.context.WarnFormatIncompatible("Action Arguments");
+                }
             }
         }
 
@@ -116,6 +169,32 @@ namespace CodeImp.DoomBuilder.DBXLua
         public bool IsDisposed()
         {
             return linedef.IsDisposed;
+        }
+
+        public LuaSidedef GetFront()
+        {
+            if (linedef.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Linedef has been disposed, can't get front side!");
+            }
+            if (linedef.Front == null || linedef.Front.IsDisposed)
+            {
+                return null;
+            }
+            return new LuaSidedef(linedef.Front);
+        }
+
+        public LuaSidedef GetBack()
+        {
+            if (linedef.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Linedef has been disposed, can't get back side!");
+            }
+            if (linedef.Back == null || linedef.Back.IsDisposed)
+            {
+                return null;
+            }
+            return new LuaSidedef(linedef.Back);
         }
 
         public float GetLength()
@@ -187,6 +266,16 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 throw new ScriptRuntimeException("Linedef has been disposed, can't FlipSidedefs!");
             }
+            linedef.FlipSidedefs();
+        }
+
+        public void Flip()
+        {
+            if (linedef.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Linedef has been disposed, can't Flip!");
+            }
+            linedef.FlipVertices();
             linedef.FlipSidedefs();
         }
 

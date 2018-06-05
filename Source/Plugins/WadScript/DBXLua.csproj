@@ -51,6 +51,8 @@
     <Compile Include="LuaMap.cs" />
     <Compile Include="LuaSidedef.cs" />
     <Compile Include="LuaThing.cs" />
+    <Compile Include="LuaUI.cs" />
+    <Compile Include="LuaVector3D.cs" />
     <Compile Include="Pen.cs" />
     <Compile Include="PenVertex.cs" />
     <Compile Include="LuaSector.cs" />
@@ -58,6 +60,18 @@
     <Compile Include="LuaVertex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptContext.cs" />
+    <Compile Include="ScriptErrorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScriptErrorForm.Designer.cs">
+      <DependentUpon>ScriptErrorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ScriptMessageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScriptMessageForm.Designer.cs">
+      <DependentUpon>ScriptMessageForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ScriptMode.cs" />
     <Compile Include="ScriptWarningForm.cs">
       <SubType>Form</SubType>
@@ -76,6 +90,12 @@
     <EmbeddedResource Include="Actions.cfg" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ScriptErrorForm.resx">
+      <DependentUpon>ScriptErrorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScriptMessageForm.resx">
+      <DependentUpon>ScriptMessageForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ScriptWarningForm.resx">
       <DependentUpon>ScriptWarningForm.cs</DependentUpon>
     </EmbeddedResource>

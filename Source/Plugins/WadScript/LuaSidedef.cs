@@ -104,7 +104,7 @@ namespace CodeImp.DoomBuilder.DBXLua
                 {
                     throw new ScriptRuntimeException("Sidedef has been disposed, can't get lowertex!");
                 }
-                return sidedef.MiddleTexture;
+                return sidedef.LowTexture;
             }
             set
             {
@@ -112,7 +112,7 @@ namespace CodeImp.DoomBuilder.DBXLua
                 {
                     throw new ScriptRuntimeException("Sidedef has been disposed, can't set lowertex!");
                 }
-                sidedef.SetTextureMid(value);
+                sidedef.SetTextureLow(value);
             }
         }
 
