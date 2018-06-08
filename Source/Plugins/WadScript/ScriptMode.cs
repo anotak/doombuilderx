@@ -99,14 +99,16 @@ namespace CodeImp.DoomBuilder.DBXLua
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
 
+                string scriptPath = Path.Combine(General.SettingsPath, @"scripts\test.lua");
+                string scriptShortName = Path.GetFileName(scriptPath);
+
                 // Make undo for the draw
-                General.Map.UndoRedo.CreateUndo("Run script");
+                General.Map.UndoRedo.CreateUndo("Run script '" + scriptShortName + "'");
 
                 General.Interface.SetCursor(Cursors.AppStarting);
 
-                General.Interface.DisplayStatus(StatusType.Info, "Executing script!");
+                General.Interface.DisplayStatus(StatusType.Info, "Executing script '" + scriptShortName + "'!");
                 bool bScriptSuccess = true;
-                string scriptPath = Path.Combine(General.SettingsPath, @"scripts\test.lua");
                 
                 ScriptContext scriptRunner = new ScriptContext(renderer, mousemappos);
 
@@ -117,10 +119,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
                 // Snap to map format accuracy
                 General.Map.Map.SnapAllToAccuracy();
-
-                // Clear selection
-                General.Map.Map.ClearAllSelected();
-
+                
                 // Update cached values
                 General.Map.Map.Update();
 
@@ -160,7 +159,7 @@ namespace CodeImp.DoomBuilder.DBXLua
                 if(bScriptSuccess)
                 {
                     General.Interface.DisplayStatus(StatusType.Info,
-                    "Lua script success in "
+                    "Lua script  '" + scriptShortName + "' success in "
                     + (stopwatch.Elapsed.TotalMilliseconds / 1000d).ToString("########0.00")
                     + " seconds.");
 
@@ -176,7 +175,7 @@ namespace CodeImp.DoomBuilder.DBXLua
                     General.Map.UndoRedo.WithdrawUndo();
 
                     General.Interface.DisplayStatus(StatusType.Warning,
-                        "Lua script failed in "
+                        "Lua script '" + scriptShortName + "' failed in "
                         + (stopwatch.Elapsed.TotalMilliseconds / 1000d).ToString("########0.00")
                         + " seconds.");
 

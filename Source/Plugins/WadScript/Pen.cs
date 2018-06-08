@@ -183,6 +183,18 @@ namespace CodeImp.DoomBuilder.DBXLua
                 throw new ScriptRuntimeException("Unknown failure drawing pen vertices!");
             }
 
+            // Snap to map format accuracy
+            General.Map.Map.SnapAllToAccuracy();
+
+            // Clear selection
+            General.Map.Map.ClearAllSelected();
+
+            // Update cached values
+            General.Map.Map.Update();
+
+            // Update the used textures
+            General.Map.Data.UpdateUsedTextures();
+
             return true;
         }
 

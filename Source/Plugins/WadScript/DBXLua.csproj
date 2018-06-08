@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuilderPlug.cs" />
+    <Compile Include="LuaDataManager.cs" />
     <Compile Include="LuaLinedef.cs" />
     <Compile Include="LuaMap.cs" />
     <Compile Include="LuaSidedef.cs" />

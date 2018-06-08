@@ -150,8 +150,191 @@ namespace CodeImp.DoomBuilder.DBXLua
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
-                    
+                    // FIXME this is the extremely hacky workaround to
+                    // not having a proper way to call .BeforePropsChange
+                    // for setting args
+                    // right now. we have to do this because we must maintain
+                    // compatibility with non-DBX codebases, but hopefully
+                    // we can do this in a better way in the future
+                    linedef.Tag = linedef.Tag;
+
                     linedef.Args[0] = value;
+                }
+                else
+                {
+                    ScriptContext.context.WarnFormatIncompatible("Action Arguments");
+                }
+            }
+        }
+
+        public int arg1
+        {
+            get
+            {
+
+                if (linedef.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't get tag!");
+                }
+                if (General.Map.FormatInterface.HasActionArgs)
+                {
+                    return linedef.Args[1];
+                }
+                else
+                {
+                    ScriptContext.context.WarnFormatIncompatible("Action Arguments");
+                    return 0;
+                }
+            }
+            set
+            {
+                if (linedef.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't set tag!");
+                }
+                if (General.Map.FormatInterface.HasActionArgs)
+                {
+                    // FIXME this is the extremely hacky workaround to
+                    // not having a proper way to call .BeforePropsChange
+                    // for setting args
+                    // right now. we have to do this because we must maintain
+                    // compatibility with non-DBX codebases, but hopefully
+                    // we can do this in a better way in the future
+                    linedef.Tag = linedef.Tag;
+
+                    linedef.Args[1] = value;
+                }
+                else
+                {
+                    ScriptContext.context.WarnFormatIncompatible("Action Arguments");
+                }
+            }
+        }
+
+        public int arg2
+        {
+            get
+            {
+
+                if (linedef.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't get tag!");
+                }
+                if (General.Map.FormatInterface.HasActionArgs)
+                {
+                    return linedef.Args[2];
+                }
+                else
+                {
+                    ScriptContext.context.WarnFormatIncompatible("Action Arguments");
+                    return 0;
+                }
+            }
+            set
+            {
+                if (linedef.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't set tag!");
+                }
+                if (General.Map.FormatInterface.HasActionArgs)
+                {
+                    // FIXME this is the extremely hacky workaround to
+                    // not having a proper way to call .BeforePropsChange
+                    // for setting args
+                    // right now. we have to do this because we must maintain
+                    // compatibility with non-DBX codebases, but hopefully
+                    // we can do this in a better way in the future
+                    linedef.Tag = linedef.Tag;
+
+                    linedef.Args[2] = value;
+                }
+                else
+                {
+                    ScriptContext.context.WarnFormatIncompatible("Action Arguments");
+                }
+            }
+        }
+
+        public int arg3
+        {
+            get
+            {
+
+                if (linedef.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't get tag!");
+                }
+                if (General.Map.FormatInterface.HasActionArgs)
+                {
+                    return linedef.Args[3];
+                }
+                else
+                {
+                    ScriptContext.context.WarnFormatIncompatible("Action Arguments");
+                    return 0;
+                }
+            }
+            set
+            {
+                if (linedef.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't set tag!");
+                }
+                if (General.Map.FormatInterface.HasActionArgs)
+                {
+                    // FIXME this is the extremely hacky workaround to
+                    // not having a proper way to call .BeforePropsChange
+                    // for setting args
+                    // right now. we have to do this because we must maintain
+                    // compatibility with non-DBX codebases, but hopefully
+                    // we can do this in a better way in the future
+                    linedef.Tag = linedef.Tag;
+
+                    linedef.Args[3] = value;
+                }
+                else
+                {
+                    ScriptContext.context.WarnFormatIncompatible("Action Arguments");
+                }
+            }
+        }
+
+        public int arg4
+        {
+            get
+            {
+
+                if (linedef.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't get tag!");
+                }
+                if (General.Map.FormatInterface.HasActionArgs)
+                {
+                    return linedef.Args[4];
+                }
+                else
+                {
+                    ScriptContext.context.WarnFormatIncompatible("Action Arguments");
+                    return 0;
+                }
+            }
+            set
+            {
+                if (linedef.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't set tag!");
+                }
+                if (General.Map.FormatInterface.HasActionArgs)
+                {
+                    // FIXME this is the extremely hacky workaround to
+                    // not having a proper way to call .BeforePropsChange
+                    // for setting args
+                    // right now. we have to do this because we must maintain
+                    // compatibility with non-DBX codebases, but hopefully
+                    // we can do this in a better way in the future
+                    linedef.Tag = linedef.Tag;
+
+                    linedef.Args[4] = value;
                 }
                 else
                 {
@@ -388,9 +571,21 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 throw new ScriptRuntimeException("Vertex has been disposed, can't Split!");
             }
-            return new LuaLinedef(linedef.Split(v.vertex));
+
+            v.vertex.SnapToAccuracy();
+
+            LuaLinedef l = new LuaLinedef(linedef.Split(v.vertex));
+
+            // Clear selection
+            General.Map.Map.ClearAllSelected();
+
+            // Update cached values
+            General.Map.Map.Update();
+            return l;
         }
 
+        // ano - probably a bad idea to let lua access? let's think about this
+        /*
         // This joins the line with another line
         // This line will be disposed
         // Returns false when the operation could not be completed
@@ -402,6 +597,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             }
             return linedef.Join(other.linedef);
         }
+        */
 
         public override string ToString()
         {
