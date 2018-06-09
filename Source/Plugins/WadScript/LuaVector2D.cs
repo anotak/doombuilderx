@@ -9,6 +9,7 @@ using MoonSharp.Interpreter;
 namespace CodeImp.DoomBuilder.DBXLua
 {
     // wrapper over Vector2D for lua
+    // todo: function to get grid points within a rectangle
     [MoonSharpUserData]
     public struct LuaVector2D
     {

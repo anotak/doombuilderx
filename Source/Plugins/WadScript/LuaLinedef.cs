@@ -11,7 +11,7 @@ using MoonSharp.Interpreter;
 namespace CodeImp.DoomBuilder.DBXLua
 {
     // wrapper over Linedef for lua
-    // TODO: rect, sideddef, Line2D line, activation
+    // TODO: rect, Line2D line, activation
     [MoonSharpUserData]
     public class LuaLinedef
     {
@@ -130,7 +130,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't get tag!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't get arg0!");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -146,7 +146,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't set tag!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't set arg0!");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -174,7 +174,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't get tag!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't get arg1!");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -190,7 +190,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't set tag!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't set arg1!");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -218,7 +218,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't get tag!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't get arg2!");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -234,7 +234,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't set tag!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't set arg2!");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -262,7 +262,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't get tag!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't get arg3!");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -278,7 +278,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't set tag!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't set arg3!");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -306,7 +306,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't get tag!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't get arg4!");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -322,7 +322,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't set tag!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't set arg4!");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -352,6 +352,53 @@ namespace CodeImp.DoomBuilder.DBXLua
         public bool IsDisposed()
         {
             return linedef.IsDisposed;
+        }
+
+        public bool IsFlagSet(string flagname)
+        {
+            if (linedef.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Linedef has been disposed, can't IsFlagSet()!");
+            }
+            // FIXME warn on no such flag
+            return linedef.IsFlagSet(flagname);
+        }
+
+        public void SetFlag(string flagname, bool val)
+        {
+            if (linedef.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Linedef has been disposed, can't SetFlag()!");
+            }
+            // FIXME warn on no such flag
+            linedef.SetFlag(flagname, val);
+        }
+
+        public void ClearFlags()
+        {
+            if (linedef.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Linedef has been disposed, can't ClearFlags()!");
+            }
+            linedef.ClearFlags();
+        }
+
+        public DynValue GetUDMFField(string key)
+        {
+            if (linedef.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Linedef has been disposed, can't GetUDMFField()!");
+            }
+            return LuaTypeConversion.GetUDMFField(linedef,key, General.Map.Config.LinedefFields);
+        }
+
+        public void SetUDMFField(string key, DynValue value)
+        {
+            if (linedef.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Linedef has been disposed, can't SetUDMFField()!");
+            }
+            LuaTypeConversion.SetUDMFField(linedef, key, value);
         }
 
         public LuaSidedef GetFront()

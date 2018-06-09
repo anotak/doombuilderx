@@ -50,8 +50,10 @@
     <Compile Include="LuaDataManager.cs" />
     <Compile Include="LuaLinedef.cs" />
     <Compile Include="LuaMap.cs" />
+    <Compile Include="LuaMapFormat.cs" />
     <Compile Include="LuaSidedef.cs" />
     <Compile Include="LuaThing.cs" />
+    <Compile Include="LuaTypeConversion.cs" />
     <Compile Include="LuaUI.cs" />
     <Compile Include="LuaVector3D.cs" />
     <Compile Include="Pen.cs" />

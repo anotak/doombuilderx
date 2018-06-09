@@ -32,6 +32,22 @@ namespace CodeImp.DoomBuilder.DBXLua
                 {
                     throw new ScriptRuntimeException("Sidedef has been disposed, can't set offsetx!");
                 }
+
+                if (value > General.Map.FormatInterface.MaxTextureOffset
+                    ||
+                    value > General.Map.FormatInterface.MaxTextureOffset)
+                {
+                    ScriptContext.context.WarnFormatIncompatible("Sidedef offset out of range, must be between " + General.Map.FormatInterface.MinTextureOffset + " and " + General.Map.FormatInterface.MaxTextureOffset);
+
+                    value = Math.Max(
+                        General.Map.FormatInterface.MinTextureOffset,
+                        Math.Min(
+                            General.Map.FormatInterface.MaxTextureOffset,
+                            value
+                            )
+                        );
+                    return;
+                }
                 sidedef.OffsetX = value;
             }
         }
@@ -125,6 +141,24 @@ namespace CodeImp.DoomBuilder.DBXLua
         public bool IsDisposed()
         {
             return sidedef.IsDisposed;
+        }
+
+        public DynValue GetUDMFField(string key)
+        {
+            if (sidedef.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Sidedef has been disposed, can't GetUDMFField()!");
+            }
+            return LuaTypeConversion.GetUDMFField(sidedef, key, General.Map.Config.SidedefFields);
+        }
+
+        public void SetUDMFField(string key, DynValue value)
+        {
+            if (sidedef.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Sidedef has been disposed, can't SetUDMFField()!");
+            }
+            LuaTypeConversion.SetUDMFField(sidedef, key, value);
         }
 
         public bool IsFront()

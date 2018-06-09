@@ -74,6 +74,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             script.Globals["Pen"] = typeof(Pen);
             script.Globals["UI"] = typeof(LuaUI);
             script.Globals["Data"] = typeof(LuaDataManager);
+            script.Globals["MapFormat"] = typeof(LuaMapFormat);
             script.Globals["dofile"] = (Func<string, DynValue>)DoFile;
         }
 

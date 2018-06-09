@@ -109,6 +109,226 @@ namespace CodeImp.DoomBuilder.DBXLua
             }
         }
 
+        public int arg0
+        {
+            get
+            {
+
+                if (thing.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Thing has been disposed, can't get arg0!");
+                }
+                if (General.Map.FormatInterface.HasActionArgs)
+                {
+                    return thing.Args[0];
+                }
+                else
+                {
+                    ScriptContext.context.WarnFormatIncompatible("Action Arguments");
+                    return 0;
+                }
+            }
+            set
+            {
+                if (thing.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Thing has beend disposed, can't set arg0!");
+                }
+                if (General.Map.FormatInterface.HasActionArgs)
+                {
+                    // FIXME this is the extremely hacky workaround to
+                    // not having a proper way to call .BeforePropsChange
+                    // for setting args
+                    // right now. we have to do this because we must maintain
+                    // compatibility with non-DBX codebases, but hopefully
+                    // we can do this in a better way in the future
+                    thing.Tag = thing.Tag;
+
+                    thing.Args[0] = value;
+                }
+                else
+                {
+                    ScriptContext.context.WarnFormatIncompatible("Action Arguments");
+                }
+            }
+        }
+
+        public int arg1
+        {
+            get
+            {
+
+                if (thing.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Thing has been disposed, can't get arg1!");
+                }
+                if (General.Map.FormatInterface.HasActionArgs)
+                {
+                    return thing.Args[1];
+                }
+                else
+                {
+                    ScriptContext.context.WarnFormatIncompatible("Action Arguments");
+                    return 0;
+                }
+            }
+            set
+            {
+                if (thing.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Thing has beend disposed, can't set arg1!");
+                }
+                if (General.Map.FormatInterface.HasActionArgs)
+                {
+                    // FIXME this is the extremely hacky workaround to
+                    // not having a proper way to call .BeforePropsChange
+                    // for setting args
+                    // right now. we have to do this because we must maintain
+                    // compatibility with non-DBX codebases, but hopefully
+                    // we can do this in a better way in the future
+                    thing.Tag = thing.Tag;
+
+                    thing.Args[1] = value;
+                }
+                else
+                {
+                    ScriptContext.context.WarnFormatIncompatible("Action Arguments");
+                }
+            }
+        }
+
+        public int arg2
+        {
+            get
+            {
+
+                if (thing.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Thing has been disposed, can't get arg2!");
+                }
+                if (General.Map.FormatInterface.HasActionArgs)
+                {
+                    return thing.Args[2];
+                }
+                else
+                {
+                    ScriptContext.context.WarnFormatIncompatible("Action Arguments");
+                    return 0;
+                }
+            }
+            set
+            {
+                if (thing.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Thing has beend disposed, can't set arg2!");
+                }
+                if (General.Map.FormatInterface.HasActionArgs)
+                {
+                    // FIXME this is the extremely hacky workaround to
+                    // not having a proper way to call .BeforePropsChange
+                    // for setting args
+                    // right now. we have to do this because we must maintain
+                    // compatibility with non-DBX codebases, but hopefully
+                    // we can do this in a better way in the future
+                    thing.Tag = thing.Tag;
+
+                    thing.Args[2] = value;
+                }
+                else
+                {
+                    ScriptContext.context.WarnFormatIncompatible("Action Arguments");
+                }
+            }
+        }
+
+        public int arg3
+        {
+            get
+            {
+
+                if (thing.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Thing has been disposed, can't get arg3!");
+                }
+                if (General.Map.FormatInterface.HasActionArgs)
+                {
+                    return thing.Args[3];
+                }
+                else
+                {
+                    ScriptContext.context.WarnFormatIncompatible("Action Arguments");
+                    return 0;
+                }
+            }
+            set
+            {
+                if (thing.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Thing has beend disposed, can't set arg3!");
+                }
+                if (General.Map.FormatInterface.HasActionArgs)
+                {
+                    // FIXME this is the extremely hacky workaround to
+                    // not having a proper way to call .BeforePropsChange
+                    // for setting args
+                    // right now. we have to do this because we must maintain
+                    // compatibility with non-DBX codebases, but hopefully
+                    // we can do this in a better way in the future
+                    thing.Tag = thing.Tag;
+
+                    thing.Args[3] = value;
+                }
+                else
+                {
+                    ScriptContext.context.WarnFormatIncompatible("Action Arguments");
+                }
+            }
+        }
+
+        public int arg4
+        {
+            get
+            {
+
+                if (thing.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Thing has been disposed, can't get arg4!");
+                }
+                if (General.Map.FormatInterface.HasActionArgs)
+                {
+                    return thing.Args[4];
+                }
+                else
+                {
+                    ScriptContext.context.WarnFormatIncompatible("Action Arguments");
+                    return 0;
+                }
+            }
+            set
+            {
+                if (thing.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Thing has beend disposed, can't set arg4!");
+                }
+                if (General.Map.FormatInterface.HasActionArgs)
+                {
+                    // FIXME this is the extremely hacky workaround to
+                    // not having a proper way to call .BeforePropsChange
+                    // for setting args
+                    // right now. we have to do this because we must maintain
+                    // compatibility with non-DBX codebases, but hopefully
+                    // we can do this in a better way in the future
+                    thing.Tag = thing.Tag;
+
+                    thing.Args[4] = value;
+                }
+                else
+                {
+                    ScriptContext.context.WarnFormatIncompatible("Action Arguments");
+                }
+            }
+        }
+
         [MoonSharpHidden]
         public LuaThing(Thing t)
         {
@@ -119,6 +339,54 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             return thing.IsDisposed;
         }
+
+        public bool IsFlagSet(string flagname)
+        {
+            if (thing.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Thing has been disposed, can't IsFlagSet()!");
+            }
+            // FIXME warn on no such flag
+            return thing.IsFlagSet(flagname);
+        }
+
+        public void SetFlag(string flagname, bool val)
+        {
+            if (thing.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Thing has been disposed, can't SetFlag()!");
+            }
+            // FIXME warn on no such flag
+            thing.SetFlag(flagname, val);
+        }
+
+        public void ClearFlags()
+        {
+            if (thing.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Thing has been disposed, can't ClearFlags()!");
+            }
+            thing.ClearFlags();
+        }
+
+        public DynValue GetUDMFField(string key)
+        {
+            if (thing.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Thing has been disposed, can't GetUDMFField()!");
+            }
+            return LuaTypeConversion.GetUDMFField(thing, key, General.Map.Config.ThingFields);
+        }
+
+        public void SetUDMFField(string key, DynValue value)
+        {
+            if (thing.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Thing has been disposed, can't SetUDMFField()!");
+            }
+            LuaTypeConversion.SetUDMFField(thing, key, value);
+        }
+
 
         public float GetSize()
         {
@@ -135,6 +403,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 throw new ScriptRuntimeException("Thing has been disposed, can't GetSector()!");
             }
+            thing.DetermineSector();
             Sector s = thing.Sector;
 
             if (s == null || s.IsDisposed)

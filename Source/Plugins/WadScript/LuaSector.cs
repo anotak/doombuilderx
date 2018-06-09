@@ -163,6 +163,24 @@ namespace CodeImp.DoomBuilder.DBXLua
             return sector.IsDisposed;
         }
 
+        public DynValue GetUDMFField(string key)
+        {
+            if (sector.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Sector has been disposed, can't GetUDMFField()!");
+            }
+            return LuaTypeConversion.GetUDMFField(sector, key, General.Map.Config.SectorFields);
+        }
+
+        public void SetUDMFField(string key, DynValue value)
+        {
+            if (sector.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Sector has been disposed, can't SetUDMFField()!");
+            }
+            LuaTypeConversion.SetUDMFField(sector, key, value);
+        }
+
         public bool Intersect(LuaVector2D p)
         {
             if (sector.IsDisposed)

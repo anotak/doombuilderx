@@ -46,6 +46,24 @@ namespace CodeImp.DoomBuilder.DBXLua
             return vertex.IsDisposed;
         }
 
+        public DynValue GetUDMFField(string key)
+        {
+            if (vertex.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Vertex has been disposed, can't GetUDMFField()!");
+            }
+            return LuaTypeConversion.GetUDMFField(vertex, key, General.Map.Config.VertexFields);
+        }
+
+        public void SetUDMFField(string key, DynValue value)
+        {
+            if (vertex.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Vertex has been disposed, can't SetUDMFField()!");
+            }
+            LuaTypeConversion.SetUDMFField(vertex, key, value);
+        }
+
         public List<LuaLinedef> GetLines()
         {
             if (vertex.IsDisposed)
