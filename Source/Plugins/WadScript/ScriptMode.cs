@@ -66,7 +66,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
             if (renderer.StartThings(true))
             {
-                renderer.RenderThingSet(General.Map.ThingsFilter.HiddenThings, Presentation.THINGS_HIDDEN_ALPHA);
+                renderer.RenderThingSet(General.Map.ThingsFilter.HiddenThings, 0.66f);
                 renderer.RenderThingSet(General.Map.ThingsFilter.VisibleThings, 1.0f);
                 
                 renderer.Finish();
@@ -105,17 +105,26 @@ namespace CodeImp.DoomBuilder.DBXLua
                 // Make undo for the draw
                 General.Map.UndoRedo.CreateUndo("Run script '" + scriptShortName + "'");
 
+                string title = "";
+                if (General.Interface is MainForm)
+                {
+                    title = ((MainForm)General.Interface).Text;
+                    ((MainForm)General.Interface).Text = "Running Lua...";
+                }
+
                 General.Interface.SetCursor(Cursors.AppStarting);
 
                 General.Interface.DisplayStatus(StatusType.Info, "Executing script '" + scriptShortName + "'!");
                 bool bScriptSuccess = true;
                 
-                ScriptContext scriptRunner = new ScriptContext(renderer, mousemappos);
+                ScriptContext scriptRunner = new ScriptContext(renderer, mousemappos, snaptogrid, snaptonearest);
 
                 if (bScriptSuccess)
                 {
                     bScriptSuccess = scriptRunner.RunScript(scriptPath);
                 }
+
+                General.Map.ThingsFilter.Update();
 
                 // Snap to map format accuracy
                 General.Map.Map.SnapAllToAccuracy();
@@ -208,8 +217,13 @@ namespace CodeImp.DoomBuilder.DBXLua
                     {
                         ScriptErrorForm.ShowError("unable to produce error message. possibly a big problem");
                     }
+                } // else error
+
+                if (General.Interface is MainForm)
+                {
+                    ((MainForm)General.Interface).Text = title;
                 }
-            } 
+            } // if mouseindisplay
             // add support for mouseless scripts 
         }
 

@@ -18,6 +18,29 @@ namespace CodeImp.DoomBuilder.DBXLua
         [MoonSharpHidden]
         internal Linedef linedef;
 
+        public bool selected
+        {
+            get
+            {
+                if (linedef.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't get selected status!");
+                }
+
+                return linedef.Selected;
+            }
+
+            set
+            {
+                if (linedef.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't set selected status!");
+                }
+
+                linedef.Selected = value;
+            }
+        }
+
         public LuaVertex start
         {
             get
@@ -40,6 +63,9 @@ namespace CodeImp.DoomBuilder.DBXLua
                     throw new ScriptRuntimeException("Vertex has been disposed, can't set start vertex!");
                 }
                 linedef.SetStartVertex(value.vertex);
+
+                linedef.NeedUpdate();
+                linedef.UpdateCache();
             }
         }
 
@@ -65,6 +91,9 @@ namespace CodeImp.DoomBuilder.DBXLua
                     throw new ScriptRuntimeException("Vertex has been disposed, can't set end vertex!");
                 }
                 linedef.SetEndVertex(value.vertex);
+
+                linedef.NeedUpdate();
+                linedef.UpdateCache();
             }
         }
 
@@ -354,21 +383,39 @@ namespace CodeImp.DoomBuilder.DBXLua
             return linedef.IsDisposed;
         }
 
+        public int GetIndex()
+        {
+            if (linedef.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Linedef has been disposed, can't GetIndex()!");
+            }
+
+            return linedef.Index;
+        }
+
         public bool IsFlagSet(string flagname)
         {
             if (linedef.IsDisposed)
             {
                 throw new ScriptRuntimeException("Linedef has been disposed, can't IsFlagSet()!");
             }
+            if (flagname == null)
+            {
+                throw new ScriptRuntimeException("Flag name is nil, can't IsFlagSet() (not enough arguments maybe?)!");
+            }
             // FIXME warn on no such flag
             return linedef.IsFlagSet(flagname);
         }
 
-        public void SetFlag(string flagname, bool val)
+        public void SetFlag(string flagname, bool val = true)
         {
             if (linedef.IsDisposed)
             {
                 throw new ScriptRuntimeException("Linedef has been disposed, can't SetFlag()!");
+            }
+            if (flagname == null)
+            {
+                throw new ScriptRuntimeException("flagname is nil, can't SetFlag() (not enough arguments maybe?)!");
             }
             // FIXME warn on no such flag
             linedef.SetFlag(flagname, val);
@@ -507,6 +554,8 @@ namespace CodeImp.DoomBuilder.DBXLua
             }
             linedef.FlipVertices();
             linedef.FlipSidedefs();
+            linedef.NeedUpdate();
+            linedef.UpdateCache();
         }
 
         public LuaVector2D GetSidePoint(bool front)
@@ -596,6 +645,16 @@ namespace CodeImp.DoomBuilder.DBXLua
 
             return linedef.DistanceTo(p.vec, bounded);
         }
+
+        public LuaVector2D GetNormal()
+        {
+            if (linedef.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Linedef has been disposed, can't GetNormal!");
+            }
+
+            return new LuaVector2D(linedef.Line.GetPerpendicular().GetNormal());
+        }
         
         // This tests on which side of the line the given coordinates are
         // returns < 0 for front (right) side, > 0 for back (left) side and 0 if on the line
@@ -608,11 +667,16 @@ namespace CodeImp.DoomBuilder.DBXLua
             return linedef.SideOfLine(p.vec);
         }
 
-        public LuaLinedef Split(LuaVertex v)
+        // returns a tuple of vertex, linedef, linedef
+        public DynValue Split(LuaVertex v)
         {
             if (linedef.IsDisposed)
             {
                 throw new ScriptRuntimeException("Linedef has been disposed, can't Split!");
+            }
+            if (v == null)
+            {
+                throw new ScriptRuntimeException("Vertex is null, can't Split (not enough arguments maybe?)!");
             }
             if (v.vertex.IsDisposed)
             {
@@ -621,17 +685,117 @@ namespace CodeImp.DoomBuilder.DBXLua
 
             v.vertex.SnapToAccuracy();
 
-            LuaLinedef l = new LuaLinedef(linedef.Split(v.vertex));
+            LuaLinedef newline = new LuaLinedef(linedef.Split(v.vertex));
 
-            // Clear selection
-            General.Map.Map.ClearAllSelected();
+            if (newline.linedef == null)
+            {
+                throw new ScriptRuntimeException(
+                    "Split returned null linedef (max linedef limit reached? current count is "
+                    + General.Map.Map.Linedefs.Count + " of " + General.Map.FormatInterface.MaxLinedefs
+                    + ")");
+            }
 
             // Update cached values
             General.Map.Map.Update();
-            return l;
+
+            return DynValue.NewTuple(
+                DynValue.FromObject(ScriptContext.context.script, v),
+                DynValue.FromObject(ScriptContext.context.script, newline),
+                DynValue.FromObject(ScriptContext.context.script, this)
+                    );
         }
 
-        // ano - probably a bad idea to let lua access? let's think about this
+        // splits middle of line
+        // returns a tuple of vertex, linedef, linedef
+        public DynValue Split()
+        {
+            if (linedef.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Linedef has been disposed, can't Split!");
+            }
+
+            Vertex v = General.Map.Map.CreateVertex(linedef.GetCenterPoint());
+            if (v == null)
+            {
+                throw new ScriptRuntimeException(
+                    "Split returned null vertex (max vertex limit reached? current count is "
+                    + General.Map.Map.Vertices.Count
+                    + ")");
+            }
+
+            v.SnapToAccuracy();
+
+            LuaLinedef newline = new LuaLinedef(linedef.Split(v));
+
+            if (newline.linedef == null)
+            {
+                throw new ScriptRuntimeException(
+                    "Split returned null linedef (max linedef limit reached? current count is "
+                    + General.Map.Map.Linedefs.Count + " of " + General.Map.FormatInterface.MaxLinedefs
+                    + ")");
+            }
+
+            // Update cached values
+            General.Map.Map.Update();
+
+            return DynValue.NewTuple(
+                DynValue.FromObject(ScriptContext.context.script, new LuaVertex(v)),
+                DynValue.FromObject(ScriptContext.context.script, newline),
+                DynValue.FromObject(ScriptContext.context.script, this)
+                    );
+        }
+
+        public List<LuaLinedef> GetOverlappingLinedefs()
+        {
+            if (linedef.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Linedef is disposed, can't GetOverlappingLinedefs()!");
+            }
+
+            List<LuaLinedef> output = new List<LuaLinedef>();
+
+            // create a bounding box for our line
+            float bbox_x1 = Math.Min(linedef.Start.Position.x, linedef.End.Position.x);
+            float bbox_x2 = Math.Max(linedef.Start.Position.x, linedef.End.Position.x);
+
+            float bbox_y1 = Math.Min(linedef.Start.Position.y, linedef.End.Position.y);
+            float bbox_y2 = Math.Max(linedef.Start.Position.y, linedef.End.Position.y);
+
+            Line2D l2d = linedef.Line;
+
+            foreach (Linedef map_line in General.Map.Map.Linedefs)
+            {
+                // dont test yourself or you'll wreck yourself
+                if (map_line.Index == linedef.Index)
+                {
+                    continue;
+                }
+                // bounding box check
+                if (
+                    (map_line.Start.Position.x < bbox_x1 && map_line.End.Position.x < bbox_x1)
+                    || (map_line.Start.Position.x > bbox_x2 && map_line.End.Position.x > bbox_x2)
+                    || (map_line.Start.Position.y < bbox_y1 && map_line.End.Position.y < bbox_y1)
+                    || (map_line.Start.Position.y > bbox_y2 && map_line.End.Position.y > bbox_y2)
+                    )
+                {
+                    continue;
+                }
+
+                float u_ray = 0f;
+
+                if (map_line.Line.GetIntersection(l2d, out u_ray))
+                {
+                    if (u_ray > 0.0 && u_ray < 1.0f && !float.IsNaN(u_ray))
+                    {
+                        output.Add(new LuaLinedef(map_line));
+                    }
+                }
+            } // foreach (Linedef map_line in General.Map.Map.Linedefs)
+
+            return output;
+        }
+
+        // ano - TODO probably a bad idea to let lua access? let's think about this
         /*
         // This joins the line with another line
         // This line will be disposed

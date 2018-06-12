@@ -138,6 +138,16 @@ namespace CodeImp.DoomBuilder.DBXLua
             sidedef = s;
         }
 
+        public int GetIndex()
+        {
+            if (sidedef.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Sidedef has been disposed, can't GetIndex()!");
+            }
+
+            return sidedef.Index;
+        }
+
         public bool IsDisposed()
         {
             return sidedef.IsDisposed;

@@ -18,6 +18,56 @@ namespace CodeImp.DoomBuilder.DBXLua
         [MoonSharpHidden]
         internal Thing thing;
 
+        public bool selected
+        {
+            get
+            {
+                if (thing.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Thing has been disposed, can't get selected status!");
+                }
+
+                return thing.Selected;
+            }
+
+            set
+            {
+                if (thing.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Thing has been disposed, can't set selected status!");
+                }
+
+                thing.Selected = value;
+            }
+        }
+
+        public LuaVector2D position
+        {
+            get
+            {
+                if (thing.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Thing has been disposed, can't get position!");
+                }
+                return new LuaVector2D(thing.Position);
+            }
+            set
+            {
+                if (thing.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("Thing has been disposed, can't set position!");
+                }
+
+                if (float.IsNaN(value.x) || float.IsNaN(value.y) ||
+                   float.IsInfinity(value.x) || float.IsInfinity(value.y))
+                {
+                    throw new ScriptRuntimeException("Invalid thing position! The given vertex coordinates cannot be NaN or Infinite.");
+                }
+                
+                thing.Move(value.vec);
+            }
+        }
+
         public int type
         {
             get
@@ -340,21 +390,44 @@ namespace CodeImp.DoomBuilder.DBXLua
             return thing.IsDisposed;
         }
 
+        public void Dispose()
+        {
+            thing.Dispose();
+        }
+
+        public int GetIndex()
+        {
+            if (thing.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Thing has been disposed, can't GetIndex()!");
+            }
+
+            return thing.Index;
+        }
+
         public bool IsFlagSet(string flagname)
         {
             if (thing.IsDisposed)
             {
                 throw new ScriptRuntimeException("Thing has been disposed, can't IsFlagSet()!");
             }
+            if (flagname == null)
+            {
+                throw new ScriptRuntimeException("Flag name is nil, can't IsFlagSet() (not enough arguments maybe?)!");
+            }
             // FIXME warn on no such flag
             return thing.IsFlagSet(flagname);
         }
 
-        public void SetFlag(string flagname, bool val)
+        public void SetFlag(string flagname, bool val = true)
         {
             if (thing.IsDisposed)
             {
                 throw new ScriptRuntimeException("Thing has been disposed, can't SetFlag()!");
+            }
+            if (flagname == null)
+            {
+                throw new ScriptRuntimeException("flagname is nil, can't SetFlag() (not enough arguments maybe?)!");
             }
             // FIXME warn on no such flag
             thing.SetFlag(flagname, val);
@@ -388,7 +461,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         }
 
 
-        public float GetSize()
+        public float GetRadius()
         {
             if (thing.IsDisposed)
             {
@@ -418,7 +491,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (thing.IsDisposed)
             {
-                throw new ScriptRuntimeException("Thing has been disposed, can't GetSetAngleRadians()!");
+                throw new ScriptRuntimeException("Thing has been disposed, can't SetAngleRadians()!");
             }
             thing.Rotate(newangle);
         }
@@ -427,9 +500,33 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (thing.IsDisposed)
             {
-                throw new ScriptRuntimeException("Thing has been disposed, can't GetSetAngleDoom()!");
+                throw new ScriptRuntimeException("Thing has been disposed, can't SetAngleDoom()!");
             }
+            LuaUI.LogLine(thing.AngleDoom.ToString() + " -> " + newangle);
+            // i know it's genuinely weird that this looks like the
+            // same call as radians but trust me
             thing.Rotate(newangle);
+            LuaUI.LogLine(thing.AngleDoom.ToString());
+        }
+
+        public float GetAngleRadians()
+        {
+            if (thing.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Thing has been disposed, can't GetAngleRadians()!");
+            }
+
+            return thing.Angle;
+        }
+
+        public float GetAngleDoom()
+        {
+            if (thing.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Thing has been disposed, can't GetAngleDoom()!");
+            }
+
+            return thing.AngleDoom;
         }
 
         public void SnapToGrid()
@@ -466,6 +563,40 @@ namespace CodeImp.DoomBuilder.DBXLua
                 throw new ScriptRuntimeException("Thing has been disposed, can't DistanceTo()!");
             }
             return thing.DistanceTo(p.vec);
+        }
+
+        public LuaThing Clone(LuaVector2D v)
+        {
+            return Clone(v.x, v.y);
+        }
+
+        public LuaThing Clone(float x, float y)
+        {
+            if (x < General.Map.Config.LeftBoundary || x > General.Map.Config.RightBoundary ||
+                y > General.Map.Config.TopBoundary || y < General.Map.Config.BottomBoundary)
+            {
+                throw new ScriptRuntimeException("Failed to insert thing: outside of map boundaries.");
+            }
+            LuaThing output = Clone();
+            output.thing.Move(new Geometry.Vector2D(x, y));
+
+            return output;
+        }
+
+        public LuaThing Clone()
+        {
+            Thing out_thing = General.Map.Map.CreateThing();
+            if (out_thing == null)
+            {
+                throw new ScriptRuntimeException(
+                    "Insert thing returned null thing (max thing limit reached maybe? current count is "
+                    + General.Map.Map.Things.Count + " of " + General.Map.FormatInterface.MaxThings
+                    + ")");
+            }
+
+            thing.CopyPropertiesTo(out_thing);
+
+            return new LuaThing(out_thing);
         }
     } // class luathing
 }// ns

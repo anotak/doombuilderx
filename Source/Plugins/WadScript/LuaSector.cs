@@ -15,6 +15,29 @@ namespace CodeImp.DoomBuilder.DBXLua
         [MoonSharpHidden]
         internal Sector sector;
 
+        public bool selected
+        {
+            get
+            {
+                if (sector.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("sector has been disposed, can't get selected status!");
+                }
+
+                return sector.Selected;
+            }
+
+            set
+            {
+                if (sector.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("sector has been disposed, can't set selected status!");
+                }
+
+                sector.Selected = value;
+            }
+        }
+
         public int floorheight
         {
             get
@@ -163,6 +186,16 @@ namespace CodeImp.DoomBuilder.DBXLua
             return sector.IsDisposed;
         }
 
+        public int GetIndex()
+        {
+            if (sector.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Sector has been disposed, can't GetIndex()!");
+            }
+
+            return sector.Index;
+        }
+
         public DynValue GetUDMFField(string key)
         {
             if (sector.IsDisposed)
@@ -179,6 +212,25 @@ namespace CodeImp.DoomBuilder.DBXLua
                 throw new ScriptRuntimeException("Sector has been disposed, can't SetUDMFField()!");
             }
             LuaTypeConversion.SetUDMFField(sector, key, value);
+        }
+
+        public Table GetSidedefs()
+        {
+            if (sector.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Sector has been disposed, can't GetSidedefs()!");
+            }
+
+            Table output = new Table(ScriptContext.context.script);
+            foreach (Sidedef s in sector.Sidedefs)
+            {
+                if (!s.IsDisposed)
+                {
+                    output.Append(DynValue.FromObject(ScriptContext.context.script, s));
+                }
+            }
+
+            return output;
         }
 
         public bool Intersect(LuaVector2D p)

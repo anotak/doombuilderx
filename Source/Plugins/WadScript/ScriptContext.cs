@@ -23,8 +23,12 @@ namespace CodeImp.DoomBuilder.DBXLua
         internal static ScriptContext context;
 
         internal Script script;
+
         internal float rendererscale;
         internal Vector2D mousemappos;
+        internal bool snaptogrid;
+        internal bool snaptonearest;
+
         private HashSet<string> features_warning;
         private StringBuilder scriptlog_sb;
         private StringBuilder debuglog_sb;
@@ -56,11 +60,13 @@ namespace CodeImp.DoomBuilder.DBXLua
             }
         }
 
-        public ScriptContext(IRenderer2D renderer, Vector2D inmappos)
+        public ScriptContext(IRenderer2D renderer, Vector2D inmappos, bool insnaptogrid, bool insnaptonearest)
         {
             errorText = "";
             context = this;
 
+            snaptogrid = insnaptogrid;
+            snaptonearest = insnaptonearest;
             mousemappos = inmappos;
             rendererscale = renderer.Scale;
             scriptlog_sb = new StringBuilder();
@@ -93,6 +99,12 @@ namespace CodeImp.DoomBuilder.DBXLua
                 catch (InterpreterException e)
                 {
                     errorText = e.DecoratedMessage;
+
+                    if (errorText.StartsWith(Path.GetFullPath(scriptPath))
+                        && Path.GetDirectoryName(scriptPath).Length + 1 < errorText.Length)
+                    {
+                        errorText = errorText.Substring(Path.GetDirectoryName(scriptPath).Length + 1);
+                    }
 
                     General.WriteLogLine(e.DecoratedMessage);
                     return false;

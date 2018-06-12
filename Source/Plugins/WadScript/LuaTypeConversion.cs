@@ -17,6 +17,19 @@ namespace CodeImp.DoomBuilder.DBXLua
         // where default is true if set to a default value
         public static DynValue GetUDMFField(MapElement element, string key, List<UniversalFieldInfo> defaults)
         {
+            if (key == null)
+            {
+                throw new ScriptRuntimeException("key is nil, can't GetUDMFField() (not enough arguments maybe?)");
+            }
+            if (element == null)
+            {
+                throw new ScriptRuntimeException("map element is nil, can't GetUDMFField()");
+            }
+            if (element.IsDisposed)
+            {
+                throw new ScriptRuntimeException("map element is disposed, can't GetUDMFField()");
+            }
+
             DynValue[] output = new DynValue[2];
             if (!General.Map.FormatInterface.HasCustomFields)
             {
@@ -73,9 +86,22 @@ namespace CodeImp.DoomBuilder.DBXLua
                 return;
             }
 
+            if (key == null)
+            {
+                throw new ScriptRuntimeException("key is nil, can't SetUDMFField() (not enough arguments maybe?)");
+            }
+            if (element == null)
+            {
+                throw new ScriptRuntimeException("map element is nil, can't SetUDMFField()");
+            }
+            if (element.IsDisposed)
+            {
+                throw new ScriptRuntimeException("map element is disposed, can't SetUDMFField()");
+            }
+
             if (value.IsNilOrNan() || value.IsVoid())
             {
-                return;
+                throw new ScriptRuntimeException("value is nil, nan, or void. can't SetUDMFField() (not enough arguments maybe?)");
             }
             
             key = UniValue.ValidateName(key);

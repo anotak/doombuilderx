@@ -311,6 +311,10 @@ namespace CodeImp.DoomBuilder.DBXLua
         // keeping compiler happy
         public override bool Equals(object obj)
         {
+            if (obj == null)
+            {
+                return false;
+            }
             if (obj is Vector3D)
             {
                 return vec == (Vector3D)obj;

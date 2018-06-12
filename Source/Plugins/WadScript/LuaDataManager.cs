@@ -14,20 +14,28 @@ namespace CodeImp.DoomBuilder.DBXLua
     {
         public static bool GetTextureExists(string name)
         {
+            if (name == null)
+            {
+                throw new ScriptRuntimeException("Name is nil, can't GetTextureExists() (not enough arguments?)");
+            }
             return General.Map.Data.GetTextureExists(name);
         }
 
         public static bool GetFlatExists(string name)
         {
+            if (name == null)
+            {
+                throw new ScriptRuntimeException("Name is nil, can't GetFlatExists() (not enough arguments?)");
+            }
             return General.Map.Data.GetFlatExists(name);
         }
 
-        public static List<string> GetTextureNames(string name)
+        public static List<string> GetTextureNames()
         {
             return General.Map.Data.OnlyTextureNames;
         }
 
-        public static List<string> GetFlatNames(string name)
+        public static List<string> GetFlatNames()
         {
             return General.Map.Data.OnlyFlatNames;
         }

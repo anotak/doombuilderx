@@ -42,12 +42,18 @@ namespace CodeImp.DoomBuilder.DBXLua
 
         public static Pen FromClick()
         {
-            return new Pen(new LuaVector2D(General.Map.Grid.SnappedToGrid(ScriptContext.context.mousemappos)));
+            return FromClick(ScriptContext.context.snaptogrid, ScriptContext.context.snaptonearest);
+            
         }
 
-        public static Pen FromClickNoSnap()
+        public static Pen FromClick(bool snaptogrid)
         {
-            return new Pen(new LuaVector2D(ScriptContext.context.mousemappos));
+            return FromClick(snaptogrid, ScriptContext.context.snaptonearest);
+        }
+
+        public static Pen FromClick(bool snaptogrid, bool snaptonearest)
+        {
+            return new Pen(LuaUI.GetMouseMapPosition(snaptogrid, snaptonearest));
         }
 
         public static Pen From(float x, float y)

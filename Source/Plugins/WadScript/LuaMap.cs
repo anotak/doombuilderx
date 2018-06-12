@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using CodeImp.DoomBuilder.Map;
+using CodeImp.DoomBuilder.Geometry;
 using MoonSharp.Interpreter;
 
 namespace CodeImp.DoomBuilder.DBXLua
@@ -194,6 +195,73 @@ namespace CodeImp.DoomBuilder.DBXLua
         public static void RemoveUnusedVertices()
         {
             General.Map.Map.RemoveUnusedVertices();
+        }
+
+        public static void DeselectAll()
+        {
+            General.Map.Map.ClearAllSelected();
+        }
+
+        public static void DeselectThings()
+        {
+            General.Map.Map.ClearSelectedThings();
+        }
+
+        public static void DeselectGeometry()
+        {
+            General.Map.Map.ClearSelectedVertices();
+            General.Map.Map.ClearSelectedLinedefs();
+            General.Map.Map.ClearSelectedSectors();
+        }
+
+        public static LuaThing InsertThing(LuaVector2D pos)
+        {
+            return InsertThing(pos.x, pos.y);
+        }
+
+        // based on the InsertThing from the things mode by codeimp
+        public static LuaThing InsertThing(float x, float y)
+        {
+            if (x < General.Map.Config.LeftBoundary || x > General.Map.Config.RightBoundary ||
+                y > General.Map.Config.TopBoundary || y < General.Map.Config.BottomBoundary)
+            {
+                throw new ScriptRuntimeException("Failed to insert thing: outside of map boundaries.");
+            }
+
+            // Create thing
+            Thing t = General.Map.Map.CreateThing();
+            if (t != null)
+            {
+                General.Settings.ApplyDefaultThingSettings(t);
+
+                t.Move(new Vector2D(x, y));
+
+                t.UpdateConfiguration();
+
+                // ano - let's not forget, we need to call
+                // after scripts
+
+                // Snap to grid enabled?
+                if (General.Interface.SnapToGrid)
+                {
+                    // Snap to grid
+                    t.SnapToGrid();
+                }
+                else
+                {
+                    // Snap to map format accuracy
+                    t.SnapToAccuracy();
+                }
+            }
+            else
+            {
+                throw new ScriptRuntimeException(
+                    "Insert thing returned null thing (max thing limit reached? current count is "
+                    + General.Map.Map.Things.Count + " of " + General.Map.FormatInterface.MaxThings
+                    + ")");
+            }
+
+            return new LuaThing(t);
         }
     } // class
 } // ns
