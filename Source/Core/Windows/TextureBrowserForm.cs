@@ -161,7 +161,7 @@ namespace CodeImp.DoomBuilder.Windows
 
             if (General.Map.Config.MixTexturesFlats)
             {
-                if (General.Map.Data.WallsTextureSet != null)
+                if (!browseflats && General.Map.Data.WallsTextureSet != null)
                 {
                     // Add all Textures-only set
                     int textureCount;
