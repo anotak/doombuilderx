@@ -41,7 +41,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             }
         }
 
-        public LuaVertex start
+        public LuaVertex start_vertex
         {
             get
             {
@@ -69,7 +69,8 @@ namespace CodeImp.DoomBuilder.DBXLua
             }
         }
 
-        public LuaVertex end
+        // we can't name this 'end' because it's a reserved keyword in lua, alas :<
+        public LuaVertex end_vertex
         {
             get
             {

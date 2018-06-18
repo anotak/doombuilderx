@@ -77,7 +77,7 @@ https://www.lua.org/pil/19.3.html
 http://lua-users.org/wiki/TableLibraryTutorial
 --]]
 function vertex_comparison(a,b)
-	which = Vector2D.DistanceSq(cursor, a.position) < Vector2D.DistanceSq(cursor, b.position)
+	local which = Vector2D.DistanceSq(cursor, a.position) < Vector2D.DistanceSq(cursor, b.position)
 	return which
 end
 table.sort(moving_vertices, vertex_comparison)
@@ -92,7 +92,7 @@ function suck_in_vertex(vert, current_gravity)
 	end
 	
 	-- get our distance squared again vs the mouse map position
-	distance_squared = Vector2D.DistanceSq(cursor, vert.position)
+	local distance_squared = Vector2D.DistanceSq(cursor, vert.position)
 	
 	-- we're close enough! and therefore done with this vertex
 	if distance_squared < 6 then
@@ -103,7 +103,7 @@ function suck_in_vertex(vert, current_gravity)
 		
 		-- we calculate a force via the inverse square law
 		-- see https://en.wikipedia.org/wiki/Inverse_square_law
-		force = current_gravity / distance_squared
+		local force = current_gravity / distance_squared
 		
 		-- don't let vertices move too far
 		if force > 16 then
@@ -111,7 +111,7 @@ function suck_in_vertex(vert, current_gravity)
 		end
 		
 		-- we get a vector toward the mouse cursor
-		direction = (cursor - vert.position)
+		local direction = (cursor - vert.position)
 		
 		-- then we normalize it (get the unit vector)
 		-- see https://en.wikipedia.org/wiki/Unit_vector
@@ -119,14 +119,14 @@ function suck_in_vertex(vert, current_gravity)
 		
 		-- we have 2d unit vector to give us direction, and a 1d force
 		-- so we multiply the two to get our 2d movement
-		movement_vector = direction * force
+		local movement_vector = direction * force
 		
 		-- snap to our map format's accuracy
 		-- (positions internally to doom builder are floating point decimals, but
 		-- the map file formats are snapped to integers or fixed point numbers
 		-- and therefore bad things can happen if we don't snap the positions 
 		-- to these numbers)
-		destination = Vector2D.SnappedToAccuracy(vert.position + movement_vector)
+		local destination = Vector2D.SnappedToAccuracy(vert.position + movement_vector)
 		
 		-- we check that we aren't going to move either farther past the destination
 		-- than we started, and also that we aren't moving farther from our 

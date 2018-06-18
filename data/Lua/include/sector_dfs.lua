@@ -46,10 +46,10 @@ function sector_dfs.select_sectors_from_mouse(condition)
 	-- well, we need to know where we clicked
 	-- the first false means no snap to grid
 	-- the second means no snapping to geometry
-	cursor = UI.GetMouseMapPosition(false, false)
+	local cursor = UI.GetMouseMapPosition(false, false)
 
 	-- find sector exactly at mouse
-	start_sector = Map.DetermineSector(cursor)
+	local start_sector = Map.DetermineSector(cursor)
 
 	-- if nothing at current exact mouse position, let's try to just find what's nearby
 	if start_sector == nil then
@@ -70,12 +70,12 @@ function sector_dfs.select_sectors_recursive(current_sector)
 		current_sector.selected = true
 		
 		-- let's go find our neighbors through our sidedefs
-		sidedefs = current_sector.GetSidedefs()
+		local sidedefs = current_sector.GetSidedefs()
 		
 		-- for each sidedef
 		for _, current_side in ipairs(sidedefs) do
 			-- let's make sure we haven't checked this line already
-			line = current_side.GetLinedef()
+			local line = current_side.GetLinedef()
 			if sector_dfs.searched_lines[line.GetIndex()] == nil then
 				-- mark as checked
 				sector_dfs.searched_lines[line.GetIndex()] = true
@@ -87,7 +87,7 @@ function sector_dfs.select_sectors_recursive(current_sector)
 				
 				-- then find the sector on the other side,
 				-- and find_sectors on that if there is another side
-				other = current_side.GetOther()
+				local other = current_side.GetOther()
 				
 				-- make sure that other exists
 				if other ~= nil then
@@ -95,7 +95,7 @@ function sector_dfs.select_sectors_recursive(current_sector)
 					-- by definition, otherwise we have a larger bug
 					-- in doom builder itself and maybe we should just
 					-- crash in that case
-					othersector = other.GetSector()
+					local othersector = other.GetSector()
 					sector_dfs.select_sectors_recursive(othersector)
 				end
 			end
@@ -114,7 +114,7 @@ function sector_dfs.select_sectors_recursive_condition(current_sector, condition
 		current_sector.selected = true
 		
 		-- let's go find our neighbors through our sidedefs
-		sidedefs = current_sector.GetSidedefs()
+		local sidedefs = current_sector.GetSidedefs()
 		
 		-- for each sidedef
 		for _, current_side in ipairs(sidedefs) do
@@ -131,7 +131,7 @@ function sector_dfs.select_sectors_recursive_condition(current_sector, condition
 				
 				-- then find the sector on the other side,
 				-- and find_sectors on that if there is another side
-				other = current_side.GetOther()
+				local other = current_side.GetOther()
 				
 				-- make sure that other exists
 				if other ~= nil then
@@ -139,7 +139,7 @@ function sector_dfs.select_sectors_recursive_condition(current_sector, condition
 					-- by definition, otherwise we have a larger bug
 					-- in doom builder itself and maybe we should just
 					-- crash in that case
-					othersector = other.GetSector()
+					local othersector = other.GetSector()
 					-- check our condition
 					if condition(othersector, current_sector) then
 						sector_dfs.select_sectors_recursive_condition(othersector, condition)

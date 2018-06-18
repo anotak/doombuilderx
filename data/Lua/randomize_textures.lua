@@ -21,14 +21,14 @@ end
 for i=1, #sidedefs do
 	-- on the upper, lower, and mid first we check if there is a texture there already
 	-- because we don't want to just set untextured things to textured
-	if sidedefs[i].uppertex != "-" then
+	if sidedefs[i].uppertex ~= "-" then
 		-- then we set the texture to a random one from the list
 		sidedefs[i].uppertex = textures[math.random(#textures)]
 	end
-	if sidedefs[i].lowertex != "-" then
+	if sidedefs[i].lowertex ~= "-" then
 		sidedefs[i].lowertex = textures[math.random(#textures)]
 	end
-	if sidedefs[i].midtex != "-" then
+	if sidedefs[i].midtex ~= "-" then
 		sidedefs[i].midtex = textures[math.random(#textures)]
 	end
 end

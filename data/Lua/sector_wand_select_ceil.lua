@@ -1,6 +1,6 @@
--- sector_wand_select_floor.lua by anotak
+-- sector_wand_select_ceil.lua by anotak
 -- selects all sectors that are connected somehow to the sector where you clicked
--- and also have the same floor texture
+-- and also have the same ceiling texture
 
 -- deselect sectors/lines/vertices
 Map.DeselectGeometry()
@@ -10,9 +10,9 @@ Map.DeselectGeometry()
 -- (see the wiki for more information)
 dofile("include/sector_dfs.lua")
 
--- our little comparator function to only select sectors with the same floor
+-- our little comparator function to only select sectors with the same ceiling
 function sector_condition_function(next_sector, prev_sector)
-	return next_sector.floortex == prev_sector.floortex
+	return next_sector.ceiltex == prev_sector.ceiltex
 end
 
 -- start at the mouse click point, and select all sectors matching our condition

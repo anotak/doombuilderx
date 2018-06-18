@@ -141,9 +141,6 @@ namespace CodeImp.DoomBuilder.DBXLua
         // the vertex's lines overlap other lines
         public bool TryToMove(float x, float y)
         {
-            // FIXME we also need to test by drawing a line between old point and new point
-            // and checking sidedefs of any linedefs intersecting this line to make sure we end up in the same sector
-
             if (float.IsNaN(x) || float.IsNaN(y) ||
                    float.IsInfinity(x) || float.IsInfinity(y))
             {

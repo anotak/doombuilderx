@@ -142,7 +142,17 @@ namespace CodeImp.DoomBuilder.DBXLua
 
         public static LuaSector NearestSector(LuaVector2D pos)
         {
-            return new LuaSector(MapSet.NearestSidedef(General.Map.Map.Sidedefs, pos.vec).Sector);
+            Sidedef nearest_sidedef = MapSet.NearestSidedef(General.Map.Map.Sidedefs, pos.vec);
+            if (nearest_sidedef == null)
+            {
+                return null;
+            }
+            Sector sector = nearest_sidedef.Sector;
+            if (sector == null)
+            {
+                return null;
+            }
+            return new LuaSector(sector);
         }
 
         // ano - based on Thing.DetermineSector by CodeImp
@@ -181,27 +191,52 @@ namespace CodeImp.DoomBuilder.DBXLua
 
         public static LuaSidedef NearestSidedef(LuaVector2D pos)
         {
-            return new LuaSidedef(MapSet.NearestSidedef(General.Map.Map.Sidedefs, pos.vec));
+            Sidedef side = MapSet.NearestSidedef(General.Map.Map.Sidedefs, pos.vec);
+            if (side == null)
+            {
+                return null;
+            }
+            return new LuaSidedef(side);
         }
 
         public static LuaLinedef NearestLinedef(LuaVector2D pos)
         {
-            return new LuaLinedef(MapSet.NearestLinedef(General.Map.Map.Linedefs, pos.vec));
+            Linedef l = MapSet.NearestLinedef(General.Map.Map.Linedefs, pos.vec);
+            if (l == null)
+            {
+                return null;
+            }
+            return new LuaLinedef(l);
         }
 
         public static LuaLinedef NearestLinedefRange(LuaVector2D pos, float range)
         {
-            return new LuaLinedef(MapSet.NearestLinedefRange(General.Map.Map.Linedefs, pos.vec, range));
+            Linedef l = MapSet.NearestLinedefRange(General.Map.Map.Linedefs, pos.vec, range);
+            if (l == null)
+            {
+                return null;
+            }
+            return new LuaLinedef(l);
         }
 
         public static LuaVertex NearestVertex(LuaVector2D pos)
         {
-            return new LuaVertex(MapSet.NearestVertex(General.Map.Map.Vertices, pos.vec));
+            Vertex v = MapSet.NearestVertex(General.Map.Map.Vertices, pos.vec);
+            if (v == null)
+            {
+                return null;
+            }
+            return new LuaVertex(v);
         }
 
         public static LuaThing NearestThing(LuaVector2D pos)
         {
-            return new LuaThing(MapSet.NearestThing(General.Map.Map.Things, pos.vec));
+            Thing t = MapSet.NearestThing(General.Map.Map.Things, pos.vec);
+            if (t == null)
+            {
+                return null;
+            }
+            return new LuaThing(t);
         }
 
         public static void SnapAllToAccuracy()

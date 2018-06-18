@@ -1,4 +1,4 @@
--- sector-wand-select.lua by anotak
+-- sector_wand_select.lua by anotak
 -- selects all sectors that are connected somehow to the sector where you clicked
 
 -- deselect sectors/lines/vertices

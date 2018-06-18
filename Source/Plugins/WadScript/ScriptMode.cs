@@ -146,7 +146,7 @@ namespace CodeImp.DoomBuilder.DBXLua
                 scriptPath = path;
                 General.Settings.WritePluginSetting("selectedscriptpath", scriptPath);
                 BuilderPlug.Me.AddOpened(path);
-                General.Interface.DisplayStatus(StatusType.Info, "Selected script '" + Path.GetFileName(scriptPath) + "', have fun.");
+                General.Interface.DisplayStatus(StatusType.Info, "Selected script '" + Path.GetFileName(scriptPath) + "'.");
             }
             else
             {
@@ -176,11 +176,18 @@ namespace CodeImp.DoomBuilder.DBXLua
         public void RecentLua9() { SetCurrentScript(BuilderPlug.Me.GetRecentlyOpened(8)); }
 
         // FIXME THIS IS CLEARLY NOT THE CENTER OF THE SCREEN
+        // consider making the mouse related lua api functions warn in this situation?
         [BeginAction("runluascript")]
         public void DoScriptAtCenterOfScreen() { DoScriptAt(new Vector2D(0f, 0f)); }
 
         [BeginAction("insertitem", BaseAction = true)]
-        public void DoScript() { DoScriptAt(mousemappos); }
+        public void DoScript()
+        {
+            if (General.Interface.MouseInDisplay)
+            {
+                DoScriptAt(mousemappos);
+            }
+        }
 
         public void DoScriptAt(Vector2D mappos)
         {
@@ -202,167 +209,163 @@ namespace CodeImp.DoomBuilder.DBXLua
 
             bool snaptogrid = General.Interface.ShiftState ^ General.Interface.SnapToGrid;
             bool snaptonearest = General.Interface.CtrlState ^ General.Interface.AutoMerge;
+            
+            stopwatch = new Stopwatch();
+            stopwatch.Start();
 
-            if (General.Interface.MouseInDisplay)
+            //string scriptPath = Path.Combine(General.SettingsPath, @"scripts\test.lua");
+            string scriptShortName = Path.GetFileName(scriptPath);
+
+            // Make undo for the draw
+            General.Map.UndoRedo.CreateUndo("Run script '" + scriptShortName + "'");
+                
+            string title = "";
+            if (General.Interface is MainForm)
             {
-                stopwatch = new Stopwatch();
-                stopwatch.Start();
+                title = ((MainForm)General.Interface).Text;
+                ((MainForm)General.Interface).Text = "Running Lua...";
+            }
 
-                //string scriptPath = Path.Combine(General.SettingsPath, @"scripts\test.lua");
-                string scriptShortName = Path.GetFileName(scriptPath);
+            General.Interface.SetCursor(Cursors.AppStarting);
 
-                // Make undo for the draw
-                General.Map.UndoRedo.CreateUndo("Run script '" + scriptShortName + "'");
-                
-                string title = "";
-                if (General.Interface is MainForm)
-                {
-                    title = ((MainForm)General.Interface).Text;
-                    ((MainForm)General.Interface).Text = "Running Lua...";
-                }
+            General.Interface.DisplayStatus(StatusType.Busy, "Executing script '" + scriptShortName + "'!");
+            bScriptSuccess = true;
+            bScriptDone = false;
+            bScriptCancelled = false;
 
-                General.Interface.SetCursor(Cursors.AppStarting);
+            scriptRunner = new ScriptContext(renderer, mousemappos, snaptogrid, snaptonearest);
+            scriptThread = new Thread(new ThreadStart(RunScriptThread));
+            scriptThread.Priority = ThreadPriority.Highest;
+            scriptThread.Start();
 
-                General.Interface.DisplayStatus(StatusType.Busy, "Executing script '" + scriptShortName + "'!");
-                bScriptSuccess = true;
-                bScriptDone = false;
-                bScriptCancelled = false;
+            Thread.Sleep(4);
+            int scriptTime = 4;
 
-                scriptRunner = new ScriptContext(renderer, mousemappos, snaptogrid, snaptonearest);
-                scriptThread = new Thread(new ThreadStart(RunScriptThread));
-                scriptThread.Priority = ThreadPriority.Highest;
-                scriptThread.Start();
-
+            while (!bScriptDone && !bScriptCancelled && scriptTime < 100)
+            {
                 Thread.Sleep(4);
-                int scriptTime = 4;
+                scriptTime += 4;
+            }
 
-                while (!bScriptDone && !bScriptCancelled && scriptTime < 100)
-                {
-                    Thread.Sleep(4);
-                    scriptTime += 4;
-                }
+            while (!bScriptDone && !bScriptCancelled && scriptTime < 3600)
+            {
+                Thread.Sleep(10);
+                scriptTime += 10;
+            }
 
-                while (!bScriptDone && !bScriptCancelled && scriptTime < 3600)
-                {
-                    Thread.Sleep(10);
-                    scriptTime += 10;
-                }
-
-                General.Map.IsMapBeingEdited = true;
-                // if our script isnt done
-                // let's ask the user if they wanna keep waiting
-                if (!bScriptDone && !bScriptCancelled)
-                {
-                    General.Interface.SetCursor(Cursors.Default);
-                    General.Interface.DisplayStatus(StatusType.Busy, "Executing script '" + scriptShortName + "', but it's being slow!");
-
-                    ScriptTimeoutForm.ShowTimeout();
-                }
-
-                scriptThread.Join();
-                General.Map.IsMapBeingEdited = false;
-
-                General.Map.ThingsFilter.Update();
-
-                // Snap to map format accuracy
-                General.Map.Map.SnapAllToAccuracy();
-                
-                // Update cached values
-                General.Map.Map.Update();
-
-                // Update the used textures
-                General.Map.Data.UpdateUsedTextures();
-                
-                // Map is changed
-                General.Map.IsChanged = true;
-
+            General.Map.IsMapBeingEdited = true;
+            // if our script isnt done
+            // let's ask the user if they wanna keep waiting
+            if (!bScriptDone && !bScriptCancelled)
+            {
                 General.Interface.SetCursor(Cursors.Default);
+                General.Interface.DisplayStatus(StatusType.Busy, "Executing script '" + scriptShortName + "', but it's being slow!");
 
-                General.Interface.RedrawDisplay();
+                ScriptTimeoutForm.ShowTimeout();
+            }
 
-                stopwatch.Stop();
+            scriptThread.Join();
+            General.Map.IsMapBeingEdited = false;
 
-                // check for warnings
-                if (bScriptSuccess)
+            General.Map.ThingsFilter.Update();
+
+            // Snap to map format accuracy
+            General.Map.Map.SnapAllToAccuracy();
+                
+            // Update cached values
+            General.Map.Map.Update();
+
+            // Update the used textures
+            General.Map.Data.UpdateUsedTextures();
+                
+            // Map is changed
+            General.Map.IsChanged = true;
+
+            General.Interface.SetCursor(Cursors.Default);
+
+            General.Interface.RedrawDisplay();
+
+            stopwatch.Stop();
+
+            // check for warnings
+            if (bScriptSuccess)
+            {
+                string warningsText = scriptRunner.GetWarnings();
+                if (warningsText.Length > 0)
                 {
-                    string warningsText = scriptRunner.GetWarnings();
-                    if (warningsText.Length > 0)
-                    {
-                        string debugLog = scriptRunner.DebugLog;
-                        if (debugLog.Length > 0)
-                        {
-                            warningsText += "\nSCRIPT DEBUG LOG:\n" + debugLog;
-                        }
-                        warningsText += debugLog;
-
-                        if (ScriptWarningForm.AskUndo(warningsText))
-                        {
-                            bScriptSuccess = false;
-                        }
-                    }
-                }
-
-                // actual success
-                if(bScriptSuccess)
-                {
-                    General.Interface.DisplayStatus(StatusType.Info,
-                        "Lua script  '" + scriptShortName + "' success in "
-                        + (stopwatch.Elapsed.TotalMilliseconds / 1000d).ToString("########0.00")
-                        + " seconds.");
-
-                    string scriptLog = scriptRunner.ScriptLog;
-                    if (scriptLog.Length > 0)
-                    {
-                        ScriptMessageForm.ShowMessage(scriptLog);
-                    }
-                }
-                else
-                {
-                    // okay failure
-                    General.Map.UndoRedo.WithdrawUndo();
-
-                    General.Interface.DisplayStatus(StatusType.Warning,
-                        "Lua script '" + scriptShortName + "' failed in "
-                        + (stopwatch.Elapsed.TotalMilliseconds / 1000d).ToString("########0.00")
-                        + " seconds.");
-
-                    string errorText = scriptRunner.errorText;
-
-                    string warnings = scriptRunner.GetWarnings();
-
-                    if (warnings.Length > 0)
-                    {
-                        errorText += "\nSCRIPT WARNING:\n" + warnings;
-                    }
-
-                    string scriptLog = scriptRunner.ScriptLog;
-                    if (scriptLog.Length > 0)
-                    {
-                        errorText += "\nSCRIPT LOG:\n" + scriptLog;
-                    }
-
                     string debugLog = scriptRunner.DebugLog;
                     if (debugLog.Length > 0)
                     {
-                        errorText += "\nSCRIPT DEBUG LOG:\n" + debugLog;
+                        warningsText += "\nSCRIPT DEBUG LOG:\n" + debugLog;
                     }
+                    warningsText += debugLog;
 
-                    if (errorText.Length > 0)
+                    if (ScriptWarningForm.AskUndo(warningsText))
                     {
-                        ScriptErrorForm.ShowError(errorText);
+                        bScriptSuccess = false;
                     }
-                    else
-                    {
-                        ScriptErrorForm.ShowError("unable to produce error message. possibly a big problem");
-                    }
-                } // else error
-
-                if (General.Interface is MainForm)
-                {
-                    ((MainForm)General.Interface).Text = title;
                 }
-            } // if mouseindisplay
-            // add support for mouseless scripts 
+            }
+
+            // actual success
+            if(bScriptSuccess)
+            {
+                General.Interface.DisplayStatus(StatusType.Info,
+                    "Lua script  '" + scriptShortName + "' success in "
+                    + (stopwatch.Elapsed.TotalMilliseconds / 1000d).ToString("########0.00")
+                    + " seconds.");
+
+                string scriptLog = scriptRunner.ScriptLog;
+                if (scriptLog.Length > 0)
+                {
+                    ScriptMessageForm.ShowMessage(scriptLog);
+                }
+            }
+            else
+            {
+                // okay failure
+                General.Map.UndoRedo.WithdrawUndo();
+
+                General.Interface.DisplayStatus(StatusType.Warning,
+                    "Lua script '" + scriptShortName + "' failed in "
+                    + (stopwatch.Elapsed.TotalMilliseconds / 1000d).ToString("########0.00")
+                    + " seconds.");
+
+                string errorText = scriptRunner.errorText;
+
+                string warnings = scriptRunner.GetWarnings();
+
+                if (warnings.Length > 0)
+                {
+                    errorText += "\nSCRIPT WARNING:\n" + warnings;
+                }
+
+                string scriptLog = scriptRunner.ScriptLog;
+                if (scriptLog.Length > 0)
+                {
+                    errorText += "\nSCRIPT LOG:\n" + scriptLog;
+                }
+
+                string debugLog = scriptRunner.DebugLog;
+                if (debugLog.Length > 0)
+                {
+                    errorText += "\nSCRIPT DEBUG LOG:\n" + debugLog;
+                }
+
+                if (errorText.Length > 0)
+                {
+                    ScriptErrorForm.ShowError(errorText);
+                }
+                else
+                {
+                    ScriptErrorForm.ShowError("unable to produce error message. possibly a big problem");
+                }
+            } // else error
+
+            if (General.Interface is MainForm)
+            {
+                ((MainForm)General.Interface).Text = title;
+            }
         }
 
         public static void RunScriptThread()

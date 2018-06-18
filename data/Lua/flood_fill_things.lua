@@ -157,4 +157,7 @@ if #selected_things == 2 then
 else
 	-- let's let the user know what went wrong
 	UI.LogLine("You need to select exactly 2 things.")
+	UI.LogLine("")
+	UI.LogLine("The first thing will determine the resulting things.")
+	UI.LogLine("The angle of both will be used to determine the angles of the new things.")
 end
