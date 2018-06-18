@@ -170,8 +170,11 @@ namespace CodeImp.DoomBuilder.CommentsPanel
 		// This finds all comments and updates the list
 		public void UpdateList()
 		{
-			//bool firstitem = (grid.Rows.Count == 0);
-
+            //bool firstitem = (grid.Rows.Count == 0);
+            if (General.Map.IsMapBeingEdited)
+            {
+                return;
+            }
 			if(!preventupdate)
 			{
 				// Update vertices
@@ -619,6 +622,11 @@ namespace CodeImp.DoomBuilder.CommentsPanel
 		// Check if the add comment box should be enabled
 		private void enabledtimer_Tick(object sender, EventArgs e)
 		{
+            if (General.Map.IsMapBeingEdited)
+            {
+                return;
+            }
+
 			if(General.Editing.Mode.GetType().Name == "VerticesMode")
 				addcommentgroup.Enabled = (General.Map.Map.SelectedVerticessCount > 0);
 			else if(General.Editing.Mode.GetType().Name == "LinedefsMode")

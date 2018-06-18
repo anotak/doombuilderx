@@ -57,6 +57,8 @@ namespace CodeImp.DoomBuilder
 		// Status
 		private bool changed;
 		private bool scriptschanged;
+        private int map_being_edited; // ano - see IsMapBeingEdited
+        private object map_edited_lock; // ano - see IsMapBeingEdited
 		
 		// Map information
 		private string filetitle;
@@ -118,6 +120,14 @@ namespace CodeImp.DoomBuilder
 		public bool IsScriptsWindowOpen { get { return (scriptwindow != null) && !scriptwindow.IsDisposed; } }
         public bool IsSaving { get { return issaving; } }
 
+        // ano - UI stuff on a timer should check this before interacting with the map
+        // in case the map is being edited in another thread
+        public bool IsMapBeingEdited
+        {
+            get { lock (map_edited_lock) { return map_being_edited > 0; } }
+            set { lock (map_edited_lock) { if (value) { map_being_edited++; } else { map_being_edited--; } } }
+        }
+
         // ano - gzdb plugin interop
         public bool UDMF { get { return config.UDMF; } }
         public bool HEXEN { get { return config.HEXEN; } }
@@ -146,6 +156,9 @@ namespace CodeImp.DoomBuilder
 			thingsfilter = new NullThingsFilter();
 			errors = new List<CompilerError>();
             issaving = false;
+
+            map_being_edited = 0;
+            map_edited_lock = new object();
         }
 		
 		// Disposer
