@@ -9,7 +9,7 @@ if you already have DB2 or GZDB working, you already have these:
 
 [.NET 3.5](https://www.microsoft.com/en-us/download/details.aspx?id=21)
 and
-[DirectX 9.0 Runtime](https://www.microsoft.com/en-us/download/details.aspx?id=35&44F86079-8679-400C-BFF2-9CA5F2BCBDFC=1)
+[DirectX 9.0c Runtime](https://www.microsoft.com/en-us/download/details.aspx?id=35) (This is not included in DirectX10 or 11)
 
 ## Authors
 
