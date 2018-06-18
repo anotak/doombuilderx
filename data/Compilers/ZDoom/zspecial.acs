@@ -264,7 +264,7 @@ special
 	271:Stairs_BuildUpDoomSync(4),
 	272:Stairs_BuildDownDoomSync(4),
 	
-	// New additions can go avove 255 now.
+	// New additions can go above 255 now.
 	273:Stairs_BuildUpDoomCrush(5),
 	274:Door_AnimatedClose(2),
 	275:Floor_Stop(1),
@@ -273,6 +273,8 @@ special
 	278:Sector_SetCeilingGlow(5),
 	279:Floor_MoveToValueAndCrush(4, 5),
 	280:Ceiling_MoveToValueAndCrush(4, 5),
+	281:Line_SetAutomapFlags(3),
+	282:Line_SetAutomapStyle(2),
 	
 	// new to Eternity
 //	300:Portal_Define(5),
@@ -427,6 +429,7 @@ special
 	// Eternity's
 	-300:GetLineX(3),
 	-301:GetLineY(3),
+	-302:SetAirFriction(1),
 	
 	// GZDoom OpenGL
 	-400:SetSectorGlow(6),
