@@ -615,11 +615,6 @@ but by the problems it creates."
 
 - Sandy Petersen
 %%
-"Contrast is how we make any sense of the world. We look for differences and carve stuff up into groups based on those differences."
-
-- Eevee,
-You Should Make a Doom Level, Part 2: Design 
-%%
 "You can't confuse the player, they should see where they want to go. They just have to figure out how to do it."
 
 - Dario Casali,
@@ -693,3 +688,41 @@ Counterclockwise will default to outward.
 "A donut is a very specialized linedef type that lowers a pillar in a surrounding pool, while raising the pool and changing its texture and type. "
 
 - boomref.txt, TeamTNT
+%%
+"A rock pile ceases to be a rock pile the moment a single man contemplates it, bearing within him the image of a cathedral."
+
+- Antoine de Saint-Exupery
+%%
+Try your mapmaking process backwards.
+%%
+"Placing monsters as turrets can turn up the pressure on the player and increase tension. A turret is any kind of monster that can fire at the player from long ranges without actually coming into contact with the player."
+
+- Ghastly and Grymmoire,
+Monster Placement
+%%
+"Allowing a monster to roam around the map relatively freely can refresh the experience because the player might find the monster in a different location each time the map is played."
+
+- Ghastly and Grymmoire,
+Monster Placement
+%%
+"When you place an imp on the left side of a room, you don't have to place one on the right side of the room as well."
+
+- Skillsaw
+%%
+"Do not undervalue patience - taking your time, refining your ideas and your skills will eventually lead to better and better maps. Not everything you pump out will be a masterpiece, that's okay, even 'bad' maps give you good experience. "
+
+- Dragonfly
+%%
+"Attack the player from different angles/heights. Having your back to a wall and holding mouse1 is boring, Add some ledges, pits, obstacles, etc."
+
+- Ribbiks
+%%
+"Light adds depth, mood, meaning, and context to your game. Don't leave it until the last minute, don't treat it as an afterthought, and don't be scared of it -- you just gotta put the time and work into it."
+
+- Robert Yang,
+How To Light A Level
+%%
+"The shape and structure in a well-designed level is a subtle means of communicating with the player, inspiring them to use the actions we've provided for them to overcome obstacles intuitively."
+
+- Emilia Schatz,
+Defining Environment Language for Video Games
