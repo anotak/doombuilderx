@@ -213,7 +213,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
                 // Make undo for the draw
                 General.Map.UndoRedo.CreateUndo("Run script '" + scriptShortName + "'");
-
+                
                 string title = "";
                 if (General.Interface is MainForm)
                 {
@@ -248,6 +248,7 @@ namespace CodeImp.DoomBuilder.DBXLua
                     scriptTime += 10;
                 }
 
+                General.Map.IsMapBeingEdited = true;
                 // if our script isnt done
                 // let's ask the user if they wanna keep waiting
                 if (!bScriptDone && !bScriptCancelled)
@@ -259,6 +260,7 @@ namespace CodeImp.DoomBuilder.DBXLua
                 }
 
                 scriptThread.Join();
+                General.Map.IsMapBeingEdited = false;
 
                 General.Map.ThingsFilter.Update();
 

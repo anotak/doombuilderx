@@ -81,6 +81,24 @@ namespace CodeImp.DoomBuilder.DBXLua
             return output;
         }
 
+        public static List<LuaSidedef> GetSelectedSidedefs()
+        {
+            List<LuaSidedef> output = new List<LuaSidedef>();
+            ICollection<Linedef> selected = General.Map.Map.GetSelectedLinedefs(true);
+            foreach (Linedef l in selected)
+            {
+                if (l.Front != null)
+                {
+                    output.Add(new LuaSidedef(l.Front));
+                }
+                if (l.Back != null)
+                {
+                    output.Add(new LuaSidedef(l.Back));
+                }
+            }
+            return output;
+        }
+
         public static List<LuaVertex> GetSelectedVertices()
         {
             List<LuaVertex> output = new List<LuaVertex>();
@@ -154,6 +172,10 @@ namespace CodeImp.DoomBuilder.DBXLua
                 sector = null;
             }
 
+            if (sector == null)
+            {
+                return null;
+            }
             return new LuaSector(sector);
         }
 
