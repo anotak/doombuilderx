@@ -18,7 +18,7 @@ and
 and the rest listed alphabetically
 
 * Anotak (Doom Builder X)
-* Anders Anstrad (some DB2 code)
+* Anders Astrand (some DB2 code)
 * Andrew Apted (included glBSP (like DB2))
 * Boris (several plugins used, contributed source to DB2)
 * Randi Heit (included Zdoom ACC and ZDBSP (like DB2))
