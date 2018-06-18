@@ -446,7 +446,7 @@ namespace CodeImp.DoomBuilder.Editing
 							File.WriteAllBytes(savefile.FileName, data.ToArray());
 
                             // ano - save initial directory ourselves
-                            General.Settings.WriteSetting("prefabinitialdirectory", Path.GetDirectoryName(openfile.FileName));
+                            General.Settings.WriteSetting("prefabinitialdirectory", Path.GetDirectoryName(savefile.FileName));
                         }
 						catch(Exception e)
 						{
