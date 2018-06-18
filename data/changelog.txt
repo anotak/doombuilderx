@@ -4,8 +4,11 @@ based on code by anotak, CodeImp, MaxED, boris_i, ZZYZX
 version 2.1.3.12
 =====================
 - texture categories for subfolders/subwads inside pk3 resource archives
+- moved "Grid Increase" / "Grid Decrease" to be beside each other in the hotkey setup
 - fixed a minor bug with displaying texture counts in the browser
 - merged texture and flat browser source code to reduce code duplication (this shouldn't have any effects that are noticeable to you, but please, keep an eye for new bugs with the texture browser)
+- minor tweaks to status bar flavor text
+- made it so that the initial directory for the file dialog is separate based on whether it's wads, resources, or prefabs
 
 version 2.1.3.10
 =====================

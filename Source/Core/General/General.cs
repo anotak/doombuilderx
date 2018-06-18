@@ -1158,7 +1158,16 @@ namespace CodeImp.DoomBuilder
 
 			// Open map file dialog
 			openfile = new OpenFileDialog();
-			openfile.Filter = "Doom WAD Files (*.wad)|*.wad";
+
+            // ano - we remember locations for different things separately
+            // so we have to keep track of it ourselves
+            string initial_directory = General.Settings.ReadSetting("mapinitialdirectory", "");
+            if (Directory.Exists(initial_directory))
+            {
+                openfile.InitialDirectory = initial_directory;
+            }
+
+            openfile.Filter = "Doom WAD Files (*.wad)|*.wad";
 			openfile.Title = "Open Map";
 			openfile.AddExtension = false;
 			openfile.CheckFileExists = true;
@@ -1169,8 +1178,11 @@ namespace CodeImp.DoomBuilder
 				// Update main window
 				mainwindow.Update();
 
-				// Open map file
-				OpenMapFile(openfile.FileName, null);
+                // ano - save initial directory ourselves
+                General.Settings.WriteSetting("mapinitialdirectory", Path.GetDirectoryName(openfile.FileName));
+
+                // Open map file
+                OpenMapFile(openfile.FileName, null);
 			}
 
 			openfile.Dispose();
@@ -1340,7 +1352,16 @@ namespace CodeImp.DoomBuilder
 
 			// Show save as dialog
 			savefile = new SaveFileDialog();
-			savefile.Filter = "Doom WAD Files (*.wad)|*.wad";
+
+            // ano - we remember locations for different things separately
+            // so we have to keep track of it ourselves
+            string initial_directory = General.Settings.ReadSetting("mapinitialdirectory", "");
+            if (Directory.Exists(initial_directory))
+            {
+                savefile.InitialDirectory = initial_directory;
+            }
+
+            savefile.Filter = "Doom WAD Files (*.wad)|*.wad";
 			savefile.Title = "Save Map As";
 			savefile.AddExtension = true;
 			savefile.CheckPathExists = true;
@@ -1358,7 +1379,11 @@ namespace CodeImp.DoomBuilder
 				// Because some muppets use Save As even when saving to the same file.
 				string currentfilename = (map.FilePathName.Length > 0) ? Path.GetFullPath(map.FilePathName).ToLowerInvariant() : "";
 				string savefilename = Path.GetFullPath(savefile.FileName).ToLowerInvariant();
-				if(currentfilename == savefilename)
+                
+                // ano - save initial directory ourselves
+                General.Settings.WriteSetting("mapinitialdirectory", Path.GetDirectoryName(savefile.FileName));
+
+                if (currentfilename == savefilename)
 				{
 					SaveMap();
 				}
@@ -1425,7 +1450,16 @@ namespace CodeImp.DoomBuilder
 
 			// Show save as dialog
 			savefile = new SaveFileDialog();
-			savefile.Filter = "Doom WAD Files (*.wad)|*.wad";
+
+            // ano - we remember locations for different things separately
+            // so we have to keep track of it ourselves
+            string initial_directory = General.Settings.ReadSetting("mapinitialdirectory", "");
+            if (Directory.Exists(initial_directory))
+            {
+                savefile.InitialDirectory = initial_directory;
+            }
+
+            savefile.Filter = "Doom WAD Files (*.wad)|*.wad";
 			savefile.Title = "Save Map Into";
 			savefile.AddExtension = true;
 			savefile.CheckPathExists = true;
@@ -1433,6 +1467,9 @@ namespace CodeImp.DoomBuilder
 			savefile.ValidateNames = true;
 			if(savefile.ShowDialog(mainwindow) == DialogResult.OK)
 			{
+                // ano - save initial directory ourselves
+                General.Settings.WriteSetting("mapinitialdirectory", Path.GetDirectoryName(savefile.FileName));
+
                 // ano - measure saving time
                 double save_start_time = stopwatch.Elapsed.TotalMilliseconds;
 

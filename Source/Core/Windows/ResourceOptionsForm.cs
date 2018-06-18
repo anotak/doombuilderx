@@ -173,34 +173,56 @@ namespace CodeImp.DoomBuilder.Windows
 		// Browse WAD File clicked
 		private void browsewad_Click(object sender, EventArgs e)
 		{
-			// Browse for WAD File
-			if(wadfiledialog.ShowDialog(this) == DialogResult.OK)
+            // ano - we remember locations for different things separately
+            // so we have to keep track of it ourselves
+            string initial_directory = General.Settings.ReadSetting("resourceinitialdirectory", "");
+            if (Directory.Exists(initial_directory))
+            {
+                wadfiledialog.InitialDirectory = initial_directory;
+            }
+
+            // Browse for WAD File
+            if (wadfiledialog.ShowDialog(this) == DialogResult.OK)
 			{
 				// Use this file
 				wadlocation.Text = wadfiledialog.FileName;
-			}
+
+                // ano - save initial directory ourselves
+                General.Settings.WriteSetting("resourceinitialdirectory", Path.GetDirectoryName(wadfiledialog.FileName));
+            }
 		}
 
 		// Browse Directory clicked
 		private void browsedir_Click(object sender, EventArgs e)
 		{
-			// Browse for Directory
-			if(dirdialog.ShowDialog(this) == DialogResult.OK)
+            // Browse for Directory
+            if (dirdialog.ShowDialog(this) == DialogResult.OK)
 			{
 				// Use this directory
 				dirlocation.Text = dirdialog.SelectedPath;
-			}
+            }
 		}
 
 		// Browse PK3 File clicked
 		private void browsepk3_Click(object sender, EventArgs e)
 		{
-			// Browse for PK3 File
-			if(pk3filedialog.ShowDialog(this) == DialogResult.OK)
+            // ano - we remember locations for different things separately
+            // so we have to keep track of it ourselves
+            string initial_directory = General.Settings.ReadSetting("resourceinitialdirectory", "");
+            if (Directory.Exists(initial_directory))
+            {
+                wadfiledialog.InitialDirectory = initial_directory;
+            }
+
+            // Browse for PK3 File
+            if (pk3filedialog.ShowDialog(this) == DialogResult.OK)
 			{
 				// Use this file
 				pk3location.Text = pk3filedialog.FileName;
-			}
+                
+                // ano - save initial directory ourselves
+                General.Settings.WriteSetting("resourceinitialdirectory", Path.GetDirectoryName(wadfiledialog.FileName));
+            }
 		}
 
 		// Link clicked

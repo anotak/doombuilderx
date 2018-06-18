@@ -422,7 +422,16 @@ namespace CodeImp.DoomBuilder.Editing
 					Cursor.Current = oldcursor;
 					
 					SaveFileDialog savefile = new SaveFileDialog();
-					savefile.Filter = "Doom Builder Prefabs (*.dbprefab)|*.dbprefab";
+
+                    // ano - we remember locations for different things separately
+                    // so we have to keep track of it ourselves
+                    string initial_directory = General.Settings.ReadSetting("prefabinitialdirectory", "");
+                    if (Directory.Exists(initial_directory))
+                    {
+                        savefile.InitialDirectory = initial_directory;
+                    }
+
+                    savefile.Filter = "Doom Builder Prefabs (*.dbprefab)|*.dbprefab";
 					savefile.Title = "Save Prefab As";
 					savefile.AddExtension = true;
 					savefile.CheckPathExists = true;
@@ -435,7 +444,10 @@ namespace CodeImp.DoomBuilder.Editing
 							Cursor.Current = Cursors.WaitCursor;
 							if(File.Exists(savefile.FileName)) File.Delete(savefile.FileName);
 							File.WriteAllBytes(savefile.FileName, data.ToArray());
-						}
+
+                            // ano - save initial directory ourselves
+                            General.Settings.WriteSetting("prefabinitialdirectory", Path.GetDirectoryName(openfile.FileName));
+                        }
 						catch(Exception e)
 						{
 							Cursor.Current = oldcursor;
@@ -484,7 +496,16 @@ namespace CodeImp.DoomBuilder.Editing
 						Cursor oldcursor = Cursor.Current;
 
 						OpenFileDialog openfile = new OpenFileDialog();
-						openfile.Filter = "Doom Builder Prefabs (*.dbprefab)|*.dbprefab";
+
+                        // ano - we remember locations for different things separately
+                        // so we have to keep track of it ourselves
+                        string initial_directory = General.Settings.ReadSetting("prefabinitialdirectory", "");
+                        if (Directory.Exists(initial_directory))
+                        {
+                            openfile.InitialDirectory = initial_directory;
+                        }
+
+                        openfile.Filter = "Doom Builder Prefabs (*.dbprefab)|*.dbprefab";
 						openfile.Title = "Open Prefab";
 						openfile.AddExtension = false;
 						openfile.CheckFileExists = true;
@@ -498,7 +519,9 @@ namespace CodeImp.DoomBuilder.Editing
 							{
 								Cursor.Current = Cursors.WaitCursor;
 								stream = File.OpenRead(openfile.FileName);
-							}
+                                // ano - save initial directory ourselves
+                                General.Settings.WriteSetting("prefabinitialdirectory", Path.GetDirectoryName(openfile.FileName));
+                            }
 							catch(Exception e)
 							{
 								Cursor.Current = oldcursor;
