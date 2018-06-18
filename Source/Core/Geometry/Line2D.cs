@@ -109,6 +109,7 @@ namespace CodeImp.DoomBuilder.Geometry
 		}
 
 		// This tests if the line intersects with the given line coordinates
+        // ano - u_ray must be > 0.0f and < 1.0f for it to be an intersection
 		public static bool GetIntersection(Vector2D v1, Vector2D v2, float x3, float y3, float x4, float y4, out float u_ray, out float u_line)
 		{
 			// Calculate divider
