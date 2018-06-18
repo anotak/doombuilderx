@@ -556,7 +556,8 @@ namespace CodeImp.DoomBuilder.Config
                         if (defaulttexture.StartsWith("SW")
                             || defaulttexture.Contains("DOOR")
                             || defaulttexture.StartsWith("DBRAIN")
-                            || defaulttexture.StartsWith("MID"))
+                            || defaulttexture.StartsWith("MID")
+                            || defaulttexture.StartsWith("SKY"))
                         {
                             defaulttexture = General.Map.Data.OnlyTextureNames[General.Random.Next(texturecount)];
                         }
