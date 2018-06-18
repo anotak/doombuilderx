@@ -76,6 +76,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             script = new Script(CoreModules.Preset_SoftSandbox);
 
             script.Globals["Vector2D"] = typeof(LuaVector2D);
+            script.Globals["Vector3D"] = typeof(LuaVector3D);
             script.Globals["Map"] = typeof(LuaMap);
             script.Globals["Pen"] = typeof(Pen);
             script.Globals["UI"] = typeof(LuaUI);
@@ -115,6 +116,12 @@ namespace CodeImp.DoomBuilder.DBXLua
                 errorText = "Unable to open file:\n" + e.Message;
                 return false;
             }
+        }
+
+        public void Kill()
+        {
+            script.AttachDebugger(new DBXDebugger());
+            script.DebuggerEnabled = true;
         }
 
         public string GetWarnings()

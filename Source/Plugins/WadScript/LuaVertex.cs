@@ -141,6 +141,9 @@ namespace CodeImp.DoomBuilder.DBXLua
         // the vertex's lines overlap other lines
         public bool TryToMove(float x, float y)
         {
+            // FIXME we also need to test by drawing a line between old point and new point
+            // and checking sidedefs of any linedefs intersecting this line to make sure we end up in the same sector
+
             if (float.IsNaN(x) || float.IsNaN(y) ||
                    float.IsInfinity(x) || float.IsInfinity(y))
             {
@@ -157,14 +160,16 @@ namespace CodeImp.DoomBuilder.DBXLua
                 vertex.SnapToAccuracy();
                 return true;
             }
-            
-            if (LuaMap.NearestSector(position).sector.Index != LuaMap.NearestSector(new LuaVector2D(x, y)).sector.Index)
-            {
-                return false;
-            }
 
-            Vector2D oldPosition = vertex.Position;
-            vertex.Move(new Vector2D(x, y));
+            //x = (float)Math.Round(x, General.Map.FormatInterface.VertexDecimals);
+            //y = (float)Math.Round(y, General.Map.FormatInterface.VertexDecimals);
+            
+            Vector2D old_position = vertex.Position;
+
+            // we move so that we can do our test with the lines properly
+            // we will move back if our tests fail
+            Vector2D new_position = new Vector2D(x, y);
+            vertex.Move(new_position);
             vertex.SnapToAccuracy();
 
             // create a bounding box for our vertex's lines
@@ -189,6 +194,17 @@ namespace CodeImp.DoomBuilder.DBXLua
                     );
             }
 
+            // include "line" of old_vertex -> new vertex to bbox
+            bbox_x1 = Math.Min(bbox_x1, x);
+            bbox_x2 = Math.Max(bbox_x2, x);
+            bbox_y1 = Math.Min(bbox_y1, y);
+            bbox_y2 = Math.Max(bbox_y2, y);
+
+            bbox_x1 = Math.Min(bbox_x1, old_position.x);
+            bbox_x2 = Math.Max(bbox_x2, old_position.x);
+            bbox_y1 = Math.Min(bbox_y1, old_position.y);
+            bbox_y2 = Math.Max(bbox_y2, old_position.y);
+
             // a little wiggle room for floating point imprecisions
             bbox_x1 -= 0.001f;
             bbox_x2 += 0.001f;
@@ -197,7 +213,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
             List<Linedef> map_test_lines = new List<Linedef>(General.Map.Map.Linedefs.Count / 3);
 
-            // compare all the map's lines to the bounding boxes,
+            // compare all the map's lines to the bounding box,
             // rejecting those that are outside
             foreach (Linedef l in General.Map.Map.Linedefs)
             {
@@ -247,6 +263,96 @@ namespace CodeImp.DoomBuilder.DBXLua
 
             int line_count = map_test_lines.Count;
 
+            
+            // we draw a 'line' from oldposition to new position
+            if(line_count > 0)
+            {
+                Line2D old_to_new = new Line2D(old_position, x, y);
+                // we need to find the farthest and the closest intersection
+                
+                float close_dist = float.MaxValue;
+                float far_dist = float.MinValue;
+                int close_index = -1;
+                int far_index = -1;
+
+                for (int i = 0; i < line_count; i++)
+                {
+                    Linedef map_line = map_test_lines[i];
+
+                    float u_ray = 0.0f;
+
+                    if (map_line.Line.GetIntersection(old_to_new, out u_ray))
+                    {
+
+                        if (u_ray < close_dist)
+                        {
+                            close_dist = u_ray;
+                            close_index = i;
+                        }
+                        if (u_ray > far_dist)
+                        {
+                            far_dist = u_ray;
+                            far_index = i;
+                        }
+                    }
+                }
+
+                // if we actually crossed any lines at all
+                // don't need to check if far_index was set because if one line was crossed, both will be set
+                if (close_index != -1)
+                {
+                    // we have to check if the oldposition vertex side's sector is
+                    // the same sector as the newposition vertex side's sector
+                    Sector old_sector = null;
+                    Sector new_sector = null;
+
+                    if (map_test_lines[close_index].SideOfLine(old_position) < 0f)
+                    {
+                        if (map_test_lines[close_index].Front != null)
+                        {
+                            old_sector = map_test_lines[close_index].Front.Sector;
+                        }
+                    } else {
+                        if (map_test_lines[close_index].Back != null)
+                        {
+                            old_sector = map_test_lines[close_index].Back.Sector;
+                        }
+                    }
+
+                    if (map_test_lines[far_index].SideOfLine(new_position) < 0f)
+                    {
+                        if (map_test_lines[far_index].Front != null)
+                        {
+                            new_sector = map_test_lines[far_index].Front.Sector;
+                        }
+                    }
+                    else
+                    {
+                        if (map_test_lines[far_index].Back != null)
+                        {
+                            new_sector = map_test_lines[far_index].Back.Sector;
+                        }
+                    }
+
+                    if (new_sector != old_sector)
+                    {
+                        // some debug stuff
+                        /*
+                        string logline = new_sector == null ? "n" : new_sector.Index.ToString();
+                        logline += " -> ";
+                        logline += old_sector == null ? "n" : old_sector.Index.ToString();
+                        LuaUI.LogLine(logline);
+                        */
+                        vertex.Move(old_position);
+                        return false;
+                    }
+                }
+
+            } // done checking line from old -> new
+            
+
+            // test each of our lines to make sure that they
+            // do not overlap with any of the not-our lines
             foreach (Linedef our_line in vertex.Linedefs)
             {
                 Line2D l2d = our_line.Line;
@@ -266,7 +372,7 @@ namespace CodeImp.DoomBuilder.DBXLua
                             || vertex.Position == map_line.End.Position
                             )
                         {
-                            vertex.Move(oldPosition);
+                            vertex.Move(old_position);
                             return false;
                         }
                     }

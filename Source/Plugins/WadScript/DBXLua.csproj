@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuilderPlug.cs" />
+    <Compile Include="DBXDebugger.cs" />
     <Compile Include="LuaDataManager.cs" />
     <Compile Include="LuaLinedef.cs" />
     <Compile Include="LuaMap.cs" />
@@ -76,6 +77,12 @@
       <DependentUpon>ScriptMessageForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ScriptMode.cs" />
+    <Compile Include="ScriptTimeoutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScriptTimeoutForm.Designer.cs">
+      <DependentUpon>ScriptTimeoutForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ScriptWarningForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,6 +105,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ScriptMessageForm.resx">
       <DependentUpon>ScriptMessageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScriptTimeoutForm.resx">
+      <DependentUpon>ScriptTimeoutForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ScriptWarningForm.resx">
       <DependentUpon>ScriptWarningForm.cs</DependentUpon>

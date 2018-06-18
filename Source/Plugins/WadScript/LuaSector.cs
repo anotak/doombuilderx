@@ -226,7 +226,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (!s.IsDisposed)
                 {
-                    output.Append(DynValue.FromObject(ScriptContext.context.script, s));
+                    output.Append(DynValue.FromObject(ScriptContext.context.script, new LuaSidedef(s)));
                 }
             }
 

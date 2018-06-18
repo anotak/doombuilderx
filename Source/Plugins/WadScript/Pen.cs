@@ -37,13 +37,12 @@ namespace CodeImp.DoomBuilder.DBXLua
             position = newpos;
             drawnVertices = new List<PenVertex>();
             snaptogrid = true;
-            stitchrange = 1f;
+            stitchrange = 20f;
         }
 
         public static Pen FromClick()
         {
             return FromClick(ScriptContext.context.snaptogrid, ScriptContext.context.snaptonearest);
-            
         }
 
         public static Pen FromClick(bool snaptogrid)
@@ -186,6 +185,8 @@ namespace CodeImp.DoomBuilder.DBXLua
             // Make the drawing
             if (!Tools.DrawLines(d))
             {
+                // ano - i really wish i could give a better error than this, the whole plugin api thing
+                // is a bit annoying.
                 throw new ScriptRuntimeException("Unknown failure drawing pen vertices!");
             }
 
@@ -206,7 +207,6 @@ namespace CodeImp.DoomBuilder.DBXLua
 
         // ano - negative stitchrange defaults to builderplug.me.stitchrange which comes from config file
         // most of this is codeimps code
-        // FIXME PREVIOUS COMMENT IS WRONG BUT MAKE IT RIGHT ???
         [MoonSharpHidden]
         internal PenVertex GetVertexAt(
             Vector2D mappos, bool snaptonearest, bool snaptogrid, float stitchrange,
@@ -217,7 +217,10 @@ namespace CodeImp.DoomBuilder.DBXLua
 
             float vrange = stitchrange;
 
-            //float vrange = stitchrange;
+            if (vrange <= 0)
+            {
+                vrange = BuilderPlug.Me.StitchRange;
+            }
 
             // Snap to nearest?
             if (snaptonearest)

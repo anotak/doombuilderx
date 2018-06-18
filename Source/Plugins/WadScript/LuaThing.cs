@@ -502,11 +502,9 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 throw new ScriptRuntimeException("Thing has been disposed, can't SetAngleDoom()!");
             }
-            LuaUI.LogLine(thing.AngleDoom.ToString() + " -> " + newangle);
             // i know it's genuinely weird that this looks like the
             // same call as radians but trust me
             thing.Rotate(newangle);
-            LuaUI.LogLine(thing.AngleDoom.ToString());
         }
 
         public float GetAngleRadians()

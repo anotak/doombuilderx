@@ -12,20 +12,20 @@ namespace CodeImp.DoomBuilder.DBXLua
     [MoonSharpUserData]
     public class LuaDataManager
     {
-        public static bool GetTextureExists(string name)
+        public static bool DoesTextureExist(string name)
         {
             if (name == null)
             {
-                throw new ScriptRuntimeException("Name is nil, can't GetTextureExists() (not enough arguments?)");
+                throw new ScriptRuntimeException("Name is nil, can't DoesTextureExist() (not enough arguments?)");
             }
             return General.Map.Data.GetTextureExists(name);
         }
 
-        public static bool GetFlatExists(string name)
+        public static bool DoesFlatExist(string name)
         {
             if (name == null)
             {
-                throw new ScriptRuntimeException("Name is nil, can't GetFlatExists() (not enough arguments?)");
+                throw new ScriptRuntimeException("Name is nil, can't DoesFlatExist() (not enough arguments?)");
             }
             return General.Map.Data.GetFlatExists(name);
         }

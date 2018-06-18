@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using System.Threading;
 
 using CodeImp.DoomBuilder.Windows;
 using CodeImp.DoomBuilder.IO;
@@ -30,12 +31,36 @@ namespace CodeImp.DoomBuilder.DBXLua
               Volatile = false)]
     public class ScriptMode : ClassicMode
     {
+        internal static string scriptPath;
+        internal static Thread scriptThread;
+        internal static ScriptContext scriptRunner;
+        internal static bool bScriptSuccess;
+        internal static bool bScriptDone;
+        internal static bool bScriptCancelled;
+        internal static Stopwatch stopwatch;
+
+        public ScriptMode()
+            : base()
+        {
+            bScriptSuccess = true;
+            bScriptDone = false;
+            bScriptCancelled = false;
+            scriptPath = General.Settings.ReadPluginSetting("selectedscriptpath", "");
+
+            // load default hello script
+            if (!File.Exists(scriptPath))
+            {
+                scriptPath = Path.Combine(General.AppPath, @"Lua\hello.lua");
+            }
+        }
+
+
         // ano - this code borrowed from codeimp's statistics plug
         public override void OnEngage()
         {
             base.OnEngage();
-            
-            renderer.SetPresentation(Presentation.Standard);
+            BuilderPlug.Me.ShowMenu();
+            renderer.SetPresentation(Presentation.Things);
         }
 
         // ano - this code borrowed from codeimp's statistics plug
@@ -43,7 +68,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         public override void OnCancel()
         {
             base.OnCancel();
-
+            BuilderPlug.Me.HideMenu();
             General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
         }
 
@@ -86,20 +111,104 @@ namespace CodeImp.DoomBuilder.DBXLua
             DoScript();
         }
 
+        // pop up a new file browsing dialog window and ask the user what script to run
+        [BeginAction("openluascript")]
+        public void ChooseScript()
+        {
+            OpenFileDialog openfile = new OpenFileDialog();
+            string initial_directory = General.Settings.ReadPluginSetting("initialdirectory", "");
+            if (!Directory.Exists(initial_directory))
+            {
+                Path.Combine(General.AppPath, @"Lua");
+            }
+            if (Directory.Exists(initial_directory))
+            {
+                openfile.InitialDirectory = initial_directory;
+            }
+            openfile.Filter = "Lua files (*.lua)|*.lua";
+            openfile.Title = "Open Lua Script";
+            openfile.AddExtension = true;
+            openfile.CheckFileExists = true;
+            openfile.Multiselect = false;
+            openfile.ValidateNames = true;
+
+            if (openfile.ShowDialog(General.Interface) == DialogResult.OK)
+            {
+                General.Settings.WritePluginSetting("initialdirectory", Path.GetDirectoryName(openfile.FileName));
+                SetCurrentScript(openfile.FileName);
+            }
+        }
+
+        public void SetCurrentScript(string path)
+        {
+            if (File.Exists(path))
+            {
+                scriptPath = path;
+                General.Settings.WritePluginSetting("selectedscriptpath", scriptPath);
+                BuilderPlug.Me.AddOpened(path);
+                General.Interface.DisplayStatus(StatusType.Info, "Selected script '" + Path.GetFileName(scriptPath) + "', have fun.");
+            }
+            else
+            {
+                General.Interface.DisplayStatus(StatusType.Warning, "Can't find script! :(");
+                BuilderPlug.Me.RemoveOpened(path);
+                General.ShowErrorMessage("The Lua script file " + path + " does not exist.", MessageBoxButtons.OK);
+            }
+        }
+
+        [BeginAction("recentlua1")]
+        public void RecentLua1() { SetCurrentScript(BuilderPlug.Me.GetRecentlyOpened(0)); }
+        [BeginAction("recentlua2")]
+        public void RecentLua2() { SetCurrentScript(BuilderPlug.Me.GetRecentlyOpened(1)); }
+        [BeginAction("recentlua3")]
+        public void RecentLua3() { SetCurrentScript(BuilderPlug.Me.GetRecentlyOpened(2)); }
+        [BeginAction("recentlua4")]
+        public void RecentLua4() { SetCurrentScript(BuilderPlug.Me.GetRecentlyOpened(3)); }
+        [BeginAction("recentlua5")]
+        public void RecentLua5() { SetCurrentScript(BuilderPlug.Me.GetRecentlyOpened(4)); }
+        [BeginAction("recentlua6")]
+        public void RecentLua6() { SetCurrentScript(BuilderPlug.Me.GetRecentlyOpened(5)); }
+        [BeginAction("recentlua7")]
+        public void RecentLua7() { SetCurrentScript(BuilderPlug.Me.GetRecentlyOpened(6)); }
+        [BeginAction("recentlua8")]
+        public void RecentLua8() { SetCurrentScript(BuilderPlug.Me.GetRecentlyOpened(7)); }
+        [BeginAction("recentlua9")]
+        public void RecentLua9() { SetCurrentScript(BuilderPlug.Me.GetRecentlyOpened(8)); }
+
+        // FIXME THIS IS CLEARLY NOT THE CENTER OF THE SCREEN
+        [BeginAction("runluascript")]
+        public void DoScriptAtCenterOfScreen() { DoScriptAt(new Vector2D(0f, 0f)); }
+
         [BeginAction("insertitem", BaseAction = true)]
-        public virtual void DoScript() { DoScriptAt(mousemappos); }
+        public void DoScript() { DoScriptAt(mousemappos); }
 
         public void DoScriptAt(Vector2D mappos)
         {
+            if (scriptPath == "")
+            {
+                General.Interface.DisplayStatus(StatusType.Warning,
+                   "No Lua file selected.");
+                // TODO - think about if this is really the correct way to react
+                ChooseScript();
+                return;
+            }
+            if (!File.Exists(scriptPath))
+            {
+                General.Interface.DisplayStatus(StatusType.Warning,
+                    "Can't find Lua file '" + scriptPath + "'");
+                ChooseScript();
+                return;
+            }
+
             bool snaptogrid = General.Interface.ShiftState ^ General.Interface.SnapToGrid;
             bool snaptonearest = General.Interface.CtrlState ^ General.Interface.AutoMerge;
 
             if (General.Interface.MouseInDisplay)
             {
-                Stopwatch stopwatch = new Stopwatch();
+                stopwatch = new Stopwatch();
                 stopwatch.Start();
 
-                string scriptPath = Path.Combine(General.SettingsPath, @"scripts\test.lua");
+                //string scriptPath = Path.Combine(General.SettingsPath, @"scripts\test.lua");
                 string scriptShortName = Path.GetFileName(scriptPath);
 
                 // Make undo for the draw
@@ -114,15 +223,42 @@ namespace CodeImp.DoomBuilder.DBXLua
 
                 General.Interface.SetCursor(Cursors.AppStarting);
 
-                General.Interface.DisplayStatus(StatusType.Info, "Executing script '" + scriptShortName + "'!");
-                bool bScriptSuccess = true;
-                
-                ScriptContext scriptRunner = new ScriptContext(renderer, mousemappos, snaptogrid, snaptonearest);
+                General.Interface.DisplayStatus(StatusType.Busy, "Executing script '" + scriptShortName + "'!");
+                bScriptSuccess = true;
+                bScriptDone = false;
+                bScriptCancelled = false;
 
-                if (bScriptSuccess)
+                scriptRunner = new ScriptContext(renderer, mousemappos, snaptogrid, snaptonearest);
+                scriptThread = new Thread(new ThreadStart(RunScriptThread));
+                scriptThread.Priority = ThreadPriority.Highest;
+                scriptThread.Start();
+
+                Thread.Sleep(4);
+                int scriptTime = 4;
+
+                while (!bScriptDone && !bScriptCancelled && scriptTime < 100)
                 {
-                    bScriptSuccess = scriptRunner.RunScript(scriptPath);
+                    Thread.Sleep(4);
+                    scriptTime += 4;
                 }
+
+                while (!bScriptDone && !bScriptCancelled && scriptTime < 3600)
+                {
+                    Thread.Sleep(10);
+                    scriptTime += 10;
+                }
+
+                // if our script isnt done
+                // let's ask the user if they wanna keep waiting
+                if (!bScriptDone && !bScriptCancelled)
+                {
+                    General.Interface.SetCursor(Cursors.Default);
+                    General.Interface.DisplayStatus(StatusType.Busy, "Executing script '" + scriptShortName + "', but it's being slow!");
+
+                    ScriptTimeoutForm.ShowTimeout();
+                }
+
+                scriptThread.Join();
 
                 General.Map.ThingsFilter.Update();
 
@@ -168,9 +304,9 @@ namespace CodeImp.DoomBuilder.DBXLua
                 if(bScriptSuccess)
                 {
                     General.Interface.DisplayStatus(StatusType.Info,
-                    "Lua script  '" + scriptShortName + "' success in "
-                    + (stopwatch.Elapsed.TotalMilliseconds / 1000d).ToString("########0.00")
-                    + " seconds.");
+                        "Lua script  '" + scriptShortName + "' success in "
+                        + (stopwatch.Elapsed.TotalMilliseconds / 1000d).ToString("########0.00")
+                        + " seconds.");
 
                     string scriptLog = scriptRunner.ScriptLog;
                     if (scriptLog.Length > 0)
@@ -227,6 +363,11 @@ namespace CodeImp.DoomBuilder.DBXLua
             // add support for mouseless scripts 
         }
 
+        public static void RunScriptThread()
+        {
+            bScriptSuccess = scriptRunner.RunScript(scriptPath);
+            bScriptDone = true;
+        }
 
         // Accepted
         public override void OnAccept()

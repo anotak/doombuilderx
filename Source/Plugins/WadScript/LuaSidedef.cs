@@ -175,9 +175,22 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (sidedef.IsDisposed || sidedef.Line.IsDisposed)
             {
-                throw new ScriptRuntimeException("Sidedef has been disposed, can't IsFront!");
+                throw new ScriptRuntimeException("Sidedef has been disposed, can't IsFront()!");
             }
             return sidedef.IsFront;
+        }
+
+        public LuaSidedef GetOther()
+        {
+            if (sidedef.IsDisposed || sidedef.Line.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Sidedef has been disposed, can't GetOther()!");
+            }
+            if (sidedef.Other == null)
+            {
+                return null;
+            }
+            return new LuaSidedef(sidedef.Other);
         }
 
         public float GetAngle()
@@ -205,6 +218,15 @@ namespace CodeImp.DoomBuilder.DBXLua
                 throw new ScriptRuntimeException("Sidedef has been disposed, can't GetLinedef!");
             }
             return new LuaLinedef(sidedef.Line);
+        }
+
+        public override string ToString()
+        {
+            if (sidedef.IsDisposed)
+            {
+                return "Disposed sidedef " + sidedef.Index;
+            }
+            return "Sidedef " + sidedef.Index;
         }
 
     } // class luasidedef
