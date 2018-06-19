@@ -61,7 +61,7 @@ namespace CodeImp.DoomBuilder.DBXLua
                 if (float.IsNaN(value.x) || float.IsNaN(value.y) ||
                    float.IsInfinity(value.x) || float.IsInfinity(value.y))
                 {
-                    throw new ScriptRuntimeException("Invalid thing position! The given vertex coordinates cannot be NaN or Infinite.");
+                    throw new ScriptRuntimeException("Invalid thing position! The given thing coordinates cannot be NaN or Infinite.");
                 }
                 
                 thing.Move(value.vec);
@@ -470,6 +470,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             return thing.Size;
         }
 
+        // FIXME - doesn't seem to be accurate
         public LuaSector GetSector()
         {
             if (thing.IsDisposed)

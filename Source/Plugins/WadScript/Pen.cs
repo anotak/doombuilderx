@@ -125,32 +125,32 @@ namespace CodeImp.DoomBuilder.DBXLua
 
         public void DrawVertex()
         {
-            drawnVertices.Add(GetVertexAt(position.vec, true, snaptogrid, stitchrange, drawnVertices));
+            AddVertexAt(position.vec, true, snaptogrid, stitchrange, drawnVertices);
         }
 
         public void DrawVertex(bool snaptonearest)
         {
-            drawnVertices.Add(GetVertexAt(position.vec, snaptonearest, snaptogrid, stitchrange, drawnVertices));
+            AddVertexAt(position.vec, snaptonearest, snaptogrid, stitchrange, drawnVertices);
         }
 
         public void DrawVertex(bool snaptonearest, bool bsnaptogrid)
         {
-            drawnVertices.Add(GetVertexAt(position.vec, snaptonearest, bsnaptogrid, stitchrange, drawnVertices));
+            AddVertexAt(position.vec, snaptonearest, bsnaptogrid, stitchrange, drawnVertices);
         }
 
         public void DrawVertexAt(LuaVector2D newVec)
         {
-            drawnVertices.Add(GetVertexAt(newVec.vec, true, snaptogrid, stitchrange, drawnVertices));
+            AddVertexAt(newVec.vec, true, snaptogrid, stitchrange, drawnVertices);
         }
 
         public void DrawVertexAt(LuaVector2D newVec, bool snaptonearest)
         {
-            drawnVertices.Add(GetVertexAt(newVec.vec, snaptonearest, snaptogrid, stitchrange, drawnVertices));
+            AddVertexAt(newVec.vec, snaptonearest, snaptogrid, stitchrange, drawnVertices);
         }
 
         public void DrawVertexAt(LuaVector2D newVec, bool snaptonearest, bool snaptogrid)
         {
-            drawnVertices.Add(GetVertexAt(newVec.vec, snaptonearest, snaptogrid, stitchrange, drawnVertices));
+            AddVertexAt(newVec.vec, snaptonearest, snaptogrid, stitchrange, drawnVertices);
         }
 
         // FIXME does this actually need a return value?
@@ -176,7 +176,7 @@ namespace CodeImp.DoomBuilder.DBXLua
                 nd.pos = p.pos.vec;
                 nd.stitch = p.stitch;
                 nd.stitchline = p.stitchline;
-                if (previndex == -1 || Vector2D.DistanceSq(nd.pos, d[previndex].pos) > vrange)
+                if (previndex == -1 || Vector2D.DistanceSq(nd.pos, d[previndex].pos) > 0.001f)
                 {
                     d.Add(nd);
                 }
@@ -208,7 +208,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         // ano - negative stitchrange defaults to builderplug.me.stitchrange which comes from config file
         // most of this is codeimps code
         [MoonSharpHidden]
-        internal PenVertex GetVertexAt(
+        internal void AddVertexAt(
             Vector2D mappos, bool snaptonearest, bool snaptogrid, float stitchrange,
             List<PenVertex> points = null)
         {
@@ -236,12 +236,14 @@ namespace CodeImp.DoomBuilder.DBXLua
                             p.stitch = true;
                             p.stitchline = true;
                             //Logger.WriteLogLine("a");//debugcrap
-                            return p;
+                            points.Add(p);
+                            return;
                         }
                     }
-                    if (points.Count > 0 && p.pos == points[points.Count - 1].pos)
+                    if (points.Count > 0 && Vector2D.DistanceSq(vm, points[points.Count - 1].pos.vec) < 0.001f)
                     {
-                        return points[points.Count - 1];
+                        //return points[points.Count - 1];
+                        return;
                     }
                 }
 
@@ -253,7 +255,8 @@ namespace CodeImp.DoomBuilder.DBXLua
                     p.stitch = true;
                     p.stitchline = true;
                     //Logger.WriteLogLine("b");//debugcrap
-                    return p;
+                    points.Add(p);
+                    return;
                 }
 
                 // Try the nearest linedef
@@ -288,7 +291,8 @@ namespace CodeImp.DoomBuilder.DBXLua
                             p.stitch = true;
                             p.stitchline = true;
                             //Logger.WriteLogLine("c");//debugcrap
-                            return p;
+                            points.Add(p);
+                            return;
                         }
                     }
                     else
@@ -298,7 +302,8 @@ namespace CodeImp.DoomBuilder.DBXLua
                         p.stitch = true;
                         p.stitchline = true;
                         //Logger.WriteLogLine("d");//debugcrap
-                        return p;
+                        points.Add(p);
+                        return;
                     }
                 }
             }
@@ -313,7 +318,8 @@ namespace CodeImp.DoomBuilder.DBXLua
                         p.stitch = true;
                         p.stitchline = false;
                         //Logger.WriteLogLine("e");//debugcrap
-                        return p;
+                        points.Add(p);
+                        return;
                     }
                 }
             }
@@ -371,7 +377,8 @@ namespace CodeImp.DoomBuilder.DBXLua
                 p.stitch = snaptonearest;
                 p.stitchline = snaptonearest;
                 //Logger.WriteLogLine("f");//debugcrap
-                return p;
+                points.Add(p);
+                return;
             }
             else
             {
@@ -380,7 +387,8 @@ namespace CodeImp.DoomBuilder.DBXLua
                 p.stitch = snaptonearest;
                 p.stitchline = snaptonearest;
                 //Logger.WriteLogLine("g");//debugcrap
-                return p;
+                points.Add(p);
+                return;
             }
         } // getcurrentposition
 

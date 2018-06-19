@@ -233,7 +233,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             bScriptDone = false;
             bScriptCancelled = false;
 
-            scriptRunner = new ScriptContext(renderer, mousemappos, snaptogrid, snaptonearest);
+            scriptRunner = new ScriptContext(renderer, mappos, snaptogrid, snaptonearest);
             scriptThread = new Thread(new ThreadStart(RunScriptThread));
             scriptThread.Priority = ThreadPriority.Highest;
             scriptThread.Start();

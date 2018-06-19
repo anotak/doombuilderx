@@ -34,6 +34,18 @@ namespace CodeImp.DoomBuilder.DBXLua
                     throw new ScriptRuntimeException("sector has been disposed, can't set selected status!");
                 }
 
+                if (value != sector.Selected)
+                {
+                    // based on CodeImp's code in SectorsMode
+                    foreach (Sidedef sd in sector.Sidedefs)
+                    {
+                        bool front, back;
+                        if (sd.Line.Front != null) front = sd.Line.Front.Sector.Selected; else front = false;
+                        if (sd.Line.Back != null) back = sd.Line.Back.Sector.Selected; else back = false;
+                        sd.Line.Selected = front | back;
+                    }
+                }
+
                 sector.Selected = value;
             }
         }

@@ -69,7 +69,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             return output;
         }
 
-
+        // FIXME - doesn't work right if someone went to another mode between sector mode and lua mode
         public static List<LuaSector> GetSelectedSectors()
         {
             List<LuaSector> output = new List<LuaSector>();

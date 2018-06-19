@@ -65,9 +65,18 @@ namespace CodeImp.DoomBuilder.DBXLua
             errorText = "";
             context = this;
 
+
             snaptogrid = insnaptogrid;
             snaptonearest = insnaptonearest;
             mousemappos = inmappos;
+            if (float.IsNaN(mousemappos.x) || float.IsInfinity(mousemappos.x))
+            {
+                mousemappos.x = 0f;
+            }
+            if (float.IsNaN(mousemappos.y) || float.IsInfinity(mousemappos.y))
+            {
+                mousemappos.y = 0f;
+            }
             rendererscale = renderer.Scale;
             scriptlog_sb = new StringBuilder();
             debuglog_sb = new StringBuilder();
