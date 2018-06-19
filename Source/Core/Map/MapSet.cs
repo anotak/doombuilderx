@@ -87,6 +87,8 @@ namespace CodeImp.DoomBuilder.Map
         private UniversalCollection unidentified_udmf;
 
         // Behavior
+        // ano - if freezearrays > 0, then we are doing a large batch add remove operation
+        // see BeginAddRemove() and EndAddRemove()
         private int freezearrays;
         private bool autoremove;
 
@@ -724,7 +726,7 @@ namespace CodeImp.DoomBuilder.Map
                 if (freezearrays == 0)
                     Array.Resize(ref array, counter + 1);
                 else
-                    Array.Resize(ref array, counter + 10);
+                    Array.Resize(ref array, counter + 64); // ano - changed from 10 to 64, seems like a better number
             }
 
             // Move item at the given index if the new item is not added at the end
