@@ -395,8 +395,29 @@ namespace CodeImp.DoomBuilder.BuilderModes
 		// Done selecting
 		protected override void OnSelectEnd()
 		{
-			// Select was pressed in this mode?
-			if(selectpressed && (editside == nearestside) && (nearestside != null))
+            /* ano - we have to check editpressed, otherwise in the case of
+             * doubleclicks first the edit will be processed, which calls
+             * ShowEditSectors(), which brings up the sector edit window. then
+             * the SectorEditForm exists, and this method here is called, which
+             * then causes MakeSector() to be called, which disposes the sector
+             * being referenced by the SectorEditForm. which then causes a crash
+             * later when the user hits "OK". this is due to a larger problem in
+             * the architecture of plugins and the event/action system of Doom
+             * Builder that we cannot address without messing up the plugin API.
+             * the problem is that we cannot report back to doom builder's core
+             * and say "this event has been processed" without changing the API
+             * and breaking plugin compatibility. right now doubleclicks and
+             * single clicks are handled with separate windows form events in
+             * MainForm, and there is no good way of preventing both events
+             * from being passed along to plugins.
+             * see also:
+             * https://docs.microsoft.com/en-us/dotnet/framework/winforms/mouse-events-in-windows-forms
+             */
+            // Select was pressed in this mode?
+            if (!editpressed
+                && selectpressed
+                && (editside == nearestside)
+                && (nearestside != null))
 			{
 				// Possible to make a sector?
 				if(allsides != null)

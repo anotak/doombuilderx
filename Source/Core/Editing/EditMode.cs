@@ -194,7 +194,12 @@ namespace CodeImp.DoomBuilder.Editing
 		
 		// Interface events
 		public virtual void OnMouseClick(MouseEventArgs e) { }
-		public virtual void OnMouseDoubleClick(MouseEventArgs e) { }
+        /* ano - WARNING: OnMouseDoubleClick does not stop single click
+         * events for the same click being processed afterward.
+         * see also:
+         * https://docs.microsoft.com/en-us/dotnet/framework/winforms/mouse-events-in-windows-forms
+         */
+        public virtual void OnMouseDoubleClick(MouseEventArgs e) { }
 		public virtual void OnMouseDown(MouseEventArgs e) { }
 		public virtual void OnMouseEnter(EventArgs e) { }
 		public virtual void OnMouseLeave(EventArgs e) { }

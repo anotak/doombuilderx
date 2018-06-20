@@ -113,6 +113,15 @@ namespace CodeImp.DoomBuilder.BuilderModes
 		}
 
 		// Double-clicking
+        /* ano - WARNING: this does not stop single click events for the same
+         * click being processed, which can lead to problems because the edit
+         * action is invoked, and then the core of doom builder will invoke
+         * the select action immediately after. if the edit action stores
+         * some information, then does some UI stuff (like open a
+         * SectorEditForm), then the stored information can potentially be
+         * invalidated by the singleclick selection action which will happen
+         * while the SectorEditForm is open.
+         */
 		public override void OnMouseDoubleClick(MouseEventArgs e)
 		{
 			base.OnMouseDoubleClick(e);
