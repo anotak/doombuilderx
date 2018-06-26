@@ -10,10 +10,6 @@ padding = 2
 -- let's get the table of selected things
 selected_things = Map.GetSelectedThings()
 
--- let's get the table of selected sectors
-selected_sectors = Map.GetSelectedSectors()
-
-
 -- we need 2 things selected to make a box out of them
 -- other numbers don't make sense
 if #selected_things == 2 then
@@ -100,8 +96,10 @@ if #selected_things == 2 then
 		west_angle = second_angle
 	end
 	
-	-- we go southwest -> northeast, placing things
+	-- we go southwest -> northeast, placing things, per column
+	-- go for each column
 	for x=0, x_thing_count do
+		-- go for each location within the column
 		for y=0, y_thing_count do
 			-- copy the first selected thing, and
 			-- set move it to the correct position
@@ -154,29 +152,15 @@ if #selected_things == 2 then
 				-- then we will average the two and set the angle to that average
 				new_thing.SetAngleDoom((ew_angle + ns_angle) / 2)
 			end
-			
-			created_things = created_things + 1
-			
-			if #selected_sectors > 0 then
-				thing_sector = Map.DetermineSector(new_thing.position)
-				UI.LogLine(thing_sector)
-				if thing_sector == nil or thing_sector.selected == false then
-					new_thing.Dispose()
-					created_things = created_things - 1
-				end
-			end
+			-- done with this thing
 		end
+		-- done with this column
 	end
-	
-	-- let the user know why no new things were created
-	if #selected_sectors > 0 and created_things == 0 then
-		UI.LogLine("You had sectors selected but your box didn't overlay with the things, so nothing got made.")
-	else
-		-- delete the original things, because we just put replacements on the map
-		selected_things[1].Dispose()
-		selected_things[2].Dispose()
-	end
-	
+	-- done with each column
+
+	-- delete the original things, because we just put replacements on the map
+	selected_things[1].Dispose()
+	selected_things[2].Dispose()
 else
 	-- let's let the user know what went wrong
 	UI.LogLine("You need to select exactly 2 things.")

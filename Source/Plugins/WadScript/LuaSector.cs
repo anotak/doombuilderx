@@ -40,7 +40,7 @@ namespace CodeImp.DoomBuilder.DBXLua
                 }
                 if (value == true)
                 {
-                    sector.Selected = false;
+                    sector.Selected = true;
 
                     // "simple" in case of truth
                     foreach (Sidedef side in sector.Sidedefs)
