@@ -726,3 +726,41 @@ How To Light A Level
 
 - Emilia Schatz,
 Defining Environment Language for Video Games
+%%
+"In painting, you have unlimited power. You have the ability to move mountains. You can bend rivers. But when I get home, the only thing I have power over is the garbage."
+
+- Bob Ross,
+The Joy of Painting
+%%
+"A line is length without breadth."
+
+- Euclid,
+Elements
+%%
+"The description of right lines and circles, upon which geometry is founded, belongs to mechanics. Geometry does not teach us to draw these lines, but requires them to be drawn."
+
+- Isaac Newton,
+Principia
+%%
+I have a good feeling about mapping today.
+%%
+"Do not disturb my circles."
+
+- Archimedes,
+(allegedly his last words before death)
+%%
+You can set a hotkey to select only single-sided linedefs from the selection.
+Check in the preferences menu (default key: Shift+1).
+%%
+You can set a hotkey to select only double-sided linedefs from the selection.
+Check in the preferences menu (default key: Shift+2).
+%%
+There are hotkeys to do gradient sector lighting or floor/ceiling heights, check in the preferences menu.
+%%
+"The lost soul is, in this regard, essentially a living fireball."
+
+- KMX E XII,
+Doom WAD Reviews: Doom (DOOM.WAD)
+
+
+
