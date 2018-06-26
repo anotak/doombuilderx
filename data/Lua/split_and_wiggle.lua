@@ -7,14 +7,14 @@ function split_and_wiggle(amount)
 	-- note: we need to call this again every time we start this function
 	-- over specifically because we created new selected linedefs by
 	-- splitting.
-	linedefs = Map.GetSelectedLinedefs()
+	local linedefs = Map.GetSelectedLinedefs()
 	
 	-- iterate over the list of linedefs
 	for i=1, #linedefs do
 		-- don't bother splitting linedefs shorter than 6 map units
 		if linedefs[i].GetLength() > 6 then
 			-- split returns splitting vertex, and the two resulting lines
-			splitvertex, lineA, lineB = linedefs[i].Split()
+			local splitvertex, lineA, lineB = linedefs[i].Split()
 			
 			-- TryToMove is a nice function that tries to move our vertex
 			-- but only succeeds if we aren't going to run into another vertex

@@ -164,7 +164,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
         protected void DrawCursor()
         {
-            if (mousemappos.IsFinite())
+            if(mousemappos.IsFinite())
             {
                 bool snaptogrid = General.Interface.ShiftState ^ General.Interface.SnapToGrid;
                 bool snaptonearest = General.Interface.CtrlState ^ General.Interface.AutoMerge;
