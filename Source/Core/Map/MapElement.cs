@@ -26,6 +26,7 @@ using CodeImp.DoomBuilder.Rendering;
 using SlimDX.Direct3D9;
 using System.Drawing;
 using CodeImp.DoomBuilder.IO;
+using CodeImp.DoomBuilder.Types;
 
 #endregion
 
@@ -56,7 +57,15 @@ namespace CodeImp.DoomBuilder.Map
 		#region ================== Properties
 
 		public int Index { get { return listindex; } internal set { listindex = value; } }
-		public UniFields Fields { get { return fields; } }
+        /*
+         * ano - warning, you should not set fields directly by
+         *       Fields[some_key] = some_value;
+         * because it does not call BeforeFieldsChange() and therefore
+         * it does not create an undo snapshot for this map element!
+         * (unless you call BeforeFieldsChange(), i suppose.
+         * but you can use SetField(key, value) instead.
+        */
+        public UniFields Fields { get { return fields; } }
 		public bool Marked { get { return marked; } set { marked = value; } }
 		public bool IsDisposed { get { return isdisposed; } }
 		
@@ -126,6 +135,97 @@ namespace CodeImp.DoomBuilder.Map
 		{
 			BeforePropsChange();
 		}
+
+        // ano - for calling from outside, makes sure to make an undo snapshot
+        // can throw ArgumentException if the new value's type
+        // is not int, float, string, or bool
+        // or the value is null
+        public void SetField(string key, object value)
+        {
+            if (key == null)
+            {
+                return;
+            }
+            if(IsDisposed)
+            {
+                return;
+            }
+
+            key = UniValue.ValidateName(key);
+
+            if (key == "")
+            {
+                return;
+            }
+            
+            if (fields.ContainsKey(key))
+            {
+                // ano - we don't want to record an undo for
+                // this element if the values aren't changing
+                if (fields[key].Value == value)
+                {
+                    return;
+                }
+
+                BeforeFieldsChange();
+
+                Type new_type = value.GetType();
+                if (!fields[key].Value.GetType().IsAssignableFrom(new_type))
+                {
+                    if (value is float)
+                    {
+                        fields[key].Type = (int)UniversalType.Float;
+                    }
+                    else if (value is int)
+                    {
+                        fields[key].Type = (int)UniversalType.Integer;
+                    }
+                    else if (value is bool)
+                    {
+                        fields[key].Type = (int)UniversalType.Boolean;
+                    }
+                    else if (value is string)
+                    {
+                        fields[key].Type = (int)UniversalType.String;
+                    }
+
+                    // ano - other cases are handled by the argument exception
+                }
+                // ano - ArgumentException can be thrown here
+                fields[key].Value = value;
+            }
+            else
+            {
+                UniValue new_field = new UniValue();
+
+                // ano - ArgumentException can be thrown here
+                new_field.Value = value;
+
+                // ano - undo snapshot recorded after exception
+                // in this case, because we can
+                BeforeFieldsChange();
+
+                // ano - other cases are handled by the ArgumentException before
+                if (value is float)
+                {
+                    new_field.Type = (int)UniversalType.Float;
+                }
+                else if (value is int)
+                {
+                    new_field.Type = (int)UniversalType.Integer;
+                }
+                else if (value is bool)
+                {
+                    new_field.Type = (int)UniversalType.Boolean;
+                }
+                else if (value is string)
+                {
+                    new_field.Type = (int)UniversalType.String;
+                }
+
+                fields.Add(key, new_field);
+            }
+        }
 		
 		#endregion
 	}
