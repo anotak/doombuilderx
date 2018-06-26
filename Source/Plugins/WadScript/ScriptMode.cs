@@ -59,8 +59,48 @@ namespace CodeImp.DoomBuilder.DBXLua
         public override void OnEngage()
         {
             base.OnEngage();
+            ConvertSelection();
             BuilderPlug.Me.ShowMenu();
             renderer.SetPresentation(Presentation.Things);
+        }
+
+        public void ConvertSelection()
+        {
+            // this is a bit uglier than i'd like bc ConvertSelection does not
+            // support SelectionType.All
+            // and i'd like to keep plugin compat so... yea
+            General.Map.Map.ConvertSelection(SelectionType.Vertices);
+
+            HashSet<Sector> potentially_selected_sectors = new HashSet<Sector>();
+            foreach (Linedef l in General.Map.Map.Linedefs)
+            {
+                l.Selected = l.Start.Selected && l.End.Selected;
+
+                if (l.Front != null)
+                {
+                    potentially_selected_sectors.Add(l.Front.Sector);
+                }
+
+                if (l.Back != null)
+                {
+                    potentially_selected_sectors.Add(l.Front.Sector);
+                }
+            }
+
+            foreach (Sector s in potentially_selected_sectors)
+            {
+                bool select_sector = true;
+                foreach (Sidedef side in s.Sidedefs)
+                {
+                    if (!side.Line.Selected)
+                    {
+                        select_sector = false;
+                        break;
+                    }
+                }
+
+                s.Selected = select_sector;
+            }
         }
 
         // ano - this code borrowed from codeimp's statistics plug
@@ -70,6 +110,21 @@ namespace CodeImp.DoomBuilder.DBXLua
             base.OnCancel();
             BuilderPlug.Me.HideMenu();
             General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
+        }
+
+        // Mouse moving
+        public override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+
+            if (renderer.StartOverlay(true))
+            {
+                DrawCursor();
+
+                renderer.Finish();
+                renderer.Present();
+            }
+
         }
 
         // ano - this code borrowed from codeimp's statistics plug
@@ -99,10 +154,106 @@ namespace CodeImp.DoomBuilder.DBXLua
 
             if (renderer.StartOverlay(true))
             {
+                DrawCursor();
+
                 renderer.Finish();
             }
             
             renderer.Present();
+        }
+
+        protected void DrawCursor()
+        {
+            if (mousemappos.IsFinite())
+            {
+                bool snaptogrid = General.Interface.ShiftState ^ General.Interface.SnapToGrid;
+                bool snaptonearest = General.Interface.CtrlState ^ General.Interface.AutoMerge;
+                PixelColor color = General.Colors.Highlight;
+                color.a = 128;
+                Vector2D position = GetCurrentPosition(mousemappos, snaptogrid, snaptogrid, renderer);
+                renderer.RenderLine(position - new Vector2D(6f, 0f), position + new Vector2D(6f, 0f), 0.8f, color, true);
+                renderer.RenderLine(position - new Vector2D(0f, 6f), position + new Vector2D(0, 6f), 0.8f, color, true);
+            }
+        }
+
+        // from CodeImp's DrawGeometryMode
+        public static Vector2D GetCurrentPosition(Vector2D mousemappos, bool snaptonearest, bool snaptogrid, IRenderer2D renderer)
+        {
+            Vector2D output = new Vector2D();
+            Vector2D vm = mousemappos;
+            float vrange = BuilderPlug.Me.StitchRange / renderer.Scale;
+
+            // Snap to nearest?
+            if (snaptonearest)
+            {
+
+                // Try the nearest vertex
+                Vertex nv = General.Map.Map.NearestVertexSquareRange(mousemappos, vrange);
+                if (nv != null)
+                {
+                    output = nv.Position;
+                    return output;
+                }
+
+                // Try the nearest linedef
+                Linedef nl = General.Map.Map.NearestLinedefRange(mousemappos, BuilderPlug.Me.StitchRange / renderer.Scale);
+                if (nl != null)
+                {
+                    // Snap to grid?
+                    if (snaptogrid)
+                    {
+                        // Get grid intersection coordinates
+                        List<Vector2D> coords = nl.GetGridIntersections();
+
+                        // Find nearest grid intersection
+                        bool found = false;
+                        float found_distance = float.MaxValue;
+                        Vector2D found_coord = new Vector2D();
+                        foreach (Vector2D v in coords)
+                        {
+                            Vector2D delta = mousemappos - v;
+                            if (delta.GetLengthSq() < found_distance)
+                            {
+                                found_distance = delta.GetLengthSq();
+                                found_coord = v;
+                                found = true;
+                            }
+                        }
+
+                        if (found)
+                        {
+                            // Align to the closest grid intersection
+                            output = found_coord;
+                            return output;
+                        }
+                    }
+                    else
+                    {
+                        // Aligned to line
+                        output = nl.NearestOnLine(mousemappos);
+                        return output;
+                    }
+                }
+            }
+
+            
+            // Snap to grid?
+            if (snaptogrid)
+            {
+                // Aligned to grid
+                output = General.Map.Grid.SnappedToGrid(vm);
+
+                // special handling 
+                if (output.x > General.Map.Config.RightBoundary) output.x = General.Map.Config.RightBoundary;
+                if (output.y < General.Map.Config.BottomBoundary) output.y = General.Map.Config.BottomBoundary;
+                return output;
+            }
+            else
+            {
+                // Normal position
+                output = vm;
+                return output;
+            }
         }
 
         protected override void OnEditBegin()
@@ -174,8 +325,11 @@ namespace CodeImp.DoomBuilder.DBXLua
         public void RecentLua8() { SetCurrentScript(BuilderPlug.Me.GetRecentlyOpened(7)); }
         [BeginAction("recentlua9")]
         public void RecentLua9() { SetCurrentScript(BuilderPlug.Me.GetRecentlyOpened(8)); }
-
+        
         // FIXME THIS IS CLEARLY NOT THE CENTER OF THE SCREEN
+        // maybe we should prompt the user to explain if a script
+        // asks for mouse position with an option to either type
+        // in a number or to just cancel and go back and click?
         // consider making the mouse related lua api functions warn in this situation?
         [BeginAction("runluascript")]
         public void DoScriptAtCenterOfScreen() { DoScriptAt(new Vector2D(0f, 0f)); }
@@ -247,7 +401,7 @@ namespace CodeImp.DoomBuilder.DBXLua
                 scriptTime += 4;
             }
 
-            while (!bScriptDone && !bScriptCancelled && scriptTime < 3600)
+            while (!bScriptDone && !bScriptCancelled && scriptTime < 2800)
             {
                 Thread.Sleep(10);
                 scriptTime += 10;
@@ -381,7 +535,8 @@ namespace CodeImp.DoomBuilder.DBXLua
             General.Settings.FindDefaultDrawSettings();
             
 
-            // FIXME DO LUA
+            // FIXME DO LUA (or do we?)
+            // need to fully figure out how this function works
 
             // Done
             Cursor.Current = Cursors.Default;

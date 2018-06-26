@@ -101,7 +101,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
             if (value.IsNilOrNan() || value.IsVoid())
             {
-                throw new ScriptRuntimeException("value is nil, nan, or void. can't SetUDMFField() (not enough arguments maybe?)");
+                throw new ScriptRuntimeException("value is nil, nan, or void. can't SetUDMFField() (not enough arguments maybe?) " + value.ToObject().GetType().ToString());
             }
             
             key = UniValue.ValidateName(key);
@@ -111,32 +111,21 @@ namespace CodeImp.DoomBuilder.DBXLua
                 return;
             }
 
-            UniFields fields = element.Fields;
-            if (fields.ContainsKey(key))
+            object v_object = value.ToObject();
+
+            if (v_object is double)
             {
-                try
-                {
-                    fields[key].Value = value.ToObject();
-                }
-                catch (ArgumentException)
-                {
-                    throw new ScriptRuntimeException("error setting UDMF field " + key + ", must be int, float, string or bool");
-                }
+                v_object = (float)((double)v_object);
             }
-            else
+
+            try
             {
-                UniValue new_field = new UniValue();
-
-                try
-                {
-                    new_field.Value = value.ToObject();
-                }
-                catch (ArgumentException)
-                {
-                    throw new ScriptRuntimeException("error setting UDMF field " + key + ", must be int, float, string or bool");
-                }
-
-                fields.Add(key, new_field);
+                element.SetField(key, v_object);
+            }
+            catch (ArgumentException)
+            {
+                
+                throw new ScriptRuntimeException("error setting UDMF field " + key + ", must be int, float, string, double or bool, instead was " + v_object.GetType().ToString());
             }
         }
 

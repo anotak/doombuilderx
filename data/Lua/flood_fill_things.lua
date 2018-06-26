@@ -10,9 +10,16 @@ padding = 2
 -- let's get the table of selected things
 selected_things = Map.GetSelectedThings()
 
+-- let's get the table of selected sectors
+selected_sectors = Map.GetSelectedSectors()
+
+
 -- we need 2 things selected to make a box out of them
 -- other numbers don't make sense
 if #selected_things == 2 then
+	-- let's keep track of how many things we made / unmade
+	created_things = 0
+	
 	-- let's make a box out of the positions of our selected things
 	-- for more info about math.min / math.max, see http://lua-users.org/wiki/MathLibraryTutorial
 	west = math.min(selected_things[1].position.x, selected_things[2].position.x)
@@ -147,17 +154,35 @@ if #selected_things == 2 then
 				-- then we will average the two and set the angle to that average
 				new_thing.SetAngleDoom((ew_angle + ns_angle) / 2)
 			end
+			
+			created_things = created_things + 1
+			
+			if #selected_sectors > 0 then
+				thing_sector = Map.DetermineSector(new_thing.position)
+				UI.LogLine(thing_sector)
+				if thing_sector == nil or thing_sector.selected == false then
+					new_thing.Dispose()
+					created_things = created_things - 1
+				end
+			end
 		end
 	end
 	
-	-- delete the original things, because we just put replacements on the map
-	selected_things[1].Dispose()
-	selected_things[2].Dispose()
+	-- let the user know why no new things were created
+	if #selected_sectors > 0 and created_things == 0 then
+		UI.LogLine("You had sectors selected but your box didn't overlay with the things, so nothing got made.")
+	else
+		-- delete the original things, because we just put replacements on the map
+		selected_things[1].Dispose()
+		selected_things[2].Dispose()
+	end
 	
 else
 	-- let's let the user know what went wrong
 	UI.LogLine("You need to select exactly 2 things.")
 	UI.LogLine("")
-	UI.LogLine("The first thing will determine the resulting things.")
+	UI.LogLine("The first thing will determine the resulting things' properties.")
 	UI.LogLine("The angle of both will be used to determine the angles of the new things.")
+	UI.LogLine("")
+	UI.LogLine("If you have any sectors selected, it will fill only those sectors.")
 end

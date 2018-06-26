@@ -168,6 +168,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 throw new ScriptRuntimeException("Sidedef has been disposed, can't SetUDMFField()!");
             }
+            
             LuaTypeConversion.SetUDMFField(sidedef, key, value);
         }
 

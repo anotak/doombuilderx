@@ -80,11 +80,6 @@ function sector_dfs.select_sectors_recursive(current_sector)
 				-- mark as checked
 				sector_dfs.searched_lines[line.GetIndex()] = true
 				
-				-- select the line, because it's technically possible to select
-				-- a sector without selecting its lines in doom builder, as
-				-- weird as that might seem
-				line.selected = true
-				
 				-- then find the sector on the other side,
 				-- and find_sectors on that if there is another side
 				local other = current_side.GetOther()

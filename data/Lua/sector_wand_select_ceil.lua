@@ -1,5 +1,5 @@
 -- sector_wand_select_ceil.lua by anotak
--- selects all sectors that are connected somehow to the sector where you clicked
+-- selects all sectors that are connected somehow to the sector where you edit-clicked (default m2)
 -- and also have the same ceiling texture
 
 -- deselect sectors/lines/vertices

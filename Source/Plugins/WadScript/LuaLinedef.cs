@@ -26,7 +26,7 @@ namespace CodeImp.DoomBuilder.DBXLua
                 {
                     throw new ScriptRuntimeException("Linedef has been disposed, can't get selected status!");
                 }
-
+                
                 return linedef.Selected;
             }
 
@@ -36,9 +36,85 @@ namespace CodeImp.DoomBuilder.DBXLua
                 {
                     throw new ScriptRuntimeException("Linedef has been disposed, can't set selected status!");
                 }
+                if (value == linedef.Selected)
+                {
+                    return;
+                }
 
-                linedef.Selected = value;
-            }
+                if (value)
+                {
+                    linedef.Start.Selected = true;
+                    linedef.End.Selected = true;
+                    linedef.Selected = true;
+
+                    if (linedef.Front != null
+                        && !linedef.Front.IsDisposed
+                        && linedef.Front.Sector != null
+                        && !linedef.Front.Sector.IsDisposed)
+                    {
+                        bool select_sector = true;
+                        foreach (Sidedef side in linedef.Front.Sector.Sidedefs)
+                        {
+                            if (!side.Line.Selected)
+                            {
+                                select_sector = false;
+                                break;
+                            }
+                        }
+
+                        linedef.Front.Sector.Selected = select_sector;
+                    }
+
+                    if (linedef.Back != null
+                        && !linedef.Back.IsDisposed
+                        && linedef.Back.Sector != null
+                        && !linedef.Back.Sector.IsDisposed)
+                    {
+                        bool select_sector = true;
+                        foreach (Sidedef side in linedef.Back.Sector.Sidedefs)
+                        {
+                            if (!side.Line.Selected)
+                            {
+                                select_sector = false;
+                                break;
+                            }
+                        }
+
+                        linedef.Back.Sector.Selected = select_sector;
+                    }
+
+                } // done w true case
+                else
+                {
+                    // if we're deselecting the line, it's more complex, because
+                    // each vertex may still be attached to another selected line
+                    linedef.Selected = false;
+                    bool result = false;
+                    foreach (Linedef l in linedef.Start.Linedefs)
+                    {
+                        result &= l.Selected;
+                    }
+
+                    linedef.Start.Selected = result;
+
+                    result = false;
+                    foreach (Linedef l in linedef.End.Linedefs)
+                    {
+                        result &= l.Selected;
+                    }
+
+                    linedef.End.Selected = result;
+
+                    if (linedef.Front != null)
+                    {
+                        linedef.Front.Sector.Selected = false;
+                    }
+                    if (linedef.Back != null)
+                    {
+                        linedef.Back.Sector.Selected = false;
+                    }
+                } // done w false case
+            } // done w selection setter
         }
 
         public LuaVertex start_vertex
@@ -446,6 +522,15 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 throw new ScriptRuntimeException("Linedef has been disposed, can't SetUDMFField()!");
             }
+
+            // FIXME this is the extremely hacky workaround to
+            // not having a proper way to call .BeforePropsChange
+            // for setting udmf
+            // right now. we have to do this because we must maintain
+            // compatibility with non-DBX codebases, but hopefully
+            // we can do this in a better way in the future
+            linedef.Tag = linedef.Tag;
+
             LuaTypeConversion.SetUDMFField(linedef, key, value);
         }
 

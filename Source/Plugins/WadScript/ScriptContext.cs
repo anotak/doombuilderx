@@ -84,6 +84,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             UserData.RegisterAssembly();
             script = new Script(CoreModules.Preset_SoftSandbox);
 
+            script.Globals["Line2D"] = typeof(LuaLine2D);
             script.Globals["Vector2D"] = typeof(LuaVector2D);
             script.Globals["Vector3D"] = typeof(LuaVector3D);
             script.Globals["Map"] = typeof(LuaMap);

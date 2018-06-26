@@ -61,7 +61,10 @@ namespace CodeImp.DoomBuilder.DBXLua
                 if (float.IsNaN(value.x) || float.IsNaN(value.y) ||
                    float.IsInfinity(value.x) || float.IsInfinity(value.y))
                 {
-                    throw new ScriptRuntimeException("Invalid thing position! The given thing coordinates cannot be NaN or Infinite.");
+                    throw new ScriptRuntimeException(
+                        "Invalid thing position! The given thing coordinates ("
+                        + value
+                        + ") cannot be NaN or Infinite. (You might have divided by 0 somewhere?)");
                 }
                 
                 thing.Move(value.vec);
@@ -457,6 +460,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 throw new ScriptRuntimeException("Thing has been disposed, can't SetUDMFField()!");
             }
+            
             LuaTypeConversion.SetUDMFField(thing, key, value);
         }
 

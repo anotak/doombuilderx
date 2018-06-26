@@ -102,12 +102,12 @@ namespace CodeImp.DoomBuilder.DBXLua
 
         public void TurnRightDegrees(float degrees)
         {
-            angle += degrees / Angle2D.PIDEG;
+            angle -= degrees / Angle2D.PIDEG;
         }
 
         public void TurnLeftDegrees(float degrees)
         {
-            angle -= degrees / Angle2D.PIDEG;
+            angle += degrees / Angle2D.PIDEG;
         }
 
         public void SetAngleDegrees(float degrees)
@@ -174,12 +174,21 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 DrawnVertex nd = new DrawnVertex();
                 nd.pos = p.pos.vec;
+                if (!nd.pos.IsFinite())
+                {
+                    throw new ScriptRuntimeException("Error during finishing pen drawing, position ("
+                        + nd.pos
+                        + ") with index "
+                        + (previndex+1)
+                        + " is not a valid vector. (You might have divided by 0 somewhere?)");
+                }
                 nd.stitch = p.stitch;
                 nd.stitchline = p.stitchline;
                 if (previndex == -1 || Vector2D.DistanceSq(nd.pos, d[previndex].pos) > 0.001f)
                 {
                     d.Add(nd);
                 }
+                previndex++;
             }
 
             // Make the drawing
@@ -194,7 +203,9 @@ namespace CodeImp.DoomBuilder.DBXLua
             General.Map.Map.SnapAllToAccuracy();
 
             // Clear selection
-            General.Map.Map.ClearAllSelected();
+            General.Map.Map.ClearSelectedLinedefs();
+            General.Map.Map.ClearSelectedVertices();
+            General.Map.Map.ClearSelectedSectors();
 
             // Update cached values
             General.Map.Map.Update();

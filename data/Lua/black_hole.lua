@@ -1,4 +1,4 @@
--- black-hole.lua by anotak
+-- black_hole.lua by anotak
 -- sucks in vertices toward where you right click
 
 -- try different numbers. default was 73325 in case you forget

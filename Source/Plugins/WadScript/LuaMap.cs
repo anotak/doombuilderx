@@ -69,7 +69,6 @@ namespace CodeImp.DoomBuilder.DBXLua
             return output;
         }
 
-        // FIXME - doesn't work right if someone went to another mode between sector mode and lua mode
         public static List<LuaSector> GetSelectedSectors()
         {
             List<LuaSector> output = new List<LuaSector>();
@@ -282,7 +281,23 @@ namespace CodeImp.DoomBuilder.DBXLua
             if (x < General.Map.Config.LeftBoundary || x > General.Map.Config.RightBoundary ||
                 y > General.Map.Config.TopBoundary || y < General.Map.Config.BottomBoundary)
             {
-                throw new ScriptRuntimeException("Failed to insert thing: outside of map boundaries.");
+                throw new ScriptRuntimeException(
+                    "Failed to insert thing: coordinates ("
+                    + x
+                    + ","
+                    + y
+                    + ") outside of map boundaries.");
+            }
+
+            if (float.IsNaN(x) || float.IsNaN(y) ||
+                   float.IsInfinity(x) || float.IsInfinity(y))
+            {
+                throw new ScriptRuntimeException(
+                    "Invalid thing position! The given thing coordinates ("
+                    + x
+                    + ","
+                    + y
+                    + ") cannot be NaN or Infinite. (You might have divided by 0 somewhere?)");
             }
 
             // Create thing
@@ -294,21 +309,9 @@ namespace CodeImp.DoomBuilder.DBXLua
                 t.Move(new Vector2D(x, y));
 
                 t.UpdateConfiguration();
-
-                // ano - let's not forget, we need to call
-                // after scripts
-
-                // Snap to grid enabled?
-                if (General.Interface.SnapToGrid)
-                {
-                    // Snap to grid
-                    t.SnapToGrid();
-                }
-                else
-                {
-                    // Snap to map format accuracy
-                    t.SnapToAccuracy();
-                }
+                
+                // Snap to map format accuracy
+                t.SnapToAccuracy();
             }
             else
             {

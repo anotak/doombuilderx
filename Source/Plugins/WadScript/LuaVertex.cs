@@ -36,7 +36,37 @@ namespace CodeImp.DoomBuilder.DBXLua
                     throw new ScriptRuntimeException("vertex has been disposed, can't set selected status!");
                 }
 
+                if (value == vertex.Selected)
+                {
+                    return;
+                }
+
                 vertex.Selected = value;
+
+                if (value)
+                {
+                    foreach (Linedef l in vertex.Linedefs)
+                    {
+                        if (!l.Selected)
+                        {
+                            if (vertex == l.Start && l.End.Selected)
+                            {
+                                l.Selected = true;
+                            }
+                            else if (vertex == l.End && l.Start.Selected)
+                            {
+                                l.Selected = true;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (Linedef l in vertex.Linedefs)
+                    {
+                        l.Selected = false;
+                    }
+                }
             }
         }
 
@@ -59,7 +89,10 @@ namespace CodeImp.DoomBuilder.DBXLua
                 if (float.IsNaN(value.x) || float.IsNaN(value.y) ||
                    float.IsInfinity(value.x) || float.IsInfinity(value.y))
                 {
-                    throw new ScriptRuntimeException("Invalid vertex position! The given vertex coordinates cannot be NaN or Infinite.");
+                    throw new ScriptRuntimeException(
+                        "Invalid vertex position! The given vertex coordinates ("
+                        + value
+                        + ") cannot be NaN or Infinite. (You might have divided by 0 somewhere?)");
                 }
 
                 if (value.vec != vertex.Position)
@@ -144,7 +177,12 @@ namespace CodeImp.DoomBuilder.DBXLua
             if (float.IsNaN(x) || float.IsNaN(y) ||
                    float.IsInfinity(x) || float.IsInfinity(y))
             {
-                throw new ScriptRuntimeException("Invalid vertex position! The given vertex coordinates cannot be NaN or Infinite.");
+                throw new ScriptRuntimeException(
+                    "Invalid vertex position! The given vertex coordinates ("
+                    + x 
+                    + ", "
+                    + y
+                    + ") cannot be NaN or Infinite. (You might have divided by 0 somewhere?)");
             }
             if (vertex.IsDisposed)
             {

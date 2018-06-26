@@ -1,5 +1,5 @@
 -- sector_wand_select.lua by anotak
--- selects all sectors that are connected somehow to the sector where you clicked
+-- selects all sectors that are connected somehow to the sector where you edit-clicked (default m2)
 
 -- deselect sectors/lines/vertices
 Map.DeselectGeometry()

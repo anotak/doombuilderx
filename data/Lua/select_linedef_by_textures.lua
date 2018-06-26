@@ -24,9 +24,6 @@ function line_dfs.select_lines_through_vert(current_vert)
 		-- mark it as searched
 		line_dfs.searched_vertices[current_vert.GetIndex()] = true
 		
-		-- select it
-		current_vert.selected = true
-		
 		local vert_lines = current_vert.GetLines()
 		
 		for i, line in ipairs(vert_lines) do

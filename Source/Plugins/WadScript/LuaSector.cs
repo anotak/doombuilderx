@@ -34,20 +34,79 @@ namespace CodeImp.DoomBuilder.DBXLua
                     throw new ScriptRuntimeException("sector has been disposed, can't set selected status!");
                 }
 
-                if (value != sector.Selected)
+                if (value == sector.Selected)
                 {
-                    // based on CodeImp's code in SectorsMode
-                    foreach (Sidedef sd in sector.Sidedefs)
+                    return;
+                }
+                if (value == true)
+                {
+                    sector.Selected = false;
+
+                    // "simple" in case of truth
+                    foreach (Sidedef side in sector.Sidedefs)
                     {
-                        bool front, back;
-                        if (sd.Line.Front != null) front = sd.Line.Front.Sector.Selected; else front = false;
-                        if (sd.Line.Back != null) back = sd.Line.Back.Sector.Selected; else back = false;
-                        sd.Line.Selected = front | back;
+                        side.Line.Selected = true;
+                        side.Line.Start.Selected = true;
+                        side.Line.End.Selected = true;
                     }
                 }
+                else
+                {
+                    // false case less trivial, lines must remain selected if
+                    // their other side is selected, and vertices must
+                    // remain selected if they are connected to outside selected lines
+                    sector.Selected = false;
 
-                sector.Selected = value;
-            }
+                    HashSet<Vertex> deselect_vertices = new HashSet<Vertex>();
+                    foreach (Sidedef side in sector.Sidedefs)
+                    {
+                        // skip disposed ones, of course
+                        if (side.IsDisposed)
+                        {
+                            continue;
+                        }
+                        Linedef l = side.Line;
+
+                        if (l.Back == null || l.Back.IsDisposed)
+                        {
+                            l.Selected = true;
+                        }
+                        else if (l.Front == null || l.Front.IsDisposed)
+                        {
+                            // this case probably shouldn't be possible but
+                            // i want lua to be more careful about doing things
+                            // that can cause crashes
+                            l.Selected = true;
+                        }
+                        else
+                        {
+                            // 2sided
+                            l.Selected = l.Front.Sector.Selected && l.Back.Sector.Selected;
+
+                            deselect_vertices.Add(l.Start);
+                            deselect_vertices.Add(l.End);
+                        }
+                    }
+
+                    // we have to handle vertices in a second loop once the lines
+                    // have already all been deselected if needed
+                    foreach (Vertex v in deselect_vertices)
+                    {
+                        v.Selected = false;
+                        foreach (Linedef l in v.Linedefs)
+                        {
+                            if (l.Selected)
+                            {
+                                v.Selected = true;
+                                break;
+                            }
+                        }
+                        // done w this vertex
+                    }
+                } // done with true case
+                
+                
+            } // done with selected setter
         }
 
         public int floorheight
@@ -223,6 +282,8 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 throw new ScriptRuntimeException("Sector has been disposed, can't SetUDMFField()!");
             }
+            // ano - bc of like floor scaling or whatever
+            sector.UpdateNeeded = true;
             LuaTypeConversion.SetUDMFField(sector, key, value);
         }
 
@@ -239,6 +300,30 @@ namespace CodeImp.DoomBuilder.DBXLua
                 if (!s.IsDisposed)
                 {
                     output.Append(DynValue.FromObject(ScriptContext.context.script, new LuaSidedef(s)));
+                }
+            }
+
+            return output;
+        }
+
+        public Table GetLinedefs()
+        {
+            if (sector.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Sector has been disposed, can't GetLinedefs()!");
+            }
+
+            HashSet<Linedef> linedefs = new HashSet<Linedef>();
+
+            Table output = new Table(ScriptContext.context.script);
+            foreach (Sidedef s in sector.Sidedefs)
+            {
+                if (!s.IsDisposed && !s.Line.IsDisposed)
+                {
+                    if (linedefs.Add(s.Line))
+                    {
+                        output.Append(DynValue.FromObject(ScriptContext.context.script, new LuaLinedef(s.Line)));
+                    }
                 }
             }
 
@@ -262,7 +347,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             }
             return sector.ToString();
         }
-
+        
         // TODO  join, createbbox
 
     } // sector

@@ -49,6 +49,7 @@
     <Compile Include="BuilderPlug.cs" />
     <Compile Include="DBXDebugger.cs" />
     <Compile Include="LuaDataManager.cs" />
+    <Compile Include="LuaLine2D.cs" />
     <Compile Include="LuaLinedef.cs" />
     <Compile Include="LuaMap.cs" />
     <Compile Include="LuaMapFormat.cs" />

@@ -1,5 +1,5 @@
 -- sector_wand_select_height.lua by anotak
--- selects all sectors that are connected somehow to the sector where you clicked
+-- selects all sectors that are connected somehow to the sector where you edit-clicked (default m2)
 -- and also have the same floor height
 
 -- deselect sectors/lines/vertices
