@@ -21,6 +21,13 @@ using MoonSharp.Interpreter;
 
 namespace CodeImp.DoomBuilder.DBXLua
 {
+    public enum eCancelReason
+    {
+        Unknown,
+        Timeout,
+        UserChoice
+    }
+
     [EditMode(DisplayName = "Lua Mode",
               SwitchAction = "dbxluamode",
               ButtonImage = "WadScriptIcon.png",
@@ -34,10 +41,14 @@ namespace CodeImp.DoomBuilder.DBXLua
         internal static string scriptPath;
         internal static Thread scriptThread;
         internal static ScriptContext scriptRunner;
-        internal static bool bScriptSuccess;
-        internal static bool bScriptDone;
-        internal static bool bScriptCancelled;
+        internal static volatile bool bScriptSuccess;
+        internal static volatile bool bScriptDone;
+        internal static volatile eCancelReason CancelReason;
+        internal static volatile bool bScriptCancelled;
+        internal static volatile bool bScriptUIDone;
+        internal static volatile bool bScriptParamsRequested;
         internal static Stopwatch stopwatch;
+        protected static Dictionary<string, string> returned_parameters;
 
         public ScriptMode()
             : base()
@@ -45,8 +56,9 @@ namespace CodeImp.DoomBuilder.DBXLua
             bScriptSuccess = true;
             bScriptDone = false;
             bScriptCancelled = false;
+            bScriptParamsRequested = false;
             scriptPath = General.Settings.ReadPluginSetting("selectedscriptpath", "");
-
+            CancelReason = eCancelReason.Unknown;
             // load default hello script
             if (!File.Exists(scriptPath))
             {
@@ -110,6 +122,20 @@ namespace CodeImp.DoomBuilder.DBXLua
             base.OnCancel();
             BuilderPlug.Me.HideMenu();
             General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
+        }
+
+
+        // only called from script thread!
+        internal static Dictionary<string,string> RequestAndWaitForParams()
+        {
+            bScriptUIDone = false; // important to do this first bc threading crap
+            bScriptParamsRequested = true;
+
+            while (!bScriptUIDone)
+            {
+                Thread.Sleep(8);
+            }
+            return returned_parameters;
         }
 
         // Mouse moving
@@ -383,6 +409,8 @@ namespace CodeImp.DoomBuilder.DBXLua
             General.Interface.SetCursor(Cursors.AppStarting);
 
             General.Interface.DisplayStatus(StatusType.Busy, "Executing script '" + scriptShortName + "'!");
+            CancelReason = eCancelReason.Unknown;
+            bScriptParamsRequested = false;
             bScriptSuccess = true;
             bScriptDone = false;
             bScriptCancelled = false;
@@ -395,16 +423,19 @@ namespace CodeImp.DoomBuilder.DBXLua
             Thread.Sleep(4);
             int scriptTime = 4;
 
-            while (!bScriptDone && !bScriptCancelled && scriptTime < 100)
-            {
-                Thread.Sleep(4);
-                scriptTime += 4;
-            }
-
             while (!bScriptDone && !bScriptCancelled && scriptTime < 2800)
             {
                 Thread.Sleep(10);
                 scriptTime += 10;
+
+                if (bScriptParamsRequested)
+                {
+                    bScriptParamsRequested = false;
+                    stopwatch.Stop();
+                    returned_parameters = ScriptParamForm.ShowParamsDialog(scriptRunner.ui_parameters);
+                    stopwatch.Start();
+                    bScriptUIDone = true;
+                }
             }
 
             General.Map.IsMapBeingEdited = true;
@@ -546,7 +577,16 @@ namespace CodeImp.DoomBuilder.DBXLua
         }
 
 
-        
+        // based on CodeImp code
+        // This clears the selection
+        [BeginAction("clearselection", BaseAction = true)]
+        public void ClearSelection()
+        {
+            // Clear selection
+            General.Map.Map.ClearAllSelected();
 
+            // Redraw
+            General.Interface.RedrawDisplay();
+        }
     } // class
 } // ns

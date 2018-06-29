@@ -78,6 +78,12 @@
       <DependentUpon>ScriptMessageForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ScriptMode.cs" />
+    <Compile Include="ScriptParamForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScriptParamForm.Designer.cs">
+      <DependentUpon>ScriptParamForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ScriptTimeoutForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,6 +112,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ScriptMessageForm.resx">
       <DependentUpon>ScriptMessageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScriptParamForm.resx">
+      <DependentUpon>ScriptParamForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ScriptTimeoutForm.resx">
       <DependentUpon>ScriptTimeoutForm.cs</DependentUpon>

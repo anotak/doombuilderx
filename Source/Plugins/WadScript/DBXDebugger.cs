@@ -50,7 +50,22 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (ScriptMode.bScriptCancelled)
             {
-                throw new ScriptRuntimeException("Script cancelled by user due to timeout.");
+                switch (ScriptMode.CancelReason)
+                {
+                    case eCancelReason.Timeout:
+                        throw new ScriptRuntimeException("Script cancelled by user due to timeout.");
+
+                    case eCancelReason.UserChoice:
+                        // ano - I HATE DOING FLOW CONTROL WITH EXCEPTIONS
+                        // it is a bad bad antipattern
+                        // but i see no good way to do this at all, without digging into
+                        // the moonsharp source ourselves
+                        throw new ScriptRuntimeException("Script cancelled by user choice.");
+
+                    case eCancelReason.Unknown:
+                    default:
+                        throw new ScriptRuntimeException("Script cancelled/terminated early for unknown reasons (may be a bug in the Lua API?)");
+                }
             }
 
             return new DebuggerAction()

@@ -187,8 +187,8 @@ namespace CodeImp.DoomBuilder.DBXLua
                 if (previndex == -1 || Vector2D.DistanceSq(nd.pos, d[previndex].pos) > 0.001f)
                 {
                     d.Add(nd);
+                    previndex++;
                 }
-                previndex++;
             }
 
             // Make the drawing

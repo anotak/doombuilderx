@@ -54,6 +54,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             if (!ScriptMode.bScriptDone)
             {
                 ScriptContext.context.Kill();
+                ScriptMode.CancelReason = eCancelReason.Timeout;
                 ScriptMode.bScriptCancelled = true;
                 DialogResult = DialogResult.Cancel;
             }

@@ -74,6 +74,18 @@ namespace CodeImp.DoomBuilder.DBXLua
             }
             return new LuaLine2D(sidedef.sidedef.Line.Line);
         }
+
+        public static LuaVector2D GetIntersectionPoint(LuaLine2D a, LuaLine2D b)
+        {
+            float u_ray = 0f;
+            float u_line = 0f;
+
+            bool intersected = a.l2d.GetIntersection(b.l2d, out u_ray, out u_line);
+
+            Vector2D output = a.l2d.GetCoordinatesAt(u_line);
+
+            return new LuaVector2D(output);
+        }
         #endregion
 
         public LuaVector2D GetV1()
@@ -186,18 +198,6 @@ namespace CodeImp.DoomBuilder.DBXLua
                 l2d.v1.y,
                 v2.vec
                 ));
-        }
-
-        public static LuaVector2D GetIntersectionPoint(LuaLine2D a, LuaLine2D b)
-        {
-            float u_ray = 0f;
-            float u_line = 0f;
-
-            bool intersected = a.l2d.GetIntersection(b.l2d, out u_ray, out u_line);
-
-            Vector2D output = a.l2d.GetCoordinatesAt(u_line);
-            
-            return new LuaVector2D(output);
         }
 
         public LuaVector2D GetPerpendicular()

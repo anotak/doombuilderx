@@ -107,5 +107,86 @@ namespace CodeImp.DoomBuilder.DBXLua
                     ));
             }
         }
-    } // class
+
+        public static void ClearParameters()
+        {
+            ScriptContext.context.ui_parameters = new LuaUIParameters(16);
+        }
+
+        public static void AddParameter(string key, string label, string defaultvalue)
+        {
+            if (key == null || key == "")
+            {
+                throw new ScriptRuntimeException("AddParameter called with nil or empty key.");
+            }
+
+            if (label == null || label == "")
+            {
+                label = key;
+            }
+
+            
+
+            if (ScriptContext.context.ui_parameters.keys == null)
+            {
+                ScriptContext.context.ui_parameters = new LuaUIParameters(16);
+            }
+            ScriptContext.context.ui_parameters.keys.Add(key);
+            ScriptContext.context.ui_parameters.labels.Add(label);
+
+            if (defaultvalue == null)
+            {
+                ScriptContext.context.ui_parameters.defaultvalues.Add("");
+            }
+            else
+            {
+                ScriptContext.context.ui_parameters.defaultvalues.Add(defaultvalue);
+            }
+        }
+
+        public static Dictionary<string, string> AskForParameters()
+        {
+            Dictionary<string,string> output = AskForParametersNoClear();
+            ClearParameters();
+            return output;
+        }
+
+        public static Dictionary<string,string> AskForParametersNoClear()
+        {
+            // TODO add repeating with previous parameters
+            // FIXME  check for duplicate keys
+
+            if (ScriptContext.context.ui_parameters.keys == null
+                || 
+                ScriptContext.context.ui_parameters.keys.Count <= 0)
+            {
+                ScriptContext.context.Warn("AskForParameters called with no parameters set up.");
+                return null;
+            }
+
+            Dictionary<string, string> output = ScriptMode.RequestAndWaitForParams();
+
+            if (output == null)
+            {
+                throw new ScriptRuntimeException("User cancelled script execution.");
+            }
+            return output;
+        }
+    } // luaui class
+
+
+    public struct LuaUIParameters
+    {
+        public List<string> keys;
+        public List<string> labels;
+        public List<string> defaultvalues;
+
+        // default parameter workaround for C# not letting us do parameterless constructors
+        public LuaUIParameters(int size)
+        {
+            keys = new List<string>(size);
+            labels = new List<string>(size);
+            defaultvalues = new List<string>(size);
+        }
+    } // luauiparameters
 } // ns

@@ -30,12 +30,18 @@ namespace CodeImp.DoomBuilder.DBXLua
         internal bool snaptonearest;
 
         private HashSet<string> features_warning;
+        private HashSet<string> general_warnings;
         private StringBuilder scriptlog_sb;
         private StringBuilder debuglog_sb;
 
         public string errorText;
 
         public string scriptPath;
+
+        // used for asking for input from ScriptParamForm, see also LuaUI
+        public LuaUIParameters ui_parameters;
+
+        
 
         public string ScriptLog {
             get
@@ -69,6 +75,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             snaptogrid = insnaptogrid;
             snaptonearest = insnaptonearest;
             mousemappos = inmappos;
+            ui_parameters = new LuaUIParameters(16);
             if (float.IsNaN(mousemappos.x) || float.IsInfinity(mousemappos.x))
             {
                 mousemappos.x = 0f;
@@ -83,6 +90,8 @@ namespace CodeImp.DoomBuilder.DBXLua
 
             UserData.RegisterAssembly();
             script = new Script(CoreModules.Preset_SoftSandbox);
+
+            script.Options.DebugPrint = s => { LuaUI.DebugLogLine(s); };
 
             script.Globals["Line2D"] = typeof(LuaLine2D);
             script.Globals["Vector2D"] = typeof(LuaVector2D);
@@ -149,6 +158,14 @@ namespace CodeImp.DoomBuilder.DBXLua
                 }
                 sb.Append("\n");
             }
+            if (general_warnings != null)
+            {
+                foreach (string s in general_warnings)
+                {
+                    sb.Append(s);
+                    sb.Append('\n');
+                }
+            }
             return sb.ToString();
         }
 
@@ -159,6 +176,15 @@ namespace CodeImp.DoomBuilder.DBXLua
                 features_warning = new HashSet<string>();
             }
             features_warning.Add(name);
+        }
+
+        internal void Warn(string name)
+        {
+            if (general_warnings == null)
+            {
+                general_warnings = new HashSet<string>();
+            }
+            general_warnings.Add(name);
         }
 
         #region LuaFunctions
