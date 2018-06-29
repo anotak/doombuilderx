@@ -221,7 +221,7 @@ namespace CodeImp.DoomBuilder.Windows
 				pk3location.Text = pk3filedialog.FileName;
                 
                 // ano - save initial directory ourselves
-                General.Settings.WriteSetting("resourceinitialdirectory", Path.GetDirectoryName(wadfiledialog.FileName));
+                General.Settings.WriteSetting("resourceinitialdirectory", Path.GetDirectoryName(pk3filedialog.FileName));
             }
 		}
 
