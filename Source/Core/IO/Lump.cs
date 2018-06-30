@@ -54,6 +54,9 @@ namespace CodeImp.DoomBuilder.IO
 		// Disposing
 		private bool isdisposed = false;
 
+        // bmsq - string to longname index, used when name.length > 8
+        private static Dictionary<string, long> longnameindex = new Dictionary<string, long>();
+
 		#endregion
 
 		#region ================== Properties
@@ -178,16 +181,31 @@ namespace CodeImp.DoomBuilder.IO
         public static unsafe long MakeLongName(string name)
 		{
 			long value = 0;
-			byte[] namebytes = Encoding.ASCII.GetBytes(name.Trim().ToUpper());
+            string normalizedName = name.Trim().ToUpper();
+
+            byte[] namebytes = Encoding.ASCII.GetBytes(normalizedName);
 			uint bytes = (uint)namebytes.Length;
-			if(bytes > 8) bytes = 8;
 
-			fixed(void* bp = namebytes)
-			{
-				General.CopyMemory(&value, bp, bytes);
-			}
+            // bmsq - handle long file names
+            if ((bytes > 8) || ((bytes == 8) && (namebytes[0] > 0x7F)))
+            {
+                if (!longnameindex.TryGetValue(normalizedName, out value))
+                {
+                    value = longnameindex.Count;
+                    value |= unchecked((long)0x8000000000000000);
 
-			return value;
+                    longnameindex.Add(normalizedName, value);
+                }
+            }
+            else
+            {
+                fixed (void* bp = namebytes)
+                {
+                    General.CopyMemory(&value, bp, bytes);
+                }
+            }
+
+            return value;
 		}
 		
 		// This makes the normal name from fixed name

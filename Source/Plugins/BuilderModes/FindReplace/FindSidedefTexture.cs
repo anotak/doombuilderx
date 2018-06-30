@@ -91,7 +91,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 			{
 				// If it cannot be interpreted, set replacewith to null (not replacing at all)
 				if(replacewith.Length < 0) replacewith = null;
-				if(replacewith.Length > 8) replacewith = null;
+				if((General.Map.Config.MaxTextureNamelength > 0) && (replacewith.Length > General.Map.Config.MaxTextureNamelength)) replacewith = null;
 				if(replacewith == null)
 				{
 					MessageBox.Show("Invalid replace value for this search type!", "Find and Replace", MessageBoxButtons.OK, MessageBoxIcon.Error);

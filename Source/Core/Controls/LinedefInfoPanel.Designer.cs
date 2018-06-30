@@ -507,9 +507,11 @@ namespace CodeImp.DoomBuilder.Controls
             // 
             // frontlowname
             // 
+            this.frontlowname.AutoSize = true;
             this.frontlowname.BackColor = System.Drawing.SystemColors.Control;
             this.frontlowname.Location = new System.Drawing.Point(212, 90);
             this.frontlowname.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.frontlowname.MinimumSize = new System.Drawing.Size(102, 26);
             this.frontlowname.Name = "frontlowname";
             this.frontlowname.Size = new System.Drawing.Size(102, 26);
             this.frontlowname.TabIndex = 5;
@@ -530,9 +532,11 @@ namespace CodeImp.DoomBuilder.Controls
             // 
             // fronthighname
             // 
+            this.fronthighname.AutoSize = true;
             this.fronthighname.BackColor = System.Drawing.SystemColors.Control;
             this.fronthighname.Location = new System.Drawing.Point(8, 90);
             this.fronthighname.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.fronthighname.MinimumSize = new System.Drawing.Size(102, 26);
             this.fronthighname.Name = "fronthighname";
             this.fronthighname.Size = new System.Drawing.Size(102, 26);
             this.fronthighname.TabIndex = 1;
@@ -553,9 +557,11 @@ namespace CodeImp.DoomBuilder.Controls
             // 
             // frontmidname
             // 
+            this.frontmidname.AutoSize = true;
             this.frontmidname.BackColor = System.Drawing.SystemColors.Control;
             this.frontmidname.Location = new System.Drawing.Point(110, 90);
             this.frontmidname.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.frontmidname.MinimumSize = new System.Drawing.Size(102, 26);
             this.frontmidname.Name = "frontmidname";
             this.frontmidname.Size = new System.Drawing.Size(102, 26);
             this.frontmidname.TabIndex = 3;
@@ -604,9 +610,11 @@ namespace CodeImp.DoomBuilder.Controls
             // 
             // backlowname
             // 
+            this.backlowname.AutoSize = true;
             this.backlowname.BackColor = System.Drawing.SystemColors.Control;
             this.backlowname.Location = new System.Drawing.Point(212, 90);
             this.backlowname.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.backlowname.MinimumSize = new System.Drawing.Size(102, 26);
             this.backlowname.Name = "backlowname";
             this.backlowname.Size = new System.Drawing.Size(102, 26);
             this.backlowname.TabIndex = 5;
@@ -616,9 +624,11 @@ namespace CodeImp.DoomBuilder.Controls
             // 
             // backmidname
             // 
+            this.backmidname.AutoSize = true;
             this.backmidname.BackColor = System.Drawing.SystemColors.Control;
             this.backmidname.Location = new System.Drawing.Point(110, 90);
             this.backmidname.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.backmidname.MinimumSize = new System.Drawing.Size(102, 26);
             this.backmidname.Name = "backmidname";
             this.backmidname.Size = new System.Drawing.Size(102, 26);
             this.backmidname.TabIndex = 3;
@@ -639,9 +649,11 @@ namespace CodeImp.DoomBuilder.Controls
             // 
             // backhighname
             // 
+            this.backhighname.AutoSize = true;
             this.backhighname.BackColor = System.Drawing.SystemColors.Control;
             this.backhighname.Location = new System.Drawing.Point(8, 90);
             this.backhighname.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.backhighname.MinimumSize = new System.Drawing.Size(102, 26);
             this.backhighname.Name = "backhighname";
             this.backhighname.Size = new System.Drawing.Size(102, 26);
             this.backhighname.TabIndex = 1;
