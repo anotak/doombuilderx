@@ -54,8 +54,8 @@ namespace CodeImp.DoomBuilder.IO
 		// Disposing
 		private bool isdisposed = false;
 
-        // bmsq - string to longname index, used when name.length > 8
-        private static Dictionary<string, long> longnameindex = new Dictionary<string, long>();
+		// bmsq - string to longname index, used when name.length > 8
+		private static Dictionary<string, long> longnameindex = new Dictionary<string, long>();
 
 		#endregion
 
@@ -84,11 +84,11 @@ namespace CodeImp.DoomBuilder.IO
 			this.offset = offset;
 			this.length = length;
 
-            // Make name
-            MakeNames(fixedname);
+			// Make name
+			MakeNames(fixedname);
 
-            // We have no destructor
-            GC.SuppressFinalize(this);
+			// We have no destructor
+			GC.SuppressFinalize(this);
 		}
 
 		// Disposer
@@ -106,106 +106,106 @@ namespace CodeImp.DoomBuilder.IO
 			}
 		}
 
-        #endregion
+		#endregion
 
-        #region ================== Methods
+		#region ================== Methods
 
-        // This returns the long value for a 8 byte texture name
-        private void MakeNames(byte[] in_fixed)
-        {
-            /*
-            this.name = MakeNormalName(in_fixed, WAD.ENCODING).ToUpperInvariant();
+		// This returns the long value for a 8 byte texture name
+		private void MakeNames(byte[] in_fixed)
+		{
+			/*
+			this.name = MakeNormalName(in_fixed, WAD.ENCODING).ToUpperInvariant();
 			this.fixedname = MakeFixedName(name, WAD.ENCODING);
-            this.longname = MakeLongName(name);
-            */
+			this.longname = MakeLongName(name);
+			*/
 
-            int length;
-            
-            // Figure out the length of the lump name
-            {
-                int orig_length = in_fixed.Length;
-                int l = 0;
-                int r = orig_length;
-                while (r - l > 1)
-                {
-                    int m = (r + l) / 2;
+			int length;
+			
+			// Figure out the length of the lump name
+			{
+				int orig_length = in_fixed.Length;
+				int l = 0;
+				int r = orig_length;
+				while (r - l > 1)
+				{
+					int m = (r + l) / 2;
 
-                    if (in_fixed[m] == 0)
-                    {
-                        r = m;
-                    }
-                    else
-                    {
-                        l = m;
-                    }
-                }
-                length = l + 1;
-            }
+					if (in_fixed[m] == 0)
+					{
+						r = m;
+					}
+					else
+					{
+						l = m;
+					}
+				}
+				length = l + 1;
+			}
 
-            // Make normal name
-            name = WAD.ENCODING.GetString(in_fixed, 0, length).Trim().ToUpperInvariant();
-
-
-            //makefixedname
-            {
-                int bytes = length;
-                if (bytes < 8) bytes = 8;
-
-                // Make 8 bytes, all zeros
-                fixedname = new byte[bytes];
-
-                // Write the name in bytes
-                WAD.ENCODING.GetBytes(name, 0, length, fixedname, 0);
-            }
-
-            //makelongname
-            unsafe
-            {
-                long value = 0;
-                uint bytes = (uint)length;
-
-                if (bytes > 8) bytes = 8;
-
-                fixed (void* bp = fixedname)
-                {
-                    General.CopyMemory(&value, bp, bytes);
-                }
-
-                longname = value;
-            }
+			// Make normal name
+			name = WAD.ENCODING.GetString(in_fixed, 0, length).Trim().ToUpperInvariant();
 
 
-        } // makenames
+			//makefixedname
+			{
+				int bytes = length;
+				if (bytes < 8) bytes = 8;
 
-        // This returns the long value for a 8 byte texture name
-        public static unsafe long MakeLongName(string name)
+				// Make 8 bytes, all zeros
+				fixedname = new byte[bytes];
+
+				// Write the name in bytes
+				WAD.ENCODING.GetBytes(name, 0, length, fixedname, 0);
+			}
+
+			//makelongname
+			unsafe
+			{
+				long value = 0;
+				uint bytes = (uint)length;
+
+				if (bytes > 8) bytes = 8;
+
+				fixed (void* bp = fixedname)
+				{
+					General.CopyMemory(&value, bp, bytes);
+				}
+
+				longname = value;
+			}
+
+
+		} // makenames
+
+		// This returns the long value for a 8 byte texture name
+		public static unsafe long MakeLongName(string name)
 		{
 			long value = 0;
-            string normalizedName = name.Trim().ToUpper();
+			string normalizedName = name.Trim().ToUpper();
 
-            byte[] namebytes = Encoding.ASCII.GetBytes(normalizedName);
+			byte[] namebytes = Encoding.ASCII.GetBytes(normalizedName);
 			uint bytes = (uint)namebytes.Length;
 
-            // bmsq - handle long file names
-            if ((bytes > 8) || ((bytes == 8) && (namebytes[0] > 0x7F)))
-            {
-                if (!longnameindex.TryGetValue(normalizedName, out value))
-                {
-                    value = longnameindex.Count;
-                    value |= unchecked((long)0x8000000000000000);
+			// bmsq - handle long file names
+			if ((bytes > 8) || ((bytes == 8) && (namebytes[0] > 0x7F)))
+			{
+				if (!longnameindex.TryGetValue(normalizedName, out value))
+				{
+					value = longnameindex.Count;
+					value |= unchecked((long)0x8000000000000000);
 
-                    longnameindex.Add(normalizedName, value);
-                }
-            }
-            else
-            {
-                fixed (void* bp = namebytes)
-                {
-                    General.CopyMemory(&value, bp, bytes);
-                }
-            }
+					longnameindex.Add(normalizedName, value);
+				}
+			}
+			else
+			{
+				fixed (void* bp = namebytes)
+				{
+					General.CopyMemory(&value, bp, bytes);
+				}
+			}
 
-            return value;
+			return value;
 		}
 		
 		// This makes the normal name from fixed name
