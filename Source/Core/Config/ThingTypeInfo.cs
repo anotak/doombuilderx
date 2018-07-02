@@ -159,10 +159,7 @@ namespace CodeImp.DoomBuilder.Config
 			if(this.radius < 4f) this.radius = 8f;
 			
 			// Make long name for sprite lookup
-			if(this.sprite.Length <= 8)
-				this.spritelongname = Lump.MakeLongName(this.sprite);
-			else
-				this.spritelongname = long.MaxValue;
+			this.spritelongname = Lump.MakeLongName(this.sprite);
 			
 			// We have no destructor
 			GC.SuppressFinalize(this);
@@ -199,10 +196,7 @@ namespace CodeImp.DoomBuilder.Config
 			if(this.radius < 4f) this.radius = 8f;
 			
 			// Make long name for sprite lookup
-			if(this.sprite.Length <= 8)
-				this.spritelongname = Lump.MakeLongName(this.sprite);
-			else
-				this.spritelongname = long.MaxValue;
+			this.spritelongname = Lump.MakeLongName(this.sprite);
 
 			// We have no destructor
 			GC.SuppressFinalize(this);
@@ -269,10 +263,7 @@ namespace CodeImp.DoomBuilder.Config
 			string suitablesprite = actor.FindSuitableSprite();
 			if(!string.IsNullOrEmpty(suitablesprite)) sprite = suitablesprite;
 			
-			if(this.sprite.Length <= 8)
-				this.spritelongname = Lump.MakeLongName(this.sprite);
-			else
-				this.spritelongname = long.MaxValue;
+			this.spritelongname = Lump.MakeLongName(this.sprite);
 			
 			// Set sprite scale
 			if(actor.HasPropertyWithValue("scale"))
