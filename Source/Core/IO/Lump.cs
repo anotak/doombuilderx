@@ -54,9 +54,6 @@ namespace CodeImp.DoomBuilder.IO
 		// Disposing
 		private bool isdisposed = false;
 
-		// bmsq - string to longname index, used when name.length > 8
-		private static Dictionary<string, long> longnameindex = new Dictionary<string, long>();
-
 		#endregion
 
 		#region ================== Properties
@@ -186,22 +183,22 @@ namespace CodeImp.DoomBuilder.IO
 			byte[] namebytes = Encoding.ASCII.GetBytes(normalizedName);
 			uint bytes = (uint)namebytes.Length;
 
-			// bmsq - handle long file names
-			if ((bytes > 8) || ((bytes == 8) && (namebytes[0] > 0x7F)))
+            // bmsq - GH-6: handle long file names 
+            if ((bytes > 8) || ((bytes == 8) && (namebytes[0] > 0x7F)))
 			{
-				if (!longnameindex.TryGetValue(normalizedName, out value))
+				if (!General.Map.LongNameIndex.TryGetValue(normalizedName, out value))
 				{
-					value = longnameindex.Count;
+					value = General.Map.LongNameIndex.Count;
 					value |= unchecked((long)0x8000000000000000);
 
-					longnameindex.Add(normalizedName, value);
+                    General.Map.LongNameIndex.Add(normalizedName, value);
 				}
 			}
 			else
 			{
 				fixed (void* bp = namebytes)
 				{
-					General.CopyMemory(&value, bp, bytes);
+                    General.CopyMemory(&value, bp, bytes);
 				}
 			}
 
