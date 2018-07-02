@@ -1,6 +1,7 @@
 -- parameters_test.lua by anotak
 -- this is just a test for now
 
+-- UI.AddParameter(key, label, defaultvalue)
 UI.AddParameter("add_a", "this will get added to the next one", 2)
 UI.AddParameter("add_b", "yea, this one", 3)
 UI.AddParameter("some_other", "this one will be ignored", "yep")

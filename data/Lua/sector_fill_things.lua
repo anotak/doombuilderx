@@ -278,7 +278,7 @@ if #selected_sectors <= 0 then
 	end
 	
 	selected_sectors[1].selected = true
-end 
+end
 
 -- we need 2 things selected to make a box out of them
 -- 1 thing to copy

@@ -523,15 +523,17 @@ namespace CodeImp.DoomBuilder.DBXLua
                 throw new ScriptRuntimeException("Linedef has been disposed, can't SetUDMFField()!");
             }
 
-            // FIXME this is the extremely hacky workaround to
-            // not having a proper way to call .BeforePropsChange
-            // for setting udmf
-            // right now. we have to do this because we must maintain
-            // compatibility with non-DBX codebases, but hopefully
-            // we can do this in a better way in the future
-            linedef.Tag = linedef.Tag;
-
             LuaTypeConversion.SetUDMFField(linedef, key, value);
+        }
+
+        public Table GetUDMFTable()
+        {
+            if (linedef.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Linedef has been disposed, can't GetUDMFTable()!");
+            }
+
+            return LuaTypeConversion.GetUDMFTable(linedef);
         }
 
         public LuaSidedef GetFront()

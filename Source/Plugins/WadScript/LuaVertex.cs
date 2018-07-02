@@ -146,6 +146,16 @@ namespace CodeImp.DoomBuilder.DBXLua
             LuaTypeConversion.SetUDMFField(vertex, key, value);
         }
 
+        public Table GetUDMFTable()
+        {
+            if (vertex.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Vertex has been disposed, can't GetUDMFTable()!");
+            }
+
+            return LuaTypeConversion.GetUDMFTable(vertex);
+        }
+
         public List<LuaLinedef> GetLines()
         {
             if (vertex.IsDisposed)

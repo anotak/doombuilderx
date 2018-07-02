@@ -22,17 +22,20 @@ namespace CodeImp.DoomBuilder.DBXLua
             // ano - safer to assume data coming from a script is suspect
             if (ui_parameters.keys == null || ui_parameters.labels == null)
             {
-                throw new ScriptRuntimeException("Keys/labels were nil for taking script parameters");
+                ScriptContext.context.Warn("Keys/labels were nil for taking script parameters. Possibly Lua API bug?");
+                return null;
             }
             if (ui_parameters.keys.Count != ui_parameters.labels.Count)
             {
-                throw new ScriptRuntimeException("# keys must be equal to # labels for parameters dialog");
+                ScriptContext.context.Warn("# keys must be equal to # labels for parameters dialog. Possibly Lua API bug?");
+                return null;
             }
 
             // ano - really suspect
             if (ui_parameters.keys.Count > 384)
             {
-                throw new ScriptRuntimeException("# keys for script parameters can't be greater than 384");
+                ScriptContext.context.Warn("# keys for script parameters can't be greater than 384");
+                return null;
             }
 
             if (ui_parameters.defaultvalues == null)

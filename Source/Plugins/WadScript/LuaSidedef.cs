@@ -172,6 +172,16 @@ namespace CodeImp.DoomBuilder.DBXLua
             LuaTypeConversion.SetUDMFField(sidedef, key, value);
         }
 
+        public Table GetUDMFTable()
+        {
+            if (sidedef.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Sidedef has been disposed, can't GetUDMFTable()!");
+            }
+
+            return LuaTypeConversion.GetUDMFTable(sidedef);
+        }
+
         public bool IsFront()
         {
             if (sidedef.IsDisposed || sidedef.Line.IsDisposed)

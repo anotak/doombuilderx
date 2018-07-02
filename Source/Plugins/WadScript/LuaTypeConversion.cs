@@ -128,8 +128,7 @@ namespace CodeImp.DoomBuilder.DBXLua
                 throw new ScriptRuntimeException("error setting UDMF field " + key + ", must be int, float, string, double or bool, instead was " + v_object.GetType().ToString());
             }
         }
-
-        // TODO determine if do we need this for real?
+        
         public static Table GetUDMFTable(MapElement element)
         {
             Table output = new Table(ScriptContext.context.script);
@@ -142,7 +141,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             
             foreach (KeyValuePair<string, UniValue> pair in element.Fields)
             {
-                output.Set(pair.Key, DynValue.FromObject(ScriptContext.context.script, pair.Value));
+                output.Set(pair.Key, DynValue.FromObject(ScriptContext.context.script, pair.Value.Value));
             }
 
             return output;

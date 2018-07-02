@@ -78,9 +78,15 @@ namespace CodeImp.DoomBuilder.DBXLua
 
         public void ConvertSelection()
         {
+
             // this is a bit uglier than i'd like bc ConvertSelection does not
             // support SelectionType.All
             // and i'd like to keep plugin compat so... yea
+
+            // FIXME just implement SelectionType.All instead because 
+            // if your script selects a sector and theres another sector inside
+            // of it, and then go to sectors mode, then both sectors will be
+            // selected
             General.Map.Map.ConvertSelection(SelectionType.Vertices);
 
             HashSet<Sector> potentially_selected_sectors = new HashSet<Sector>();

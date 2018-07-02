@@ -323,5 +323,169 @@ namespace CodeImp.DoomBuilder.DBXLua
 
             return new LuaThing(t);
         }
+
+        // ano -  this is helper for stuff like joining and merging
+        [MoonSharpHidden]
+        public static HashSet<Sector> UniqueSectorsFromTable(Table table)
+        {
+
+            HashSet<Sector> sectors = new HashSet<Sector>();
+
+            int table_index = 1; // ano - lua is 1 indexed
+            foreach (DynValue d in table.Values)
+            {
+
+                object potential_sector = d.ToObject();
+
+                if (potential_sector is LuaSector)
+                {
+                    sectors.Add(((LuaSector)potential_sector).sector);
+                }
+                else
+                {
+                    throw new ScriptRuntimeException("Element #" + table_index + ": '" + d.ToString() + "' is not a sector, can't join.");
+                }
+
+                table_index++;
+            }
+
+            return sectors;
+        }
+
+        // ano - internal side of joining sectors, used for join and merge functions separately
+        // indirectly based on CodeImp's SectorsMode.JoinMergeSectors
+        [MoonSharpHidden]
+        public static LuaSector JoinUniqueSectors(HashSet<Sector> sectors)
+        {
+            // ano - joining sectors will dispose them
+            // should we make an initial pass to check if sectors are disposed ahead of time?
+            // my gut says no because people may want to do several joins and it sounds like
+            // a pain to worry about
+            Sector first = null;
+            bool selected = true;
+            foreach (Sector s in sectors)
+            {
+                if (!s.IsDisposed)
+                {
+                    selected = selected && s.Selected;
+
+                    if (first == null)
+                    {
+                        first = s;
+                    }
+                    else
+                    {
+                        s.Join(first);
+                    }
+                }
+            }
+
+            if (first == null || first.IsDisposed)
+            {
+                // ano - should we warn/error on null first?
+                return null;
+            }
+            else
+            {
+                LuaSector output = new LuaSector(first);
+                output.selected = selected;
+                return output;
+            }
+        }
+
+        // TODO - add a version of this to LuaSector
+        // ano - based on CodeImp's SectorsMode.JoinMergeSectors
+        public static LuaSector JoinSectors(Table table)
+        {
+            if (table == null || table.Length <= 0)
+            {
+                // ano - should we error or warn here?
+                return null;
+            }
+
+            HashSet<Sector> sectors = UniqueSectorsFromTable(table);
+
+            // ano - bit of a hacky mess to retrieve only element of 1-sized hashset
+            if (sectors.Count == 1)
+            {
+                foreach (Sector s in sectors)
+                {
+                    if (s.IsDisposed)
+                    {
+                        return null;
+                    }
+
+                    return new LuaSector(s);
+                }
+            }
+
+            return JoinUniqueSectors(sectors);
+        }
+
+        // ano - based on CodeImp's SectorsMode.JoinMergeSectors
+        public static LuaSector MergeSectors(Table table)
+        {
+            if (table == null || table.Length <= 0)
+            {
+                // ano - should we error or warn here?
+                return null;
+            }
+
+            HashSet<Sector> sectors = UniqueSectorsFromTable(table);
+
+            // ano - bit of a hacky mess to retrieve only element of 1-sized hashset
+            if (sectors.Count == 1)
+            {
+                foreach (Sector s in sectors)
+                {
+                    if (s.IsDisposed)
+                    {
+                        return null;
+                    }
+
+                    return new LuaSector(s);
+                }
+            }
+
+            // ano - for merge we need to remove linedefs
+            // let's get count instances of the unique lines from the sectors
+            Dictionary<Linedef,int> linedefs = new Dictionary<Linedef, int>();
+
+            foreach (Sector s in sectors)
+            {
+                if (s.IsDisposed)
+                {
+                    continue;
+                }
+                
+                foreach (Sidedef side in s.Sidedefs)
+                {
+                    Linedef line = side.Line;
+
+                    if (linedefs.ContainsKey(line))
+                    {
+                        linedefs[line]++;
+                    }
+                    else if (
+                        line.Front != null
+                        && line.Back != null
+                        && line.Front.Sector != line.Back.Sector)
+                    {
+                        linedefs.Add(line, 1);
+                    }
+                }
+            }
+
+            foreach (KeyValuePair<Linedef,int> pair in linedefs)
+            {
+                if (pair.Value > 1)
+                {
+                    pair.Key.Dispose();
+                }
+            }
+
+            return JoinUniqueSectors(sectors);
+        }
+
     } // class
 } // ns

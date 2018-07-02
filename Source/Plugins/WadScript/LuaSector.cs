@@ -287,6 +287,16 @@ namespace CodeImp.DoomBuilder.DBXLua
             LuaTypeConversion.SetUDMFField(sector, key, value);
         }
 
+        public Table GetUDMFTable()
+        {
+            if (sector.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Sector has been disposed, can't GetUDMFTable()!");
+            }
+
+            return LuaTypeConversion.GetUDMFTable(sector);
+        }
+
         public Table GetSidedefs()
         {
             if (sector.IsDisposed)

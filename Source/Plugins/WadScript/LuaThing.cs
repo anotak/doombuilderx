@@ -464,6 +464,16 @@ namespace CodeImp.DoomBuilder.DBXLua
             LuaTypeConversion.SetUDMFField(thing, key, value);
         }
 
+        public Table GetUDMFTable()
+        {
+            if (thing.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Thing has been disposed, can't GetUDMFTable()!");
+            }
+
+            return LuaTypeConversion.GetUDMFTable(thing);
+        }
+
 
         public float GetRadius()
         {
