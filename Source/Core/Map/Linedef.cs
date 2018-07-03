@@ -102,7 +102,13 @@ namespace CodeImp.DoomBuilder.Map
 		public float Angle { get { return angle; } }
 		public int AngleDeg { get { return (int)(angle * Angle2D.PIDEG); } }
 		public RectangleF Rect { get { return rect; } }
-		public int[] Args { get { return args; } }
+        /*
+         * ano - warning, you should not set args by
+         *       Args[some_index] = some_value;
+         * because it does not call BeforePropsChange() and therefore
+         * it does not create an undo snapshot for this linedef!
+        */
+        public int[] Args { get { return args; } }
 		internal int SerializedIndex { get { return serializedindex; } set { serializedindex = value; } }
 		internal bool FrontInterior { get { return frontinterior; } set { frontinterior = value; } }
 		internal bool ImpassableFlag { get { return impassableflag; } }

@@ -78,7 +78,13 @@ namespace CodeImp.DoomBuilder.Map
 		public int AngleDoom { get { return angledoom; } }
 		internal Dictionary<string, bool> Flags { get { return flags; } }
 		public int Action { get { return action; } set { BeforePropsChange(); action = value; } }
-		public int[] Args { get { return args; } }
+        /*
+         * ano - warning, you should not set args by
+         *       Args[some_index] = some_value;
+         * because it does not call BeforePropsChange() and therefore
+         * it does not create an undo snapshot for this Thing!
+        */
+        public int[] Args { get { return args; } }
 		public float Size { get { return size; } }
 		public float IconOffset { get { return iconoffset; } }
 		public PixelColor Color { get { return color; } }
