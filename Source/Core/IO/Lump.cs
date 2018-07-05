@@ -161,6 +161,7 @@ namespace CodeImp.DoomBuilder.IO
 				long value = 0;
 				uint bytes = (uint)length;
 
+                // bmsq - bytes > 8 will never happen here as this code is only ever used during WAD loading
 				if (bytes > 8) bytes = 8;
 
 				fixed (void* bp = fixedname)
