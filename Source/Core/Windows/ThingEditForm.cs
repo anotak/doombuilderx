@@ -250,7 +250,7 @@ namespace CodeImp.DoomBuilder.Windows
 				{
 					General.DisplayZoomedImage(spritetex, General.Map.Data.GetSpriteImage(thinginfo.Sprite).GetBitmap());
 				}
-				else if((thinginfo.Sprite.Length <= 8) && (thinginfo.Sprite.Length > 0))
+				else if(thinginfo.Sprite.Length > 0)
 				{
 					General.DisplayZoomedImage(spritetex, General.Map.Data.GetSpriteImage(thinginfo.Sprite).GetPreview());
 				}
