@@ -185,7 +185,22 @@ namespace CodeImp.DoomBuilder.IO
 			uint bytes = (uint)namebytes.Length;
 
             // bmsq - GH-6: handle long file names 
-            if ((bytes > 8) || ((bytes == 8) && (namebytes[0] > 0x7F)))
+            if ( (bytes < 8) || ((bytes == 8) && (namebytes[0] <= 0x7F)) || (General.Map == null))
+            {
+                /* 
+                a fallback for when General.Map is not available, this isn't a problem as
+                long names are only used for rendering and rendering isn't initialized until
+                a map is created or loaded.  When a map is created all configurations and 
+                resources are reloaded anyway.
+                 */
+                if (bytes > 8) bytes = 8;
+
+                fixed (void* bp = namebytes)
+                {
+                    General.CopyMemory(&value, bp, bytes);
+                }
+            }
+            else 
 			{
 				if (!General.Map.LongNameIndex.TryGetValue(normalizedName, out value))
 				{
@@ -195,14 +210,6 @@ namespace CodeImp.DoomBuilder.IO
                     General.Map.LongNameIndex.Add(normalizedName, value);
 				}
 			}
-			else
-			{
-				fixed (void* bp = namebytes)
-				{
-                    General.CopyMemory(&value, bp, bytes);
-				}
-			}
-
 			return value;
 		}
 		
