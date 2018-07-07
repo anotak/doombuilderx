@@ -1184,7 +1184,7 @@ namespace CodeImp.DoomBuilder.Data
 			foreach(ThingTypeInfo ti in General.Map.Data.ThingTypes)
 			{
 				// Valid sprite name?
-				if((ti.Sprite.Length > 0) && (ti.Sprite.Length <= 8))
+				if(ti.Sprite.Length > 0)
 				{
 					ImageData image = null;
 					

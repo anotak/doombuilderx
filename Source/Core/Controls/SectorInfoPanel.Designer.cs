@@ -201,8 +201,10 @@ namespace CodeImp.DoomBuilder.Controls
             // 
             // ceilingname
             // 
+            this.ceilingname.AutoSize = true;
             this.ceilingname.Location = new System.Drawing.Point(405, 80);
             this.ceilingname.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.ceilingname.MinimumSize = new System.Drawing.Size(105, 20);
             this.ceilingname.Name = "ceilingname";
             this.ceilingname.Size = new System.Drawing.Size(105, 20);
             this.ceilingname.TabIndex = 1;
@@ -233,8 +235,10 @@ namespace CodeImp.DoomBuilder.Controls
             // 
             // floorname
             // 
+            this.floorname.AutoSize = true;
             this.floorname.Location = new System.Drawing.Point(286, 80);
             this.floorname.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.floorname.MinimumSize = new System.Drawing.Size(105, 20);
             this.floorname.Name = "floorname";
             this.floorname.Size = new System.Drawing.Size(105, 20);
             this.floorname.TabIndex = 1;

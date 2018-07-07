@@ -442,15 +442,16 @@ namespace CodeImp.DoomBuilder.Data
 			List<ImageData> images = new List<ImageData>();
 			string[] files;
 			string name;
-			
-			// Go for all files
-			files = GetAllFiles(path, includesubdirs);
+            int maxTextureNameLength = General.Map.Config.MaxTextureNamelength;
+
+            // Go for all files
+            files = GetAllFiles(path, includesubdirs);
 			foreach(string f in files)
 			{
 				// Make the texture name from filename without extension
 				name = Path.GetFileNameWithoutExtension(f).ToUpperInvariant();
-				if(name.Length > 8) name = name.Substring(0, 8);
-				if(name.Length > 0)
+                if ((maxTextureNameLength > 0) && (name.Length > maxTextureNameLength)) name = name.Substring(0, maxTextureNameLength);
+                if (name.Length > 0)
 				{
 					// Add image to list
 					images.Add(CreateImage(name, f, imagetype));
@@ -474,6 +475,7 @@ namespace CodeImp.DoomBuilder.Data
             List<ImageData> images = new List<ImageData>();
             string[] files;
             string name;
+            int maxTextureNameLength = General.Map.Config.MaxTextureNamelength;
             
             // Go for all files
             files = GetAllFiles(path, true);
@@ -481,7 +483,7 @@ namespace CodeImp.DoomBuilder.Data
             {
                 // Make the texture name from filename without extension
                 name = Path.GetFileNameWithoutExtension(f).ToUpperInvariant();
-                if (name.Length > 8) name = name.Substring(0, 8);
+                if ((maxTextureNameLength > 0) && (name.Length > maxTextureNameLength)) name = name.Substring(0, maxTextureNameLength);
                 if (name.Length > 0)
                 {
                     // Add image to list

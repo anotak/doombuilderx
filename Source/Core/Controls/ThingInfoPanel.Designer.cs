@@ -317,8 +317,10 @@ namespace CodeImp.DoomBuilder.Controls
             // 
             // spritename
             // 
+            this.spritename.AutoSize = true;
             this.spritename.Location = new System.Drawing.Point(14, 85);
             this.spritename.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.spritename.MinimumSize = new System.Drawing.Size(105, 16);
             this.spritename.Name = "spritename";
             this.spritename.Size = new System.Drawing.Size(105, 16);
             this.spritename.TabIndex = 1;

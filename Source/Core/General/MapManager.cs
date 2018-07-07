@@ -85,9 +85,12 @@ namespace CodeImp.DoomBuilder
 		private List<CompilerError> errors;
 		private VisualCamera visualcamera;
         private bool issaving;
-		
-		// Disposing
-		private bool isdisposed = false;
+
+        // bmsq - GH-6: Long name support
+        private Dictionary<string, long> longnameindex;
+
+        // Disposing
+        private bool isdisposed = false;
 
 		#endregion
 
@@ -119,6 +122,9 @@ namespace CodeImp.DoomBuilder
 		public VisualCamera VisualCamera { get { return visualcamera; } set { visualcamera = value; } }
 		public bool IsScriptsWindowOpen { get { return (scriptwindow != null) && !scriptwindow.IsDisposed; } }
         public bool IsSaving { get { return issaving; } }
+
+        // bmsq - GH-6: Long name support
+        internal Dictionary<string, long> LongNameIndex { get { return longnameindex; } }
 
         // ano - UI stuff on a timer should check this before interacting with the map
         // in case the map is being edited in another thread
@@ -249,7 +255,10 @@ namespace CodeImp.DoomBuilder
 			this.changed = false;
 			this.options = options;
 
-			Logger.WriteLogLine("Creating new map '" + options.CurrentName + "' with configuration '" + options.ConfigFile + "'");
+            // bmsq - GH-6: longnames indexed by names longer than 8
+            longnameindex = new Dictionary<string, long>();
+
+            Logger.WriteLogLine("Creating new map '" + options.CurrentName + "' with configuration '" + options.ConfigFile + "'");
 
 			// Initiate graphics
 			Logger.WriteLogLine("Initializing graphics device...");
@@ -336,8 +345,11 @@ namespace CodeImp.DoomBuilder
 			this.filepathname = filepathname;
 			this.changed = false;
 			this.options = options;
-			
-			Logger.WriteLogLine("InitializeOpenMap: Opening map '" + options.CurrentName + "' with configuration '" + options.ConfigFile + "'");
+
+            // bmsq - GH-6: longnames indexed by names longer than 8
+            longnameindex = new Dictionary<string, long>();
+
+            Logger.WriteLogLine("InitializeOpenMap: Opening map '" + options.CurrentName + "' with configuration '" + options.ConfigFile + "'");
 
 			// Initiate graphics
 			Logger.WriteLogLine("InitializeOpenMap: Initializing graphics device...");
