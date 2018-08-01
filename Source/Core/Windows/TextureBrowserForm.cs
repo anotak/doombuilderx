@@ -66,7 +66,6 @@ namespace CodeImp.DoomBuilder.Windows
             browseflats = nbrowseflats;
 
             Cursor.Current = Cursors.WaitCursor;
-            ListViewItem item;
             bool foundselecttexture = false;
             long longname = Lump.MakeLongName(selecttexture ?? "");
 
@@ -81,61 +80,159 @@ namespace CodeImp.DoomBuilder.Windows
             countcolumn.Width = COLUMN_WIDTH_COUNT;
             namecolumn.Width = texturesets.ClientRectangle.Width - SystemInformation.VerticalScrollBarWidth - countcolumn.Width - 2;
 
-            // Fill texture sets list with normal texture sets
-            foreach (IFilledTextureSet ts in General.Map.Data.TextureSets)
+            AddCategorySets();
+            AddContainerSets();
+            AddAllSets();
+
+            // Select the last one that was selected
+            // ano - renamed this from "selectname" because there's also a "selectedname"
+            // in scope and it's confusing
+            string cfgTextureSet = General.Settings.ReadSetting("browserwindow.textureset", "");
+            bool bAllSelected = false;
+
+            if (cfgTextureSet == "All" || cfgTextureSet == "Flats" || cfgTextureSet == "Textures")
             {
-                int textureCount;
-                if (General.Map.Config.MixTexturesFlats)
+                bAllSelected = true;
+
+                // ano - swap flats / textures box selection as appropriate
+                if (General.Map.Config.MixTexturesFlats && cfgTextureSet != "All")
                 {
-                    textureCount = ts.Flats.Count + ts.Textures.Count;
-                }
-                else if (browseflats)
-                {
-                    textureCount = ts.Flats.Count;
-                }
-                else
-                {
-                    textureCount = ts.Textures.Count;
+                    cfgTextureSet = browseflats ? "Flats" : "Textures";
                 }
 
-                // ano - hide empty texturesets
-                if (textureCount > 0)
+                // If the selected texture was not found in the last-selected set, try finding it in the other sets
+                if (!foundselecttexture)
                 {
-                    item = texturesets.Items.Add(ts.Name);
-                    item.Tag = ts;
-                    item.ImageIndex = 0;
-                    item.UseItemStyleForSubItems = false;
-                    item.SubItems.Add(textureCount.ToString(), item.ForeColor,
-                            item.BackColor, new Font(item.Font, FontStyle.Regular));
+                    foreach (ListViewItem i in texturesets.Items)
+                    {
+                        IFilledTextureSet set = (i.Tag as IFilledTextureSet);
+                        foreach (ImageData img in set.Textures)
+                        {
+                            if (img.LongName == longname)
+                            {
+                                i.Selected = true;
+                                foundselecttexture = true;
+                                break;
+                            }
+                        }
+                        if (foundselecttexture) break;
+                    }
+                }
+
+                if (!foundselecttexture)
+                {
+                    cfgTextureSet = "All";
                 }
             }
 
-            // Add container-specific texture sets
-            foreach (ResourceTextureSet ts in General.Map.Data.ResourceTextureSets)
+            // ano - look in the last selected set for our texture
+            foreach (ListViewItem i in texturesets.Items)
             {
-                int textureCount;
-                if (General.Map.Config.MixTexturesFlats)
+                if (i.Text == cfgTextureSet)
                 {
-                    textureCount = ts.Flats.Count + ts.Textures.Count;
+                    IFilledTextureSet set = (i.Tag as IFilledTextureSet);
+                    foreach (ImageData img in set.Textures)
+                    {
+                        if (img.LongName == longname)
+                        {
+                            i.Selected = true;
+                            foundselecttexture = true;
+                            break;
+                        }
+                    }
+                    break;
                 }
-                else if (browseflats)
-                {
-                    textureCount = ts.Flats.Count;
-                }
-                else
-                {
-                    textureCount = ts.Textures.Count;
-                }
-
-                item = texturesets.Items.Add(ts.Name);
-                item.Tag = ts;
-                item.ImageIndex = 2 + ts.Location.type;
-                item.UseItemStyleForSubItems = false;
-                item.SubItems.Add(textureCount.ToString(), item.ForeColor,
-                        item.BackColor, new Font(item.Font, FontStyle.Regular));
             }
 
+            // If the selected texture was not found in the last-selected set, try finding it in the other sets
+            if (!foundselecttexture && !bAllSelected)
+            {
+                foreach (ListViewItem i in texturesets.Items)
+                {
+                    IFilledTextureSet set = (i.Tag as IFilledTextureSet);
+                    foreach (ImageData img in set.Textures)
+                    {
+                        if (img.LongName == longname)
+                        {
+                            i.Selected = true;
+                            foundselecttexture = true;
+                            break;
+                        }
+                    }
+                    if (foundselecttexture) break;
+                }
+            }
+
+            // Texture still now found? Then just select the last used set
+            if (!foundselecttexture)
+            {
+                foreach (ListViewItem i in texturesets.Items)
+                {
+                    if (i.Text == cfgTextureSet)
+                    {
+                        i.Selected = true;
+                        foundselecttexture = true;
+                        break;
+                    }
+                }
+            }
+
+            // ano - otherwise definitely select All
+            if (!foundselecttexture)
+            {
+                foreach (ListViewItem i in texturesets.Items)
+                {
+                    if (i.Text == "All")
+                    {
+                        i.Selected = true;
+                        foundselecttexture = true;
+                        break;
+                    }
+                }
+            }
+
+            // WARNING: Some strange behavior of the listview here!
+            // When you leave this line out, the list becomes very slow.
+            // Also, this does not change the item selected previously.
+            texturesets.Items[0].Selected = true;
+
+            // Texture to select when list is filled
+            selecttextureonfill = selecttexture;
+
+            // Make groups
+            usedgroup = browser.AddGroup(browseflats ? "Used Flats" : "Used Textures");
+            availgroup = browser.AddGroup(browseflats ? "Available Flats" : "Available Textures");
+
+            // Keep last position and size
+            lastposition = this.Location;
+            lastsize = this.Size;
+
+            // ano - rename labels if we're browsing flats
+            if (browseflats)
+            {
+                Text = "Browse Flats";
+                browser.LabelText = "Select or enter a flat name:";
+            }
+
+            // Position window from configuration settings
+            this.SuspendLayout();
+
+            /*
+			this.Location = new Point(General.Settings.ReadSetting("browserwindow.positionx", this.Location.X),
+									  General.Settings.ReadSetting("browserwindow.positiony", this.Location.Y));
+			*/
+            this.Size = new Size(General.Settings.ReadSetting("browserwindow.sizewidth", this.Size.Width),
+                                 General.Settings.ReadSetting("browserwindow.sizeheight", this.Size.Height));
+            this.WindowState = (FormWindowState)General.Settings.ReadSetting("browserwindow.windowstate", (int)FormWindowState.Normal);
+            if (this.WindowState == FormWindowState.Normal) this.StartPosition = FormStartPosition.CenterParent;
+            this.ResumeLayout(true);
+            bStillLoading = false;
+        }
+
+        private void AddAllSets()
+        {
             // Add All textures set
+            ListViewItem item;
             {
                 int textureCount;
                 if (General.Map.Config.MixTexturesFlats)
@@ -188,109 +285,72 @@ namespace CodeImp.DoomBuilder.Windows
                         item.ForeColor, item.BackColor, new Font(item.Font, FontStyle.Regular));
                 }
             }
-
-            // Select the last one that was selected
-            // ano - renamed this from "selectname" because there's also a "selectedname"
-            // in scope and it's confusing
-            string cfgTextureSet = General.Settings.ReadSetting("browserwindow.textureset", "");
-
-            // ano - select flats box if we're on a mixflats/textures cfg and we're looking in "All"
-            if (!foundselecttexture && General.Map.Config.MixTexturesFlats && cfgTextureSet == "All")
-            {
-                cfgTextureSet = browseflats ? "Textures" : "Flats";
-            }
-
-            foreach (ListViewItem i in texturesets.Items)
-			{
-				if(i.Text == cfgTextureSet)
-				{
-					IFilledTextureSet set = (i.Tag as IFilledTextureSet);
-					foreach(ImageData img in set.Textures)
-					{
-						if(img.LongName == longname)
-						{
-							i.Selected = true;
-							foundselecttexture = true;
-							break;
-						}
-					}
-					break;
-				}
-			}
-			
-			// If the selected texture was not found in the last-selected set, try finding it in the other sets
-			if(!foundselecttexture)
-			{
-				foreach(ListViewItem i in texturesets.Items)
-				{
-					IFilledTextureSet set = (i.Tag as IFilledTextureSet);
-					foreach(ImageData img in set.Textures)
-					{
-						if(img.LongName == longname)
-						{
-							i.Selected = true;
-							foundselecttexture = true;
-							break;
-						}
-					}
-					if(foundselecttexture) break;
-				}
-			}
-			
-			// Texture still now found? Then just select the last used set
-			if(!foundselecttexture)
-			{
-				foreach(ListViewItem i in texturesets.Items)
-				{
-					if(i.Text == cfgTextureSet)
-					{
-						i.Selected = true;
-						foundselecttexture = true;
-						break;
-					}
-				}
-			}
-
-			// WARNING: Some strange behavior of the listview here!
-			// When you leave this line out, the list becomes very slow.
-			// Also, this does not change the item selected previously.
-			texturesets.Items[0].Selected = true;
-
-			// Texture to select when list is filled
-			selecttextureonfill = selecttexture;
-			
-			// Make groups
-			usedgroup = browser.AddGroup(browseflats ? "Used Flats" : "Used Textures");
-			availgroup = browser.AddGroup(browseflats ? "Available Flats" : "Available Textures");
-			
-			// Keep last position and size
-			lastposition = this.Location;
-			lastsize = this.Size;
-
-            // ano - rename labels if we're browsing flats
-            if (browseflats)
-            {
-                Text = "Browse Flats";
-                browser.LabelText = "Select or enter a flat name:";
-            }
-
-            // Position window from configuration settings
-            this.SuspendLayout();
-
-            /*
-			this.Location = new Point(General.Settings.ReadSetting("browserwindow.positionx", this.Location.X),
-									  General.Settings.ReadSetting("browserwindow.positiony", this.Location.Y));
-			*/
-            this.Size = new Size(General.Settings.ReadSetting("browserwindow.sizewidth", this.Size.Width),
-								 General.Settings.ReadSetting("browserwindow.sizeheight", this.Size.Height));
-			this.WindowState = (FormWindowState)General.Settings.ReadSetting("browserwindow.windowstate", (int)FormWindowState.Normal);
-			if(this.WindowState == FormWindowState.Normal) this.StartPosition = FormStartPosition.CenterParent;
-			this.ResumeLayout(true);
-            bStillLoading = false;
         }
 
-		// Selection changed
-		private void browser_SelectedItemChanged()
+        private void AddContainerSets()
+        {
+            ListViewItem item;
+            // Add container-specific texture sets
+            foreach (ResourceTextureSet ts in General.Map.Data.ResourceTextureSets)
+            {
+                int textureCount;
+                if (General.Map.Config.MixTexturesFlats)
+                {
+                    textureCount = ts.Flats.Count + ts.Textures.Count;
+                }
+                else if (browseflats)
+                {
+                    textureCount = ts.Flats.Count;
+                }
+                else
+                {
+                    textureCount = ts.Textures.Count;
+                }
+
+                item = texturesets.Items.Add(ts.Name);
+                item.Tag = ts;
+                item.ImageIndex = 2 + ts.Location.type;
+                item.UseItemStyleForSubItems = false;
+                item.SubItems.Add(textureCount.ToString(), item.ForeColor,
+                        item.BackColor, new Font(item.Font, FontStyle.Regular));
+            }
+        }
+
+        private void AddCategorySets()
+        {
+            ListViewItem item;
+            // Fill texture sets list with normal texture sets
+            foreach (IFilledTextureSet ts in General.Map.Data.TextureSets)
+            {
+                int textureCount;
+                if (General.Map.Config.MixTexturesFlats)
+                {
+                    textureCount = ts.Flats.Count + ts.Textures.Count;
+                }
+                else if (browseflats)
+                {
+                    textureCount = ts.Flats.Count;
+                }
+                else
+                {
+                    textureCount = ts.Textures.Count;
+                }
+
+                // ano - hide empty texturesets
+                if (textureCount > 0)
+                {
+                    item = texturesets.Items.Add(ts.Name);
+                    item.Tag = ts;
+                    item.ImageIndex = 0;
+                    item.UseItemStyleForSubItems = false;
+                    item.SubItems.Add(textureCount.ToString(), item.ForeColor,
+                            item.BackColor, new Font(item.Font, FontStyle.Regular));
+                }
+            }
+        }
+
+        // Selection changed
+        private void browser_SelectedItemChanged()
 		{
 			apply.Enabled = (browser.SelectedItem != null);
 		}
@@ -382,10 +442,12 @@ namespace CodeImp.DoomBuilder.Windows
 			General.Settings.WriteSetting("browserwindow.sizewidth", lastsize.Width);
 			General.Settings.WriteSetting("browserwindow.sizeheight", lastsize.Height);
 			General.Settings.WriteSetting("browserwindow.windowstate", windowstate);
-			
-			// Save last selected texture set
-			if(texturesets.SelectedItems.Count > 0)
-				General.Settings.WriteSetting("browserwindow.textureset", texturesets.SelectedItems[0].Text);
+
+            // Save last selected texture set
+            if (texturesets.SelectedItems.Count > 0)
+            {
+                General.Settings.WriteSetting("browserwindow.textureset", texturesets.SelectedItems[0].Text);
+            }
 			
 			// Clean up
 			browser.CleanUp();

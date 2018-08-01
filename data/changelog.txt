@@ -5,6 +5,7 @@ version 2.1.3.12
 =====================
 - new Lua plugin
 - texture categories for subfolders/subwads inside pk3 resource archives
+- texture categories remember which one you clicked on properly
 - bmsq added long texture name support. thanks bmsq!
 - moved "Grid Increase" / "Grid Decrease" to be beside each other in the hotkey setup
 - fixed a minor bug with displaying texture counts in the browser
