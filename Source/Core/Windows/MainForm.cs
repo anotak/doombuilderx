@@ -2804,31 +2804,34 @@ namespace CodeImp.DoomBuilder.Windows
 		// but only when first loaded or when dimensions were changed
 		internal void ImageDataLoaded(ImageData img)
 		{
-			// Image is used in the map?
-			if((img != null) && img.UsedInMap && !img.IsDisposed)
-			{
-				// Go for all setors
-				bool updated = false;
-				foreach(Sector s in General.Map.Map.Sectors)
-				{
-					// Update floor buffer if needed
-					if(s.LongFloorTexture == img.LongName)
-					{
-						s.UpdateFloorSurface();
-						updated = true;
-					}
-					
-					// Update ceiling buffer if needed
-					if(s.LongCeilTexture == img.LongName)
-					{
-						s.UpdateCeilingSurface();
-						updated = true;
-					}
-				}
-				
-				// If we made updates, redraw the screen
-				if(updated) DelayedRedraw();
-			}
+            if (General.Map != null && !General.Map.IsMapBeingEdited) // ano - prevent race conditions
+            {
+                // Image is used in the map?
+                if ((img != null) && img.UsedInMap && !img.IsDisposed)
+                {
+                    // Go for all sectors
+                    bool updated = false;
+                    foreach (Sector s in General.Map.Map.Sectors)
+                    {
+                        // Update floor buffer if needed
+                        if (s.LongFloorTexture == img.LongName)
+                        {
+                            s.UpdateFloorSurface();
+                            updated = true;
+                        }
+
+                        // Update ceiling buffer if needed
+                        if (s.LongCeilTexture == img.LongName)
+                        {
+                            s.UpdateCeilingSurface();
+                            updated = true;
+                        }
+                    }
+
+                    // If we made updates, redraw the screen
+                    if (updated) DelayedRedraw();
+                }
+            }
 		}
 
 		public void EnableProcessing()
