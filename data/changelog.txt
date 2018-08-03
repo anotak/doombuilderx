@@ -4,6 +4,7 @@ based on code by anotak, CodeImp, MaxED, boris_i, ZZYZX
 version 2.1.3.12
 =====================
 - new Lua plugin
+- All / Textures / Flats / resources categories are on top in the texture browser now. there is an option in preferences to revert to the old behavior: 'Put "All" and resource categories on top in browsers'
 - texture categories for subfolders/subwads inside pk3 resource archives
 - texture categories remember which one you clicked on properly
 - bmsq added long texture name support. thanks bmsq!

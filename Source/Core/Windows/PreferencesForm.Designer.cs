@@ -34,6 +34,7 @@ namespace CodeImp.DoomBuilder.Windows
             System.Windows.Forms.Label label5;
             System.Windows.Forms.GroupBox groupBox1;
             System.Windows.Forms.Label label1;
+            this.reversetexturecategories = new System.Windows.Forms.CheckBox();
             this.showtexturesizes = new System.Windows.Forms.CheckBox();
             this.scriptontop = new System.Windows.Forms.CheckBox();
             this.zoomfactor = new System.Windows.Forms.TrackBar();
@@ -68,6 +69,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.apply = new System.Windows.Forms.Button();
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabinterface = new System.Windows.Forms.TabPage();
+            this.showstartupfortune = new System.Windows.Forms.CheckBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.toolbar_file = new System.Windows.Forms.CheckBox();
             this.toolbar_testing = new System.Windows.Forms.CheckBox();
@@ -145,7 +147,6 @@ namespace CodeImp.DoomBuilder.Windows
             this.label21 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
-            this.showstartupfortune = new System.Windows.Forms.CheckBox();
             label7 = new System.Windows.Forms.Label();
             label6 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
@@ -209,6 +210,7 @@ namespace CodeImp.DoomBuilder.Windows
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(this.reversetexturecategories);
             groupBox1.Controls.Add(this.showtexturesizes);
             groupBox1.Controls.Add(this.scriptontop);
             groupBox1.Controls.Add(this.zoomfactor);
@@ -231,10 +233,21 @@ namespace CodeImp.DoomBuilder.Windows
             groupBox1.TabStop = false;
             groupBox1.Text = " Options ";
             // 
+            // reversetexturecategories
+            // 
+            this.reversetexturecategories.AutoSize = true;
+            this.reversetexturecategories.Location = new System.Drawing.Point(38, 354);
+            this.reversetexturecategories.Margin = new System.Windows.Forms.Padding(4);
+            this.reversetexturecategories.Name = "reversetexturecategories";
+            this.reversetexturecategories.Size = new System.Drawing.Size(358, 20);
+            this.reversetexturecategories.TabIndex = 42;
+            this.reversetexturecategories.Text = "Put \"All\" and resource categories on top in browsers";
+            this.reversetexturecategories.UseVisualStyleBackColor = true;
+            // 
             // showtexturesizes
             // 
             this.showtexturesizes.AutoSize = true;
-            this.showtexturesizes.Location = new System.Drawing.Point(40, 345);
+            this.showtexturesizes.Location = new System.Drawing.Point(38, 326);
             this.showtexturesizes.Margin = new System.Windows.Forms.Padding(4);
             this.showtexturesizes.Name = "showtexturesizes";
             this.showtexturesizes.Size = new System.Drawing.Size(273, 20);
@@ -245,7 +258,7 @@ namespace CodeImp.DoomBuilder.Windows
             // scriptontop
             // 
             this.scriptontop.AutoSize = true;
-            this.scriptontop.Location = new System.Drawing.Point(40, 310);
+            this.scriptontop.Location = new System.Drawing.Point(38, 300);
             this.scriptontop.Margin = new System.Windows.Forms.Padding(4);
             this.scriptontop.Name = "scriptontop";
             this.scriptontop.Size = new System.Drawing.Size(296, 20);
@@ -674,6 +687,17 @@ namespace CodeImp.DoomBuilder.Windows
             this.tabinterface.TabIndex = 0;
             this.tabinterface.Text = "Interface";
             this.tabinterface.UseVisualStyleBackColor = true;
+            // 
+            // showstartupfortune
+            // 
+            this.showstartupfortune.AutoSize = true;
+            this.showstartupfortune.Location = new System.Drawing.Point(514, 558);
+            this.showstartupfortune.Margin = new System.Windows.Forms.Padding(4);
+            this.showstartupfortune.Name = "showstartupfortune";
+            this.showstartupfortune.Size = new System.Drawing.Size(197, 20);
+            this.showstartupfortune.TabIndex = 5;
+            this.showstartupfortune.Text = "Display startup tips/quotes";
+            this.showstartupfortune.UseVisualStyleBackColor = true;
             // 
             // groupBox5
             // 
@@ -1638,17 +1662,6 @@ namespace CodeImp.DoomBuilder.Windows
             this.label18.TabIndex = 0;
             this.label18.Text = "Default Texture:";
             // 
-            // showstartupfortune
-            // 
-            this.showstartupfortune.AutoSize = true;
-            this.showstartupfortune.Location = new System.Drawing.Point(514, 558);
-            this.showstartupfortune.Margin = new System.Windows.Forms.Padding(4);
-            this.showstartupfortune.Name = "showstartupfortune";
-            this.showstartupfortune.Size = new System.Drawing.Size(197, 20);
-            this.showstartupfortune.TabIndex = 5;
-            this.showstartupfortune.Text = "Display startup tips/quotes";
-            this.showstartupfortune.UseVisualStyleBackColor = true;
-            // 
             // PreferencesForm
             // 
             this.AcceptButton = this.apply;
@@ -1824,5 +1837,6 @@ namespace CodeImp.DoomBuilder.Windows
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.CheckBox randomizedefaultsBox;
         private System.Windows.Forms.CheckBox showstartupfortune;
+        private System.Windows.Forms.CheckBox reversetexturecategories;
     }
 }

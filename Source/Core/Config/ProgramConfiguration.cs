@@ -94,6 +94,7 @@ namespace CodeImp.DoomBuilder.Config
 		private bool toolbarfile;
 		private float filteranisotropy;
 		private bool showtexturesizes;
+        private bool reversetexturecategories;
 		
 		// These are not stored in the configuration, only used at runtime
 		private string defaulttexture;
@@ -169,6 +170,7 @@ namespace CodeImp.DoomBuilder.Config
 		public bool ToolbarFile { get { return toolbarfile; } internal set { toolbarfile = value; } }
 		public float FilterAnisotropy { get { return filteranisotropy; } internal set { filteranisotropy = value; } }
 		public bool ShowTextureSizes { get { return showtexturesizes; } internal set { showtexturesizes = value; } }
+        public bool ReverseTextureCategories { get { return reversetexturecategories; } internal set { reversetexturecategories = value; } } // ano
 
         //ano - gzdb cross compat
         public bool UseHighlight
@@ -267,6 +269,7 @@ namespace CodeImp.DoomBuilder.Config
 				toolbarfile = cfg.ReadSetting("toolbarfile", true);
 				filteranisotropy = cfg.ReadSetting("filteranisotropy", 8.0f);
 				showtexturesizes = cfg.ReadSetting("showtexturesizes", true);
+                reversetexturecategories = cfg.ReadSetting("reversetexturecategories", false);
 
                 // ano - the one that actually gets saved is different
                 savedefaulttexture = cfg.ReadSetting("defaulttexture", "CRATE1");
@@ -339,6 +342,8 @@ namespace CodeImp.DoomBuilder.Config
 			cfg.WriteSetting("toolbarfile", toolbarfile);
 			cfg.WriteSetting("filteranisotropy", filteranisotropy);
 			cfg.WriteSetting("showtexturesizes", showtexturesizes);
+
+            cfg.WriteSetting("reversetexturecategories", reversetexturecategories); // ano
 
             // ano - default textures
             cfg.WriteSetting("defaulttexture", savedefaulttexture);

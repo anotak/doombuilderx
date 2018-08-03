@@ -95,6 +95,7 @@ namespace CodeImp.DoomBuilder.Windows
 			toolbar_geometry.Checked = General.Settings.ToolbarGeometry;
 			toolbar_testing.Checked = General.Settings.ToolbarTesting;
 			showtexturesizes.Checked = General.Settings.ShowTextureSizes;
+            reversetexturecategories.Checked = General.Settings.ReverseTextureCategories;
 
             // ano - defaults tab
             defaultTextureBox.Text = General.Settings.SaveDefaultTexture;
@@ -225,6 +226,7 @@ namespace CodeImp.DoomBuilder.Windows
 			General.Settings.ToolbarGeometry = toolbar_geometry.Checked;
 			General.Settings.ToolbarTesting = toolbar_testing.Checked;
 			General.Settings.ShowTextureSizes = showtexturesizes.Checked;
+            General.Settings.ReverseTextureCategories = reversetexturecategories.Checked;
 
             // ano - defaults tab
             General.Settings.SaveDefaultTexture = defaultTextureBox.Text;

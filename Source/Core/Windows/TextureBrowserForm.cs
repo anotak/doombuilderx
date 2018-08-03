@@ -80,9 +80,18 @@ namespace CodeImp.DoomBuilder.Windows
             countcolumn.Width = COLUMN_WIDTH_COUNT;
             namecolumn.Width = texturesets.ClientRectangle.Width - SystemInformation.VerticalScrollBarWidth - countcolumn.Width - 2;
 
-            AddCategorySets();
-            AddContainerSets();
-            AddAllSets();
+            if (General.Settings.ReverseTextureCategories)
+            {
+                AddAllSets();
+                AddContainerSets();
+                AddCategorySets();
+            }
+            else
+            {
+                AddCategorySets();
+                AddContainerSets();
+                AddAllSets();
+            }
 
             // Select the last one that was selected
             // ano - renamed this from "selectname" because there's also a "selectedname"
