@@ -200,8 +200,8 @@ The BFG FAQ, Version 2.1
 %%
 "The first guiding principle in laying out your maps is that no lines must ever cross. If they meet, all lines must be connected by means of a vertex."
 
-- Linguica,
-Lesson 3: Measuring and Mapping Doom
+- Steve Benner and David Bruni,
+Tricks of the Doom Programming Gurus
 %%
 "Doom's hitscan enemies are designed not to eliminate movement, but to carefully squeeze it; to force the player to take action, moving along vectors towards positions of safety."
 
@@ -761,6 +761,16 @@ There are hotkeys to do gradient sector lighting or floor/ceiling heights, check
 
 - KMX E XII,
 Doom WAD Reviews: Doom (DOOM.WAD)
+%%
+In Sectors Mode, Join Sectors (default hotkey: J) combines two or more sectors into 1.
+Merge Sectors (default hotkey: Shift+J) joins sectors and then removes the linedefs in between as well.
+%%
+Is your level the empty space between the lines, or is it the lines surrounding the empty space?
+%%
+Check out the scripts included with the Lua plugin for more useful tools.
+%%
+With the right tools at hand, building a DOOM WAD can be a fairly simple task. Finding an effective blend of design elements and producing a good DOOM WAD can be much more tricky!
 
-
+- Linguica,
+Vanilla Level Editing
 
