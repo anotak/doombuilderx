@@ -1,4 +1,4 @@
--- doesnt work atm
+-- doesnt work atm, sry
 
 -- let's get the table of selected sectors
 sectors = Map.GetSelectedSectors()
@@ -18,8 +18,10 @@ if #sectors <= 0 then
 		sectors[1] = Map.NearestSector(cursor)
 	end
 	
-	-- now lets get the neighbors of the sector
+	sectors[1].selected = true;
 	
+	--[[
+	-- now lets get the neighbors of the sector through the sidedefs
 	local sector_sidedefs = sectors[1].GetSidedefs()
 	
 	
@@ -39,6 +41,7 @@ if #sectors <= 0 then
 			end
 		end
 	end
+	--]]
 end
 
 -- we're going to be keeping track of extra info per sector

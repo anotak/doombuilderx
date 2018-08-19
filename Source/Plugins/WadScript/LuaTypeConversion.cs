@@ -33,7 +33,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             DynValue[] output = new DynValue[2];
             if (!General.Map.FormatInterface.HasCustomFields)
             {
-                ScriptContext.context.WarnFormatIncompatible("UDMF fields not supported!");
+                ScriptContext.context.WarnFormatIncompatible("UDMF fields not supported.");
 
                 output[0] = DynValue.NewNumber(0);
                 output[1] = DynValue.NewBoolean(true);
@@ -82,7 +82,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (!General.Map.FormatInterface.HasCustomFields)
             {
-                ScriptContext.context.WarnFormatIncompatible("UDMF fields not supported!");
+                ScriptContext.context.WarnFormatIncompatible("UDMF fields not supported.");
                 return;
             }
 
@@ -135,7 +135,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
             if (!General.Map.FormatInterface.HasCustomFields)
             {
-                ScriptContext.context.WarnFormatIncompatible("UDMF fields not supported!");
+                ScriptContext.context.WarnFormatIncompatible("UDMF fields not supported.");
                 return output;
             }
             

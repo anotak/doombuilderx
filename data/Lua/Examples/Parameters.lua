@@ -9,4 +9,5 @@ UI.AddParameter("other_other", "this one doesn't even have a default value")
 
 parameters = UI.AskForParameters()
 
+UI.LogLine(parameters.add_a .. " + " .. parameters.add_b .. " =")
 UI.LogLine(parameters.add_a + parameters.add_b)

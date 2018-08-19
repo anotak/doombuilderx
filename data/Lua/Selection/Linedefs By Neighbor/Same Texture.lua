@@ -112,5 +112,11 @@ else
 			line_dfs.textures[#line_dfs.textures+1] = back.lowertex
 		end
 	end
+	
+	if #line_dfs.textures == 0 then
+		-- if you clicked a line with no textures, select everything
+		line_dfs.textures[#line_dfs.textures+1] = "-"
+	end
+	
 	line_dfs.select_lines_recursive(start_line)
 end

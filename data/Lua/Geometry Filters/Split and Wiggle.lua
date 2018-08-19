@@ -2,7 +2,11 @@
 -- splits all the selected lines and then moves the vertex away from the line
 -- in order to create a "wiggle"
 
-function split_and_wiggle(amount)
+function split_and_wiggle(amount, iterations_left)
+	if iterations_left <= 0 then
+		return
+	end
+	
 	-- get the selected linedefs on the map
 	-- note: we need to call this again every time we start this function
 	-- over specifically because we created new selected linedefs by
@@ -33,7 +37,7 @@ function split_and_wiggle(amount)
 	-- if our amount is still big
 	if(math.abs(amount / 2) > 4) then
 		-- then let's wiggle by half in the other direction!
-		split_and_wiggle(amount / -2)
+		split_and_wiggle(amount / -2, iterations_left - 1)
 	end
 end
 
@@ -41,6 +45,15 @@ end
 num_linedefs = #(Map.GetSelectedLinedefs())
 if num_linedefs == 0 then
 	UI.LogLine("No lines selected!")
-end
+else
+	UI.AddParameter("distance", "Distance (negative/positive controls direction)", -16)
+	UI.AddParameter("max_iterations", "Maximum iterations (negative or 0 is effectively no limit)", 0)
 
-split_and_wiggle(-16)
+	parameters = UI.AskForParameters()
+
+	if parameters.max_iterations <= 0 then
+		parameters.max_iterations = 65536
+	end
+
+	split_and_wiggle(parameters.distance, parameters.max_iterations)
+end

@@ -22,7 +22,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sidedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Sidedef has been disposed, can't get offsetx!");
+                    throw new ScriptRuntimeException("Sidedef has been disposed, can't get offsetx.");
                 }
                 return sidedef.OffsetX;
             }
@@ -30,7 +30,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sidedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Sidedef has been disposed, can't set offsetx!");
+                    throw new ScriptRuntimeException("Sidedef has been disposed, can't set offsetx.");
                 }
 
                 if (value > General.Map.FormatInterface.MaxTextureOffset
@@ -58,7 +58,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sidedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Sidedef has been disposed, can't get offsety!");
+                    throw new ScriptRuntimeException("Sidedef has been disposed, can't get offsety.");
                 }
                 return sidedef.OffsetY;
             }
@@ -66,7 +66,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sidedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Sidedef has been disposed, can't set offsety!");
+                    throw new ScriptRuntimeException("Sidedef has been disposed, can't set offsety.");
                 }
                 sidedef.OffsetY = value;
             }
@@ -78,7 +78,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sidedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Sidedef has been disposed, can't get uppertex!");
+                    throw new ScriptRuntimeException("Sidedef has been disposed, can't get uppertex.");
                 }
                 return sidedef.HighTexture;
             }
@@ -86,7 +86,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sidedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Sidedef has been disposed, can't set uppertex!");
+                    throw new ScriptRuntimeException("Sidedef has been disposed, can't set uppertex.");
                 }
                 sidedef.SetTextureHigh(value);
             }
@@ -98,7 +98,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sidedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Sidedef has been disposed, can't get midtex!");
+                    throw new ScriptRuntimeException("Sidedef has been disposed, can't get midtex.");
                 }
                 return sidedef.MiddleTexture;
             }
@@ -106,7 +106,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sidedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Sidedef has been disposed, can't set midtex!");
+                    throw new ScriptRuntimeException("Sidedef has been disposed, can't set midtex.");
                 }
                 sidedef.SetTextureMid(value);
             }
@@ -118,7 +118,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sidedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Sidedef has been disposed, can't get lowertex!");
+                    throw new ScriptRuntimeException("Sidedef has been disposed, can't get lowertex.");
                 }
                 return sidedef.LowTexture;
             }
@@ -126,7 +126,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sidedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Sidedef has been disposed, can't set lowertex!");
+                    throw new ScriptRuntimeException("Sidedef has been disposed, can't set lowertex.");
                 }
                 sidedef.SetTextureLow(value);
             }
@@ -142,7 +142,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (sidedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Sidedef has been disposed, can't GetIndex()!");
+                throw new ScriptRuntimeException("Sidedef has been disposed, can't GetIndex().");
             }
 
             return sidedef.Index;
@@ -157,7 +157,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (sidedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Sidedef has been disposed, can't GetUDMFField()!");
+                throw new ScriptRuntimeException("Sidedef has been disposed, can't GetUDMFField().");
             }
             return LuaTypeConversion.GetUDMFField(sidedef, key, General.Map.Config.SidedefFields);
         }
@@ -166,7 +166,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (sidedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Sidedef has been disposed, can't SetUDMFField()!");
+                throw new ScriptRuntimeException("Sidedef has been disposed, can't SetUDMFField().");
             }
             
             LuaTypeConversion.SetUDMFField(sidedef, key, value);
@@ -176,7 +176,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (sidedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Sidedef has been disposed, can't GetUDMFTable()!");
+                throw new ScriptRuntimeException("Sidedef has been disposed, can't GetUDMFTable().");
             }
 
             return LuaTypeConversion.GetUDMFTable(sidedef);
@@ -186,7 +186,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (sidedef.IsDisposed || sidedef.Line.IsDisposed)
             {
-                throw new ScriptRuntimeException("Sidedef has been disposed, can't IsFront()!");
+                throw new ScriptRuntimeException("Sidedef has been disposed, can't IsFront().");
             }
             return sidedef.IsFront;
         }
@@ -195,7 +195,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (sidedef.IsDisposed || sidedef.Line.IsDisposed)
             {
-                throw new ScriptRuntimeException("Sidedef has been disposed, can't GetOther()!");
+                throw new ScriptRuntimeException("Sidedef has been disposed, can't GetOther().");
             }
             if (sidedef.Other == null)
             {
@@ -208,7 +208,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (sidedef.IsDisposed || sidedef.Line.IsDisposed)
             {
-                throw new ScriptRuntimeException("Sidedef has been disposed, can't GetAngle!");
+                throw new ScriptRuntimeException("Sidedef has been disposed, can't GetAngle.");
             }
             return sidedef.Angle;
         }
@@ -217,7 +217,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (sidedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Sidedef has been disposed, can't GetSector!");
+                throw new ScriptRuntimeException("Sidedef has been disposed, can't GetSector.");
             }
             return new LuaSector(sidedef.Sector);
         }
@@ -226,7 +226,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (sidedef.IsDisposed || sidedef.Line.IsDisposed)
             {
-                throw new ScriptRuntimeException("Sidedef has been disposed, can't GetLinedef!");
+                throw new ScriptRuntimeException("Sidedef has been disposed, can't GetLinedef.");
             }
             return new LuaLinedef(sidedef.Line);
         }

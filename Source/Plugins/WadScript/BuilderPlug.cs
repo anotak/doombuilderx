@@ -29,6 +29,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
         protected ToolStripMenuItem[] recent_menu;
         protected ToolStripMenuItem run_script_option;
+        protected ToolStripMenuItem folder_menu;
         internal List<string> recent_files;
         #endregion
 
@@ -78,7 +79,48 @@ namespace CodeImp.DoomBuilder.DBXLua
             InitializeMenu();
         }
 
-        private void InitializeMenu()
+        protected void AddFolderRecursive(string in_path, ToolStripMenuItem cur_menu)
+        {
+            string[] scripts_files = Directory.GetFiles(in_path);
+            string[] subdirectories = Directory.GetDirectories(in_path);
+
+            List<ToolStripItem> file_items = new List<ToolStripItem>(scripts_files.Length);
+            foreach (string path in subdirectories)
+            {
+                string shortname = Path.GetFileName(path);
+
+                if (!shortname.StartsWith(".") && shortname.ToLowerInvariant() != "include")
+                {
+                    StringBuilder ui_text = new StringBuilder("&");
+                    ui_text.Append(shortname.Substring(0, 1).ToUpperInvariant());
+                    ui_text.Append(shortname.Substring(1));
+
+                    ToolStripMenuItem item = new ToolStripMenuItem(ui_text.ToString());
+
+                    AddFolderRecursive(path, item);
+
+                    file_items.Add(item);
+                }
+            }
+
+            foreach (string path in scripts_files)
+            {
+                if (Path.GetExtension(path) == ".lua")
+                {
+                    StringBuilder ui_text = new StringBuilder("&");
+                    ui_text.Append(Path.GetFileNameWithoutExtension(path).Substring(0, 1).ToUpperInvariant());
+                    ui_text.Append(Path.GetFileNameWithoutExtension(path).Substring(1).ToLowerInvariant());
+
+                    ToolStripItem item = new ToolStripMenuItem(ui_text.ToString());
+                    item.Tag = "luaquickaccess;" + path;
+                    item.Click += new System.EventHandler(this.InvokeTaggedAction);
+                    file_items.Add(item);
+                }
+            }
+           cur_menu.DropDownItems.AddRange(file_items.ToArray());
+        }
+
+        protected void InitializeMenu()
         {
             menu = new ToolStripMenuItem("&Lua");
             menu.Visible = false;
@@ -98,6 +140,23 @@ namespace CodeImp.DoomBuilder.DBXLua
                 item.Tag = item.Name = "openluascript";
                 item.Click += new System.EventHandler(this.InvokeTaggedAction);
                 items.Add(item);
+            }
+
+            {
+                folder_menu = new ToolStripMenuItem("&Scripts");
+
+                try
+                {
+                    AddFolderRecursive(Path.Combine(General.AppPath, @"Lua"), folder_menu);
+
+                    items.Add(folder_menu);
+                }
+                catch (ExecutionEngineException e)
+                {
+                    Logger.WriteLogLine("error creating scripts menu for Lua plugin?, exception:");
+                    Logger.WriteLogLine(e.Message);
+                    Logger.WriteLogLine(e.StackTrace);
+                }
             }
 
             {
@@ -322,6 +381,18 @@ namespace CodeImp.DoomBuilder.DBXLua
         // This invokes an action from control event
         private void InvokeTaggedAction(object sender, EventArgs e)
         {
+            if (General.Editing.Mode is ScriptMode && sender is ToolStripItem)
+            {
+                string tag = (sender as ToolStripItem).Tag.ToString();
+                if (tag.StartsWith("dbxlua_luaquickaccess;"))
+                {                    
+                    string path = tag.Substring("dbxlua_luaquickaccess;".Length);
+
+                    ScriptMode mode = (ScriptMode)General.Editing.Mode;
+
+                    mode.SetCurrentScript(path);
+                }
+            }
             General.Interface.InvokeTaggedAction(sender, e);
         }
 

@@ -24,7 +24,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't get selected status!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't get selected status.");
                 }
                 
                 return linedef.Selected;
@@ -34,7 +34,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't set selected status!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't set selected status.");
                 }
                 if (value == linedef.Selected)
                 {
@@ -123,7 +123,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't get start vertex!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't get start vertex.");
                 }
                 return new LuaVertex(linedef.Start);
             }
@@ -132,11 +132,11 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't set start vertex!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't set start vertex.");
                 }
                 if (value.vertex.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Vertex has been disposed, can't set start vertex!");
+                    throw new ScriptRuntimeException("Vertex has been disposed, can't set start vertex.");
                 }
                 linedef.SetStartVertex(value.vertex);
 
@@ -152,7 +152,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't get end vertex!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't get end vertex.");
                 }
                 return new LuaVertex(linedef.End);
             }
@@ -161,11 +161,11 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't set end vertex!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't set end vertex.");
                 }
                 if (value.vertex.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Vertex has been disposed, can't set end vertex!");
+                    throw new ScriptRuntimeException("Vertex has been disposed, can't set end vertex.");
                 }
                 linedef.SetEndVertex(value.vertex);
 
@@ -180,7 +180,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't get action!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't get action.");
                 }
                 return linedef.Action;
             }
@@ -188,7 +188,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't set action!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't set action.");
                 }
                 linedef.Action = value;
             }
@@ -200,7 +200,7 @@ namespace CodeImp.DoomBuilder.DBXLua
                 
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't get tag!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't get tag.");
                 }
                 if (General.Map.FormatInterface.HasLinedefTag)
                 {
@@ -216,7 +216,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't set tag!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't set tag.");
                 }
                 if (General.Map.FormatInterface.HasLinedefTag)
                 {
@@ -236,7 +236,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't get arg0!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't get arg0.");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -252,7 +252,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't set arg0!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't set arg0.");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -280,7 +280,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't get arg1!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't get arg1.");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -296,7 +296,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't set arg1!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't set arg1.");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -324,7 +324,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't get arg2!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't get arg2.");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -340,7 +340,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't set arg2!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't set arg2.");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -368,7 +368,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't get arg3!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't get arg3.");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -384,7 +384,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't set arg3!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't set arg3.");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -412,7 +412,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't get arg4!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't get arg4.");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -428,7 +428,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (linedef.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Linedef has been disposed, can't set arg4!");
+                    throw new ScriptRuntimeException("Linedef has been disposed, can't set arg4.");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -464,7 +464,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't GetIndex()!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't GetIndex().");
             }
 
             return linedef.Index;
@@ -474,11 +474,11 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't IsFlagSet()!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't IsFlagSet().");
             }
             if (flagname == null)
             {
-                throw new ScriptRuntimeException("Flag name is nil, can't IsFlagSet() (not enough arguments maybe?)!");
+                throw new ScriptRuntimeException("Flag name is nil, can't IsFlagSet() (not enough arguments maybe?).");
             }
             // FIXME warn on no such flag
             return linedef.IsFlagSet(flagname);
@@ -488,11 +488,11 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't SetFlag()!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't SetFlag().");
             }
             if (flagname == null)
             {
-                throw new ScriptRuntimeException("flagname is nil, can't SetFlag() (not enough arguments maybe?)!");
+                throw new ScriptRuntimeException("flagname is nil, can't SetFlag() (not enough arguments maybe?).");
             }
             // FIXME warn on no such flag
             linedef.SetFlag(flagname, val);
@@ -502,7 +502,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't ClearFlags()!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't ClearFlags().");
             }
             linedef.ClearFlags();
         }
@@ -511,7 +511,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't GetUDMFField()!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't GetUDMFField().");
             }
             return LuaTypeConversion.GetUDMFField(linedef,key, General.Map.Config.LinedefFields);
         }
@@ -520,7 +520,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't SetUDMFField()!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't SetUDMFField().");
             }
 
             LuaTypeConversion.SetUDMFField(linedef, key, value);
@@ -530,7 +530,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't GetUDMFTable()!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't GetUDMFTable().");
             }
 
             return LuaTypeConversion.GetUDMFTable(linedef);
@@ -540,7 +540,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't get front side!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't get front side.");
             }
             if (linedef.Front == null || linedef.Front.IsDisposed)
             {
@@ -553,7 +553,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't get back side!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't get back side.");
             }
             if (linedef.Back == null || linedef.Back.IsDisposed)
             {
@@ -566,7 +566,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't GetLength!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't GetLength.");
             }
             return linedef.Length;
         }
@@ -575,7 +575,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't GetLengthInv!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't GetLengthInv.");
             }
             return linedef.LengthInv;
         }
@@ -584,7 +584,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't GetLengthSq!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't GetLengthSq.");
             }
             return linedef.LengthSq;
         }
@@ -593,7 +593,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't GetLengthSqInv!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't GetLengthSqInv.");
             }
             return linedef.LengthSqInv;
         }
@@ -602,7 +602,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't GetAngle!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't GetAngle.");
             }
             return linedef.Angle;
         }
@@ -611,7 +611,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't GetAngleDegrees!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't GetAngleDegrees.");
             }
             return linedef.AngleDeg;
         }
@@ -620,7 +620,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't FlipVertices!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't FlipVertices.");
             }
             linedef.FlipVertices();
         }
@@ -629,7 +629,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't FlipSidedefs!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't FlipSidedefs.");
             }
             linedef.FlipSidedefs();
         }
@@ -638,7 +638,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't Flip!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't Flip.");
             }
             linedef.FlipVertices();
             linedef.FlipSidedefs();
@@ -650,7 +650,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't GetSidePoint!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't GetSidePoint.");
             }
             return new LuaVector2D(linedef.GetSidePoint(front));
         }
@@ -659,7 +659,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't GetCenterPoint!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't GetCenterPoint.");
             }
             return new LuaVector2D(linedef.GetCenterPoint());
         }
@@ -668,7 +668,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't GetGridIntersections!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't GetGridIntersections.");
             }
 
             List<Vector2D> intersections = linedef.GetGridIntersections();
@@ -688,7 +688,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't NearestOnLine!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't NearestOnLine.");
             }
 
             return new LuaVector2D(linedef.NearestOnLine(pos.vec));
@@ -698,7 +698,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't SafeDistanceToSq!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't SafeDistanceToSq.");
             }
 
             return linedef.SafeDistanceToSq(p.vec,bounded);
@@ -708,7 +708,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't SafeDistanceTo!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't SafeDistanceTo.");
             }
 
             return linedef.SafeDistanceTo(p.vec, bounded);
@@ -718,7 +718,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't DistanceToSq!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't DistanceToSq.");
             }
 
             return linedef.DistanceToSq(p.vec, bounded);
@@ -728,7 +728,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't DistanceTo!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't DistanceTo.");
             }
 
             return linedef.DistanceTo(p.vec, bounded);
@@ -738,7 +738,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't GetNormal!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't GetNormal.");
             }
 
             return new LuaVector2D(linedef.Line.GetPerpendicular().GetNormal());
@@ -750,7 +750,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't SideOfLine!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't SideOfLine.");
             }
             return linedef.SideOfLine(p.vec);
         }
@@ -760,15 +760,15 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't Split!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't Split.");
             }
             if (v == null)
             {
-                throw new ScriptRuntimeException("Vertex is null, can't Split (not enough arguments maybe?)!");
+                throw new ScriptRuntimeException("Vertex is null, can't Split (not enough arguments maybe?).");
             }
             if (v.vertex.IsDisposed)
             {
-                throw new ScriptRuntimeException("Vertex has been disposed, can't Split!");
+                throw new ScriptRuntimeException("Vertex has been disposed, can't Split.");
             }
 
             v.vertex.SnapToAccuracy();
@@ -799,7 +799,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't Split!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't Split.");
             }
 
             Vertex v = General.Map.Map.CreateVertex(linedef.GetCenterPoint());
@@ -837,7 +837,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef is disposed, can't GetOverlappingLinedefs()!");
+                throw new ScriptRuntimeException("Linedef is disposed, can't GetOverlappingLinedefs().");
             }
 
             List<LuaLinedef> output = new List<LuaLinedef>();
@@ -892,7 +892,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.IsDisposed || other.linedef.IsDisposed)
             {
-                throw new ScriptRuntimeException("Linedef has been disposed, can't Split!");
+                throw new ScriptRuntimeException("Linedef has been disposed, can't Split.");
             }
             return linedef.Join(other.linedef);
         }

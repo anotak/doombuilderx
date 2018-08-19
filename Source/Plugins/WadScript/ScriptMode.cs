@@ -62,7 +62,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             // load default hello script
             if (!File.Exists(scriptPath))
             {
-                scriptPath = Path.Combine(General.AppPath, @"Lua\hello.lua");
+                scriptPath = Path.Combine(General.AppPath, @"Lua\Examples\hello.lua");
             }
         }
 
@@ -87,38 +87,9 @@ namespace CodeImp.DoomBuilder.DBXLua
             // if your script selects a sector and theres another sector inside
             // of it, and then go to sectors mode, then both sectors will be
             // selected
-            General.Map.Map.ConvertSelection(SelectionType.Vertices);
+            General.Map.Map.ConvertSelection(SelectionType.All);
 
-            HashSet<Sector> potentially_selected_sectors = new HashSet<Sector>();
-            foreach (Linedef l in General.Map.Map.Linedefs)
-            {
-                l.Selected = l.Start.Selected && l.End.Selected;
-
-                if (l.Front != null)
-                {
-                    potentially_selected_sectors.Add(l.Front.Sector);
-                }
-
-                if (l.Back != null)
-                {
-                    potentially_selected_sectors.Add(l.Front.Sector);
-                }
-            }
-
-            foreach (Sector s in potentially_selected_sectors)
-            {
-                bool select_sector = true;
-                foreach (Sidedef side in s.Sidedefs)
-                {
-                    if (!side.Line.Selected)
-                    {
-                        select_sector = false;
-                        break;
-                    }
-                }
-
-                s.Selected = select_sector;
-            }
+            
         }
 
         // ano - this code borrowed from codeimp's statistics plug
@@ -450,7 +421,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             if (!bScriptDone && !bScriptCancelled)
             {
                 General.Interface.SetCursor(Cursors.Default);
-                General.Interface.DisplayStatus(StatusType.Busy, "Executing script '" + scriptShortName + "', but it's being slow!");
+                General.Interface.DisplayStatus(StatusType.Busy, "Executing script '" + scriptShortName + "', but it's being slow.");
 
                 ScriptTimeoutForm.ShowTimeout();
             }

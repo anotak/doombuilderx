@@ -131,6 +131,68 @@ namespace CodeImp.DoomBuilder.DBXLua
             return output;
         }
 
+        public static List<LuaSector> GetMarkedSectors()
+        {
+            List<LuaSector> output = new List<LuaSector>();
+            ICollection<Sector> marked = General.Map.Map.GetMarkedSectors(true);
+            foreach (Sector s in marked)
+            {
+                output.Add(new LuaSector(s));
+            }
+            return output;
+        }
+
+        public static List<LuaSidedef> GetMarkedSidedefs()
+        {
+            List<LuaSidedef> output = new List<LuaSidedef>();
+            ICollection<Linedef> marked = General.Map.Map.GetMarkedLinedefs(true);
+            foreach (Linedef l in marked)
+            {
+                if (l.Front != null)
+                {
+                    output.Add(new LuaSidedef(l.Front));
+                }
+                if (l.Back != null)
+                {
+                    output.Add(new LuaSidedef(l.Back));
+                }
+            }
+            return output;
+        }
+
+        public static List<LuaVertex> GetMarkedVertices()
+        {
+            List<LuaVertex> output = new List<LuaVertex>();
+            ICollection<Vertex> marked = General.Map.Map.GetMarkedVertices(true);
+            foreach (Vertex v in marked)
+            {
+                output.Add(new LuaVertex(v));
+            }
+            return output;
+        }
+
+        public static List<LuaLinedef> GetMarkedLinedefs()
+        {
+            List<LuaLinedef> output = new List<LuaLinedef>();
+            ICollection<Linedef> marked = General.Map.Map.GetMarkedLinedefs(true);
+            foreach (Linedef l in marked)
+            {
+                output.Add(new LuaLinedef(l));
+            }
+            return output;
+        }
+
+        public static List<LuaThing> GetMarkedThings()
+        {
+            List<LuaThing> output = new List<LuaThing>();
+            ICollection<Thing> marked = General.Map.Map.GetMarkedThings(true);
+            foreach (Thing l in marked)
+            {
+                output.Add(new LuaThing(l));
+            }
+            return output;
+        }
+
         public static void StitchGeometry()
         {
             if (!General.Map.Map.StitchGeometry())

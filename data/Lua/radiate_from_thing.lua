@@ -1,2 +1,0 @@
--- radiate_from_thing.lua by anotak
--- very experimental

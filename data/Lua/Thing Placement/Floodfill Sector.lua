@@ -262,6 +262,9 @@ function sector_fill_things()
 	end
 end
 
+-- FIXME THIS IS A BIT HACKY
+had_to_select_sector = false
+
 -- if no sectors are selected, let's use where the user clicked
 if #selected_sectors <= 0 then
 	-- well, we need to know where we clicked
@@ -278,6 +281,7 @@ if #selected_sectors <= 0 then
 	end
 	
 	selected_sectors[1].selected = true
+	had_to_select_sector = true
 end
 
 -- we need 2 things selected to make a box out of them
@@ -287,6 +291,10 @@ end
 -- other numbers don't make sense 
 if #selected_things <= 2 then
 	sector_fill_things()
+	
+	if had_to_select_sector then
+		selected_sectors[1].selected = false
+	end
 else
 	-- let's let the user know what went wrong
 	UI.LogLine("You need to select 2 or less things.")

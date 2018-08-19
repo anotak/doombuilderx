@@ -41,6 +41,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             return GetMouseMapPosition(snaptogrid, ScriptContext.context.snaptonearest);
         }
 
+        // FIXME provide a version with snaptogrid based on shift key but no snaptonearest
         public static LuaVector2D GetMouseMapPosition(bool snaptogrid, bool snaptonearest)
         {
             Vector2D mousemappos = ScriptContext.context.mousemappos;
@@ -113,7 +114,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             ScriptContext.context.ui_parameters = new LuaUIParameters(16);
         }
 
-        public static void AddParameter(string key, string label, string defaultvalue)
+        public static void AddParameter(string key, string label, DynValue defaultvalue)
         {
             if (key == null || key == "")
             {
@@ -124,9 +125,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 label = key;
             }
-
             
-
             if (ScriptContext.context.ui_parameters.keys == null)
             {
                 ScriptContext.context.ui_parameters = new LuaUIParameters(16);
@@ -134,24 +133,65 @@ namespace CodeImp.DoomBuilder.DBXLua
             ScriptContext.context.ui_parameters.keys.Add(key);
             ScriptContext.context.ui_parameters.labels.Add(label);
 
-            if (defaultvalue == null)
+            if (defaultvalue == null || defaultvalue.IsNil() || defaultvalue.IsVoid())
             {
                 ScriptContext.context.ui_parameters.defaultvalues.Add("");
+                ScriptContext.context.ui_parameters.datatypes.Add(DataType.String); // bad choice? dunno
             }
             else
             {
-                ScriptContext.context.ui_parameters.defaultvalues.Add(defaultvalue);
+                switch (defaultvalue.Type)
+                {
+                    case DataType.String:
+                        ScriptContext.context.ui_parameters.defaultvalues.Add(defaultvalue.String);
+                        ScriptContext.context.ui_parameters.datatypes.Add(defaultvalue.Type);
+                        break;
+                    case DataType.Number:
+                    case DataType.Boolean:
+                        ScriptContext.context.ui_parameters.defaultvalues.Add(defaultvalue.ToString());
+                        ScriptContext.context.ui_parameters.datatypes.Add(defaultvalue.Type);
+                        break;
+                    case DataType.UserData:
+                        // TODO - add handling for some of our types like Vector2D?
+                        string error_value = "";
+                        if (defaultvalue.UserData.Object != null)
+                        {
+                            error_value = defaultvalue.UserData.Object.ToString();
+                        }
+                        throw new ScriptRuntimeException(
+                            "weird default value data type ("
+                            + defaultvalue.UserData.Descriptor.Name +
+                            ") for parameter "
+                            + key
+                            + ": " + error_value);
+                    case DataType.Function: // is there some way to handle a function for this?
+                    case DataType.ClrFunction:
+                    case DataType.Nil:
+                    case DataType.Void:
+                    case DataType.Table:
+                    case DataType.Thread:
+                    case DataType.Tuple:
+                    case DataType.TailCallRequest:
+                    case DataType.YieldRequest:
+                    default:
+                        throw new ScriptRuntimeException(
+                            "weird default value data type ("
+                            + defaultvalue.Type.ToErrorTypeString() +
+                            ") for parameter "
+                            + key
+                            + ": " + defaultvalue);
+                }
             }
         }
 
-        public static Dictionary<string, string> AskForParameters()
+        public static Table AskForParameters()
         {
-            Dictionary<string,string> output = AskForParametersNoClear();
+            Table output = AskForParametersNoClear();
             ClearParameters();
             return output;
         }
 
-        public static Dictionary<string,string> AskForParametersNoClear()
+        public static Table AskForParametersNoClear()
         {
             // TODO add repeating with previous parameters
             // FIXME  check for duplicate keys
@@ -164,12 +204,94 @@ namespace CodeImp.DoomBuilder.DBXLua
                 return null;
             }
 
-            Dictionary<string, string> output = ScriptMode.RequestAndWaitForParams();
+            Dictionary<string, string> dict = ScriptMode.RequestAndWaitForParams();
 
-            if (output == null)
+            if (dict == null)
             {
+                // FIXME do this without an error message probably?
                 throw new ScriptRuntimeException("User cancelled script execution.");
             }
+            
+            Table output = new Table(ScriptContext.context.script);
+
+            foreach (KeyValuePair<string, string> pair in dict)
+            {
+                output.Set(
+                    pair.Key,
+                    DynValue.FromObject(ScriptContext.context.script, pair.Value)
+                    );
+            }
+
+            int count = ScriptContext.context.ui_parameters.datatypes.Count;
+            if (ScriptContext.context.ui_parameters.keys.Count != count)
+            {
+                Logger.WriteLogLine("Inconsistent parameter counts in Lua script!");
+                Logger.WriteLogLine("datatypes: ");
+                foreach (DataType o in ScriptContext.context.ui_parameters.datatypes)
+                {
+                    Logger.WriteLogLine(o.ToString());
+                }
+
+                Logger.WriteLogLine("keys: ");
+                foreach (string o in ScriptContext.context.ui_parameters.keys)
+                {
+                    if (o == null)
+                    {
+                        Logger.WriteLogLine("null");
+                    }
+                    else
+                    {
+                        Logger.WriteLogLine(o);
+                    }
+                }
+
+                Logger.WriteLogLine("labels: ");
+                foreach (string o in ScriptContext.context.ui_parameters.labels)
+                {
+                    if (o == null)
+                    {
+                        Logger.WriteLogLine("null");
+                    }
+                    else
+                    {
+                        Logger.WriteLogLine(o);
+                    }
+                }
+
+                Logger.WriteLogLine("labels: ");
+                foreach (string o in ScriptContext.context.ui_parameters.defaultvalues)
+                {
+                    if (o == null)
+                    {
+                        Logger.WriteLogLine("null");
+                    }
+                    else
+                    {
+                        Logger.WriteLogLine(o);
+                    }
+                }
+                throw new ScriptRuntimeException("Inconsistent parameter counts in Lua script, might be a DBXLua bug. :(");
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                DataType cur_type = ScriptContext.context.ui_parameters.datatypes[i];
+                DynValue cur_value = output.Get(ScriptContext.context.ui_parameters.keys[i]);
+                switch (cur_type)
+                {
+                    case DataType.Boolean:
+                        cur_value.Assign(DynValue.NewBoolean(cur_value.CastToBool()));
+                        //output.Set(ScriptContext.context.ui_parameters.keys[i], cur_value.CastToBool());
+                        break;
+                    case DataType.Number:
+                        double d = cur_value.CastToNumber() ?? 0;
+                        cur_value.Assign(DynValue.NewNumber(d));
+                        break;
+                    default:
+                        break; // nope
+                }
+            }
+
             return output;
         }
     } // luaui class
@@ -180,6 +302,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         public List<string> keys;
         public List<string> labels;
         public List<string> defaultvalues;
+        public List<DataType> datatypes;
 
         // default parameter workaround for C# not letting us do parameterless constructors
         public LuaUIParameters(int size)
@@ -187,6 +310,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             keys = new List<string>(size);
             labels = new List<string>(size);
             defaultvalues = new List<string>(size);
+            datatypes = new List<DataType>(size);
         }
     } // luauiparameters
 } // ns

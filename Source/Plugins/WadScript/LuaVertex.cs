@@ -23,7 +23,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (vertex.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("vertex has been disposed, can't get selected status!");
+                    throw new ScriptRuntimeException("vertex has been disposed, can't get selected status.");
                 }
 
                 return vertex.Selected;
@@ -33,7 +33,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (vertex.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("vertex has been disposed, can't set selected status!");
+                    throw new ScriptRuntimeException("vertex has been disposed, can't set selected status.");
                 }
 
                 if (value == vertex.Selected)
@@ -75,7 +75,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (vertex.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Vertex has been disposed, can't get position!");
+                    throw new ScriptRuntimeException("Vertex has been disposed, can't get position.");
                 }
                 return new LuaVector2D(vertex.Position);
             }
@@ -83,7 +83,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (vertex.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Vertex has been disposed, can't set position!");
+                    throw new ScriptRuntimeException("Vertex has been disposed, can't set position.");
                 }
 
                 if (float.IsNaN(value.x) || float.IsNaN(value.y) ||
@@ -117,7 +117,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (vertex.IsDisposed)
             {
-                throw new ScriptRuntimeException("Vertex has been disposed, can't GetIndex()!");
+                throw new ScriptRuntimeException("Vertex has been disposed, can't GetIndex().");
             }
 
             return vertex.Index;
@@ -132,7 +132,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (vertex.IsDisposed)
             {
-                throw new ScriptRuntimeException("Vertex has been disposed, can't GetUDMFField()!");
+                throw new ScriptRuntimeException("Vertex has been disposed, can't GetUDMFField().");
             }
             return LuaTypeConversion.GetUDMFField(vertex, key, General.Map.Config.VertexFields);
         }
@@ -141,7 +141,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (vertex.IsDisposed)
             {
-                throw new ScriptRuntimeException("Vertex has been disposed, can't SetUDMFField()!");
+                throw new ScriptRuntimeException("Vertex has been disposed, can't SetUDMFField().");
             }
             LuaTypeConversion.SetUDMFField(vertex, key, value);
         }
@@ -150,7 +150,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (vertex.IsDisposed)
             {
-                throw new ScriptRuntimeException("Vertex has been disposed, can't GetUDMFTable()!");
+                throw new ScriptRuntimeException("Vertex has been disposed, can't GetUDMFTable().");
             }
 
             return LuaTypeConversion.GetUDMFTable(vertex);
@@ -196,7 +196,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             }
             if (vertex.IsDisposed)
             {
-                throw new ScriptRuntimeException("Vertex is disposed, can't TryToMove()!");
+                throw new ScriptRuntimeException("Vertex is disposed, can't TryToMove().");
             }
 
             if (vertex.Linedefs.Count <= 0)
@@ -469,7 +469,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (vertex.IsDisposed)
             {
-                throw new ScriptRuntimeException("Vertex has been disposed, can't SnapToGrid!");
+                throw new ScriptRuntimeException("Vertex has been disposed, can't SnapToGrid.");
             }
 
             Vector2D oldPosition = vertex.Position;
@@ -490,7 +490,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (vertex.IsDisposed)
             {
-                throw new ScriptRuntimeException("Vertex has been disposed, can't SnapToAccuracy!");
+                throw new ScriptRuntimeException("Vertex has been disposed, can't SnapToAccuracy.");
             }
 
             Vector2D oldPosition = vertex.Position;
@@ -511,11 +511,11 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (vertex.IsDisposed)
             {
-                throw new ScriptRuntimeException("Joining vertex has been disposed!");
+                throw new ScriptRuntimeException("Joining vertex has been disposed.");
             }
             if (other.vertex.IsDisposed)
             {
-                throw new ScriptRuntimeException("Joinee vertex has been disposed!");
+                throw new ScriptRuntimeException("Joinee vertex has been disposed.");
             }
             if (other == null)
             {

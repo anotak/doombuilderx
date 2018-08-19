@@ -24,7 +24,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (thing.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Thing has been disposed, can't get selected status!");
+                    throw new ScriptRuntimeException("Thing has been disposed, can't get selected status.");
                 }
 
                 return thing.Selected;
@@ -34,7 +34,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (thing.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Thing has been disposed, can't set selected status!");
+                    throw new ScriptRuntimeException("Thing has been disposed, can't set selected status.");
                 }
 
                 thing.Selected = value;
@@ -47,7 +47,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (thing.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Thing has been disposed, can't get position!");
+                    throw new ScriptRuntimeException("Thing has been disposed, can't get position.");
                 }
                 return new LuaVector2D(thing.Position);
             }
@@ -55,7 +55,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (thing.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Thing has been disposed, can't set position!");
+                    throw new ScriptRuntimeException("Thing has been disposed, can't set position.");
                 }
 
                 if (float.IsNaN(value.x) || float.IsNaN(value.y) ||
@@ -77,15 +77,19 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (thing.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Thing has been disposed, can't get type!");
+                    throw new ScriptRuntimeException("Thing has been disposed, can't get type.");
                 }
                 return thing.Type;
             }
             set
             {
+                if (value <= 0)
+                {
+                    throw new ScriptRuntimeException("Thing type must be greater than 0 (was " + value + ").");
+                }
                 if (thing.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Thing has been disposed, can't set type!");
+                    throw new ScriptRuntimeException("Thing has been disposed, can't set type.");
                 }
                 thing.Type = value;
                 thing.UpdateConfiguration();
@@ -98,7 +102,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (thing.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Thing has been disposed, can't get tag!");
+                    throw new ScriptRuntimeException("Thing has been disposed, can't get tag.");
                 }
                 if (General.Map.FormatInterface.HasThingTag)
                 {
@@ -114,7 +118,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (thing.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Thing has been disposed, can't set tag!");
+                    throw new ScriptRuntimeException("Thing has been disposed, can't set tag.");
                 }
                 if (General.Map.FormatInterface.HasThingTag)
                 {
@@ -133,7 +137,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (thing.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Thing has been disposed, can't get action!");
+                    throw new ScriptRuntimeException("Thing has been disposed, can't get action.");
                 }
                 if (General.Map.FormatInterface.HasThingAction)
                 {
@@ -149,7 +153,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (thing.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Thing has been disposed, can't set action!");
+                    throw new ScriptRuntimeException("Thing has been disposed, can't set action.");
                 }
                 if (General.Map.FormatInterface.HasThingAction)
                 {
@@ -169,7 +173,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
                 if (thing.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Thing has been disposed, can't get arg0!");
+                    throw new ScriptRuntimeException("Thing has been disposed, can't get arg0.");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -185,7 +189,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (thing.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Thing has beend disposed, can't set arg0!");
+                    throw new ScriptRuntimeException("Thing has beend disposed, can't set arg0.");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -213,7 +217,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
                 if (thing.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Thing has been disposed, can't get arg1!");
+                    throw new ScriptRuntimeException("Thing has been disposed, can't get arg1.");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -229,7 +233,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (thing.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Thing has beend disposed, can't set arg1!");
+                    throw new ScriptRuntimeException("Thing has beend disposed, can't set arg1.");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -257,7 +261,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
                 if (thing.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Thing has been disposed, can't get arg2!");
+                    throw new ScriptRuntimeException("Thing has been disposed, can't get arg2.");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -273,7 +277,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (thing.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Thing has beend disposed, can't set arg2!");
+                    throw new ScriptRuntimeException("Thing has beend disposed, can't set arg2.");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -301,7 +305,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
                 if (thing.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Thing has been disposed, can't get arg3!");
+                    throw new ScriptRuntimeException("Thing has been disposed, can't get arg3.");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -317,7 +321,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (thing.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Thing has beend disposed, can't set arg3!");
+                    throw new ScriptRuntimeException("Thing has beend disposed, can't set arg3.");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -345,7 +349,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
                 if (thing.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Thing has been disposed, can't get arg4!");
+                    throw new ScriptRuntimeException("Thing has been disposed, can't get arg4.");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -361,7 +365,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (thing.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Thing has beend disposed, can't set arg4!");
+                    throw new ScriptRuntimeException("Thing has beend disposed, can't set arg4.");
                 }
                 if (General.Map.FormatInterface.HasActionArgs)
                 {
@@ -402,7 +406,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (thing.IsDisposed)
             {
-                throw new ScriptRuntimeException("Thing has been disposed, can't GetIndex()!");
+                throw new ScriptRuntimeException("Thing has been disposed, can't GetIndex().");
             }
 
             return thing.Index;
@@ -412,11 +416,11 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (thing.IsDisposed)
             {
-                throw new ScriptRuntimeException("Thing has been disposed, can't IsFlagSet()!");
+                throw new ScriptRuntimeException("Thing has been disposed, can't IsFlagSet().");
             }
             if (flagname == null)
             {
-                throw new ScriptRuntimeException("Flag name is nil, can't IsFlagSet() (not enough arguments maybe?)!");
+                throw new ScriptRuntimeException("Flag name is nil, can't IsFlagSet() (not enough arguments maybe?).");
             }
             // FIXME warn on no such flag
             return thing.IsFlagSet(flagname);
@@ -426,11 +430,11 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (thing.IsDisposed)
             {
-                throw new ScriptRuntimeException("Thing has been disposed, can't SetFlag()!");
+                throw new ScriptRuntimeException("Thing has been disposed, can't SetFlag().");
             }
             if (flagname == null)
             {
-                throw new ScriptRuntimeException("flagname is nil, can't SetFlag() (not enough arguments maybe?)!");
+                throw new ScriptRuntimeException("flagname is nil, can't SetFlag() (not enough arguments maybe?).");
             }
             // FIXME warn on no such flag
             thing.SetFlag(flagname, val);
@@ -440,7 +444,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (thing.IsDisposed)
             {
-                throw new ScriptRuntimeException("Thing has been disposed, can't ClearFlags()!");
+                throw new ScriptRuntimeException("Thing has been disposed, can't ClearFlags().");
             }
             thing.ClearFlags();
         }
@@ -449,7 +453,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (thing.IsDisposed)
             {
-                throw new ScriptRuntimeException("Thing has been disposed, can't GetUDMFField()!");
+                throw new ScriptRuntimeException("Thing has been disposed, can't GetUDMFField().");
             }
             return LuaTypeConversion.GetUDMFField(thing, key, General.Map.Config.ThingFields);
         }
@@ -458,7 +462,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (thing.IsDisposed)
             {
-                throw new ScriptRuntimeException("Thing has been disposed, can't SetUDMFField()!");
+                throw new ScriptRuntimeException("Thing has been disposed, can't SetUDMFField().");
             }
             
             LuaTypeConversion.SetUDMFField(thing, key, value);
@@ -468,7 +472,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (thing.IsDisposed)
             {
-                throw new ScriptRuntimeException("Thing has been disposed, can't GetUDMFTable()!");
+                throw new ScriptRuntimeException("Thing has been disposed, can't GetUDMFTable().");
             }
 
             return LuaTypeConversion.GetUDMFTable(thing);
@@ -479,7 +483,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (thing.IsDisposed)
             {
-                throw new ScriptRuntimeException("Thing has been disposed, can't GetSize()!");
+                throw new ScriptRuntimeException("Thing has been disposed, can't GetSize().");
             }
             return thing.Size;
         }
@@ -489,7 +493,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (thing.IsDisposed)
             {
-                throw new ScriptRuntimeException("Thing has been disposed, can't GetSector()!");
+                throw new ScriptRuntimeException("Thing has been disposed, can't GetSector().");
             }
             thing.DetermineSector();
             Sector s = thing.Sector;
@@ -506,7 +510,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (thing.IsDisposed)
             {
-                throw new ScriptRuntimeException("Thing has been disposed, can't SetAngleRadians()!");
+                throw new ScriptRuntimeException("Thing has been disposed, can't SetAngleRadians().");
             }
             thing.Rotate(newangle);
         }
@@ -515,7 +519,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (thing.IsDisposed)
             {
-                throw new ScriptRuntimeException("Thing has been disposed, can't SetAngleDoom()!");
+                throw new ScriptRuntimeException("Thing has been disposed, can't SetAngleDoom().");
             }
             // i know it's genuinely weird that this looks like the
             // same call as radians but trust me
@@ -526,7 +530,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (thing.IsDisposed)
             {
-                throw new ScriptRuntimeException("Thing has been disposed, can't GetAngleRadians()!");
+                throw new ScriptRuntimeException("Thing has been disposed, can't GetAngleRadians().");
             }
 
             return thing.Angle;
@@ -536,7 +540,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (thing.IsDisposed)
             {
-                throw new ScriptRuntimeException("Thing has been disposed, can't GetAngleDoom()!");
+                throw new ScriptRuntimeException("Thing has been disposed, can't GetAngleDoom().");
             }
 
             return thing.AngleDoom;
@@ -546,7 +550,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (thing.IsDisposed)
             {
-                throw new ScriptRuntimeException("Thing has been disposed, can't SnapToGrid()!");
+                throw new ScriptRuntimeException("Thing has been disposed, can't SnapToGrid().");
             }
             thing.SnapToGrid();
         }
@@ -555,7 +559,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (thing.IsDisposed)
             {
-                throw new ScriptRuntimeException("Thing has been disposed, can't SnapToGrid()!");
+                throw new ScriptRuntimeException("Thing has been disposed, can't SnapToGrid().");
             }
             thing.SnapToAccuracy();
         }
@@ -564,7 +568,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (thing.IsDisposed)
             {
-                throw new ScriptRuntimeException("Thing has been disposed, can't DistanceToSq()!");
+                throw new ScriptRuntimeException("Thing has been disposed, can't DistanceToSq().");
             }
             return thing.DistanceToSq(p.vec);
         }
@@ -573,7 +577,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (thing.IsDisposed)
             {
-                throw new ScriptRuntimeException("Thing has been disposed, can't DistanceTo()!");
+                throw new ScriptRuntimeException("Thing has been disposed, can't DistanceTo().");
             }
             return thing.DistanceTo(p.vec);
         }

@@ -41,6 +41,8 @@ namespace CodeImp.DoomBuilder.DBXLua
         // used for asking for input from ScriptParamForm, see also LuaUI
         public LuaUIParameters ui_parameters;
 
+        // hacky workaround for .NET framework bug, see RandomSeed()
+        public bool bInitializedSeed;
         
 
         public string ScriptLog {
@@ -102,6 +104,15 @@ namespace CodeImp.DoomBuilder.DBXLua
             script.Globals["Data"] = typeof(LuaDataManager);
             script.Globals["MapFormat"] = typeof(LuaMapFormat);
             script.Globals["dofile"] = (Func<string, DynValue>)DoFile;
+            // hacky workaround for .NET 3.5 bug, see RandomSeed for more info
+            {
+                object math = script.Globals["math"];
+                if (math is Table)
+                {
+                    Table math_table = (Table)math;
+                    math_table["randomseed"] = (Func<DynValue, DynValue>)RandomSeed;
+                }
+            }
         }
 
         public bool RunScript(string nscriptpath)
@@ -200,6 +211,70 @@ namespace CodeImp.DoomBuilder.DBXLua
             debuglog_sb.Append('\n');
         }
 
+        /* ano - ugly hack to work around https://github.com/xanathar/moonsharp/issues/230
+         see also
+         https://github.com/xanathar/moonsharp/blob/b811c97699b08eb025829272cc9a09044a81361f/src/MoonSharp.Interpreter/CoreLib/MathModule.cs#L284
+         and
+         https://github.com/xanathar/moonsharp/blob/b811c97699b08eb025829272cc9a09044a81361f/src/MoonSharp.Interpreter/CoreLib/MathModule.cs#L26
+         if those links were down, basically new Random(seed) throws an exception if seed is
+         equal to int.MinValue, and very large numbers in lua being passed to it were casting
+         to int.MinValue, which, well, was causing this whole exception problem
+        */
+        internal DynValue RandomSeed(DynValue input)
+        {
+            int seed;
+            if (input.IsNilOrNan())
+            {
+                seed = Environment.TickCount;
+            }
+            else
+            {
+                seed = (int)input.Number;
+            }
+
+            if (seed == int.MinValue)
+            {
+                // we dont warn about this more than once
+                if (!bInitializedSeed) 
+                {
+                    // should we warn about this in the parameterless case?
+                    Warn(
+                        "math.randomseed of "
+                        + input.CastToString()
+                        + " was out of bounds.\nseed must be greater than "
+                        + int.MinValue + " and less than or equal to " + int.MaxValue
+                        + ". a random seed chosen based on the current system uptime was used instead."
+                        );
+                }
+
+                seed = Environment.TickCount;
+                /*
+                as per the
+                https://msdn.microsoft.com/en-us/library/system.environment.tickcount(v=vs.110).aspx
+                Environment.TickCount documentation:
+                TickCount will increment from zero to Int32.MaxValue for approximately 24.9 days,
+                then jump to Int32.MinValue
+                */
+                while (seed == int.MinValue)
+                {
+                    // sleeping here sucks but it's supposed to happen only precisely at
+                    // int.MaxValue milliseconds of system uptime
+                    System.Threading.Thread.Sleep(1);
+                    seed = Environment.TickCount;
+                }
+            }
+
+            Random rand = new Random(seed);
+            
+            script.Registry.Set("F61E3AA7247D4D1EB7A45430B0C8C9BB_MATH_RANDOM",
+                UserData.Create(new MoonSharp.Interpreter.Interop.AnonWrapper<Random>(rand))
+                );
+            bInitializedSeed = true;
+            return DynValue.Nil;
+        }
+
+        // cleaned up version of dofile in order to sandbox a bit better
+        // only should accept relative paths
         internal DynValue DoFile(string filename)
         {
             // references used:
@@ -222,17 +297,17 @@ namespace CodeImp.DoomBuilder.DBXLua
 
             if (Path.IsPathRooted(filename) || filename.StartsWith("\\"))
             {
-                throw new ScriptRuntimeException("improper filename " + filename + " for DoFile, must use relative path");
+                throw new ScriptRuntimeException("improper filename " + filename + " for dofile, must use relative path");
             }
 
             if (filename.StartsWith("."))
             {
-                throw new ScriptRuntimeException("improper filename " + filename + " for DoFile, can't start with '.'");
+                throw new ScriptRuntimeException("improper filename " + filename + " for dofile, can't start with '.'");
             }
 
             if (!Path.GetExtension(filename).ToLower().StartsWith(".lua"))
             {
-                throw new ScriptRuntimeException("improper filename " + filename + " for DoFile, must be .lua file, was " + Path.GetExtension(filename));
+                throw new ScriptRuntimeException("improper filename " + filename + " for dofile, must be .lua file, was " + Path.GetExtension(filename));
             }
 
             // try current lua file path -> wad path -> wad path\lua

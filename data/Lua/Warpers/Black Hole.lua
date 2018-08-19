@@ -36,7 +36,7 @@ so lets algebra this out
 
 max_distance_sq = gravity / 1.5
 
--- so by default, we use all the vertices on the map
+-- so by default, we use the selected vertices only
 vertices = Map.GetSelectedVertices()
 -- if nothing selected, just do all the vertices
 if #vertices == 0 then

@@ -45,23 +45,33 @@ namespace CodeImp.DoomBuilder.DBXLua
 
             while (ui_parameters.defaultvalues.Count < ui_parameters.keys.Count)
             {
-                ui_parameters.defaultvalues.Add("");
+                ui_parameters.defaultvalues.Add(null);
             }
 
             ScriptParamForm form = new ScriptParamForm();
             for (int i = 0; i < ui_parameters.labels.Count; i++)
             {
-                form.paramsview.Rows.Add(ui_parameters.labels[i], ui_parameters.defaultvalues[i]);
+                if (ui_parameters.defaultvalues[i] == null)
+                {
+                    form.paramsview.Rows.Add(ui_parameters.labels[i], "");
+                }
+                else
+                {
+                    form.paramsview.Rows.Add(ui_parameters.labels[i], ui_parameters.defaultvalues[i]);
+                }
             }
+
             DialogResult result = form.ShowDialog();
 
             if (result == DialogResult.OK)
             {
                 Dictionary<string, string> output = new Dictionary<string, string>(ui_parameters.labels.Count);
+
                 for (int i = 0; i < ui_parameters.labels.Count; i++)
                 {
                     output.Add(ui_parameters.keys[i], form.paramsview.Rows[i].Cells[1].Value.ToString());
                 }
+
                 return output;
             }
             else

@@ -38,6 +38,7 @@ full_koch_snowflake(1024, 0, 0, 0, 4)
 full_koch_snowflake(512, 0, -144, -256, 3)
 full_koch_snowflake(256, 0, -216, -384, 3)
 full_koch_snowflake(128, 0, -253, -448, 3)
+--[[
 sectors = Map.GetSectors()
 
 for i=1, #sectors do
@@ -51,3 +52,4 @@ for i=1, #sectors do
 		sectors[i].ceiltex = "FLAT1"
 	end
 end
+--]]

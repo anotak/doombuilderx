@@ -57,7 +57,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (linedef.linedef.IsDisposed)
             {
-                throw new Exception("Linedef is disposed, can't Line2D.From()!");
+                throw new ScriptRuntimeException("Linedef is disposed, can't Line2D.From().");
             }
             return new LuaLine2D(linedef.linedef.Line);
         }
@@ -66,11 +66,11 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (sidedef.sidedef.IsDisposed)
             {
-                throw new Exception("Sidedef is disposed, can't Line2D.From()!");
+                throw new ScriptRuntimeException("Sidedef is disposed, can't Line2D.From().");
             }
             if (sidedef.sidedef.Line.IsDisposed)
             {
-                throw new Exception("Linedef is disposed, can't Line2D.From()!");
+                throw new ScriptRuntimeException("Linedef is disposed, can't Line2D.From().");
             }
             return new LuaLine2D(sidedef.sidedef.Line.Line);
         }

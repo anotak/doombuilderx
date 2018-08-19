@@ -21,7 +21,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sector.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("sector has been disposed, can't get selected status!");
+                    throw new ScriptRuntimeException("sector has been disposed, can't get selected status.");
                 }
 
                 return sector.Selected;
@@ -31,7 +31,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sector.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("sector has been disposed, can't set selected status!");
+                    throw new ScriptRuntimeException("sector has been disposed, can't set selected status.");
                 }
 
                 if (value == sector.Selected)
@@ -115,7 +115,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sector.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Sector has been disposed, can't get floorheight!");
+                    throw new ScriptRuntimeException("Sector has been disposed, can't get floorheight.");
                 }
                 return sector.FloorHeight;
             }
@@ -123,7 +123,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sector.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Sector has been disposed, can't set floorheight!");
+                    throw new ScriptRuntimeException("Sector has been disposed, can't set floorheight.");
                 }
                 sector.FloorHeight = value;
             }
@@ -135,7 +135,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sector.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Sector has been disposed, can't get ceilheight!");
+                    throw new ScriptRuntimeException("Sector has been disposed, can't get ceilheight.");
                 }
                 return sector.CeilHeight;
             }
@@ -143,7 +143,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sector.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Sector has been disposed, can't set ceilheight!");
+                    throw new ScriptRuntimeException("Sector has been disposed, can't set ceilheight.");
                 }
                 sector.CeilHeight = value;
             }
@@ -155,7 +155,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sector.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Sector has been disposed, can't get floortex!");
+                    throw new ScriptRuntimeException("Sector has been disposed, can't get floortex.");
                 }
                 return sector.FloorTexture;
             }
@@ -163,7 +163,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sector.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Sector has been disposed, can't set floortex!");
+                    throw new ScriptRuntimeException("Sector has been disposed, can't set floortex.");
                 }
                 sector.SetFloorTexture(value);
             }
@@ -175,7 +175,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sector.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Sector has been disposed, can't get ceiltex!");
+                    throw new ScriptRuntimeException("Sector has been disposed, can't get ceiltex.");
                 }
                 return sector.CeilTexture;
             }
@@ -183,7 +183,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sector.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Sector has been disposed, can't set ceiltex!");
+                    throw new ScriptRuntimeException("Sector has been disposed, can't set ceiltex.");
                 }
                 sector.SetCeilTexture(value);
             }
@@ -194,7 +194,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sector.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Sector has been disposed, can't get effect!");
+                    throw new ScriptRuntimeException("Sector has been disposed, can't get effect.");
                 }
                 return sector.Effect;
             }
@@ -202,7 +202,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sector.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Sector has been disposed, can't set effect!");
+                    throw new ScriptRuntimeException("Sector has been disposed, can't set effect.");
                 }
                 sector.Effect = value;
             }
@@ -213,7 +213,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sector.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Sector has been disposed, can't get tag!");
+                    throw new ScriptRuntimeException("Sector has been disposed, can't get tag.");
                 }
                 return sector.Tag;
             }
@@ -221,7 +221,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sector.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Sector has been disposed, can't set tag!");
+                    throw new ScriptRuntimeException("Sector has been disposed, can't set tag.");
                 }
                 sector.Tag = value;
             }
@@ -232,7 +232,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sector.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Sector has been disposed, can't get brightness!");
+                    throw new ScriptRuntimeException("Sector has been disposed, can't get brightness.");
                 }
                 return sector.Brightness;
             }
@@ -240,7 +240,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (sector.IsDisposed)
                 {
-                    throw new ScriptRuntimeException("Sector has been disposed, can't set brightness!");
+                    throw new ScriptRuntimeException("Sector has been disposed, can't set brightness.");
                 }
                 sector.Brightness = value;
             }
@@ -261,7 +261,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (sector.IsDisposed)
             {
-                throw new ScriptRuntimeException("Sector has been disposed, can't GetIndex()!");
+                throw new ScriptRuntimeException("Sector has been disposed, can't GetIndex().");
             }
 
             return sector.Index;
@@ -271,7 +271,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (sector.IsDisposed)
             {
-                throw new ScriptRuntimeException("Sector has been disposed, can't GetUDMFField()!");
+                throw new ScriptRuntimeException("Sector has been disposed, can't GetUDMFField().");
             }
             return LuaTypeConversion.GetUDMFField(sector, key, General.Map.Config.SectorFields);
         }
@@ -280,7 +280,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (sector.IsDisposed)
             {
-                throw new ScriptRuntimeException("Sector has been disposed, can't SetUDMFField()!");
+                throw new ScriptRuntimeException("Sector has been disposed, can't SetUDMFField().");
             }
             // ano - bc of like floor scaling or whatever
             sector.UpdateNeeded = true;
@@ -291,7 +291,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (sector.IsDisposed)
             {
-                throw new ScriptRuntimeException("Sector has been disposed, can't GetUDMFTable()!");
+                throw new ScriptRuntimeException("Sector has been disposed, can't GetUDMFTable().");
             }
 
             return LuaTypeConversion.GetUDMFTable(sector);
@@ -301,7 +301,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (sector.IsDisposed)
             {
-                throw new ScriptRuntimeException("Sector has been disposed, can't GetSidedefs()!");
+                throw new ScriptRuntimeException("Sector has been disposed, can't GetSidedefs().");
             }
 
             Table output = new Table(ScriptContext.context.script);
@@ -320,7 +320,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (sector.IsDisposed)
             {
-                throw new ScriptRuntimeException("Sector has been disposed, can't GetLinedefs()!");
+                throw new ScriptRuntimeException("Sector has been disposed, can't GetLinedefs().");
             }
 
             HashSet<Linedef> linedefs = new HashSet<Linedef>();
@@ -344,7 +344,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             if (sector.IsDisposed)
             {
-                throw new ScriptRuntimeException("Sector has been disposed, can't Intersect()!");
+                throw new ScriptRuntimeException("Sector has been disposed, can't Intersect().");
             }
             return sector.Intersect(p.vec);
         }

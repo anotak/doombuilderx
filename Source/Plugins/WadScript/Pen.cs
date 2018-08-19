@@ -196,7 +196,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 // ano - i really wish i could give a better error than this, the whole plugin api thing
                 // is a bit annoying.
-                throw new ScriptRuntimeException("Unknown failure drawing pen vertices!");
+                throw new ScriptRuntimeException("Unknown failure drawing pen vertices.");
             }
 
             // Snap to map format accuracy
