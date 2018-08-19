@@ -1098,7 +1098,7 @@ namespace CodeImp.DoomBuilder.Map
         /// Note that this function uses the markings to convert the selection.</summary>
         public void ConvertSelection(SelectionType target)
         {
-            ConvertSelection(SelectionType.All, target);
+            ConvertSelection(sel_type, target);
         }
 
         /// <summary>This converts the current selection to a different type of selection as specified.
@@ -1107,94 +1107,246 @@ namespace CodeImp.DoomBuilder.Map
         {
             ICollection<Linedef> lines;
             ICollection<Vertex> verts;
+            HashSet<Sector> potentially_selected_sectors;
+
+            if (source == SelectionType.Things)
+            {
+                // ano - UGLY HACK I HATE IT
+                source = SelectionType.Linedefs;
+            }
+
+            Logger.WriteLogLine(General.stopwatch.Elapsed.TotalMilliseconds + ": " + source.ToString() + " to " + target.ToString());
+            if (source == target)
+            {
+                return;
+            }
 
             ClearAllMarks(false);
 
-            switch (target)
+            if (source == SelectionType.All)
             {
-                // Convert geometry selection to vertices only
-                case SelectionType.Vertices:
-                    if (InSelectionType(source, SelectionType.Linedefs)) MarkSelectedLinedefs(true, true);
-                    if (InSelectionType(source, SelectionType.Sectors)) General.Map.Map.MarkSelectedSectors(true, true);
-                    verts = General.Map.Map.GetVerticesFromLinesMarks(true);
-                    foreach (Vertex v in verts) v.Selected = true;
-                    verts = General.Map.Map.GetVerticesFromSectorsMarks(true);
-                    foreach (Vertex v in verts) v.Selected = true;
-                    General.Map.Map.ClearSelectedSectors();
-                    General.Map.Map.ClearSelectedLinedefs();
-                    break;
-
-                // Convert geometry selection to linedefs only
-                case SelectionType.Linedefs:
-                    if (InSelectionType(source, SelectionType.Vertices)) MarkSelectedVertices(true, true);
-                    if (!InSelectionType(source, SelectionType.Linedefs)) ClearSelectedLinedefs();
-                    lines = General.Map.Map.LinedefsFromMarkedVertices(false, true, false);
-                    foreach (Linedef l in lines) l.Selected = true;
-                    if (InSelectionType(source, SelectionType.Sectors))
-                    {
+                switch (target)
+                {
+                    case SelectionType.Sectors:
+                        General.Map.Map.ClearSelectedVertices();
+                        General.Map.Map.ClearSelectedLinedefs();
                         foreach (Sector s in General.Map.Map.Sectors)
                         {
                             if (s.Selected)
                             {
-                                foreach (Sidedef sd in s.Sidedefs)
-                                    sd.Line.Selected = true;
+                                foreach (Sidedef si in s.Sidedefs)
+                                {
+                                    Linedef l = si.Line;
+
+                                    l.Selected = true;
+                                    l.Start.Selected = true;
+                                    l.End.Selected = true;
+                                }
                             }
                         }
-                    }
-                    General.Map.Map.ClearSelectedSectors();
-                    General.Map.Map.ClearSelectedVertices();
-                    break;
-
-                // Convert geometry selection to sectors only
-                case SelectionType.Sectors:
-                    if (InSelectionType(source, SelectionType.Vertices)) MarkSelectedVertices(true, true);
-                    if (!InSelectionType(source, SelectionType.Linedefs)) ClearSelectedLinedefs();
-                    lines = LinedefsFromMarkedVertices(false, true, false);
-                    foreach (Linedef l in lines) l.Selected = true;
-                    ClearMarkedSectors(true);
-                    foreach (Linedef l in linedefs)
-                    {
-                        if (!l.Selected)
+                        break;
+                    case SelectionType.Vertices:
+                        General.Map.Map.ClearSelectedSectors();
+                        General.Map.Map.ClearSelectedLinedefs();
+                        break;
+                    case SelectionType.Things:
+                    case SelectionType.Linedefs:
+                        General.Map.Map.ClearSelectedSectors();
+                        General.Map.Map.ClearSelectedVertices();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else if (target == SelectionType.All)
+            {
+                switch (source)
+                {
+                    case SelectionType.Vertices:
+                        potentially_selected_sectors = new HashSet<Sector>();
+                        foreach (Linedef l in General.Map.Map.Linedefs)
                         {
-                            if (l.Front != null) l.Front.Sector.Marked = false;
-                            if (l.Back != null) l.Back.Sector.Marked = false;
+                            l.Selected = l.Start.Selected && l.End.Selected;
+
+                            if (l.Front != null)
+                            {
+                                potentially_selected_sectors.Add(l.Front.Sector);
+                            }
+
+                            if (l.Back != null)
+                            {
+                                potentially_selected_sectors.Add(l.Front.Sector);
+                            }
                         }
-                    }
-                    ClearSelectedLinedefs();
-                    ClearSelectedVertices();
-                    if (InSelectionType(source, SelectionType.Sectors))
-                    {
+
+                        foreach (Sector s in potentially_selected_sectors)
+                        {
+                            bool select_sector = true;
+                            foreach (Sidedef side in s.Sidedefs)
+                            {
+                                if (!side.Line.Selected)
+                                {
+                                    select_sector = false;
+                                    break;
+                                }
+                            }
+
+                            s.Selected = select_sector;
+                        }
+                        break;
+                    case SelectionType.Things:
+                    case SelectionType.Linedefs:
+                        General.Map.Map.ClearSelectedVertices();
+                        General.Map.Map.ClearSelectedSectors();
+
+                        potentially_selected_sectors = new HashSet<Sector>();
+                        foreach (Linedef l in General.Map.Map.Linedefs)
+                        {
+                            if (l.Selected)
+                            {
+                                l.Start.Selected = true;
+                                l.End.Selected = true;
+
+                                if (l.Front != null)
+                                {
+                                    potentially_selected_sectors.Add(l.Front.Sector);
+                                }
+
+                                if (l.Back != null)
+                                {
+                                    potentially_selected_sectors.Add(l.Front.Sector);
+                                }
+                            }
+                        }
+
+                        foreach (Sector s in potentially_selected_sectors)
+                        {
+                            bool select_sector = true;
+                            foreach (Sidedef side in s.Sidedefs)
+                            {
+                                if (!side.Line.Selected)
+                                {
+                                    select_sector = false;
+                                    break;
+                                }
+                            }
+
+                            s.Selected = select_sector;
+                        }
+                        break;
+                    case SelectionType.Sectors:
+                        General.Map.Map.ClearSelectedVertices();
+                        General.Map.Map.ClearSelectedLinedefs();
+
                         foreach (Sector s in General.Map.Map.Sectors)
                         {
-                            if (s.Marked || s.Selected)
+                            if (s.Selected)
                             {
-                                s.Selected = true;
-                                foreach (Sidedef sd in s.Sidedefs)
-                                    sd.Line.Selected = true;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        foreach (Sector s in General.Map.Map.Sectors)
-                        {
-                            if (s.Marked)
-                            {
-                                s.Selected = true;
-                                foreach (Sidedef sd in s.Sidedefs)
-                                    sd.Line.Selected = true;
-                            }
-                            else
-                            {
-                                s.Selected = false;
-                            }
-                        }
-                    }
-                    break;
+                                foreach (Sidedef si in s.Sidedefs)
+                                {
+                                    Linedef l = si.Line;
 
-                default:
-                    throw new ArgumentException("Unsupported selection target conversion");
-                    //break;
+                                    l.Selected = true;
+                                    l.Start.Selected = true;
+                                    l.End.Selected = true;
+                                }
+                            }
+                        }
+                        break;
+                    default:
+                        throw new ArgumentException("Unsupported selection target to all conversion");
+                        //break;
+                }
+            }
+            else
+            {
+                switch (target)
+                {
+                    // Convert geometry selection to vertices only
+                    case SelectionType.Vertices:
+                        if (InSelectionType(source, SelectionType.Linedefs)) MarkSelectedLinedefs(true, true);
+                        if (InSelectionType(source, SelectionType.Sectors)) General.Map.Map.MarkSelectedSectors(true, true);
+                        verts = General.Map.Map.GetVerticesFromLinesMarks(true);
+                        foreach (Vertex v in verts) v.Selected = true;
+                        verts = General.Map.Map.GetVerticesFromSectorsMarks(true);
+                        foreach (Vertex v in verts) v.Selected = true;
+                        General.Map.Map.ClearSelectedSectors();
+                        General.Map.Map.ClearSelectedLinedefs();
+                        break;
+
+                    // Convert geometry selection to linedefs only
+                    case SelectionType.Things:
+                    case SelectionType.Linedefs:
+                        if (InSelectionType(source, SelectionType.Vertices)) MarkSelectedVertices(true, true);
+                        if (!InSelectionType(source, SelectionType.Linedefs)) ClearSelectedLinedefs();
+                        lines = General.Map.Map.LinedefsFromMarkedVertices(false, true, false);
+                        foreach (Linedef l in lines) l.Selected = true;
+                        if (InSelectionType(source, SelectionType.Sectors))
+                        {
+                            foreach (Sector s in General.Map.Map.Sectors)
+                            {
+                                if (s.Selected)
+                                {
+                                    foreach (Sidedef sd in s.Sidedefs)
+                                        sd.Line.Selected = true;
+                                }
+                            }
+                        }
+                        General.Map.Map.ClearSelectedSectors();
+                        General.Map.Map.ClearSelectedVertices();
+                        break;
+
+                    // Convert geometry selection to sectors only
+                    case SelectionType.Sectors:
+                        if (InSelectionType(source, SelectionType.Vertices)) MarkSelectedVertices(true, true);
+                        if (!InSelectionType(source, SelectionType.Linedefs)) ClearSelectedLinedefs();
+                        lines = LinedefsFromMarkedVertices(false, true, false);
+                        foreach (Linedef l in lines) l.Selected = true;
+                        ClearMarkedSectors(true);
+                        foreach (Linedef l in linedefs)
+                        {
+                            if (!l.Selected)
+                            {
+                                if (l.Front != null) l.Front.Sector.Marked = false;
+                                if (l.Back != null) l.Back.Sector.Marked = false;
+                            }
+                        }
+                        ClearSelectedLinedefs();
+                        ClearSelectedVertices();
+                        if (InSelectionType(source, SelectionType.Sectors))
+                        {
+                            foreach (Sector s in General.Map.Map.Sectors)
+                            {
+                                if (s.Marked || s.Selected)
+                                {
+                                    s.Selected = true;
+                                    foreach (Sidedef sd in s.Sidedefs)
+                                        sd.Line.Selected = true;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            foreach (Sector s in General.Map.Map.Sectors)
+                            {
+                                if (s.Marked)
+                                {
+                                    s.Selected = true;
+                                    foreach (Sidedef sd in s.Sidedefs)
+                                        sd.Line.Selected = true;
+                                }
+                                else
+                                {
+                                    s.Selected = false;
+                                }
+                            }
+                        }
+                        break;
+
+                    default:
+                        throw new ArgumentException("Unsupported selection target conversion");
+                        //break;
+                }
             }
 
             // New selection type
