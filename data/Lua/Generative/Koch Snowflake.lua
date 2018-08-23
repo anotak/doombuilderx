@@ -20,36 +20,37 @@ function koch (pen, w, angle, delta, i)
 	end
 end
 
-function full_koch_snowflake(size, angle, x, y, detail)
+function full_koch_snowflake(size, angle, x, y, detail, delta_angle)
 	local koch_pen = Pen.FromClick()
 	
 	koch_pen.MoveDiagonal(x,y)
 	
 	koch_pen.snaptogrid = false
 	
-	koch(koch_pen, size, 0 + angle, 60, detail)
-	koch(koch_pen, size, -120 + angle, 60, detail)
-	koch(koch_pen, size, 120 + angle, 60, detail)
+	koch(koch_pen, size, 0 + angle, delta_angle, detail)
+	koch(koch_pen, size, -120 + angle, delta_angle, detail)
+	koch(koch_pen, size, 120 + angle, delta_angle, detail)
 	
 	koch_pen.FinishPlacingVertices()
 end
 
-full_koch_snowflake(1024, 0, 0, 0, 4)
-full_koch_snowflake(512, 0, -144, -256, 3)
-full_koch_snowflake(256, 0, -216, -384, 3)
-full_koch_snowflake(128, 0, -253, -448, 3)
---[[
-sectors = Map.GetSectors()
+UI.AddParameter("size", "Size", 1024)
 
-for i=1, #sectors do
-	if i % 2 == 0 then
-		sectors[i].floortex = "FWATER1"
-	end
-	if i % 3 == 1 then
-		sectors[i].ceiltex = "F_SKY1"
-	end
-	if i % 3 == 2 then
-		sectors[i].ceiltex = "FLAT1"
-	end
+UI.AddParameter("detail", "Detail", 4)
+
+UI.AddParameter("delta_angle", "Delta Angle", 60)
+
+parameters = UI.AskForParameters()
+
+if parameters.detail > parameters.size / 2 then
+	UI.LogLine("detail must be less than size / 2")
+elseif parameters.detail <= 0 then
+	UI.LogLine("detail must be > 0")
+else
+	full_koch_snowflake(parameters.size, 0, 0, 0, parameters.detail, parameters.delta_angle)
 end
---]]
+
+
+
+
+

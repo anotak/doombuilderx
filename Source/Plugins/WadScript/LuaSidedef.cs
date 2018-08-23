@@ -16,6 +16,29 @@ namespace CodeImp.DoomBuilder.DBXLua
         [MoonSharpHidden]
         internal Sidedef sidedef;
 
+        public bool marked
+        {
+            get
+            {
+                if (sidedef.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("sidedef has been disposed, can't get marked status.");
+                }
+
+                return sidedef.Marked;
+            }
+
+            set
+            {
+                if (sidedef.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("sidedef has been disposed, can't set marked status.");
+                }
+
+                sidedef.Marked = value;
+            }
+        }
+
         public int offsetx
         {
             get

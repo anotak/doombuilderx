@@ -70,6 +70,29 @@ namespace CodeImp.DoomBuilder.DBXLua
             }
         }
 
+        public bool marked
+        {
+            get
+            {
+                if (vertex.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("vertex has been disposed, can't get marked status.");
+                }
+
+                return vertex.Marked;
+            }
+
+            set
+            {
+                if (vertex.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("vertex has been disposed, can't set marked status.");
+                }
+
+                vertex.Marked = value;
+            }
+        }
+
         public LuaVector2D position {
             get
             {

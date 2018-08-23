@@ -69,14 +69,14 @@ namespace CodeImp.DoomBuilder.DBXLua
 
                         if (l.Back == null || l.Back.IsDisposed)
                         {
-                            l.Selected = true;
+                            l.Selected = false;
                         }
                         else if (l.Front == null || l.Front.IsDisposed)
                         {
                             // this case probably shouldn't be possible but
                             // i want lua to be more careful about doing things
                             // that can cause crashes
-                            l.Selected = true;
+                            l.Selected = false;
                         }
                         else
                         {
@@ -107,6 +107,29 @@ namespace CodeImp.DoomBuilder.DBXLua
                 
                 
             } // done with selected setter
+        }
+
+        public bool marked
+        {
+            get
+            {
+                if (sector.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("sector has been disposed, can't get marked status.");
+                }
+
+                return sector.Marked;
+            }
+
+            set
+            {
+                if (sector.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("sector has been disposed, can't set marked status.");
+                }
+
+                sector.Marked = value;
+            }
         }
 
         public int floorheight
@@ -356,6 +379,37 @@ namespace CodeImp.DoomBuilder.DBXLua
                 return "Disposed " + sector.ToString();
             }
             return sector.ToString();
+        }
+
+        public LuaVector2D GetCenter()
+        {
+            float xmin = General.Map.Config.RightBoundary;
+            float xmax = General.Map.Config.LeftBoundary;
+            float ymin = General.Map.Config.TopBoundary;
+            float ymax = General.Map.Config.BottomBoundary;
+
+            foreach (Sidedef s in sector.Sidedefs)
+            {
+                if (!s.IsDisposed
+                    && !s.Line.IsDisposed
+                    && !s.Line.Start.IsDisposed
+                    && !s.Line.End.IsDisposed)
+                {
+                    xmin = Math.Min(xmin, s.Line.Start.Position.x);
+                    xmin = Math.Min(xmin, s.Line.End.Position.x);
+
+                    xmax = Math.Max(xmax, s.Line.Start.Position.x);
+                    xmax = Math.Max(xmax, s.Line.End.Position.x);
+
+                    ymin = Math.Min(ymin, s.Line.Start.Position.y);
+                    ymin = Math.Min(ymin, s.Line.End.Position.y);
+
+                    ymax = Math.Max(ymax, s.Line.Start.Position.y);
+                    ymax = Math.Max(ymax, s.Line.End.Position.y);
+                }
+            }
+
+            return new LuaVector2D((xmax + xmin) / 2f, (ymax + ymin) / 2f);
         }
         
         // TODO  join, createbbox

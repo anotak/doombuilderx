@@ -41,6 +41,29 @@ namespace CodeImp.DoomBuilder.DBXLua
             }
         }
 
+        public bool marked
+        {
+            get
+            {
+                if (thing.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("thing has been disposed, can't get marked status.");
+                }
+
+                return thing.Marked;
+            }
+
+            set
+            {
+                if (thing.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("thing has been disposed, can't set marked status.");
+                }
+
+                thing.Marked = value;
+            }
+        }
+
         public LuaVector2D position
         {
             get

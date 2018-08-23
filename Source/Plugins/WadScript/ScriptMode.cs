@@ -273,7 +273,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             string initial_directory = General.Settings.ReadPluginSetting("initialdirectory", "");
             if (!Directory.Exists(initial_directory))
             {
-                Path.Combine(General.AppPath, @"Lua");
+                openfile.InitialDirectory = Path.Combine(General.AppPath, @"Lua");
             }
             if (Directory.Exists(initial_directory))
             {

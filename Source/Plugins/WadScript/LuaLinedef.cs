@@ -117,6 +117,29 @@ namespace CodeImp.DoomBuilder.DBXLua
             } // done w selection setter
         }
 
+        public bool marked
+        {
+            get
+            {
+                if (linedef.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("linedef has been disposed, can't get marked status.");
+                }
+
+                return linedef.Marked;
+            }
+
+            set
+            {
+                if (linedef.IsDisposed)
+                {
+                    throw new ScriptRuntimeException("linedef has been disposed, can't set marked status.");
+                }
+
+                linedef.Marked = value;
+            }
+        }
+
         public LuaVertex start_vertex
         {
             get

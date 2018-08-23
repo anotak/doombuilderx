@@ -136,7 +136,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             }
 
             {
-                ToolStripMenuItem item = new ToolStripMenuItem("&Open script");
+                ToolStripMenuItem item = new ToolStripMenuItem("&Browse for a script");
                 item.Tag = item.Name = "openluascript";
                 item.Click += new System.EventHandler(this.InvokeTaggedAction);
                 items.Add(item);

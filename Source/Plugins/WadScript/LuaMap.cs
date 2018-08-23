@@ -145,17 +145,10 @@ namespace CodeImp.DoomBuilder.DBXLua
         public static List<LuaSidedef> GetMarkedSidedefs()
         {
             List<LuaSidedef> output = new List<LuaSidedef>();
-            ICollection<Linedef> marked = General.Map.Map.GetMarkedLinedefs(true);
-            foreach (Linedef l in marked)
+            ICollection<Sidedef> marked = General.Map.Map.GetMarkedSidedefs(true);
+            foreach (Sidedef l in marked)
             {
-                if (l.Front != null)
-                {
-                    output.Add(new LuaSidedef(l.Front));
-                }
-                if (l.Back != null)
-                {
-                    output.Add(new LuaSidedef(l.Back));
-                }
+                output.Add(new LuaSidedef(l));
             }
             return output;
         }
