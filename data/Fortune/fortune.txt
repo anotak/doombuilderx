@@ -769,8 +769,34 @@ Is your level the empty space between the lines, or is it the lines surrounding 
 %%
 Check out the scripts included with the Lua plugin for more useful tools.
 %%
-With the right tools at hand, building a DOOM WAD can be a fairly simple task. Finding an effective blend of design elements and producing a good DOOM WAD can be much more tricky!
+"I have nightmares, and then draw them"
 
-- Linguica,
-Vanilla Level Editing
+- Adrian Carmack,
+as quoted in DOOM: SCARYDARKFAST by Dan Pinchbeck
+%%
+"We would create the textures, and sometimes a wall would end up on the floor and a floor would end up on the ceiling."
+
+- Kevin Cloud,
+as quoted in DOOM: SCARYDARKFAST by Dan Pinchbeck
+%%
+"When Kevin came to work with a bloody wound on his knee, they scanned that in too,
+to use as a wall texture. In the strange emerging world of Doom, anything could go."
+
+- Masters of Doom,
+David Kushner
+%%
+"There are gorgeous lighting effects in Doom;
+Long shadows stretching from doorways,
+overhead beams casting patterns on the floors,
+flickering fluorescent bulbs as irritating as in life,
+and caverns so black you can't see your pistol muzzle in front of your face."
+
+- Chris Lombardi,
+Doom preview in Computer Gaming World July 1993
+%%
+"One reason why DOOM is still so popular is its customizability:
+Level editors for DOOM appeared online shortly after the game itself, spawning an entire not-so-underground industry of creative add-ons for DOOM and its cousins."
+
+- Michael E. Ryan,
+March 1996 PC Magazine review of DETH
 
