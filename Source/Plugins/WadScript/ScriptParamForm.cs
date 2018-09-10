@@ -15,6 +15,35 @@ namespace CodeImp.DoomBuilder.DBXLua
         public ScriptParamForm()
         {
             InitializeComponent();
+            Shown += ScriptParamForm_Shown;
+            paramsview.KeyDown += ScriptParamForm_KeyDown;
+        }
+
+        public void ScriptParamForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control)
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    DialogResult = DialogResult.OK;
+                    Close();
+                    e.Handled = true;
+                }
+            }
+        }
+
+        public void ScriptParamForm_Shown(object sender, EventArgs e)
+        {
+            // ano - focus kb properly
+            if (paramsview.Rows.Count > 0)
+            {
+                //paramsview.Rows[0].Cells[0].Selected = false;
+
+                //paramsview.Rows[0].Cells[1].Selected = true;
+                paramsview.CurrentCell = paramsview.Rows[0].Cells[1];
+
+                paramsview.Select();
+            }
         }
 
         public static Dictionary<string,string> ShowParamsDialog(LuaUIParameters ui_parameters)
@@ -58,6 +87,12 @@ namespace CodeImp.DoomBuilder.DBXLua
                 else
                 {
                     form.paramsview.Rows.Add(ui_parameters.labels[i], ui_parameters.defaultvalues[i]);
+                }
+
+                if (ui_parameters.tooltips[i] != null && ui_parameters.tooltips[i].Length > 0)
+                {
+                    form.paramsview.Rows[i].Cells[0].ToolTipText = ui_parameters.tooltips[i];
+                    form.paramsview.Rows[i].Cells[1].ToolTipText = ui_parameters.tooltips[i];
                 }
             }
 

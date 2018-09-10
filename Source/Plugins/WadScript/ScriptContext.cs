@@ -104,6 +104,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             script.Globals["Data"] = typeof(LuaDataManager);
             script.Globals["MapFormat"] = typeof(LuaMapFormat);
             script.Globals["dofile"] = (Func<string, DynValue>)DoFile;
+            script.Globals["dostring"] = (Func<string, DynValue>)DoString;
             // hacky workaround for .NET 3.5 bug, see RandomSeed for more info
             {
                 object math = script.Globals["math"];
@@ -271,6 +272,11 @@ namespace CodeImp.DoomBuilder.DBXLua
                 );
             bInitializedSeed = true;
             return DynValue.Nil;
+        }
+
+        internal DynValue DoString(string evalstring)
+        {
+            return script.DoString(evalstring);
         }
 
         // cleaned up version of dofile in order to sandbox a bit better

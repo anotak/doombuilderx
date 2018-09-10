@@ -114,7 +114,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             ScriptContext.context.ui_parameters = new LuaUIParameters(16);
         }
 
-        public static void AddParameter(string key, string label, DynValue defaultvalue)
+        public static void AddParameter(string key, string label, DynValue defaultvalue, string tooltip = "")
         {
             if (key == null || key == "")
             {
@@ -132,6 +132,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             }
             ScriptContext.context.ui_parameters.keys.Add(key);
             ScriptContext.context.ui_parameters.labels.Add(label);
+            ScriptContext.context.ui_parameters.tooltips.Add(tooltip);
 
             if (defaultvalue == null || defaultvalue.IsNil() || defaultvalue.IsVoid())
             {
@@ -303,6 +304,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         public List<string> labels;
         public List<string> defaultvalues;
         public List<DataType> datatypes;
+        public List<string> tooltips;
 
         // default parameter workaround for C# not letting us do parameterless constructors
         public LuaUIParameters(int size)
@@ -311,6 +313,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             labels = new List<string>(size);
             defaultvalues = new List<string>(size);
             datatypes = new List<DataType>(size);
+            tooltips = new List<string>();
         }
     } // luauiparameters
 } // ns

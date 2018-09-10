@@ -1,4 +1,5 @@
--- overlapless_scale.lua by anotak
+-- polar_scale.lua by anotak
+-- this works but im not sure what the point is
 
 function move_vert_relative(v, delta_vector)
 	if delta_vector.GetLengthSq() < 2 then
@@ -16,15 +17,15 @@ else
 	-- to scale vertices toward mouse position,
 	-- well, we need the mouse position in map coordinates
 	-- FIXME figure out the snaptogrid
-	cursor = UI.GetMouseMapPosition(false,false)
+	local cursor = UI.GetMouseMapPosition(false,false)
 
 	
 	
 	-- create a bounding box
-	old_xmin = MapFormat.GetRightBoundary()
-	old_xmax = MapFormat.GetLeftBoundary()
-	old_ymin = MapFormat.GetTopBoundary()
-	old_ymax = MapFormat.GetBottomBoundary()
+	local old_xmin = MapFormat.GetRightBoundary()
+	local old_xmax = MapFormat.GetLeftBoundary()
+	local old_ymin = MapFormat.GetTopBoundary()
+	local old_ymax = MapFormat.GetBottomBoundary()
 	
 	for _,v in ipairs(vertices) do
 		old_xmin = math.min(old_xmin, v.position.x)
@@ -45,30 +46,20 @@ else
 		old_ymax = old_ymax + 0.1
 	end
 	
-	old_w = old_xmax - old_xmin
-	old_h = old_ymax - old_ymin
-	
 	-- find the center by averaging, then determine which sides of the center
 	-- the cursor is on
-	xcenter = (old_xmax + old_xmin) / 2
-	ycenter = (old_ymax + old_ymin) / 2
+	local xcenter = (old_xmax + old_xmin) / 2
+	local ycenter = (old_ymax + old_ymin) / 2
 	
-	-- i'm a bit unsure as to how to handle == case
-	if cursor.x > xcenter then
-		new_xmin = old_xmin
-		new_xmax = cursor.x
-	else
-		new_xmin = cursor.x
-		new_xmax = old_xmax
+	local center = Vector2D.From(xcenter,ycenter)
+	
+	local rmax = 0
+	for _,v in ipairs(vertices) do
+		rmax = math.max(rmax, Vector2D.DistanceSq(center,v.position))
 	end
 	
-	if cursor.y > ycenter then
-		new_ymin = old_ymin
-		new_ymax = cursor.y
-	else
-		new_ymin = cursor.y
-		new_ymax = old_ymax
-	end
+	rmax = math.sqrt(rmax)
+	local rcursor = Vector2D.Distance(cursor, center)
 	
 	--[[
 	we will sort the list of vertices, so that vertices closer
@@ -86,20 +77,35 @@ else
 	
 	table.sort(vertices, vertex_comparison)
 	
-	new_w = new_xmax - new_xmin
-	new_h = new_ymax - new_ymin
+	UI.LogLine("original")
+	UI.LogLine(center)
+	UI.LogLine(rmax)
+	UI.LogLine("cursor")
+	UI.LogLine(cursor)
+	UI.LogLine(rcursor)
 	
-	new_origin_v = Vector2D.From(new_xmin, new_ymin)
-	new_bounds_v = Vector2D.From(new_w, new_h)
-	old_origin_v = Vector2D.From(old_xmin, old_ymin)
-	old_bounds_v = Vector2D.From(old_w, old_h)
+	UI.LogLine("-----------")
 	
-	
-	
+	local ratio = rcursor / rmax
+	UI.LogLine("ratio: " .. ratio)
 	for _,v in ipairs(vertices) do
-		destination = ((v.position - old_origin_v) / old_bounds_v) * new_bounds_v + new_origin_v
-		relative_destination = destination - v.position
-		move_vert_relative(v, relative_destination)
+		local old_rel = (v.position - center)
+		local angle = old_rel.GetAngle()
+		
+		local r = Vector2D.Distance(v.position, center) * ratio
+		--[[UI.LogLine(Vector2D.Distance(v.position, center))
+		UI.LogLine(r)
+		
+		UI.LogLine("\n")--]]
+		local dest = Vector2D.FromAngle(angle, r)
+		--[[UI.LogLine(old_rel)
+		UI.LogLine(dest)
+		
+		UI.LogLine("-\n\n")--]]
+		
+		--local relative_dest = dest - v.position
+		
+		move_vert_relative(v, dest - old_rel)
 	end
 	
 end
