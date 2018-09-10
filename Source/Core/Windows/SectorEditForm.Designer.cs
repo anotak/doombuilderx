@@ -105,9 +105,9 @@ namespace CodeImp.DoomBuilder.Windows
             groupaction.Controls.Add(taglabel);
             groupaction.Controls.Add(this.newtag);
             groupaction.Location = new System.Drawing.Point(9, 362);
-            groupaction.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            groupaction.Margin = new System.Windows.Forms.Padding(4);
             groupaction.Name = "groupaction";
-            groupaction.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            groupaction.Padding = new System.Windows.Forms.Padding(4);
             groupaction.Size = new System.Drawing.Size(545, 89);
             groupaction.TabIndex = 2;
             groupaction.TabStop = false;
@@ -120,7 +120,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.tag.AllowRelative = true;
             this.tag.ButtonStep = 1;
             this.tag.Location = new System.Drawing.Point(111, 32);
-            this.tag.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tag.Margin = new System.Windows.Forms.Padding(5);
             this.tag.Name = "tag";
             this.tag.Size = new System.Drawing.Size(91, 27);
             this.tag.StepValues = null;
@@ -139,7 +139,7 @@ namespace CodeImp.DoomBuilder.Windows
             // newtag
             // 
             this.newtag.Location = new System.Drawing.Point(218, 34);
-            this.newtag.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.newtag.Margin = new System.Windows.Forms.Padding(4);
             this.newtag.Name = "newtag";
             this.newtag.Size = new System.Drawing.Size(95, 29);
             this.newtag.TabIndex = 1;
@@ -157,9 +157,9 @@ namespace CodeImp.DoomBuilder.Windows
             groupeffect.Controls.Add(this.effect);
             groupeffect.Controls.Add(label8);
             groupeffect.Location = new System.Drawing.Point(9, 220);
-            groupeffect.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            groupeffect.Margin = new System.Windows.Forms.Padding(4);
             groupeffect.Name = "groupeffect";
-            groupeffect.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            groupeffect.Padding = new System.Windows.Forms.Padding(4);
             groupeffect.Size = new System.Drawing.Size(545, 131);
             groupeffect.TabIndex = 1;
             groupeffect.TabStop = false;
@@ -168,11 +168,11 @@ namespace CodeImp.DoomBuilder.Windows
             // brightness
             // 
             this.brightness.AllowDecimal = false;
-            this.brightness.AllowNegative = false;
+            this.brightness.AllowNegative = true;
             this.brightness.AllowRelative = true;
             this.brightness.ButtonStep = 8;
             this.brightness.Location = new System.Drawing.Point(111, 76);
-            this.brightness.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.brightness.Margin = new System.Windows.Forms.Padding(5);
             this.brightness.Name = "brightness";
             this.brightness.Size = new System.Drawing.Size(91, 27);
             this.brightness.StepValues = null;
@@ -183,7 +183,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.browseeffect.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.browseeffect.Image = global::CodeImp.DoomBuilder.Properties.Resources.List;
             this.browseeffect.Location = new System.Drawing.Point(481, 32);
-            this.browseeffect.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.browseeffect.Margin = new System.Windows.Forms.Padding(4);
             this.browseeffect.Name = "browseeffect";
             this.browseeffect.Padding = new System.Windows.Forms.Padding(0, 0, 1, 4);
             this.browseeffect.Size = new System.Drawing.Size(35, 31);
@@ -209,7 +209,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.effect.Empty = false;
             this.effect.GeneralizedCategories = null;
             this.effect.Location = new System.Drawing.Point(111, 35);
-            this.effect.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.effect.Margin = new System.Windows.Forms.Padding(5);
             this.effect.Name = "effect";
             this.effect.Size = new System.Drawing.Size(362, 24);
             this.effect.TabIndex = 0;
@@ -240,9 +240,9 @@ namespace CodeImp.DoomBuilder.Windows
             groupfloorceiling.Controls.Add(this.ceilingtex);
             groupfloorceiling.Controls.Add(label6);
             groupfloorceiling.Location = new System.Drawing.Point(9, 8);
-            groupfloorceiling.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            groupfloorceiling.Margin = new System.Windows.Forms.Padding(4);
             groupfloorceiling.Name = "groupfloorceiling";
-            groupfloorceiling.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            groupfloorceiling.Padding = new System.Windows.Forms.Padding(4);
             groupfloorceiling.Size = new System.Drawing.Size(545, 201);
             groupfloorceiling.TabIndex = 0;
             groupfloorceiling.TabStop = false;
@@ -255,7 +255,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.floorheight.AllowRelative = true;
             this.floorheight.ButtonStep = 8;
             this.floorheight.Location = new System.Drawing.Point(140, 86);
-            this.floorheight.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.floorheight.Margin = new System.Windows.Forms.Padding(5);
             this.floorheight.Name = "floorheight";
             this.floorheight.Size = new System.Drawing.Size(110, 27);
             this.floorheight.StepValues = null;
@@ -269,7 +269,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.ceilingheight.AllowRelative = true;
             this.ceilingheight.ButtonStep = 8;
             this.ceilingheight.Location = new System.Drawing.Point(140, 44);
-            this.ceilingheight.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ceilingheight.Margin = new System.Windows.Forms.Padding(5);
             this.ceilingheight.Name = "ceilingheight";
             this.ceilingheight.Size = new System.Drawing.Size(110, 27);
             this.ceilingheight.StepValues = null;
@@ -329,7 +329,7 @@ namespace CodeImp.DoomBuilder.Windows
             // floortex
             // 
             this.floortex.Location = new System.Drawing.Point(296, 46);
-            this.floortex.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.floortex.Margin = new System.Windows.Forms.Padding(5);
             this.floortex.Name = "floortex";
             this.floortex.Size = new System.Drawing.Size(104, 131);
             this.floortex.TabIndex = 2;
@@ -338,7 +338,7 @@ namespace CodeImp.DoomBuilder.Windows
             // ceilingtex
             // 
             this.ceilingtex.Location = new System.Drawing.Point(415, 46);
-            this.ceilingtex.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.ceilingtex.Margin = new System.Windows.Forms.Padding(5);
             this.ceilingtex.Name = "ceilingtex";
             this.ceilingtex.Size = new System.Drawing.Size(104, 131);
             this.ceilingtex.TabIndex = 3;
@@ -359,7 +359,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cancel.Location = new System.Drawing.Point(444, 529);
-            this.cancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cancel.Margin = new System.Windows.Forms.Padding(4);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(140, 31);
             this.cancel.TabIndex = 2;
@@ -371,7 +371,7 @@ namespace CodeImp.DoomBuilder.Windows
             // 
             this.apply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.apply.Location = new System.Drawing.Point(295, 529);
-            this.apply.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.apply.Margin = new System.Windows.Forms.Padding(4);
             this.apply.Name = "apply";
             this.apply.Size = new System.Drawing.Size(140, 31);
             this.apply.TabIndex = 1;
@@ -402,9 +402,9 @@ namespace CodeImp.DoomBuilder.Windows
             this.tabproperties.Controls.Add(groupfloorceiling);
             this.tabproperties.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabproperties.Location = new System.Drawing.Point(4, 25);
-            this.tabproperties.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabproperties.Margin = new System.Windows.Forms.Padding(4);
             this.tabproperties.Name = "tabproperties";
-            this.tabproperties.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabproperties.Padding = new System.Windows.Forms.Padding(4);
             this.tabproperties.Size = new System.Drawing.Size(563, 466);
             this.tabproperties.TabIndex = 0;
             this.tabproperties.Text = "Properties";
@@ -415,9 +415,9 @@ namespace CodeImp.DoomBuilder.Windows
             this.tabcustom.Controls.Add(this.fieldslist);
             this.tabcustom.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabcustom.Location = new System.Drawing.Point(4, 25);
-            this.tabcustom.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabcustom.Margin = new System.Windows.Forms.Padding(4);
             this.tabcustom.Name = "tabcustom";
-            this.tabcustom.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabcustom.Padding = new System.Windows.Forms.Padding(4);
             this.tabcustom.Size = new System.Drawing.Size(563, 466);
             this.tabcustom.TabIndex = 1;
             this.tabcustom.Text = "Custom";
@@ -433,7 +433,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.fieldslist.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.fieldslist.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.fieldslist.Location = new System.Drawing.Point(14, 14);
-            this.fieldslist.Margin = new System.Windows.Forms.Padding(10, 10, 10, 10);
+            this.fieldslist.Margin = new System.Windows.Forms.Padding(10);
             this.fieldslist.Name = "fieldslist";
             this.fieldslist.PropertyColumnVisible = true;
             this.fieldslist.PropertyColumnWidth = 150;
@@ -472,7 +472,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.Controls.Add(this.cancel);
             this.Controls.Add(this.apply);
             this.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SectorEditForm";
