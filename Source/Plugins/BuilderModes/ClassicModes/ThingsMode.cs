@@ -468,28 +468,42 @@ namespace CodeImp.DoomBuilder.BuilderModes
 
 			if(selectionvolume)
 			{
-				if(General.Interface.ShiftState ^ BuilderPlug.Me.AdditiveSelect)
-				{
-					// Go for all things
-					foreach(Thing t in General.Map.ThingsFilter.VisibleThings)
-					{
-						t.Selected |= ((t.Position.x >= selectionrect.Left) &&
-									   (t.Position.y >= selectionrect.Top) &&
-									   (t.Position.x <= selectionrect.Right) &&
-									   (t.Position.y <= selectionrect.Bottom));
-					}
-				}
-				else
-				{
-					// Go for all things
-					foreach(Thing t in General.Map.ThingsFilter.VisibleThings)
-					{
-						t.Selected = ((t.Position.x >= selectionrect.Left) &&
-									  (t.Position.y >= selectionrect.Top) &&
-									  (t.Position.x <= selectionrect.Right) &&
-									  (t.Position.y <= selectionrect.Bottom));
-					}
-				}
+                if (General.Interface.AltState)
+                {
+                    // ano - subtractive select!
+                    foreach (Thing t in General.Map.ThingsFilter.VisibleThings)
+                    {
+                        if((t.Position.x >= selectionrect.Left) &&
+                                       (t.Position.y >= selectionrect.Top) &&
+                                       (t.Position.x <= selectionrect.Right) &&
+                                       (t.Position.y <= selectionrect.Bottom))
+                        {
+                            t.Selected = false;
+                        }
+                    }
+                }
+                else if (General.Interface.ShiftState ^ BuilderPlug.Me.AdditiveSelect)
+                {
+                    // Go for all things
+                    foreach (Thing t in General.Map.ThingsFilter.VisibleThings)
+                    {
+                        t.Selected |= ((t.Position.x >= selectionrect.Left) &&
+                                       (t.Position.y >= selectionrect.Top) &&
+                                       (t.Position.x <= selectionrect.Right) &&
+                                       (t.Position.y <= selectionrect.Bottom));
+                    }
+                }
+                else
+                {
+                    // Go for all things
+                    foreach (Thing t in General.Map.ThingsFilter.VisibleThings)
+                    {
+                        t.Selected = ((t.Position.x >= selectionrect.Left) &&
+                                      (t.Position.y >= selectionrect.Top) &&
+                                      (t.Position.x <= selectionrect.Right) &&
+                                      (t.Position.y <= selectionrect.Bottom));
+                    }
+                }
 			}
 			
 			base.OnEndMultiSelection();

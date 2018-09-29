@@ -511,14 +511,32 @@ namespace CodeImp.DoomBuilder.BuilderModes
 		// This is called wheh selection ends
 		protected override void OnEndMultiSelection()
 		{
-			bool selectionvolume = ((Math.Abs(base.selectionrect.Width) > 0.1f) && (Math.Abs(base.selectionrect.Height) > 0.1f));
+            bool selectionvolume = ((Math.Abs(base.selectionrect.Width) > 0.1f) && (Math.Abs(base.selectionrect.Height) > 0.1f));
 
 			if(BuilderPlug.Me.AutoClearSelection && !selectionvolume)
 			   General.Map.Map.ClearSelectedLinedefs();
 			   
 			if(selectionvolume)
 			{
-				if(General.Interface.ShiftState ^ BuilderPlug.Me.AdditiveSelect)
+                if (General.Interface.AltState)
+                {
+                    // ano - subtractive select!
+                    foreach (Linedef l in General.Map.Map.Linedefs)
+                    {
+                        if ((l.Start.Position.x >= selectionrect.Left) &&
+                                       (l.Start.Position.y >= selectionrect.Top) &&
+                                       (l.Start.Position.x <= selectionrect.Right) &&
+                                       (l.Start.Position.y <= selectionrect.Bottom) &&
+                                       (l.End.Position.x >= selectionrect.Left) &&
+                                       (l.End.Position.y >= selectionrect.Top) &&
+                                       (l.End.Position.x <= selectionrect.Right) &&
+                                       (l.End.Position.y <= selectionrect.Bottom))
+                        {
+                            l.Selected = false;
+                        }
+                    }
+                }
+                else if (General.Interface.ShiftState ^ BuilderPlug.Me.AdditiveSelect)
 				{
 					// Go for all lines
 					foreach(Linedef l in General.Map.Map.Linedefs)
