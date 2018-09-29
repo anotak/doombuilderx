@@ -452,8 +452,16 @@ namespace CodeImp.DoomBuilder.BuilderModes
 						highlighted.Selected = true;
 					}
 
-					// Start dragging the selection
-					General.Editing.ChangeMode(new DragThingsMode(new ThingsMode(), mousedownmappos));
+                    if (General.Interface.AltState)
+                    {
+                        // Start dragging the selection
+                        General.Editing.ChangeMode(new DuplicateThingsMode(new ThingsMode(), mousedownmappos));
+                    }
+                    else
+                    {
+                        // Start dragging the selection
+                        General.Editing.ChangeMode(new DragThingsMode(new ThingsMode(), mousedownmappos));
+                    }
 				}
 			}
 		}

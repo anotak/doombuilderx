@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="ClassicModes\BaseClassicMode.cs" />
     <Compile Include="ClassicModes\BrightnessMode.cs" />
+    <Compile Include="ClassicModes\DuplicateThingsMode.cs" />
     <Compile Include="ClassicModes\ErrorCheckMode.cs" />
     <Compile Include="ClassicModes\EditSelectionMode.cs" />
     <Compile Include="ClassicModes\CurveLinedefsMode.cs" />
