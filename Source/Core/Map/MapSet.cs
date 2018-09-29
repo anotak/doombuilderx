@@ -2510,6 +2510,11 @@ namespace CodeImp.DoomBuilder.Map
             int count = vertices.Count;
             List<Vertex> output = new List<Vertex>(count);
 
+            if (count <= 0)
+            {
+                return output;
+            }
+
             for (int i = count - 1; i > 0; i--)
             {
                 bool bKeep = true;
