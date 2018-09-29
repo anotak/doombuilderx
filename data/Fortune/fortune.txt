@@ -799,4 +799,21 @@ Level editors for DOOM appeared online shortly after the game itself, spawning a
 
 - Michael E. Ryan,
 March 1996 PC Magazine review of DETH
+%%
+When drag-selecting, hold alt when you release-click to drag-deselect instead.
+%%
+If you hold alt when you start to drag Things in the Things Mode, it duplicates them instead.
+%%
+The Doom Wiki at doomwiki.org has many helpful resources.
+%%
+"There are hundreds of levels for [Doom] floating around the bulletin boards and taking up space in shareware libraries and on cover disks."
+
+- Mark Burgess,
+March 1995 PC Zone magazine review of DoomCAD
+%%
+"Look! A new texture on that block on the left! Wow!"
+
+- Dan Jevons,
+October 1996 Computer & Video Games magazine review of Final Doom
+
 
