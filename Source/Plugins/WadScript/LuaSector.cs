@@ -34,78 +34,7 @@ namespace CodeImp.DoomBuilder.DBXLua
                     throw new ScriptRuntimeException("sector has been disposed, can't set selected status.");
                 }
 
-                if (value == sector.Selected)
-                {
-                    return;
-                }
-                if (value == true)
-                {
-                    sector.Selected = true;
-
-                    // "simple" in case of truth
-                    foreach (Sidedef side in sector.Sidedefs)
-                    {
-                        side.Line.Selected = true;
-                        side.Line.Start.Selected = true;
-                        side.Line.End.Selected = true;
-                    }
-                }
-                else
-                {
-                    // false case less trivial, lines must remain selected if
-                    // their other side is selected, and vertices must
-                    // remain selected if they are connected to outside selected lines
-                    sector.Selected = false;
-
-                    HashSet<Vertex> deselect_vertices = new HashSet<Vertex>();
-                    foreach (Sidedef side in sector.Sidedefs)
-                    {
-                        // skip disposed ones, of course
-                        if (side.IsDisposed)
-                        {
-                            continue;
-                        }
-                        Linedef l = side.Line;
-
-                        if (l.Back == null || l.Back.IsDisposed)
-                        {
-                            l.Selected = false;
-                        }
-                        else if (l.Front == null || l.Front.IsDisposed)
-                        {
-                            // this case probably shouldn't be possible but
-                            // i want lua to be more careful about doing things
-                            // that can cause crashes
-                            l.Selected = false;
-                        }
-                        else
-                        {
-                            // 2sided
-                            l.Selected = l.Front.Sector.Selected && l.Back.Sector.Selected;
-
-                            deselect_vertices.Add(l.Start);
-                            deselect_vertices.Add(l.End);
-                        }
-                    }
-
-                    // we have to handle vertices in a second loop once the lines
-                    // have already all been deselected if needed
-                    foreach (Vertex v in deselect_vertices)
-                    {
-                        v.Selected = false;
-                        foreach (Linedef l in v.Linedefs)
-                        {
-                            if (l.Selected)
-                            {
-                                v.Selected = true;
-                                break;
-                            }
-                        }
-                        // done w this vertex
-                    }
-                } // done with true case
-                
-                
+                ScriptMode.SelectSector(sector, value);
             } // done with selected setter
         }
 

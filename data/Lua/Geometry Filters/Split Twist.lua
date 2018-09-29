@@ -53,7 +53,7 @@ end
 -- it doesn't make sense to run with no linedefs selected, so let's let the user know
 num_linedefs = #(Map.GetSelectedLinedefs())
 if num_linedefs == 0 then
-	UI.LogLine("No lines selected!")
+	UI.LogLine("No lines selected. You need to select some lines.")
 else
 	UI.AddParameter("angle", "angle", -3)
 	UI.AddParameter("max_iterations", "Maximum iterations (negative or 0 is effectively no limit)", 1)

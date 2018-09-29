@@ -36,37 +36,7 @@ namespace CodeImp.DoomBuilder.DBXLua
                     throw new ScriptRuntimeException("vertex has been disposed, can't set selected status.");
                 }
 
-                if (value == vertex.Selected)
-                {
-                    return;
-                }
-
-                vertex.Selected = value;
-
-                if (value)
-                {
-                    foreach (Linedef l in vertex.Linedefs)
-                    {
-                        if (!l.Selected)
-                        {
-                            if (vertex == l.Start && l.End.Selected)
-                            {
-                                l.Selected = true;
-                            }
-                            else if (vertex == l.End && l.Start.Selected)
-                            {
-                                l.Selected = true;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (Linedef l in vertex.Linedefs)
-                    {
-                        l.Selected = false;
-                    }
-                }
+                ScriptMode.SelectVertex(vertex, value);
             }
         }
 

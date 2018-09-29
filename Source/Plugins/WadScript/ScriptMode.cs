@@ -50,6 +50,14 @@ namespace CodeImp.DoomBuilder.DBXLua
         internal static Stopwatch stopwatch;
         protected static Dictionary<string, string> returned_parameters;
 
+        internal SelectableElement highlighted;
+
+        // ano - wish i could access the highlight range from the buildermodes plugin
+        // but my life doesn't make sense anymore
+        internal const float HIGHLIGHT_RANGE = 20f;
+        internal const float HIGHLIGHT_THINGS_RANGE = 10f;
+        internal const float HIGHLIGHT_VERTICES_RANGE = 10f;
+
         public ScriptMode()
             : base()
         {
@@ -59,6 +67,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             bScriptParamsRequested = false;
             scriptPath = General.Settings.ReadPluginSetting("selectedscriptpath", "");
             CancelReason = eCancelReason.Unknown;
+            highlighted = null;
             // load default hello script
             if (!File.Exists(scriptPath))
             {
@@ -115,19 +124,344 @@ namespace CodeImp.DoomBuilder.DBXLua
             return returned_parameters;
         }
 
+        public void HighlightThing(Thing t)
+        {
+            if (highlighted == t)
+            {
+                return;
+            }
+            ClearHighlighted();
+
+            // Set new highlight
+            highlighted = t;
+
+            if (highlighted == null || highlighted.IsDisposed)
+            {
+                highlighted = null;
+                return;
+            }
+            
+            if (renderer.StartThings(false))
+            {
+                renderer.RenderThing(t, General.Colors.Highlight, 1.0f);
+
+                renderer.Finish();
+                renderer.Present();
+            }
+        }
+
+        public void HighlightVertex(Vertex v)
+        {
+            if (highlighted == v)
+            {
+                return;
+            }
+
+            ClearHighlighted();
+
+            highlighted = v;
+
+            if (highlighted == null || highlighted.IsDisposed)
+            {
+                highlighted = null;
+                return;
+            }
+
+            if (renderer.StartPlotter(false))
+            {
+                renderer.PlotVertex(v, ColorCollection.HIGHLIGHT);
+
+                renderer.Finish();
+                renderer.Present();
+            }
+        }
+
+        public void HighlightLinedef(Linedef l)
+        {
+            if (highlighted == l)
+            {
+                return;
+            }
+
+            ClearHighlighted();
+
+            // Set new highlight
+            highlighted = l;
+
+            if (highlighted == null || highlighted.IsDisposed)
+            {
+                highlighted = null;
+                return;
+            }
+
+            if (renderer.StartPlotter(false))
+            {
+                renderer.PlotLinedef(l, General.Colors.Highlight);
+                renderer.PlotVertex(l.Start, renderer.DetermineVertexColor(l.Start));
+                renderer.PlotVertex(l.End, renderer.DetermineVertexColor(l.End));
+
+                renderer.Finish();
+                renderer.Present();
+            }
+        }
+
+        public void HighlightSector(Sector s)
+        {
+            if (highlighted == s)
+            {
+                return;
+            }
+            ClearHighlighted();
+
+            // Set new highlight
+            highlighted = s;
+
+            if (highlighted == null || highlighted.IsDisposed)
+            {
+                highlighted = null;
+                return;
+            }
+
+            if (renderer.StartPlotter(false))
+            {
+                renderer.PlotSector(s, General.Colors.Highlight);
+                renderer.Finish();
+                renderer.Present();
+            }
+        }
+
+        // NOTE: must call renderer.Present() at some point after
+        public void ClearHighlighted()
+        {
+            if (highlighted == null || highlighted.IsDisposed)
+            {
+                return;
+            }
+
+            // ano - i don't like this whole "highlighted is " way of doing things
+            // but i don't see a better way rn
+            if (highlighted is Linedef)
+            {
+                Linedef l = (Linedef)highlighted;
+
+                if (renderer.StartPlotter(false))
+                {
+
+                    // Undraw previous highlight
+                    if ((l != null) && !l.IsDisposed)
+                    {
+                        renderer.PlotLinedef(l, renderer.DetermineLinedefColor(l));
+                        renderer.PlotVertex(l.Start, renderer.DetermineVertexColor(l.Start));
+                        renderer.PlotVertex(l.End, renderer.DetermineVertexColor(l.End));
+                    }
+
+                    renderer.Finish();
+                }
+            }
+            else if (highlighted is Thing)
+            {
+                Thing t = (Thing)highlighted;
+
+                if (renderer.StartThings(false))
+                {
+                    renderer.RenderThing(t, renderer.DetermineThingColor(t), 1.0f);
+
+                    renderer.Finish();
+                }
+            }
+            else if (highlighted is Sector)
+            {
+                Sector s = (Sector)highlighted;
+
+                if (renderer.StartPlotter(false))
+                {
+                    renderer.PlotSector(s);
+
+                    renderer.Finish();
+                }
+            }
+            else if (highlighted is Vertex)
+            {
+                Vertex v = (Vertex)highlighted;
+
+                if (renderer.StartPlotter(false))
+                {
+                    renderer.PlotVertex(v, renderer.DetermineVertexColor(v));
+
+                    renderer.Finish();
+                }
+            }
+            else
+            {
+                Logger.WriteLogLine("LUA SCRIPTMODE UNKNOWN HIGHLIGHT CLEAR?? " + highlighted);
+            }
+            
+            highlighted = null;
+        }
+
+        // ano - helper to make control flow simpler, only used in OnMouseMove
+        enum HighlightType
+        {
+            Null,
+            Vertex,
+            Sector,
+            Thing,
+            Linedef
+        }
+
         // Mouse moving
         public override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
 
+            if (selecting)
+            {
+                ClearHighlighted();
+                RenderMultiSelection();
+            }
+            else
+            {
+                // ano - a lot of this is from codeimp's buildermodes plugins
+                if (e.Button == MouseButtons.None)
+                {
+                    Linedef l = General.Map.Map.NearestLinedefRange(
+                        mousemappos,
+                        HIGHLIGHT_RANGE / renderer.Scale);
+
+                    Thing t = MapSet.NearestThingSquareRange(
+                        General.Map.ThingsFilter.VisibleThings,
+                        mousemappos,
+                        HIGHLIGHT_THINGS_RANGE / renderer.Scale);
+
+                    Vertex v = General.Map.Map.NearestVertexSquareRange(
+                        mousemappos,
+                        HIGHLIGHT_VERTICES_RANGE / renderer.Scale);
+
+                    Sector s = null;
+                    Linedef ls = l;
+                    if (ls == null)
+                    {
+                        ls = General.Map.Map.NearestLinedef(mousemappos);
+                    }
+
+                    if (ls != null)
+                    {
+                        // Check on which side of the linedef the mouse is
+                        float side = ls.SideOfLine(mousemappos);
+
+                        if (side > 0)
+                        {
+                            // Is there a sidedef here?
+                            if (ls.Back != null)
+                            {
+                                s = ls.Back.Sector;
+                            }
+                        }
+                        else if (ls.Front != null)
+                        {
+                            s = ls.Front.Sector;
+                        }
+                    }
+
+                    HighlightType htype = HighlightType.Null;
+
+                    if (v != null)
+                    {
+                        htype = HighlightType.Vertex;
+                    }
+
+                    
+                    if (t != null)
+                    {
+                        if (htype == HighlightType.Null)
+                        {
+                            htype = HighlightType.Thing;
+                        }
+                        else if (htype == HighlightType.Vertex
+                            && v.DistanceToSq(mousemappos) > t.DistanceToSq(mousemappos))
+                        {
+                            // figure out which is closer and highlight that one
+                            htype = HighlightType.Thing;
+                        }
+                    }
+
+
+                    if (l != null)
+                    {
+                        switch (htype)
+                        {
+                            case HighlightType.Vertex:
+                                break;
+                            case HighlightType.Thing:
+                                if (l.SafeDistanceToSq(mousemappos, false) < t.DistanceToSq(mousemappos))
+                                {
+                                    // figure out which is closer and highlight that one
+                                    htype = HighlightType.Linedef;
+                                }
+                                break;
+                            default:
+                                htype = HighlightType.Linedef;
+                                break;
+                        }
+                    }
+
+                    if (htype == HighlightType.Null && s != null)
+                    {
+                        htype = HighlightType.Sector;
+                    }
+
+                    switch (htype)
+                    {
+                        case HighlightType.Linedef:
+                            HighlightLinedef(l);
+                            break;
+                        case HighlightType.Sector:
+                            HighlightSector(s);
+                            break;
+                        case HighlightType.Vertex:
+                            HighlightVertex(v);
+                            break;
+                        case HighlightType.Thing:
+                            HighlightThing(t);
+                            break;
+                        case HighlightType.Null:
+                        default:
+                            // highlight nothing
+                            ClearHighlighted();
+                            renderer.Present();
+                            break;
+                    } // switch
+                }
+
+                if (renderer.StartOverlay(true))
+                {
+                    DrawCursor();
+
+                    renderer.Finish();
+                    renderer.Present();
+                }
+            }
+        }
+
+        public override void OnMouseLeave(EventArgs e)
+        {
+            base.OnMouseLeave(e);
+
+            ClearHighlighted();
+        }
+
+        // This is called when the selection box is dragged around
+        protected override void OnUpdateMultiSelection()
+        {
+            base.OnUpdateMultiSelection();
+
+            // Render selection
             if (renderer.StartOverlay(true))
             {
-                DrawCursor();
-
+                RenderMultiSelection();
                 renderer.Finish();
                 renderer.Present();
             }
-
         }
 
         // ano - this code borrowed from codeimp's statistics plug
@@ -143,6 +477,18 @@ namespace CodeImp.DoomBuilder.DBXLua
                 renderer.PlotLinedefSet(General.Map.Map.Linedefs);
                 renderer.PlotVerticesSet(General.Map.Map.Vertices);
 
+                if (highlighted != null && !highlighted.IsDisposed)
+                {
+                    if (highlighted is Linedef)
+                    {
+                        renderer.PlotLinedef((Linedef)highlighted, General.Colors.Highlight);
+                    }
+                    else if(highlighted is Sector)
+                    {
+                        renderer.PlotSector((Sector)highlighted, General.Colors.Highlight);
+                    }
+                }
+
                 renderer.Finish();
             }
 
@@ -151,13 +497,26 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 renderer.RenderThingSet(General.Map.ThingsFilter.HiddenThings, 0.66f);
                 renderer.RenderThingSet(General.Map.ThingsFilter.VisibleThings, 1.0f);
-                
+                if (highlighted != null
+                    && !highlighted.IsDisposed
+                    && highlighted is Thing)
+                {
+                    renderer.RenderThing((Thing)highlighted, General.Colors.Highlight, 1.0f);
+                }
                 renderer.Finish();
             }
 
             if (renderer.StartOverlay(true))
             {
-                DrawCursor();
+                // if multiselecting draw the box
+                if (selecting)
+                {
+                    RenderMultiSelection();
+                }
+                else
+                {
+                    DrawCursor();
+                }
 
                 renderer.Finish();
             }
@@ -263,6 +622,332 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             Logger.WriteLogLine("oneditbegin called"); // debugcrap
             DoScript();
+        }
+
+        // note - this is indirectly called by lua
+        internal static void SelectSector(Sector sector, bool selected)
+        {
+            if (selected == sector.Selected)
+            {
+                return;
+            }
+            if (selected == true)
+            {
+                sector.Selected = true;
+
+                // "simple" in case of truth
+                foreach (Sidedef side in sector.Sidedefs)
+                {
+                    side.Line.Selected = true;
+                    side.Line.Start.Selected = true;
+                    side.Line.End.Selected = true;
+                }
+            }
+            else
+            {
+                // false case less trivial, lines must remain selected if
+                // their other side is selected, and vertices must
+                // remain selected if they are connected to outside selected lines
+                sector.Selected = false;
+
+                HashSet<Vertex> deselect_vertices = new HashSet<Vertex>();
+                foreach (Sidedef side in sector.Sidedefs)
+                {
+                    // skip disposed ones, of course
+                    if (side.IsDisposed)
+                    {
+                        continue;
+                    }
+                    Linedef l = side.Line;
+
+                    if (l.Back == null || l.Back.IsDisposed)
+                    {
+                        l.Selected = false;
+                    }
+                    else if (l.Front == null || l.Front.IsDisposed)
+                    {
+                        // this case probably shouldn't be possible but
+                        // i want lua to be more careful about doing things
+                        // that can cause crashes
+                        l.Selected = false;
+                    }
+                    else
+                    {
+                        // 2sided
+                        l.Selected = l.Front.Sector.Selected && l.Back.Sector.Selected;
+
+                        deselect_vertices.Add(l.Start);
+                        deselect_vertices.Add(l.End);
+                    }
+                }
+
+                // we have to handle vertices in a second loop once the lines
+                // have already all been deselected if needed
+                foreach (Vertex v in deselect_vertices)
+                {
+                    v.Selected = false;
+                    foreach (Linedef l in v.Linedefs)
+                    {
+                        if (l.Selected)
+                        {
+                            v.Selected = true;
+                            break;
+                        }
+                    }
+                    // done w this vertex
+                }
+            } // done with true case
+        }
+
+        // note - this is indirectly called by lua
+        internal static void SelectVertex(Vertex vertex, bool selected)
+        {
+            if (selected == vertex.Selected)
+            {
+                return;
+            }
+
+            vertex.Selected = selected;
+
+            if (selected)
+            {
+                foreach (Linedef l in vertex.Linedefs)
+                {
+                    if (!l.Selected)
+                    {
+                        if (vertex == l.Start && l.End.Selected)
+                        {
+                            l.Selected = true;
+                        }
+                        else if (vertex == l.End && l.Start.Selected)
+                        {
+                            l.Selected = true;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach (Linedef l in vertex.Linedefs)
+                {
+                    l.Selected = false;
+                }
+            }
+        }
+
+        // note - this is indirectly called by lua
+        internal static void SelectLinedef(Linedef linedef, bool selected)
+        {
+            if (selected == linedef.Selected)
+            {
+                return;
+            }
+
+            if (selected)
+            {
+                linedef.Start.Selected = true;
+                linedef.End.Selected = true;
+                linedef.Selected = true;
+
+                if (linedef.Front != null
+                    && !linedef.Front.IsDisposed
+                    && linedef.Front.Sector != null
+                    && !linedef.Front.Sector.IsDisposed)
+                {
+                    bool select_sector = true;
+                    foreach (Sidedef side in linedef.Front.Sector.Sidedefs)
+                    {
+                        if (!side.Line.Selected)
+                        {
+                            select_sector = false;
+                            break;
+                        }
+                    }
+
+                    linedef.Front.Sector.Selected = select_sector;
+                }
+
+                if (linedef.Back != null
+                    && !linedef.Back.IsDisposed
+                    && linedef.Back.Sector != null
+                    && !linedef.Back.Sector.IsDisposed)
+                {
+                    bool select_sector = true;
+                    foreach (Sidedef side in linedef.Back.Sector.Sidedefs)
+                    {
+                        if (!side.Line.Selected)
+                        {
+                            select_sector = false;
+                            break;
+                        }
+                    }
+
+                    linedef.Back.Sector.Selected = select_sector;
+                }
+
+            } // done w true case
+            else
+            {
+                // if we're deselecting the line, it's more complex, because
+                // each vertex may still be attached to another selected line
+                linedef.Selected = false;
+                bool result = false;
+                foreach (Linedef l in linedef.Start.Linedefs)
+                {
+                    result &= l.Selected;
+                }
+
+                linedef.Start.Selected = result;
+
+                result = false;
+                foreach (Linedef l in linedef.End.Linedefs)
+                {
+                    result &= l.Selected;
+                }
+
+                linedef.End.Selected = result;
+
+                if (linedef.Front != null)
+                {
+                    linedef.Front.Sector.Selected = false;
+                }
+                if (linedef.Back != null)
+                {
+                    linedef.Back.Sector.Selected = false;
+                }
+            } // done w false case
+        }
+
+        protected override void OnSelectBegin()
+        {
+            // FIXME does this handle that annoying doubleclick case?
+            if (highlighted != null && !highlighted.IsDisposed)
+            {
+                if (highlighted is Sector)
+                {
+                    SelectSector((Sector)highlighted, !highlighted.Selected);
+                }
+                else if (highlighted is Linedef)
+                {
+                    SelectLinedef((Linedef)highlighted, !highlighted.Selected);
+                }
+                else if (highlighted is Vertex)
+                {
+                    SelectVertex((Vertex)highlighted, !highlighted.Selected);
+                }
+                else
+                {
+                    highlighted.Selected = !highlighted.Selected;
+                }
+            }
+            else
+            {
+                // start drag select
+                StartMultiSelection();
+            }
+
+            base.OnSelectBegin();
+        }
+
+        protected override void OnEndMultiSelection()
+        {
+            bool selectionvolume = ((Math.Abs(base.selectionrect.Width) > 0.1f) && (Math.Abs(base.selectionrect.Height) > 0.1f));
+
+            if (selectionvolume)
+            {
+                if (General.Interface.AltState)
+                {
+                    // ano - subtractive select!
+                    foreach (Thing t in General.Map.ThingsFilter.VisibleThings)
+                    {
+                        if ((t.Position.x >= selectionrect.Left) &&
+                                       (t.Position.y >= selectionrect.Top) &&
+                                       (t.Position.x <= selectionrect.Right) &&
+                                       (t.Position.y <= selectionrect.Bottom))
+                        {
+                            t.Selected = false;
+                        }
+                    }
+                    // Go for all vertices
+                    foreach (Vertex v in General.Map.Map.Vertices)
+                    {
+                        if ((v.Position.x >= selectionrect.Left) &&
+                            (v.Position.y >= selectionrect.Top) &&
+                            (v.Position.x <= selectionrect.Right) &&
+                            (v.Position.y <= selectionrect.Bottom))
+                        {
+                            SelectVertex(v, false);
+                        }
+                    }
+                }
+                else if (General.Interface.ShiftState)
+                {
+                    // additive
+                    // FIXME figure out a way to make this respect buildermodes selection setting
+                    // Go for all things
+                    foreach (Thing t in General.Map.ThingsFilter.VisibleThings)
+                    {
+                        t.Selected |= ((t.Position.x >= selectionrect.Left) &&
+                                       (t.Position.y >= selectionrect.Top) &&
+                                       (t.Position.x <= selectionrect.Right) &&
+                                       (t.Position.y <= selectionrect.Bottom));
+                    }
+                    // Go for all vertices
+                    foreach (Vertex v in General.Map.Map.Vertices)
+                    {
+                        if ((v.Position.x >= selectionrect.Left) &&
+                            (v.Position.y >= selectionrect.Top) &&
+                            (v.Position.x <= selectionrect.Right) &&
+                            (v.Position.y <= selectionrect.Bottom))
+                        {
+                            SelectVertex(v, true);
+                        }
+                    }
+                }
+                else
+                {
+                    // Go for all things
+                    foreach (Thing t in General.Map.ThingsFilter.VisibleThings)
+                    {
+                        t.Selected = ((t.Position.x >= selectionrect.Left) &&
+                                      (t.Position.y >= selectionrect.Top) &&
+                                      (t.Position.x <= selectionrect.Right) &&
+                                      (t.Position.y <= selectionrect.Bottom));
+                    }
+                    // Go for all vertices
+                    foreach (Vertex v in General.Map.Map.Vertices)
+                    {
+                        SelectVertex(v, (v.Position.x >= selectionrect.Left) &&
+                            (v.Position.y >= selectionrect.Top) &&
+                            (v.Position.x <= selectionrect.Right) &&
+                            (v.Position.y <= selectionrect.Bottom));
+                    }
+                }
+            }
+
+            // Go for all sectors
+            foreach (Sector s in General.Map.Map.Sectors)
+            {
+                // Go for all sidedefs
+                bool allselected = true;
+
+                foreach (Sidedef sd in s.Sidedefs)
+                {
+                    if (!sd.Line.Selected)
+                    {
+                        allselected = false;
+                        break;
+                    }
+                }
+
+                s.Selected = allselected;
+            }
+
+            base.OnEndMultiSelection();
+            
+
+            // Redraw
+            General.Interface.RedrawDisplay();
         }
 
         // pop up a new file browsing dialog window and ask the user what script to run
