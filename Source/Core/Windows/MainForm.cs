@@ -280,14 +280,24 @@ namespace CodeImp.DoomBuilder.Windows
 			// Keep last position and size
 			lastposition = this.Location;
 			lastsize = this.Size;
-		}
-		
-		#endregion
-		
-		#region ================== General
 
-		// Editing mode changed!
-		internal void EditModeChanged()
+
+            // ano - init drag drop handler
+            {
+                DragEventHandler d_drop = new DragEventHandler(MainForm_DragDrop);
+                DragEventHandler d_enter = new DragEventHandler(MainForm_DragEnter);
+                AllowDrop = true;
+                DragEnter += d_enter;
+                DragDrop += d_drop;
+            }
+        }
+
+        #endregion
+
+        #region ================== General
+
+        // Editing mode changed!
+        internal void EditModeChanged()
 		{
 			// Check appropriate button on interface
 			// And show the mode name
@@ -322,7 +332,10 @@ namespace CodeImp.DoomBuilder.Windows
 		// This sets up the interface
 		internal void SetupInterface()
 		{
-			float scalex = this.CurrentAutoScaleDimensions.Width / this.AutoScaleDimensions.Width;
+            // ano - only allow drag/drop if nothing is opened
+            AllowDrop = General.Map == null;
+
+            float scalex = this.CurrentAutoScaleDimensions.Width / this.AutoScaleDimensions.Width;
 			float scaley = this.CurrentAutoScaleDimensions.Height / this.AutoScaleDimensions.Height;
 
             // ano - reset edit windows here
@@ -699,12 +712,43 @@ namespace CodeImp.DoomBuilder.Windows
 			}
 		}
 
-		#endregion
-		
-		#region ================== Statusbar
-		
-		// This updates the status bar
-		private void UpdateStatusbar()
+        
+        private void MainForm_DragDrop(object sender, DragEventArgs e)
+        {
+            if (General.Map != null || !CanFocus)
+            {
+                return;
+            }
+
+            FormWindowState original = WindowState;
+            WindowState = FormWindowState.Minimized;
+            Show();
+            WindowState = original;
+
+            string[] potential_files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+            if (potential_files != null && potential_files.Length > 0)
+            {
+                General.OpenMapFile(potential_files[0], new MapOptions());
+            }
+        }
+
+        private void MainForm_DragEnter(object sender, DragEventArgs e)
+        {
+            if (General.Map != null || !CanFocus)
+            {
+                return;
+            }
+
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+        }
+
+        #endregion
+
+        #region ================== Statusbar
+
+        // This updates the status bar
+        private void UpdateStatusbar()
 		{
 			// Map open?
 			if(General.Map != null)
