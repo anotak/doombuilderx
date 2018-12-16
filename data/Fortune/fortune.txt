@@ -815,5 +815,35 @@ March 1995 PC Zone magazine review of DoomCAD
 
 - Dan Jevons,
 October 1996 Computer & Video Games magazine review of Final Doom
+%%
+"Having more than one perspective is always good, and when you built something yourself it's hard to step back and say 'it doesn't work'. Letting someone else rip it apart and rebuild it may hurt your pride, but it makes better gameplay."
 
+- Michael Raymond-Judy,
+Heretic: Shadow of the Serpent Riders interview on Ravengames
+%%
+"Some windows are mainly for people to look out of, and others are mainly for suns to look in through."
 
+- JP LeBreton
+%%
+"A trap is only a trap if you don't know about it. If you know about it, it's a challenge."
+
+- China Mieville,
+King Rat
+%%
+"Buildings are forms of performances."
+
+- Rafael Vinoly
+%%
+"Initiating molecular mapping drive."
+
+- Doom (2005) (yes, the movie)
+%%
+Don't forget to stay hydrated.
+%%
+"The Cacowards remain now, as they have been thus far, a celebration of the artistry and spirit that the Doom community brings to bear upon the game that holds such a tenacious grip upon our hearts."
+
+- Linguica, Cacowards 2018 Invocation
+%%
+"It's worth noting that the atmosphere of Doom is still not exactly like anything else, even today. Surreal, open-ended environments made from odd, nonlinear, multi-layered structures somehow still seem to fit together by some unknown logic."
+
+- Liz Ryerson, The Doom Mod That Best Describes Our Uncanny Reality (posted on Waypoint)
