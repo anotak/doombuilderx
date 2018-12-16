@@ -20,6 +20,7 @@ version 2.1.3.12
 - fixed a crash when double click editing sectors in make sectors mode
 - fixed negative lighting values not always working right
 - if you press alt or ctrl while drag selecting it doesnt stop selecting
+- some things that use the same sprites have been changed to have their editor preview to use a different frame (demon/spectre for example)
 
 version 2.1.3.10
 =====================
