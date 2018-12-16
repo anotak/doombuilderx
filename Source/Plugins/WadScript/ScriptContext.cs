@@ -15,6 +15,7 @@ using CodeImp.DoomBuilder.Types;
 using CodeImp.DoomBuilder.Config;
 
 using MoonSharp.Interpreter;
+using MoonSharp.Interpreter.Loaders;
 
 namespace CodeImp.DoomBuilder.DBXLua
 {
@@ -43,6 +44,8 @@ namespace CodeImp.DoomBuilder.DBXLua
 
         // hacky workaround for .NET framework bug, see RandomSeed()
         public bool bInitializedSeed;
+
+        public bool bInitializedRequireSandbox;
         
 
         public string ScriptLog {
@@ -105,6 +108,12 @@ namespace CodeImp.DoomBuilder.DBXLua
             script.Globals["MapFormat"] = typeof(LuaMapFormat);
             script.Globals["dofile"] = (Func<string, DynValue>)DoFile;
             script.Globals["dostring"] = (Func<string, DynValue>)DoString;
+            script.Globals["require"] = (Func<string, DynValue>)Require;
+
+            script.Options.DebugPrint = DebugLogLine;
+
+            bInitializedRequireSandbox = false;
+
             // hacky workaround for .NET 3.5 bug, see RandomSeed for more info
             {
                 object math = script.Globals["math"];
@@ -279,9 +288,47 @@ namespace CodeImp.DoomBuilder.DBXLua
             return script.DoString(evalstring);
         }
 
-        // cleaned up version of dofile in order to sandbox a bit better
-        // only should accept relative paths
-        internal DynValue DoFile(string filename)
+        internal DynValue Require(string module)
+        {
+            if (Path.GetExtension(module).ToLowerInvariant() != ".lua")
+            {
+                module = module + ".lua";
+            }
+
+            module = CheckFilename(module, "require");
+
+            // don't actually assign value, just do our own checking to see if it's safe
+            GetActualPath(module, "require");
+
+            module = module.Substring(0, module.Length - 4);
+
+
+
+            if (!bInitializedRequireSandbox)
+            {
+                FileSystemScriptLoader loader = new FileSystemScriptLoader();
+
+                loader.IgnoreLuaPathGlobal = true;
+
+                loader.ModulePaths =
+                    new string[] {
+                        Path.Combine(Path.GetDirectoryName(scriptPath), "?.lua"),
+                        Path.Combine(General.Map.FilePathName, "?.lua"),
+                        Path.Combine(Path.Combine(General.Map.FilePathName, "lua"), "?.lua"),
+                        Path.Combine(Path.Combine(General.SettingsPath, "lua"), "?.lua"),
+                        Path.Combine(Path.Combine(General.PluginsPath, "lua"), "?.lua"),
+                        Path.Combine(Path.Combine(General.AppPath, "lua"), "?.lua"),
+                    };
+
+                script.Options.ScriptLoader = loader;
+
+                bInitializedRequireSandbox = true;
+            }
+
+            return script.RequireModule(module);
+        }
+
+        internal string CheckFilename(string filename, string error_source)
         {
             // references used:
             // https://msdn.microsoft.com/en-us/library/windows/desktop/aa365247(v=vs.85).aspx
@@ -297,37 +344,46 @@ namespace CodeImp.DoomBuilder.DBXLua
             {
                 if (filename.Contains(c))
                 {
-                    throw new ScriptRuntimeException("improper filename " + filename + " for DoFile, contains '" + c + "'");
+                    throw new ScriptRuntimeException("improper filename '" + filename + "' for " + error_source + ", contains '" + c + "'");
                 }
             }
 
             if (Path.IsPathRooted(filename) || filename.StartsWith("\\"))
             {
-                throw new ScriptRuntimeException("improper filename " + filename + " for dofile, must use relative path");
+                throw new ScriptRuntimeException("improper filename '" + filename + "' for " + error_source +", must use relative path");
             }
+
 
             if (filename.StartsWith("."))
             {
-                throw new ScriptRuntimeException("improper filename " + filename + " for dofile, can't start with '.'");
+                throw new ScriptRuntimeException("improper filename '" + filename + "' for " + error_source + ", can't start with '.'");
             }
+
+            return filename;
+        }
+
+        internal string GetActualPath(string filename, string error_source)
+        {
+            filename = CheckFilename(filename, error_source);
 
             if (!Path.GetExtension(filename).ToLower().StartsWith(".lua"))
             {
-                throw new ScriptRuntimeException("improper filename " + filename + " for dofile, must be .lua file, was " + Path.GetExtension(filename));
+                throw new ScriptRuntimeException("improper filename '" + filename + "' for " + error_source + ", must be '.lua' file, was '" + Path.GetExtension(filename) + "'");
             }
 
             // try current lua file path -> wad path -> wad path\lua
             // -> settings path\lua -> plugin path\lua -> app path\lua
-            string tryFile = Path.Combine(Path.GetDirectoryName(scriptPath),filename);
+            string tryFile = Path.Combine(Path.GetDirectoryName(scriptPath), filename);
+            string levelDirectory = Path.GetDirectoryName(Path.GetDirectoryName(General.Map.FilePathName));
             if (General.Map.FilePathName.Length > 1)
             {
                 if (!File.Exists(tryFile))
                 {
-                    tryFile = Path.Combine(General.Map.FilePathName, filename);
+                    tryFile = Path.Combine(levelDirectory, filename);
                 }
                 if (!File.Exists(tryFile))
                 {
-                    tryFile = Path.Combine(Path.Combine(General.Map.FilePathName, "lua"), filename);
+                    tryFile = Path.Combine(Path.Combine(levelDirectory, "lua"), filename);
                 }
             }
             if (!File.Exists(tryFile))
@@ -344,22 +400,30 @@ namespace CodeImp.DoomBuilder.DBXLua
             }
             if (!File.Exists(tryFile))
             {
+                tryFile = Path.Combine(Path.Combine(Path.GetDirectoryName(scriptPath), ".."), filename);
+            }
+
+            if (!File.Exists(tryFile))
+            {
                 if (General.Map.FilePathName.Length > 1)
                 {
                     throw new ScriptRuntimeException(
-                        "dofile target " + filename + " does not exist in any of the searched paths."
+                        error_source
+                        + " target '" + filename + "' does not exist in any of the searched paths."
                         + "\nthe currently searched paths (in order of preference) were:\n"
                         + Path.Combine(Path.GetDirectoryName(scriptPath), filename) + "\n"
-                        + Path.Combine(General.Map.FilePathName, filename) + "\n"
-                        + Path.Combine(Path.Combine(General.Map.FilePathName, "lua"), filename) + "\n"
+                        + Path.Combine(levelDirectory, filename) + "\n"
+                        + Path.Combine(Path.Combine(levelDirectory, "lua"), filename) + "\n"
                         + Path.Combine(Path.Combine(General.SettingsPath, "lua"), filename) + "\n"
                         + Path.Combine(Path.Combine(General.PluginsPath, "lua"), filename) + "\n"
-                        + Path.Combine(Path.Combine(General.AppPath, "lua"), filename) + "\n");
+                        + Path.Combine(Path.Combine(General.AppPath, "lua"), filename) + "\n"
+                        + Path.Combine(Path.Combine(Path.GetDirectoryName(scriptPath), ".."),filename) + "\n");
                 }
                 else
                 {
                     throw new ScriptRuntimeException(
-                        "dofile target " + filename + " does not exist in any of the searched paths."
+                        error_source
+                        + " target '" + filename + "' does not exist in any of the searched paths."
                         + "\nthe currently searched paths (in order of preference) were:\n"
                         + Path.Combine(Path.GetDirectoryName(scriptPath), filename) + "\n"
                         + Path.Combine(Path.Combine(General.SettingsPath, "lua"), filename) + "\n"
@@ -368,7 +432,14 @@ namespace CodeImp.DoomBuilder.DBXLua
                 }
             }
 
-            filename = tryFile;
+            return tryFile;
+        }
+
+        // cleaned up version of dofile in order to sandbox a bit better
+        // only should accept relative paths
+        internal DynValue DoFile(string filename)
+        {
+            filename = GetActualPath(filename, "dofile");
 
             try
             {

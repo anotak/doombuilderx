@@ -364,7 +364,7 @@ namespace CodeImp.DoomBuilder.DBXLua
                 t.Move(new Vector2D(x, y));
 
                 t.UpdateConfiguration();
-                
+
                 // Snap to map format accuracy
                 t.SnapToAccuracy();
             }
@@ -504,7 +504,7 @@ namespace CodeImp.DoomBuilder.DBXLua
 
             // ano - for merge we need to remove linedefs
             // let's get count instances of the unique lines from the sectors
-            Dictionary<Linedef,int> linedefs = new Dictionary<Linedef, int>();
+            Dictionary<Linedef, int> linedefs = new Dictionary<Linedef, int>();
 
             foreach (Sector s in sectors)
             {
@@ -512,7 +512,7 @@ namespace CodeImp.DoomBuilder.DBXLua
                 {
                     continue;
                 }
-                
+
                 foreach (Sidedef side in s.Sidedefs)
                 {
                     Linedef line = side.Line;
@@ -531,7 +531,7 @@ namespace CodeImp.DoomBuilder.DBXLua
                 }
             }
 
-            foreach (KeyValuePair<Linedef,int> pair in linedefs)
+            foreach (KeyValuePair<Linedef, int> pair in linedefs)
             {
                 if (pair.Value > 1)
                 {
@@ -540,6 +540,45 @@ namespace CodeImp.DoomBuilder.DBXLua
             }
 
             return JoinUniqueSectors(sectors);
+        }
+
+        public static LuaSector MakeSectorAt(Vector2D v)
+        {
+            // ano - based on CodeImp's MakeSectorMode code
+            List<LinedefSide> allsides = Tools.FindPotentialSectorAt(v);
+            if (allsides == null)
+            {
+                return null;
+            }
+
+            List<Linedef> alllines = new List<Linedef>(allsides.Count);
+            foreach (LinedefSide sd in allsides) alllines.Add(sd.Line);
+
+            // Mark the lines we are going to use for this sector
+            General.Map.Map.ClearAllMarks(true);
+
+            foreach (LinedefSide ls in allsides) ls.Line.Marked = false;
+            List<Linedef> oldlines = General.Map.Map.GetMarkedLinedefs(true);
+
+            // Make the sector
+            Sector s = Tools.MakeSector(allsides, oldlines);
+            if (s != null)
+            {
+                // Now we go for all the lines along the sector to
+                // see if they only have a back side. In that case we want
+                // to flip the linedef to that it only has a front side.
+                foreach (Sidedef sd in s.Sidedefs)
+                {
+                    if ((sd.Line.Front == null) && (sd.Line.Back != null))
+                    {
+                        // Flip linedef
+                        sd.Line.FlipVertices();
+                        sd.Line.FlipSidedefs();
+                    }
+                }
+            }
+
+            return new LuaSector(s);
         }
 
     } // class

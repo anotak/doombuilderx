@@ -13,6 +13,7 @@ textures = Data.GetTextureNames()
 sidedefs = Map.GetSelectedSidedefs()
 
 -- if we don't have any selected sidedefs, let's just do the whole map
+-- FIXME we probably oughta change this behavior
 if #sidedefs <= 0 then
 	sidedefs = Map.GetSidedefs()
 end
