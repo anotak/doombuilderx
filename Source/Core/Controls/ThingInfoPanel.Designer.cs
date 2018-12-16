@@ -51,7 +51,7 @@ namespace CodeImp.DoomBuilder.Controls
             this.type = new System.Windows.Forms.Label();
             this.spritepanel = new System.Windows.Forms.GroupBox();
             this.spritename = new System.Windows.Forms.Label();
-            this.spritetex = new System.Windows.Forms.Panel();
+            this.spritetex = new CodeImp.DoomBuilder.Controls.ImagePanel();
             label5 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
@@ -361,7 +361,7 @@ namespace CodeImp.DoomBuilder.Controls
 
 		private System.Windows.Forms.GroupBox spritepanel;
 		private System.Windows.Forms.Label spritename;
-		private System.Windows.Forms.Panel spritetex;
+		private CodeImp.DoomBuilder.Controls.ImagePanel spritetex;
 		private System.Windows.Forms.Label angle;
 		private System.Windows.Forms.Label tag;
 		private System.Windows.Forms.Label position;

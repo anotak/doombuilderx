@@ -42,8 +42,8 @@ namespace CodeImp.DoomBuilder.Controls
             this.ceiling = new System.Windows.Forms.Label();
             this.effect = new System.Windows.Forms.Label();
             this.ceilingname = new System.Windows.Forms.Label();
-            this.ceilingtex = new System.Windows.Forms.Panel();
-            this.floortex = new System.Windows.Forms.Panel();
+            this.ceilingtex = new CodeImp.DoomBuilder.Controls.ImagePanel();
+            this.floortex = new CodeImp.DoomBuilder.Controls.ImagePanel();
             this.floorname = new System.Windows.Forms.Label();
             this.floorLabel = new System.Windows.Forms.Label();
             this.ceilLabel = new System.Windows.Forms.Label();
@@ -296,9 +296,9 @@ namespace CodeImp.DoomBuilder.Controls
 		private System.Windows.Forms.Label ceiling;
 		private System.Windows.Forms.Label effect;
 		private System.Windows.Forms.Label ceilingname;
-		private System.Windows.Forms.Panel ceilingtex;
+		private CodeImp.DoomBuilder.Controls.ImagePanel ceilingtex;
 		private System.Windows.Forms.GroupBox sectorinfo;
-        private System.Windows.Forms.Panel floortex;
+        private CodeImp.DoomBuilder.Controls.ImagePanel floortex;
         private System.Windows.Forms.Label floorname;
         private System.Windows.Forms.Label floorLabel;
         private System.Windows.Forms.Label ceilLabel;

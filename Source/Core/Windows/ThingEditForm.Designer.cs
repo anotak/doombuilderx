@@ -40,7 +40,7 @@ namespace CodeImp.DoomBuilder.Windows
             this.anglecontrol = new CodeImp.DoomBuilder.Controls.AngleControl();
             this.tabs = new System.Windows.Forms.TabControl();
             this.tabproperties = new System.Windows.Forms.TabPage();
-            this.spritetex = new System.Windows.Forms.Panel();
+            this.spritetex = new CodeImp.DoomBuilder.Controls.ImagePanel();
             this.settingsgroup = new System.Windows.Forms.GroupBox();
             this.flags = new CodeImp.DoomBuilder.Controls.CheckboxArrayControl();
             this.tabeffects = new System.Windows.Forms.TabPage();
@@ -649,7 +649,7 @@ namespace CodeImp.DoomBuilder.Windows
         private System.Windows.Forms.TabPage tabcustom;
         private System.Windows.Forms.GroupBox settingsgroup;
         private CodeImp.DoomBuilder.Controls.CheckboxArrayControl flags;
-        private System.Windows.Forms.Panel spritetex;
+        private CodeImp.DoomBuilder.Controls.ImagePanel spritetex;
         private CodeImp.DoomBuilder.Controls.AngleControl anglecontrol;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button newtag;

@@ -16,6 +16,7 @@ version 2.1.3.12
 - internal changes to how selection is "converted" when switching modes, this should not cause visible behavioral differences, this is just to allow for the new Lua mode to work properly. please report any weird new behavior regarding selection.
 - minor tweaks to status bar flavor text
 - made it so that the initial directory for the file dialog is separate based on whether it's wads, resources, or prefabs
+- fixed certain panels not displaying textures/sprites in windows 8/10 High Contrast mode
 - fixed a crash when double click editing sectors in make sectors mode
 - fixed negative lighting values not always working right
 - if you press alt or ctrl while drag selecting it doesnt stop selecting

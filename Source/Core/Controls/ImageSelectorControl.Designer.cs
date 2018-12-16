@@ -29,7 +29,7 @@ namespace CodeImp.DoomBuilder.Controls
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.preview = new System.Windows.Forms.Panel();
+			this.preview = new CodeImp.DoomBuilder.Controls.ImagePanel();
 			this.name = new CodeImp.DoomBuilder.Controls.AutoSelectTextbox();
 			this.SuspendLayout();
 			// 
@@ -78,7 +78,7 @@ namespace CodeImp.DoomBuilder.Controls
 
 		#endregion
 
-		protected System.Windows.Forms.Panel preview;
+		protected CodeImp.DoomBuilder.Controls.ImagePanel preview;
 		protected CodeImp.DoomBuilder.Controls.AutoSelectTextbox name;
 
 	}

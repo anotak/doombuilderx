@@ -42,7 +42,7 @@ namespace CodeImp.DoomBuilder.Windows
 			this.backoffset = new System.Windows.Forms.Label();
 			this.selectflat = new System.Windows.Forms.Button();
 			this.selecttexture = new System.Windows.Forms.Button();
-			this.backgroundimage = new System.Windows.Forms.Panel();
+			this.backgroundimage = new CodeImp.DoomBuilder.Controls.ImagePanel();
 			this.cancel = new System.Windows.Forms.Button();
 			this.apply = new System.Windows.Forms.Button();
 			this.browsefile = new System.Windows.Forms.OpenFileDialog();
@@ -286,7 +286,7 @@ namespace CodeImp.DoomBuilder.Windows
 
 		#endregion
 
-		private System.Windows.Forms.Panel backgroundimage;
+		private CodeImp.DoomBuilder.Controls.ImagePanel backgroundimage;
 		private System.Windows.Forms.Button selecttexture;
 		private System.Windows.Forms.Button selectflat;
 		private System.Windows.Forms.CheckBox showbackground;

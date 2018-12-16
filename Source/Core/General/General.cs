@@ -1820,8 +1820,11 @@ namespace CodeImp.DoomBuilder
 			return dirname;
 		}
 
-		// This shows an image in a panel either zoomed or centered depending on size
-		public static void DisplayZoomedImage(Panel panel, Image image)
+        // This shows an image in a panel either zoomed or centered depending on size
+        // ano - note that for the image to be displayed in High Contrast Mode you must use
+        // CodeImp.DoomBuilder.Controls.ImagePanel
+        // see https://github.com/anotak/doombuilderx/issues/9
+        public static void DisplayZoomedImage(Panel panel, Image image)
 		{
 			// Set the image
 			panel.BackgroundImage = image;
