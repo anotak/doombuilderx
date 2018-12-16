@@ -2,6 +2,8 @@
 
 Doom Builder X is a Doom 2 map editor. Doom Builder X is a fork of CodeImp's [Doom Builder 2](http://www.doombuilder.com/), mainly focused on long term maintenence, bugfixes, and improved responsiveness where possible.
 
+See the [releases](https://github.com/anotak/doombuilderx/releases) page for downloads.
+
 ### Prerequisites
 
 if you already have DB2 or GZDB working, you already have these:
