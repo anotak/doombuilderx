@@ -2057,14 +2057,19 @@ namespace CodeImp.DoomBuilder.Map
         }
 
         // This returns the cohen-sutherland field bits for a vertex in a rectangle area
-        private static int GetCSFieldBits(Vertex v, ref RectangleF area)
+        internal static int GetCSFieldBits(Vector2D v, ref RectangleF area)
         {
             int bits = 0;
-            if (v.Position.y < area.Top) bits |= 0x01;
-            if (v.Position.y > area.Bottom) bits |= 0x02;
-            if (v.Position.x < area.Left) bits |= 0x04;
-            if (v.Position.x > area.Right) bits |= 0x08;
+            if (v.y < area.Top) bits |= 0x01;
+            if (v.y > area.Bottom) bits |= 0x02;
+            if (v.x < area.Left) bits |= 0x04;
+            if (v.x > area.Right) bits |= 0x08;
             return bits;
+        }
+
+        internal static int GetCSFieldBits(Vertex v, ref RectangleF area)
+        {
+            return GetCSFieldBits(v.Position, ref area);
         }
 
         /// <summary>This filters vertices by a rectangular area.</summary>

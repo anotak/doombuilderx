@@ -206,7 +206,10 @@ namespace CodeImp.DoomBuilder.BuilderModes
 						if(snaptogrid)
 						{
 							// Get grid intersection coordinates
-							List<Vector2D> coords = nl.GetGridIntersections();
+							List<Vector2D> coords = nl.GetGridIntersections(new Vector2D(0.0f, 0.0f),
+							    General.Map.Grid.GridRotate, General.Map.Grid.GridOriginX, General.Map.Grid.GridOriginY);
+
+
 
 							// Find nearest grid intersection
 							float found_distance = float.MaxValue;
