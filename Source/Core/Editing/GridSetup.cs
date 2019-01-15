@@ -345,7 +345,8 @@ namespace CodeImp.DoomBuilder.Editing
 	    {
 	        if (General.Map.Map.SelectedLinedefsCount != 1)
 	        {
-	            General.ShowErrorMessage("Exactly one linedef must be selected.", MessageBoxButtons.OK);
+	            General.Interface.DisplayStatus(StatusType.Warning, "Exactly one linedef must be selected");
+	            General.Interface.MessageBeep(MessageBeepType.Warning);
 	            return;
 	        }
 	        Linedef line = General.Map.Map.SelectedLinedefs.First.Value;
@@ -360,7 +361,8 @@ namespace CodeImp.DoomBuilder.Editing
 	    {
 	        if (General.Map.Map.SelectedVerticessCount != 1)
 	        {
-	            General.ShowErrorMessage("Exactly one vertex must be selected.", MessageBoxButtons.OK);
+	            General.Interface.DisplayStatus(StatusType.Warning, "Exactly one vertex must be selected");
+	            General.Interface.MessageBeep(MessageBeepType.Warning);
 	            return;
 	        }
 	        Vertex vertex = General.Map.Map.SelectedVertices.First.Value;

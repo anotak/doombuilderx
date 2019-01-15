@@ -822,7 +822,7 @@ namespace CodeImp.DoomBuilder.Rendering
 				gridplotter = new Plotter((PixelColor*)lockedrect.Data.DataPointer.ToPointer(), lockedrect.Pitch / sizeof(PixelColor), backsize.Height, backsize.Width, backsize.Height);
 				gridplotter.Clear();
 
-			    bool transformed = General.Map.Grid.GridOriginX != 0 || General.Map.Grid.GridOriginY != 0 || Math.Abs(General.Map.Grid.GridRotate) > 1e-4;
+			    bool transformed = Math.Abs(General.Map.Grid.GridOriginX) > 1e-4 || Math.Abs(General.Map.Grid.GridOriginY) > 1e-4 || Math.Abs(General.Map.Grid.GridRotate) > 1e-4;
 
 			    if (transformed)
 			    {
@@ -870,15 +870,10 @@ namespace CodeImp.DoomBuilder.Rendering
 		    {
 			    float sizeinv = 1f / size;
 
-			    if (size < 1 || size > 1024)
-			    {
-				    return;
-			    }
-
 			    // Determine map coordinates for view window
-			    Vector2D ltpos = DisplayToMap(new Vector2D(0, 0));
-			    Vector2D rbpos = DisplayToMap(new Vector2D(windowsize.Width, windowsize.Height));
-			    Vector2D mapsize = rbpos - ltpos;
+			    Vector2D ltview = DisplayToMap(new Vector2D(0, 0));
+			    Vector2D rbview = DisplayToMap(new Vector2D(windowsize.Width, windowsize.Height));
+			    Vector2D mapsize = rbview - ltview;
 
 			    Vector2D ltbound = new Vector2D(General.Map.Config.LeftBoundary, General.Map.Config.TopBoundary);
 			    Vector2D rbbound = new Vector2D(General.Map.Config.RightBoundary, General.Map.Config.BottomBoundary);
@@ -887,8 +882,7 @@ namespace CodeImp.DoomBuilder.Rendering
 			    Vector2D tlb = ltbound.GetTransformed(translatex, translatey, scale, -scale);
 			    Vector2D rbb = rbbound.GetTransformed(translatex, translatey, scale, -scale);
 
-			    Vector2D xcenter = GridSetup.SnappedToGrid(0.5f * (ltpos + rbpos), size, sizeinv, angle, originx, originy);
-			    Vector2D ycenter = xcenter;
+			    Vector2D center = GridSetup.SnappedToGrid(0.5f * (ltview + rbview), size, sizeinv, angle, originx, originy);
 
 			    // Get the angle vectors for the gridlines
 			    Vector2D dx = new Vector2D((float)Math.Cos(angle), (float)Math.Sin(angle));
@@ -896,15 +890,16 @@ namespace CodeImp.DoomBuilder.Rendering
 
 			    float maxextent = Math.Max(mapsize.x, mapsize.y);
 			    RectangleF bounds = new RectangleF(tlb.x, tlb.y, rbb.x - tlb.x, rbb.y - tlb.y);
+			    bounds.Intersect(new RectangleF(0, 0, windowsize.Width, windowsize.Height));
 
 			    bool xminintersect = true, xmaxintersect = true, yminintersect = true, ymaxintersect = true;
 
 			    int num = 0;            
 			    while (xminintersect || xmaxintersect || yminintersect || ymaxintersect) {
-				    Vector2D xminstart = xcenter - num * size * dy;
-				    Vector2D xmaxstart = xcenter + num * size * dy;
-				    Vector2D yminstart = ycenter - num * size * dx;
-				    Vector2D ymaxstart = ycenter + num * size * dx;
+				    Vector2D xminstart = center - num * size * dy;
+				    Vector2D xmaxstart = center + num * size * dy;
+				    Vector2D yminstart = center - num * size * dx;
+				    Vector2D ymaxstart = center + num * size * dx;
 
 				    Line2D xminscanline = new Line2D(xminstart - dx * maxextent, xminstart + dx * maxextent);
 				    Line2D xmaxscanline = new Line2D(xmaxstart - dx * maxextent, xmaxstart + dx * maxextent);

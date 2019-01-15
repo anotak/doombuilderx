@@ -199,11 +199,10 @@ namespace CodeImp.DoomBuilder.Geometry
 	    {
 	        int flags1 = MapSet.GetCSFieldBits(line.v1, ref rect);
 	        int flags2 = MapSet.GetCSFieldBits(line.v2, ref rect);
-	        Line2D result = line;
 	        intersects = false;
 
-	        // Each pass will modify one coordinate of one endpoint
-	        for (int pass = 0; pass < 4; pass++)
+	        Line2D result = line;
+	        while (true)
 	        {
 	            if (flags1 == 0 && flags2 == 0)
 	            {
@@ -211,10 +210,11 @@ namespace CodeImp.DoomBuilder.Geometry
 	                intersects = true;
 	                return result;
 	            }
-
+				
 	            if ((flags1 & flags2) != 0)
 	            {
 	                // Both points are in the same outer area
+	                intersects = false;
 	                return new Line2D();
 	            }
 
@@ -222,43 +222,41 @@ namespace CodeImp.DoomBuilder.Geometry
 	            int outFlags = flags1 != 0 ? flags1 : flags2;
 	            if ((outFlags & 0x1) > 0) // Top
 	            {
-	                x = line.v1.x + (line.v2.x - line.v1.x) * (rect.Top - line.v1.y) / (line.v2.y - line.v1.y);
+	                x = result.v1.x + (result.v2.x - result.v1.x) * (rect.Top - result.v1.y) / (result.v2.y - result.v1.y);
 	                y = rect.Top;
 	            }
 	            else if ((outFlags & 0x2) > 0) // Bottom
 	            {
-	                x = line.v1.x + (line.v2.x - line.v1.x) * (rect.Bottom - line.v1.y) / (line.v2.y - line.v1.y);
+	                x = result.v1.x + (result.v2.x - result.v1.x) * (rect.Bottom - result.v1.y) / (result.v2.y - result.v1.y);
 	                y = rect.Bottom;
 	            }
 	            else if ((outFlags & 0x4) > 0) // Left
 	            {
-	                y = line.v1.y + (line.v2.y - line.v1.y) * (rect.Left - line.v1.x) / (line.v2.x - line.v1.x);
+	                y = result.v1.y + (result.v2.y - result.v1.y) * (rect.Left - result.v1.x) / (result.v2.x - result.v1.x);
 	                x = rect.Left;
 	            }
 	            else if ((outFlags & 0x8) > 0) // Right
 	            {
-	                y = line.v1.y + (line.v2.y - line.v1.y) * (rect.Right - line.v1.x) / (line.v2.x - line.v1.x);
+	                y = result.v1.y + (result.v2.y - result.v1.y) * (rect.Right - result.v1.x) / (result.v2.x - result.v1.x);
 	                x = rect.Right;
 	            } 
 	            else
 	            {
-	                intersects = false;
-	                return new Line2D();
+	                intersects = true;
+	                return result;
 	            }
 
 	            if (outFlags == flags1)
 	            {
-	                line.v1 = new Vector2D(x, y);
-	                flags1 = MapSet.GetCSFieldBits(line.v1, ref rect);
+	                result.v1 = new Vector2D(x, y);
+	                flags1 = MapSet.GetCSFieldBits(result.v1, ref rect);
 	            }
 	            else
 	            {
-	                line.v2 = new Vector2D(x, y);
-	                flags2 = MapSet.GetCSFieldBits(line.v2, ref rect);
+	                result.v2 = new Vector2D(x, y);
+	                flags2 = MapSet.GetCSFieldBits(result.v2, ref rect);
 	            }
 	        }
-
-	        return line;
 	    }
 		
 		#endregion
