@@ -496,9 +496,6 @@ namespace CodeImp.DoomBuilder.BuilderModes
 			General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.MakeGradientFloors);
 			General.Interface.RemoveButton(BuilderPlug.Me.MenusForm.MakeGradientCeilings);
 			
-			// Keep only sectors selected
-			General.Map.Map.ClearSelectedLinedefs();
-			
 			// Going to EditSelectionMode?
 			if(General.Editing.NewMode is EditSelectionMode)
 			{

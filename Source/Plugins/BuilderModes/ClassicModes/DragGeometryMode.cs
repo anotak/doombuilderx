@@ -115,13 +115,50 @@ namespace CodeImp.DoomBuilder.BuilderModes
 			this.dragstartmappos = dragstartmappos;
 			
 			Cursor.Current = Cursors.AppStarting;
-			
-			// We don't want to record this for undoing while we move the geometry around.
-			// This will be set back to normal when we're done.
-			General.Map.UndoRedo.IgnorePropChanges = true;
+            
+            // Make list of selected vertices
+            selectedverts = General.Map.Map.GetMarkedVertices(true);
 
-			// Make list of selected vertices
-			selectedverts = General.Map.Map.GetMarkedVertices(true);
+            // ano - protection in case of inconsistent selection state
+            // (sectors selected with linedefs or verts selected)
+            if (selectedverts.Count == 0)
+            {
+                ICollection<Sector> selectedsectors = General.Map.Map.GetSelectedSectors(true);
+
+                foreach (Sector s in selectedsectors)
+                {
+                    foreach (Sidedef side in s.Sidedefs)
+                    {
+                        side.Line.Selected = true;
+                    }
+                }
+
+                ICollection<Linedef> selectedlines = General.Map.Map.GetSelectedLinedefs(true);
+
+                foreach (Linedef l in selectedlines)
+                {
+                    l.Start.Selected = true;
+                    l.End.Selected = true;
+                    l.Start.Marked = true;
+                    l.End.Marked = true;
+                }
+
+                selectedverts = General.Map.Map.GetMarkedVertices(true);
+
+                if (selectedverts.Count == 0)
+                {
+                    // ano - failed to find any geometry worth dragging
+                    Cursor.Current = Cursors.Default;
+                    cancelled = true;
+                    General.Editing.ChangeMode(General.Editing.PreviousStableMode.Name);
+                    return;
+                }
+            }
+
+            // We don't want to record this for undoing while we move the geometry around.
+            // This will be set back to normal when we're done.
+            General.Map.UndoRedo.IgnorePropChanges = true;
+
 
 			// Make list of non-selected vertices
 			// This will be used for snapping to nearest items
@@ -385,7 +422,12 @@ namespace CodeImp.DoomBuilder.BuilderModes
 		// This updates the dragging
 		private void Update()
 		{
-			snaptogrid = General.Interface.ShiftState ^ General.Interface.SnapToGrid;
+            if (cancelled)
+            {
+                return;
+            }
+
+            snaptogrid = General.Interface.ShiftState ^ General.Interface.SnapToGrid;
 			snaptonearest = General.Interface.CtrlState ^ General.Interface.AutoMerge;
 			
 			// Move selected geometry
@@ -418,13 +460,21 @@ namespace CodeImp.DoomBuilder.BuilderModes
 		// Mouse moving
 		public override void OnMouseMove(MouseEventArgs e)
 		{
-			base.OnMouseMove(e);
+            if (cancelled)
+            {
+                return;
+            }
+            base.OnMouseMove(e);
 			Update();
 		}
 		// When a key is released
 		public override void OnKeyUp(KeyEventArgs e)
 		{
-			base.OnKeyUp(e);
+            if (cancelled)
+            {
+                return;
+            }
+            base.OnKeyUp(e);
 			if((snaptogrid != (General.Interface.ShiftState ^ General.Interface.SnapToGrid)) ||
 			   (snaptonearest != (General.Interface.CtrlState ^ General.Interface.AutoMerge))) Update();
 		}
@@ -432,7 +482,11 @@ namespace CodeImp.DoomBuilder.BuilderModes
 		// When a key is pressed
 		public override void OnKeyDown(KeyEventArgs e)
 		{
-			base.OnKeyDown(e);
+            if (cancelled)
+            {
+                return;
+            }
+            base.OnKeyDown(e);
 			if((snaptogrid != (General.Interface.ShiftState ^ General.Interface.SnapToGrid)) ||
 			   (snaptonearest != (General.Interface.CtrlState ^ General.Interface.AutoMerge))) Update();
 		}
