@@ -842,8 +842,31 @@ Don't forget to stay hydrated.
 %%
 "The Cacowards remain now, as they have been thus far, a celebration of the artistry and spirit that the Doom community brings to bear upon the game that holds such a tenacious grip upon our hearts."
 
-- Linguica, Cacowards 2018 Invocation
+- Linguica,
+Cacowards 2018 Invocation
 %%
 "It's worth noting that the atmosphere of Doom is still not exactly like anything else, even today. Surreal, open-ended environments made from odd, nonlinear, multi-layered structures somehow still seem to fit together by some unknown logic."
 
-- Liz Ryerson, The Doom Mod That Best Describes Our Uncanny Reality (posted on Waypoint)
+- Liz Ryerson,
+The Doom Mod That Best Describes Our Uncanny Reality (posted on Waypoint)
+%%
+"I also was generally skimpier with ammo. I wanted you to use your brain on my levels. I don't know if that was good or bad. John Romero would give you all the ammo you wanted; you could blow up everything. That was his thing, and that worked because he had really fast-paced levels."
+
+- Sandy Peterson,
+Rocket Jump: Quake and the Golden Age of First-Person Shooters, Shacknews
+%%
+"All the levels in the game were named by me. John and American didn't name their levels. I had to name them; that was part of my job."
+
+- Sandy Peterson,
+Rocket Jump: Quake and the Golden Age of First-Person Shooters, Shacknews
+%%
+"Every object conceals another."
+
+- Attributed to Luis Bunuel by Brian Eno
+%%
+"You can do almost anything to any level: move, add or remove monsters and
+powerups, change the wall colours and positions, create new lifts, doors,
+acid pools, crushing ceilings... or even create a new level from scratch!"
+
+- Brendon Wyber and Raphael Quinet,
+DEU 5.21 README file
