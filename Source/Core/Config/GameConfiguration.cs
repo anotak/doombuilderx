@@ -31,6 +31,17 @@ using CodeImp.DoomBuilder.Editing;
 
 #endregion
 
+
+
+/*
+ * ano-
+ * There is a lot of unneeded code duplication in this file!
+ * For example many types of map elements have their own function
+ * that does essentially the same thing.
+ * 
+ * If you do not refactor it, please make sure any *new* code
+ * avoids those bad patterns.
+ */
 namespace CodeImp.DoomBuilder.Config
 {
 	public class GameConfiguration
@@ -102,9 +113,10 @@ namespace CodeImp.DoomBuilder.Config
 		private Dictionary<int, ThingTypeInfo> things;
 		private List<FlagTranslation> thingflagstranslation;
 		private List<ThingFlagsCompare> thingflagscompare;
-		
-		// Linedefs
-		private Dictionary<string, string> linedefflags;
+        private Dictionary<string, string> thingflagtooltips; // ano
+
+        // Linedefs
+        private Dictionary<string, string> linedefflags;
 		private List<string> sortedlinedefflags;
 		private Dictionary<int, LinedefActionInfo> linedefactions;
 		private List<LinedefActionInfo> sortedlinedefactions;
@@ -112,9 +124,10 @@ namespace CodeImp.DoomBuilder.Config
 		private List<LinedefActivateInfo> linedefactivates;
 		private List<GeneralizedCategory> genactioncategories;
 		private List<FlagTranslation> linedefflagstranslation;
-		
-		// Sectors
-		private Dictionary<int, SectorEffectInfo> sectoreffects;
+        private Dictionary<string, string> linedefflagtooltips; // ano
+
+        // Sectors
+        private Dictionary<int, SectorEffectInfo> sectoreffects;
 		private List<SectorEffectInfo> sortedsectoreffects;
 		private List<GeneralizedOption> geneffectoptions;
 		private StepsList brightnesslevels;
@@ -193,6 +206,7 @@ namespace CodeImp.DoomBuilder.Config
 		public IDictionary<string, string> ThingFlags { get { return thingflags; } }
 		public List<FlagTranslation> ThingFlagsTranslation { get { return thingflagstranslation; } }
 		public List<ThingFlagsCompare> ThingFlagsCompare { get { return thingflagscompare; } }
+        public Dictionary<string, string> ThingFlagTooltips { get { return thingflagtooltips; } } // ano
 		
 		// Linedefs
 		public IDictionary<string, string> LinedefFlags { get { return linedefflags; } }
@@ -203,15 +217,16 @@ namespace CodeImp.DoomBuilder.Config
 		public List<LinedefActivateInfo> LinedefActivates { get { return linedefactivates; } }
 		public List<GeneralizedCategory> GenActionCategories { get { return genactioncategories; } }
 		public List<FlagTranslation> LinedefFlagsTranslation { get { return linedefflagstranslation; } }
+        public Dictionary<string, string> LinedefFlagTooltips { get { return linedefflagtooltips; } } // ano
 
-		// Sectors
-		public IDictionary<int, SectorEffectInfo> SectorEffects { get { return sectoreffects; } }
+        // Sectors
+        public IDictionary<int, SectorEffectInfo> SectorEffects { get { return sectoreffects; } }
 		public List<SectorEffectInfo> SortedSectorEffects { get { return sortedsectoreffects; } }
 		public List<GeneralizedOption> GenEffectOptions { get { return geneffectoptions; } }
 		public StepsList BrightnessLevels { get { return brightnesslevels; } }
 
-		// Universal fields
-		public List<UniversalFieldInfo> LinedefFields { get { return linedeffields; } }
+        // Universal fields
+        public List<UniversalFieldInfo> LinedefFields { get { return linedeffields; } }
 		public List<UniversalFieldInfo> SectorFields { get { return sectorfields; } }
 		public List<UniversalFieldInfo> SidedefFields { get { return sidedeffields; } }
 		public List<UniversalFieldInfo> ThingFields { get { return thingfields; } }
@@ -240,31 +255,33 @@ namespace CodeImp.DoomBuilder.Config
 			
 			// Initialize
 			this.cfg = cfg;
-			this.thingflags = new Dictionary<string, string>();
-			this.defaultthingflags = new List<string>();
-			this.thingcategories = new List<ThingCategory>();
-			this.things = new Dictionary<int, ThingTypeInfo>();
-			this.linedefflags = new Dictionary<string, string>();
-			this.sortedlinedefflags = new List<string>();
-			this.linedefactions = new Dictionary<int, LinedefActionInfo>();
-			this.actioncategories = new List<LinedefActionCategory>();
-			this.sortedlinedefactions = new List<LinedefActionInfo>();
-			this.linedefactivates = new List<LinedefActivateInfo>();
-			this.genactioncategories = new List<GeneralizedCategory>();
-			this.sectoreffects = new Dictionary<int, SectorEffectInfo>();
-			this.sortedsectoreffects = new List<SectorEffectInfo>();
-			this.geneffectoptions = new List<GeneralizedOption>();
-			this.enums = new Dictionary<string, EnumList>();
-			this.skills = new List<SkillInfo>();
-			this.texturesets = new List<DefinedTextureSet>();
-			this.makedoorargs = new int[Linedef.NUM_ARGS];
-			this.maplumps = new Dictionary<string, MapLumpInfo>();
-			this.thingflagstranslation = new List<FlagTranslation>();
-			this.linedefflagstranslation = new List<FlagTranslation>();
-			this.thingfilters = new List<ThingsFilter>();
-			this.thingflagscompare = new List<ThingFlagsCompare>();
-			this.brightnesslevels = new StepsList();
-			this.makedoorflags = new Dictionary<string, bool>();
+			thingflags = new Dictionary<string, string>();
+			defaultthingflags = new List<string>();
+			thingcategories = new List<ThingCategory>();
+			things = new Dictionary<int, ThingTypeInfo>();
+            thingflagtooltips = new Dictionary<string, string>(); // ano
+            linedefflags = new Dictionary<string, string>();
+			sortedlinedefflags = new List<string>();
+			linedefactions = new Dictionary<int, LinedefActionInfo>();
+            linedefflagtooltips = new Dictionary<string, string>(); // ano
+			actioncategories = new List<LinedefActionCategory>();
+			sortedlinedefactions = new List<LinedefActionInfo>();
+			linedefactivates = new List<LinedefActivateInfo>();
+			genactioncategories = new List<GeneralizedCategory>();
+			sectoreffects = new Dictionary<int, SectorEffectInfo>();
+			sortedsectoreffects = new List<SectorEffectInfo>();
+            geneffectoptions = new List<GeneralizedOption>();
+			enums = new Dictionary<string, EnumList>();
+			skills = new List<SkillInfo>();
+			texturesets = new List<DefinedTextureSet>();
+			makedoorargs = new int[Linedef.NUM_ARGS];
+			maplumps = new Dictionary<string, MapLumpInfo>();
+			thingflagstranslation = new List<FlagTranslation>();
+			linedefflagstranslation = new List<FlagTranslation>();
+			thingfilters = new List<ThingsFilter>();
+			thingflagscompare = new List<ThingFlagsCompare>();
+			brightnesslevels = new StepsList();
+			makedoorflags = new Dictionary<string, bool>();
 			
 			// Read general settings
 			configname = cfg.ReadSetting("game", "<unnamed game>");
@@ -473,9 +490,14 @@ namespace CodeImp.DoomBuilder.Config
 			dic = cfg.ReadSetting("linedefflags", new Hashtable());
 			foreach(DictionaryEntry de in dic)
 				linedefflags.Add(de.Key.ToString(), de.Value.ToString());
-			
-			// Get translations
-			dic = cfg.ReadSetting("linedefflagstranslation", new Hashtable());
+
+            // ano
+            dic = cfg.ReadSetting("linedefflagtooltips", new Hashtable());
+            foreach (DictionaryEntry de in dic)
+                linedefflagtooltips.Add(de.Key.ToString(), de.Value.ToString());
+
+            // Get translations
+            dic = cfg.ReadSetting("linedefflagstranslation", new Hashtable());
 			foreach(DictionaryEntry de in dic)
 				linedefflagstranslation.Add(new FlagTranslation(de));
 			
@@ -705,13 +727,18 @@ namespace CodeImp.DoomBuilder.Config
 		{
 			IDictionary dic;
 
-			// Get linedef flags
+			// Get thing flags
 			dic = cfg.ReadSetting("thingflags", new Hashtable());
 			foreach (DictionaryEntry de in dic)
 				thingflags.Add(de.Key.ToString(), de.Value.ToString());
-			
-			// Get translations
-			dic = cfg.ReadSetting("thingflagstranslation", new Hashtable());
+
+            // ano
+            dic = cfg.ReadSetting("thingflagtooltips", new Hashtable());
+            foreach (DictionaryEntry de in dic)
+                thingflagtooltips.Add(de.Key.ToString(), de.Value.ToString());
+
+            // Get translations
+            dic = cfg.ReadSetting("thingflagstranslation", new Hashtable());
 			foreach(DictionaryEntry de in dic)
 				thingflagstranslation.Add(new FlagTranslation(de));
 

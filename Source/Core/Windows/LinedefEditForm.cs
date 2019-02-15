@@ -61,7 +61,16 @@ namespace CodeImp.DoomBuilder.Windows
 
             // Fill flags list
             foreach (KeyValuePair<string, string> lf in General.Map.Config.LinedefFlags)
-				flags.Add(lf.Value, lf.Key);
+            {
+                if (General.Map.Config.LinedefFlagTooltips.ContainsKey(lf.Key))
+                {
+                    flags.Add(lf.Value, lf.Key, General.Map.Config.LinedefFlagTooltips[lf.Key]);
+                }
+                else
+                {
+                    flags.Add(lf.Value, lf.Key);
+                }
+            }
 
 			// Fill actions list
 			action.GeneralizedCategories = General.Map.Config.GenActionCategories;

@@ -41,6 +41,8 @@ namespace CodeImp.DoomBuilder.Controls
 		// Properties
 		public List<CheckBox> Checkboxes { get { return checkboxes; } }
 		public int Columns { get { return columns; } set { columns = value; } }
+
+        private ToolTip tooltipcontrol; // ano
 		
 		// Constructor
 		public CheckboxArrayControl()
@@ -70,6 +72,25 @@ namespace CodeImp.DoomBuilder.Controls
 			// Return checkbox
 			return c;
 		}
+
+        // ano - special version for giving the checkboxes a tooltip
+        public CheckBox Add(string text, object tag, string tooltiptext)
+        {
+            CheckBox output = Add(text, tag);
+
+            if (!string.IsNullOrEmpty(tooltiptext))
+            {
+                if (tooltipcontrol == null)
+                {
+                    tooltipcontrol = new ToolTip();
+                    tooltipcontrol.AutoPopDelay = 32767;
+                }
+
+                tooltipcontrol.SetToolTip(output, tooltiptext);
+            }
+            
+            return output;
+        }
 
 		// This positions the checkboxes
 		public void PositionCheckboxes()
