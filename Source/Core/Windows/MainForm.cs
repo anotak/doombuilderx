@@ -1698,8 +1698,10 @@ namespace CodeImp.DoomBuilder.Windows
 			items.Add(button);
 			RenameTagsToFullActions(items, plugin);
 
-			// Add to the list so we can update it as needed
-			PluginToolbarButton buttoninfo = new PluginToolbarButton();
+            UpdateButtonTooltip(button); // ano
+
+            // Add to the list so we can update it as needed
+            PluginToolbarButton buttoninfo = new PluginToolbarButton();
 			buttoninfo.button = button;
 			buttoninfo.section = section;
 			pluginbuttons.Add(buttoninfo);
@@ -1750,6 +1752,33 @@ namespace CodeImp.DoomBuilder.Windows
 				UpdateSeparators();
 			}
 		}
+
+        // ano - sets a button to use its hotkey as part of its tooltip
+        private void UpdateButtonTooltip(ToolStripItem button)
+        {
+            if (button.Tag is string)
+            {
+                string tooltip = button.ToolTipText;
+                int keynum = General.Actions.GetActionByName((string)button.Tag).ShortcutKey;
+
+                if (keynum == 0)
+                {
+                    return;
+                }
+
+                string keydesc = Actions.Action.GetShortcutKeyDesc(keynum);
+                
+                // hacky to use the string instead of regenerating it from scratch :/
+                int position = tooltip.LastIndexOf(" (");
+                if (position > 0)
+                {
+                    tooltip = tooltip.Substring(0, position);
+                }
+                tooltip += " (" + keydesc + ")";
+
+                button.ToolTipText = tooltip;
+            }
+        }
 
 		// This handle visibility changes in the toolbar buttons
 		private void ToolbarButtonVisibleChanged(object sender, EventArgs e)
@@ -1842,7 +1871,13 @@ namespace CodeImp.DoomBuilder.Windows
 
 			preventupdateseperators = false;
 
-			UpdateSeparators();
+            foreach (ToolStripItem t in toolbar.Items)
+            {
+                UpdateButtonTooltip(t);
+            }
+
+
+            UpdateSeparators();
 		}
 
 		// This checks one of the edit mode items (and unchecks all others)
