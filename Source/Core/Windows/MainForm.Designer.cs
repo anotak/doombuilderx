@@ -179,6 +179,9 @@ namespace CodeImp.DoomBuilder.Windows
             this.dockersspace = new System.Windows.Forms.Panel();
             this.dockerspanel = new CodeImp.DoomBuilder.Controls.DockersControl();
             this.dockerscollapser = new System.Windows.Forms.Timer(this.components);
+            this.itemaligngridtolinedef = new System.Windows.Forms.ToolStripMenuItem();
+            this.itemsetgridorigintovertex = new System.Windows.Forms.ToolStripMenuItem();
+            this.itemresetgrid = new System.Windows.Forms.ToolStripMenuItem();
             toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
@@ -409,6 +412,9 @@ namespace CodeImp.DoomBuilder.Windows
             this.seperatoreditgeometry,
             this.itemgridinc,
             this.itemgriddec,
+            this.itemaligngridtolinedef,
+            this.itemsetgridorigintovertex,
+            this.itemresetgrid,
             this.itemgridsetup,
             this.seperatoreditgrid,
             this.itemmapoptions,
@@ -520,6 +526,31 @@ namespace CodeImp.DoomBuilder.Windows
             this.itemgriddec.Tag = "builder_gridinc";
             this.itemgriddec.Text = "&Decrease Grid";
             this.itemgriddec.Click += new System.EventHandler(this.InvokeTaggedAction);
+            // 
+            // itemaligngridtolinedef
+            //
+            this.itemaligngridtolinedef.Name = "itemaligngridtolinedef";
+            this.itemaligngridtolinedef.Size = new System.Drawing.Size(215, 22);
+            this.itemaligngridtolinedef.Tag = "builder_aligngridtolinedef";
+            this.itemaligngridtolinedef.Text = "Align Grid To Selected Linedef";
+            this.itemaligngridtolinedef.Click += new System.EventHandler(this.InvokeTaggedAction);
+            // 
+            // itemsetgridorigintovertex
+            //
+            this.itemsetgridorigintovertex.Name = "itemsetgridorigintovertex";
+            this.itemsetgridorigintovertex.Size = new System.Drawing.Size(215, 22);
+            this.itemsetgridorigintovertex.Tag = "builder_setgridorigintovertex";
+            this.itemsetgridorigintovertex.Text = "Set Grid Origin To Selected Vertex";
+            this.itemsetgridorigintovertex.Click += new System.EventHandler(this.InvokeTaggedAction);
+
+            // 
+            // itemresetgrid
+            //
+            this.itemresetgrid.Name = "itemresetgrid";
+            this.itemresetgrid.Size = new System.Drawing.Size(215, 22);
+            this.itemresetgrid.Tag = "builder_resetgrid";
+            this.itemresetgrid.Text = "Reset Grid Transform";
+            this.itemresetgrid.Click += new System.EventHandler(this.InvokeTaggedAction);
             // 
             // itemgridsetup
             // 
@@ -1752,6 +1783,9 @@ namespace CodeImp.DoomBuilder.Windows
         private System.Windows.Forms.ToolStripSeparator seperatoreditgeometry;
         private System.Windows.Forms.ToolStripMenuItem itemgridinc;
         private System.Windows.Forms.ToolStripMenuItem itemgriddec;
+        private System.Windows.Forms.ToolStripMenuItem itemaligngridtolinedef;
+        private System.Windows.Forms.ToolStripMenuItem itemsetgridorigintovertex;
+        private System.Windows.Forms.ToolStripMenuItem itemresetgrid;
         private System.Windows.Forms.ToolStripMenuItem itemgridsetup;
         private System.Windows.Forms.Label modename;
         private System.Windows.Forms.Timer statusflasher;

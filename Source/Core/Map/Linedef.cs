@@ -638,42 +638,53 @@ namespace CodeImp.DoomBuilder.Map
 			General.Map.IsChanged = true;
 		}
 
+
 		// This returns all points at which the line intersects with the grid
-		public List<Vector2D> GetGridIntersections()
+		public List<Vector2D> GetGridIntersections(Vector2D gridoffset, float gridrotation = 0.0f, float gridoriginx = 0.0f, float gridoriginy = 0.0f)
 		{
 			List<Vector2D> coords = new List<Vector2D>();
 			Vector2D v = new Vector2D();
-			float gx, gy, minx, maxx, miny, maxy;
+			float minx, maxx, miny, maxy;
 			bool reversex, reversey;
-			
-			if(start.Position.x > end.Position.x)
+
+			Vector2D v1 = start.Position;
+			Vector2D v2 = end.Position;
+
+			bool transformed = Math.Abs(gridrotation) > 1e-4 || Math.Abs(gridoriginx) > 1e-4 || Math.Abs(gridoriginy) > 1e-4;
+			if (transformed)
 			{
-				minx = end.Position.x;
-				maxx = start.Position.x;
+				v1 = (v1 - new Vector2D(gridoriginx, gridoriginy)).GetRotated(-gridrotation);
+				v2 = (v2 - new Vector2D(gridoriginx, gridoriginy)).GetRotated(-gridrotation);
+			}
+			
+			if(v1.x > v2.x)
+			{
+				minx = v2.x;
+				maxx = v1.x;
 				reversex = true;
 			}
 			else
 			{
-				minx = start.Position.x;
-				maxx = end.Position.x;
+				minx = v1.x;
+				maxx = v2.x;
 				reversex = false;
 			}
 
-			if(start.Position.y > end.Position.y)
+			if(v1.y > v2.y)
 			{
-				miny = end.Position.y;
-				maxy = start.Position.y;
+				miny = v2.y;
+				maxy = v1.y;
 				reversey = true;
 			}
 			else
 			{
-				miny = start.Position.y;
-				maxy = end.Position.y;
+				miny = v1.y;
+				maxy = v2.y;
 				reversey = false;
 			}
 
 			// Go for all vertical grid lines in between line start and end
-			gx = General.Map.Grid.GetHigher(minx);
+			float gx = General.Map.Grid.GetHigher(minx) + gridoffset.x;
 			if(gx < maxx)
 			{
 				for(; gx < maxx; gx += General.Map.Grid.GridSizeF)
@@ -682,13 +693,13 @@ namespace CodeImp.DoomBuilder.Map
 					float u = (gx - minx) / (maxx - minx);
 					if(reversex) u = 1.0f - u;
 					v.x = gx;
-					v.y = start.Position.y + (end.Position.y - start.Position.y) * u;
+					v.y = v1.y + (v2.y - v1.y) * u;
 					coords.Add(v);
 				}
 			}
 			
 			// Go for all horizontal grid lines in between line start and end
-			gy = General.Map.Grid.GetHigher(miny);
+			float gy = General.Map.Grid.GetHigher(miny) + gridoffset.y;
 			if(gy < maxy)
 			{
 				for(; gy < maxy; gy += General.Map.Grid.GridSizeF)
@@ -696,15 +707,28 @@ namespace CodeImp.DoomBuilder.Map
 					// Add intersection point at this y coordinate
 					float u = (gy - miny) / (maxy - miny);
 					if(reversey) u = 1.0f - u;
-					v.x = start.Position.x + (end.Position.x - start.Position.x) * u;
+					v.x = v1.x + (v2.x - v1.x) * u;
 					v.y = gy;
 					coords.Add(v);
+				}
+			}
+
+			if (transformed)
+			{
+				for (int i = 0; i < coords.Count; i++)
+				{
+					coords[i] = coords[i].GetRotated(gridrotation) + new Vector2D(gridoriginx, gridoriginy);
 				}
 			}
 			
 			// Profit
 			return coords;
-		}
+        }
+
+        public List<Vector2D> GetGridIntersections()
+        {
+            return GetGridIntersections(new Vector2D(0.0f, 0.0f), General.Map.Grid.GridRotate, General.Map.Grid.GridOriginX, General.Map.Grid.GridOriginY);
+        }
 		
 		// This returns the closest coordinates ON the line
 		public Vector2D NearestOnLine(Vector2D pos)
