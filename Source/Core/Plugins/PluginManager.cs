@@ -159,10 +159,13 @@ namespace CodeImp.DoomBuilder.Plugins
 					{
 						p = new Plugin(filenames[filenameindex]);
 					}
-					catch(InvalidProgramException)
+					catch(Exception e)
 					{
 						p = null;
-					}
+
+                        Logger.WriteLogLine("Unable to load plugin: " + filenames[filenameindex]);
+                        Logger.WriteLogLine(e.StackTrace);
+                    }
 					
 					// Continue if no errors
 					if((p != null) && (!p.IsDisposed))
