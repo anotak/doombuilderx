@@ -62,12 +62,21 @@ namespace CodeImp.DoomBuilder.Windows
 			InitializeComponent();
 
             previousaction = 0;
-			// Fill flags list
-			foreach(KeyValuePair<string, string> tf in General.Map.Config.ThingFlags)
-				flags.Add(tf.Value, tf.Key);
+            // Fill flags list
+            foreach (KeyValuePair<string, string> tf in General.Map.Config.ThingFlags)
+            {
+                if (General.Map.Config.ThingFlagTooltips.ContainsKey(tf.Key))
+                {
+                    flags.Add(tf.Value, tf.Key, General.Map.Config.ThingFlagTooltips[tf.Key]);
+                }
+                else
+                {
+                    flags.Add(tf.Value, tf.Key);
+                }
+            }
 
-			// Fill actions list
-			action.GeneralizedCategories = General.Map.Config.GenActionCategories;
+            // Fill actions list
+            action.GeneralizedCategories = General.Map.Config.GenActionCategories;
 			action.AddInfo(General.Map.Config.SortedLinedefActions.ToArray());
             
 			// Custom fields?
