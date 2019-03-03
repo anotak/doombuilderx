@@ -233,7 +233,7 @@ namespace CodeImp.DoomBuilder.Config
 				doublesidedalphabyte = (byte)(doublesidedalpha * 255f);
 				backgroundalpha = cfg.ReadSetting("backgroundalpha", 1.0f);
 				qualitydisplay = cfg.ReadSetting("qualitydisplay", true);
-				squarethings = cfg.ReadSetting("squarethings", false);
+				squarethings = cfg.ReadSetting("squarethings", true);
 				testmonsters = cfg.ReadSetting("testmonsters", true);
 				defaultviewmode = cfg.ReadSetting("defaultviewmode", (int)ViewMode.Normal);
 				classicbilinear = cfg.ReadSetting("classicbilinear", false);

@@ -24,6 +24,7 @@ version 2.1.3.12
 - fixed lighting levels to clamp to 0-256 not 0-255. you can still manually type in negative or >256 values
 - if you press alt or ctrl while drag selecting it doesnt stop selecting
 - some things that use the same sprites have been changed to have their editor preview to use a different frame (demon/spectre for example)
+- thing graphics are now square by default because the collision boxes in Doom engine games are actually square
 
 version 2.1.3.10
 =====================
