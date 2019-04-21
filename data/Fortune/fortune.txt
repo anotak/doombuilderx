@@ -17,7 +17,7 @@ An easy way is the DBX forum thread at www.doomworld.com
 - Matthew Frederick,
 101 Things I Learned In Architecture School
 %%
-"Do not draw a rectangle -- or any other arbitrary shape -- on a floor plan, label it, and assume it will be suited to its intended use. "
+"Do not draw a rectangle -- or any other arbitrary shape -- on a floor plan, label it, and assume it will be suited to its intended use."
 
 - Matthew Frederick,
 101 Things I Learned In Architecture School
@@ -225,7 +225,7 @@ Movement."
 Akira Kurosawa: Composing Movement
 %%
 "As you walk through the main entrance of the base, you hear animal-like growls echoing throughout the distant corridors.
-They know you're here. There's no turning back now. "
+They know you're here. There's no turning back now."
 
 - id Software,
 Doom Shareware README.TXT
@@ -685,7 +685,7 @@ Counterclockwise will default to outward.
 
 - the Mancubus
 %%
-"A donut is a very specialized linedef type that lowers a pillar in a surrounding pool, while raising the pool and changing its texture and type. "
+"A donut is a very specialized linedef type that lowers a pillar in a surrounding pool, while raising the pool and changing its texture and type."
 
 - boomref.txt, TeamTNT
 %%
@@ -709,7 +709,7 @@ Monster Placement
 
 - Skillsaw
 %%
-"Do not undervalue patience - taking your time, refining your ideas and your skills will eventually lead to better and better maps. Not everything you pump out will be a masterpiece, that's okay, even 'bad' maps give you good experience. "
+"Do not undervalue patience - taking your time, refining your ideas and your skills will eventually lead to better and better maps. Not everything you pump out will be a masterpiece, that's okay, even 'bad' maps give you good experience."
 
 - Dragonfly
 %%
@@ -864,9 +864,24 @@ Rocket Jump: Quake and the Golden Age of First-Person Shooters, Shacknews
 
 - Attributed to Luis Bunuel by Brian Eno
 %%
-"You can do almost anything to any level: move, add or remove monsters and
-powerups, change the wall colours and positions, create new lifts, doors,
-acid pools, crushing ceilings... or even create a new level from scratch!"
+"You can do almost anything to any level: move, add or remove monsters and powerups, change the wall colours and positions, create new lifts, doors, acid pools, crushing ceilings... or even create a new level from scratch!"
 
 - Brendon Wyber and Raphael Quinet,
 DEU 5.21 README file
+%%
+"Take breaks from time to time, when you 'grind' out a skill, it becomes a chore - this is supposed to be fun!"
+
+- Dragonfly,
+Staying Motivated As A Doom Mapper,
+Dragonfly's Doomworks
+%%
+"Become friends with people who are of a similar skill level and try to motivate one another."
+
+- Dragonfly,
+Staying Motivated As A Doom Mapper,
+Dragonfly's Doomworks
+%%
+"When you boot up your Doom editor of choice, it should be because you want to, not because you're obligated to."
+
+- Sparktimus,
+in Doomworld thread "How to Deal with Mapping Sadness"
