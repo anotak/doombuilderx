@@ -44,7 +44,7 @@ namespace CodeImp.DoomBuilder.Map
 		protected int listindex;
 		
 		// Univeral fields
-		private UniFields fields;
+		protected UniFields fields;
 		
 		// Marking
 		protected bool marked;

@@ -110,6 +110,13 @@ namespace CodeImp.DoomBuilder.Map
 		{
 			this.Selected = ((groups & groupsmask) != 0);
 		}
+        
+        internal void SwapSelectionGroup(SelectableElement other)
+        {
+            int temp = groups;
+            groups = other.groups;
+            other.groups = temp;
+        }
 		
 		#endregion
 	}

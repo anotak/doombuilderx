@@ -845,6 +845,25 @@ namespace CodeImp.DoomBuilder.DBXLua
         }
         */
 
+        // used to swap indices sort of
+        public void SwapProperties(LuaLinedef other)
+        {
+            if (linedef.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Linedef has been disposed, can't SwapProperties.");
+            }
+            if (other == null)
+            {
+                throw new ScriptRuntimeException("Other linedef is null, can't SwapProperties (not enough arguments maybe?).");
+            }
+            if (other.linedef.IsDisposed)
+            {
+                throw new ScriptRuntimeException("Other linedef has been disposed, can't SwapProperties.");
+            }
+
+            linedef.SwapProperties(other.linedef);
+        }
+
         public override string ToString()
         {
             if (linedef.IsDisposed)
