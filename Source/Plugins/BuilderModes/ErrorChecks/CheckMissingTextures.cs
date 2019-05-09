@@ -74,7 +74,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // Check upper texture. Also make sure not to return a false
                 // positive if the sector on the other side has the ceiling
                 // set to be sky
-                if (sd.HighRequired() && sd.HighTexture[0] == '-')
+                if (sd.HighRequired() && sd.HighTexture.Equals("-"))
                 {
                     if (sd.Other != null && sd.Other.Sector.CeilTexture != General.Map.Config.SkyFlatName)
                     {
@@ -83,7 +83,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 }
 
                 // Check middle texture
-                if (sd.MiddleRequired() && sd.MiddleTexture[0] == '-')
+                if (sd.MiddleRequired() && sd.MiddleTexture.Equals("-"))
                 {
                     SubmitResult(new ResultMissingTexture(sd, SidedefPart.Middle));
                 }
@@ -91,7 +91,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
                 // Check lower texture. Also make sure not to return a false
                 // positive if the sector on the other side has the floor
                 // set to be sky
-                if (sd.LowRequired() && sd.LowTexture[0] == '-')
+                if (sd.LowRequired() && sd.LowTexture.Equals("-"))
                 {
                     if (sd.Other != null && sd.Other.Sector.FloorTexture != General.Map.Config.SkyFlatName)
                     {
