@@ -3,7 +3,7 @@ based on code by anotak, CodeImp, MaxED, boris_i, ZZYZX
 =======================================================
 version 2.1.3.12
 =====================
-- new Lua plugin (thanks to Ribbiks, Grain of Salt, Printz, and MTrop for feedback)
+- new Lua plugin (thanks to Ribbiks, Grain of Salt, Printz, MTrop, and Xaser for feedback)
 - All / Textures / Flats / resources categories are on top in the texture browser now. there is an option in preferences to revert to the old behavior: 'Put "All" and resource categories on top in browsers'
 - texture categories for subfolders/subwads inside pk3 resource archives
 - texture categories remember which one you clicked on properly
@@ -23,7 +23,8 @@ version 2.1.3.12
 - fixed negative lighting values not always working right
 - fixed lighting levels to clamp to 0-256 not 0-255. you can still manually type in negative or >256 values
 - if you press alt or ctrl while drag selecting it doesnt stop selecting
-- some things that use the same sprites have been changed to have their editor preview to use a different frame (demon/spectre for example)
+- some things that use the same sprites have been changed to have their editor preview to use a different keyframe (demon/spectre for example)
+- fixed an obscure crash in the missing texture error checker
 - thing graphics are now square by default because the collision boxes in Doom engine games are actually square
 - handle bad plugins more gracefully (hopefully)
 - some ui buttons will have the hotkey shown in the tooltip now
