@@ -270,6 +270,7 @@ namespace CodeImp.DoomBuilder.DBXLua
             return GetIntersection(v1.x, v1.y, v2.x, v2.y);
         }
 
+        // "returns < 0 for front (right) side, > 0 for back (left) side and 0 if on the line"
         public float GetSideOfLine(LuaVector2D p)
         {
             return l2d.GetSideOfLine(p.vec);
