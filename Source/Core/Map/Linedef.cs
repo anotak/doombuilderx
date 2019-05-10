@@ -357,6 +357,12 @@ namespace CodeImp.DoomBuilder.Map
             // so for now we are doing choice #3
             l.SwapSelectionGroup(this);
 
+            // flipping this boolean makes sure that we
+            // vertices don't get auto deleted when we detach them
+            // (i would not have architected this with this pseudo-global)
+            bool oldautoremove = General.Map.Map.AutoRemove;
+            General.Map.Map.AutoRemove = false;
+
             // note that calling setstartvertex / setendvertex handles setting updateneeded
             Vertex tempstart = start;
             SetStartVertex(l.start);
@@ -377,6 +383,9 @@ namespace CodeImp.DoomBuilder.Map
             General.Map.UndoRedo.RecRefLinedefBack(l);
             AttachBack(l.back);
             l.AttachBackP(tempback);
+
+
+            General.Map.Map.AutoRemove = oldautoremove;
         }
 		
 		// This attaches a sidedef on the front
