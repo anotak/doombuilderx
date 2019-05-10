@@ -28,6 +28,7 @@ version 2.1.3.12
 - thing graphics are now square by default because the collision boxes in Doom engine games are actually square
 - handle bad plugins more gracefully (hopefully)
 - some ui buttons will have the hotkey shown in the tooltip now
+- remember last chosen game config when making a new map
 
 version 2.1.3.10
 =====================
