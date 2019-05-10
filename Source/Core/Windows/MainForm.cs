@@ -1759,7 +1759,15 @@ namespace CodeImp.DoomBuilder.Windows
             if (button.Tag is string)
             {
                 string tooltip = button.ToolTipText;
-                int keynum = General.Actions.GetActionByName((string)button.Tag).ShortcutKey;
+
+                Actions.Action act = General.Actions.GetActionByName((string)button.Tag);
+
+                if (act == null)
+                {
+                    return;
+                }
+
+                int keynum = act.ShortcutKey;
 
                 if (keynum == 0)
                 {

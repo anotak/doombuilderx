@@ -412,7 +412,15 @@ namespace CodeImp.DoomBuilder.Actions
 		// This returns the specified action
 		public Action GetActionByName(string fullname)
 		{
-			return actions[fullname];
+            // ano - return null in case of failure
+            if (actions.ContainsKey(fullname))
+            {
+                return actions[fullname];
+            }
+            else
+            {
+                return null;
+            }
 		}
 		
 		// This saves the control settings
