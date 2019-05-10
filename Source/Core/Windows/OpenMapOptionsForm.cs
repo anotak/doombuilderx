@@ -124,6 +124,12 @@ namespace CodeImp.DoomBuilder.Windows
 			else
 				gameconfig = mapsettings.ReadSetting("gameconfig", "");
 
+            // ano - try to default to last used if we've got nothing
+            if (string.IsNullOrEmpty(gameconfig))
+            {
+                gameconfig = General.Settings.ReadSetting("lastopenedgameconfig", "EE_DoomUDMF.cfg");
+            }
+
 			// Go for all configurations
 			for(int i = 0; i < General.Configs.Count; i++)
 			{
@@ -356,8 +362,11 @@ namespace CodeImp.DoomBuilder.Windows
 			options.StrictPatches = strictpatches.Checked;
 			options.CopyResources(locations);
 
-			// Hide window
-			wadfile.Dispose();
+            // ano
+            General.Settings.WriteSetting("lastopenedgameconfig", options.ConfigFile);
+
+            // Hide window
+            wadfile.Dispose();
 			this.DialogResult = DialogResult.OK;
 			this.Close();
 		}

@@ -55,8 +55,10 @@ namespace CodeImp.DoomBuilder.Windows
 			this.options = options;
             int selectedIndex = -1;
 
-			// Go for all configurations
-			for(int i = 0; i < General.Configs.Count; i++)
+            string last_opened_game_config = General.Settings.ReadSetting("lastopenedgameconfig", "EE_DoomUDMF.cfg");
+
+            // Go for all configurations
+            for (int i = 0; i < General.Configs.Count; i++)
 			{
 				// Add config name to list
 				index = config.Items.Add(General.Configs[i]);
@@ -67,7 +69,7 @@ namespace CodeImp.DoomBuilder.Windows
                     // Select this item
                     selectedIndex = index;
                 }
-                else if (selectedIndex == -1 && General.Configs[i].Filename == "EE_DoomUDMF.cfg")
+                else if (selectedIndex == -1 && General.Configs[i].Filename == last_opened_game_config)
                 {
                     selectedIndex = index;
                 }
@@ -111,9 +113,9 @@ namespace CodeImp.DoomBuilder.Windows
 				config.Focus();
 				return;
 			}
-			
-			// Level name empty?
-			if(levelname.Text.Length == 0)
+
+            // Level name empty?
+            if (levelname.Text.Length == 0)
 			{
 				// Enter a level name!
 				MessageBox.Show(this, "Please enter a level name for your map.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -201,8 +203,11 @@ namespace CodeImp.DoomBuilder.Windows
 			options.StrictPatches = strictpatches.Checked;
 			options.CopyResources(datalocations.GetResources());
 
-			// Reset default drawing textures
-			General.Settings.DefaultTexture = null;
+            // ano
+            General.Settings.WriteSetting("lastopenedgameconfig", options.ConfigFile);
+
+            // Reset default drawing textures
+            General.Settings.DefaultTexture = null;
 			General.Settings.DefaultFloorTexture = null;
 			General.Settings.DefaultCeilingTexture = null;
 			
