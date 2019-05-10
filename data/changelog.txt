@@ -29,6 +29,7 @@ version 2.1.3.12
 - handle bad plugins more gracefully (hopefully)
 - some ui buttons will have the hotkey shown in the tooltip now
 - remember last chosen game config when making a new map
+- added ZDBSP extended nodes config (thanks to Ribbiks)
 
 version 2.1.3.10
 =====================
