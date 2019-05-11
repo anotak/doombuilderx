@@ -62,6 +62,7 @@ namespace CodeImp.DoomBuilder.IO
 		public override int MaxTextureOffset { get { return int.MaxValue; } }
 		public override int VertexDecimals { get { return 3; } }
         public override float MinLineLength { get { return 0.001f; } } // ano - related to VertexDecimals
+        public override float StitchDistance { get { return 0.0025f; } } // ano - related to VertexDecimals and MinLineLength
         public override string DecimalsFormat { get { return "0.000"; } }
 		public override bool HasLinedefTag { get { return true; } }
 		public override bool HasThingTag { get { return true; } }

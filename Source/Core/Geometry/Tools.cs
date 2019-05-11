@@ -1122,7 +1122,7 @@ namespace CodeImp.DoomBuilder.Geometry
                 // ano - NOTE: a precondition of the rest of this process
                 // is that the vertices must be joined in the same order
                 // as JoinVerticesOneList does
-                mergeverts = MapSet.JoinVerticesOneList(mergeverts, MapSet.STITCH_DISTANCE);
+                mergeverts = MapSet.JoinVerticesOneList(mergeverts, General.Map.FormatInterface.StitchDistance);
 				map.EndAddRemove();
 				
 				/***************************************************\
@@ -1184,7 +1184,7 @@ namespace CodeImp.DoomBuilder.Geometry
 								List<LinedefSide> endpoints = new List<LinedefSide>();
 
 								// Find out where the start will stitch and create test points
-								Linedef l1 = MapSet.NearestLinedefRange(oldlines, firstline.Start.Position, MapSet.STITCH_DISTANCE);
+								Linedef l1 = MapSet.NearestLinedefRange(oldlines, firstline.Start.Position, General.Map.FormatInterface.StitchDistance);
 								Vertex vv1 = null;
 								if(l1 != null)
 								{
@@ -1194,7 +1194,7 @@ namespace CodeImp.DoomBuilder.Geometry
 								else
 								{
 									// Not stitched with a linedef, so check if it will stitch with a vertex
-									vv1 = MapSet.NearestVertexSquareRange(nonmergeverts, firstline.Start.Position, MapSet.STITCH_DISTANCE);
+									vv1 = MapSet.NearestVertexSquareRange(nonmergeverts, firstline.Start.Position, General.Map.FormatInterface.StitchDistance);
 									if((vv1 != null) && (vv1.Linedefs.Count > 0))
 									{
 										// Now we take the two linedefs with adjacent angles to the drawn line
@@ -1209,7 +1209,7 @@ namespace CodeImp.DoomBuilder.Geometry
 								}
 
 								// Find out where the end will stitch and create test points
-								Linedef l2 = MapSet.NearestLinedefRange(oldlines, lastline.End.Position, MapSet.STITCH_DISTANCE);
+								Linedef l2 = MapSet.NearestLinedefRange(oldlines, lastline.End.Position, General.Map.FormatInterface.StitchDistance);
 								Vertex vv2 = null;
 								if(l2 != null)
 								{
@@ -1219,7 +1219,7 @@ namespace CodeImp.DoomBuilder.Geometry
 								else
 								{
 									// Not stitched with a linedef, so check if it will stitch with a vertex
-									vv2 = MapSet.NearestVertexSquareRange(nonmergeverts, lastline.End.Position, MapSet.STITCH_DISTANCE);
+									vv2 = MapSet.NearestVertexSquareRange(nonmergeverts, lastline.End.Position, General.Map.FormatInterface.StitchDistance);
 									if((vv2 != null) && (vv2.Linedefs.Count > 0))
 									{
 										// Now we take the two linedefs with adjacent angles to the drawn line
@@ -1352,7 +1352,7 @@ namespace CodeImp.DoomBuilder.Geometry
                                         // Join merge vertices so that overlapping vertices in the draw become one.
                                         //MapSet.JoinVertices(mergeverts, mergeverts, false, MapSet.STITCH_DISTANCE);
                                         // anotak - faster this way
-                                        mergeverts = MapSet.JoinVerticesOneList(mergeverts, MapSet.STITCH_DISTANCE);
+                                        mergeverts = MapSet.JoinVerticesOneList(mergeverts, General.Map.FormatInterface.StitchDistance);
                                     }
 								}
 							}
@@ -1595,6 +1595,10 @@ namespace CodeImp.DoomBuilder.Geometry
 
                 General.Map.Map.SnapAllToAccuracy();
                 MapSet.RemoveLoopedAndZeroLengthLinedefs(newlines);
+
+                // ano - fix up yet another merging issue
+                if (!MapSet.JoinOverlappingLines(newlines))
+                    return false;
 
                 // Make corrections for backward linedefs
                 MapSet.FlipBackwardLinedefs(newlines);

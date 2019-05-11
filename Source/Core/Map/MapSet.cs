@@ -47,8 +47,10 @@ namespace CodeImp.DoomBuilder.Map
         #region ================== Constants
 
         /// <summary>Stiching distance. This is only to get around inaccuracies. Basically,
-        /// geometry only stitches when exactly on top of each other.</summary>
-        public const float STITCH_DISTANCE = 0.001f;
+        /// geometry only stitches when exactly on top of each other.
+        /// this is left in for legacy plugin compatibility, new code should not use this!
+        /// new code should check the StitchDistance of the relevant map format</summary>
+        public const float STITCH_DISTANCE = 0.002f;
 
         // Virtual sector identification
         // This contains a character that is invalid in the UDMF standard, but valid
@@ -2134,7 +2136,7 @@ namespace CodeImp.DoomBuilder.Map
 
             // Join nearby vertices
             BeginAddRemove();
-            MapSet.JoinVertices(fixedverts, movingverts, true, MapSet.STITCH_DISTANCE);
+            MapSet.JoinVertices(fixedverts, movingverts, true, General.Map.FormatInterface.StitchDistance);
             EndAddRemove();
 
             // Update cached values of lines because we need their length/angle
@@ -2232,10 +2234,18 @@ namespace CodeImp.DoomBuilder.Map
                 // Go for all the lines
                 foreach (Linedef l1 in lines)
                 {
+                    if (l1.IsDisposed)
+                    {
+                        continue;
+                    }
                     // Check if these vertices have lines that overlap
                     foreach (Linedef l2 in l1.Start.Linedefs)
                     {
-                        // Sharing vertices?
+                        if (l2.IsDisposed)
+                        {
+                            continue;
+                        }
+
                         if ((l1.End == l2.End) ||
                            (l1.End == l2.Start))
                         {
@@ -2666,7 +2676,7 @@ namespace CodeImp.DoomBuilder.Map
         /// will be added to changedlines. Returns false when the operation failed.</summary>
         public static bool SplitLinesByVertices(List<Linedef> lines, List<Vertex> verts, List<Linedef> changedlines)
         {
-            float splitdist2 = MapSet.STITCH_DISTANCE * MapSet.STITCH_DISTANCE;
+            float splitdist2 = General.Map.FormatInterface.StitchDistance * General.Map.FormatInterface.StitchDistance;
 
             if (lines == null || verts == null)
             {
@@ -2714,8 +2724,8 @@ namespace CodeImp.DoomBuilder.Map
                     }
 
                     // ano - we need to account for floating point imprecision
-                    leftx -= MapSet.STITCH_DISTANCE;
-                    rightx += MapSet.STITCH_DISTANCE;
+                    leftx -= General.Map.FormatInterface.StitchDistance;
+                    rightx += General.Map.FormatInterface.StitchDistance;
 
                     // ano - the range of vertices to check
                     int vert_index;

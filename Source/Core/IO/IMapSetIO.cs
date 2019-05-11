@@ -35,7 +35,8 @@ namespace CodeImp.DoomBuilder.IO
 		int MaxSidedefs { get; }
 		int VertexDecimals { get; }
         float MinLineLength { get; } // ano - related to VertexDecimals
-		string DecimalsFormat { get; }
+        float StitchDistance { get; } // ano - related to VertexDecimals and MinLineLength
+        string DecimalsFormat { get; }
 		int MaxVertices { get; }
 		int MaxLinedefs { get; }
 		int MaxSectors { get; }
