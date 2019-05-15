@@ -111,7 +111,20 @@ namespace CodeImp.DoomBuilder.DBXLua
                 {
                     throw new ScriptRuntimeException("Sidedef has been disposed, can't set uppertex.");
                 }
-                sidedef.SetTextureHigh(value);
+
+                if (value == null)
+                {
+                    throw new ScriptRuntimeException("Can't set uppertex to nil.");
+                }
+
+                if (value == "")
+                {
+                    sidedef.SetTextureHigh("-");
+                }
+                else
+                {
+                    sidedef.SetTextureHigh(value);
+                }
             }
         }
 
@@ -131,7 +144,20 @@ namespace CodeImp.DoomBuilder.DBXLua
                 {
                     throw new ScriptRuntimeException("Sidedef has been disposed, can't set midtex.");
                 }
-                sidedef.SetTextureMid(value);
+
+                if (value == null)
+                {
+                    throw new ScriptRuntimeException("Can't set midtex to nil.");
+                }
+
+                if (value == "")
+                {
+                    sidedef.SetTextureMid("-");
+                }
+                else
+                {
+                    sidedef.SetTextureMid(value);
+                }
             }
         }
 
@@ -151,7 +177,20 @@ namespace CodeImp.DoomBuilder.DBXLua
                 {
                     throw new ScriptRuntimeException("Sidedef has been disposed, can't set lowertex.");
                 }
-                sidedef.SetTextureLow(value);
+
+                if (value == null)
+                {
+                    throw new ScriptRuntimeException("Can't set lowertex to nil.");
+                }
+
+                if (value == "")
+                {
+                    sidedef.SetTextureLow("-");
+                }
+                else
+                {
+                    sidedef.SetTextureLow(value);
+                }
             }
         }
 

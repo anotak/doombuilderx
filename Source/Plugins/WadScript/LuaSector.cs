@@ -117,7 +117,17 @@ namespace CodeImp.DoomBuilder.DBXLua
                 {
                     throw new ScriptRuntimeException("Sector has been disposed, can't set floortex.");
                 }
-                sector.SetFloorTexture(value);
+                if (value == null)
+                {
+                    throw new ScriptRuntimeException("Can't set floortex to nil.");
+                }
+
+                if (value == "")
+                {
+                    sector.SetFloorTexture("-");
+                } else {
+                    sector.SetFloorTexture(value);
+                }
             }
         }
 
@@ -137,7 +147,19 @@ namespace CodeImp.DoomBuilder.DBXLua
                 {
                     throw new ScriptRuntimeException("Sector has been disposed, can't set ceiltex.");
                 }
-                sector.SetCeilTexture(value);
+                if (value == null)
+                {
+                    throw new ScriptRuntimeException("Can't set ceiltex to nil.");
+                }
+
+                if (value == "")
+                {
+                    sector.SetCeilTexture("-");
+                }
+                else
+                {
+                    sector.SetCeilTexture(value);
+                }
             }
         }
         public int effect
