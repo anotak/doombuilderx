@@ -310,8 +310,6 @@ namespace CodeImp.DoomBuilder.CommentsPanel
 		// This selects the elements in a comment
 		private void SelectComment(CommentInfo c, bool clear)
 		{
-			string editmode = "";
-
 			// Leave any volatile mode
 			General.Editing.CancelVolatileMode();
 

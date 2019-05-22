@@ -863,7 +863,6 @@ namespace CodeImp.DoomBuilder.Rendering
 		private void RenderGridTransformed(float size, float angle, float originx, float originy, PixelColor c, Plotter gridplotter)
 		{
 			const int mask = 0x55555555; // dotted line mask
-			Vector2D pos = new Vector2D();
 
 		    // Only render grid when not screen-filling
 		    if((size * scale) > 6f)

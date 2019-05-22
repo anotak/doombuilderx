@@ -83,5 +83,21 @@ namespace CodeImp.DoomBuilder.BuilderModes
 		{
 			return (a.tag != b.tag) || (a.type != b.type);
 		}
-	}
+
+        // ano - to make compiler stop warning
+        public override bool Equals(object obj)
+        {
+            if (obj is Association)
+            {
+                return this == (Association)obj;
+            }
+            return base.Equals(obj);
+        }
+        
+        // ano - to make compiler stop warning
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
 }
