@@ -63,11 +63,12 @@ namespace CodeImp.DoomBuilder.Rendering
 		private SizeF size;
 		
 		// This keeps track if changes were made
+        // ano - this is in order to prevent unneeded recalculations
 		private bool updateneeded;
 		private float lasttranslatex = float.MinValue;
-		private float lasttranslatey;
-		private float lastscalex;
-		private float lastscaley;
+		private float lasttranslatey = float.MinValue;
+		private float lastscalex = float.MinValue;
+		private float lastscaley = float.MinValue;
 		
 		// Disposing
 		private bool isdisposed = false;
@@ -162,6 +163,17 @@ namespace CodeImp.DoomBuilder.Rendering
 				   (translatey != lasttranslatey) ||
 				   (scalex != lastscalex) ||
 				   (scaley != lastscaley)) updateneeded = true;
+
+                // ano - these last values were not being set in the old codebase.
+                // i'm adding the check in but i'm a bit worried this will break
+                // something unforeseen. testing has revealed nothing so far
+                //
+                // the next time someone comes back to this part of the code with a bug
+                // though they should consider these 4 lines
+                lasttranslatex = translatex;
+                lasttranslatey = translatey;
+                lastscalex = scalex;
+                lastscaley = scaley;
 			}
 			
 			// Update if needed
