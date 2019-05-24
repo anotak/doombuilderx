@@ -105,6 +105,9 @@ namespace CodeImp.DoomBuilder.Data
         
         public override void EndLoading()
         {
+            // keep from holding lock over pk3 forever
+            bathmode = false;
+
             UpdateArchive(false);
             base.EndLoading();
         }
