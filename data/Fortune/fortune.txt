@@ -312,17 +312,17 @@ Learning From The Masters: Level Design In The Legend Of Zelda
 %%
 "If possible, build your level with a 'gimmick' in mind--some tricky gamism bit that players will remember."
 
-- Paul Jaquays (edited by Marc Saltzman),
+- Jennell Jaquays (edited by Marc Saltzman),
 Secrets of the Sages: Level Design
 %%
 "Test gimmicks of gameplay, tricks, and traps in test levels before building them into your game level."
 
-- Paul Jaquays (edited by Marc Saltzman),
+- Jennell Jaquays (edited by Marc Saltzman),
 Secrets of the Sages: Level Design
 %%
 "Small maps can be relatively similar throughout. Large maps should have distinctive, memorable locations that the player can use to orient himself in the map."
 
-- Paul Jaquays (edited by Marc Saltzman),
+- Jennell Jaquays (edited by Marc Saltzman),
 Secrets of the Sages: Level Design
 %%
 "Everything in the level should somehow contribute to that goal--even detours, diversions, and distractions should figure into the overall scheme, thematically."
