@@ -16,14 +16,14 @@ SlimDX - The SlimDX website is down permanently, but the 32-bit SlimDX runtime i
 
 ### Supported systems
 
-DBX runs is 32-bit, and supports Windows XP or newer. The hardware requirements are lower than that of Doom Builder 2, if you are familiar with that.
+DBX is 32-bit, and supports Windows XP or newer. The hardware requirements are lower than that of Doom Builder 2, if you are familiar with that.
 
 We do not currently directly support Linux or Mac, but ideally I'd like to do so eventually. The way SlimDX was used in DB2 makes that project very difficult, unfortunately. Although, [some people have found a workaround with WINE that may work on some systems](https://www.doomworld.com/forum/topic/106271-gzdoombuilder-wine-tutorial/). Several well-known mappers use a Windows XP VM to run DBX on Linux or Mac as well.
 
 ### Compiling
 
-Nuget in Visual Studio should handle getting SlimDX, SharpCompress, and Moonsharp. You need to install the SlimDX runtime in the Setup folder as well, as mentioned above.
-The RejectEditor and VisplaneExplorer projects should not be built. They were broken when I first got them from the Doom Builder 2 SVN and I have not had time to determine the cause.
+Nuget in Visual Studio should handle getting SlimDX, SharpCompress, and Moonsharp. You need to install the SlimDX runtime in the Setup folder as well, which is present in the Data/Setup/ folder.  
+The RejectEditor and VisplaneExplorer projects should not be built. They were broken when I first got them from the Doom Builder 2 SVN and I have not had time to determine the cause.  
 The Builder40 project is the same as the Builder project, just on .NET 4.0. Builder is what I release, but sometimes Builder40 is useful, as Visual Studio's debugging and profiling tools support .NET 4.0 much better. However, compiling Builder40 is completely optional.
 
 ## Authors
