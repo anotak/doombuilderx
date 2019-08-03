@@ -4,14 +4,27 @@ Doom Builder X is a Doom 2 map editor. Doom Builder X is a fork of CodeImp's [Do
 
 See the [releases](https://github.com/anotak/doombuilderx/releases) page for downloads.
 
-### Prerequisites
+### Prerequisites for running
 
 if you already have DB2 or GZDB working, you already have these:
 
-
-[.NET 3.5](https://www.microsoft.com/en-us/download/details.aspx?id=21)
+[.NET 3.5](https://www.microsoft.com/en-us/download/details.aspx?id=21) - (You should have this already if you have Windows 7 or newer)
 and
-[DirectX 9.0c Runtime](https://www.microsoft.com/en-us/download/details.aspx?id=35) (This is not included in DirectX10 or 11)
+[DirectX 9.0c Runtime](https://www.microsoft.com/en-us/download/details.aspx?id=35) - (This is not included in DirectX10 or 11)
+and
+SlimDX - The SlimDX website is down permanently, but the 32-bit SlimDX runtime installer (slimdx.msi) is present in the Setup folder.
+
+### Supported systems
+
+DBX runs is 32-bit, and supports Windows XP or newer. The hardware requirements are lower than that of Doom Builder 2, if you are familiar with that.
+
+We do not currently directly support Linux or Mac, but ideally I'd like to do so eventually. The way SlimDX was used in DB2 makes that project very difficult, unfortunately. Although, [some people have found a workaround with WINE that may work on some systems](https://www.doomworld.com/forum/topic/106271-gzdoombuilder-wine-tutorial/). Several well-known mappers use a Windows XP VM to run DBX on Linux or Mac as well.
+
+### Compiling
+
+Nuget in Visual Studio should handle getting SlimDX, SharpCompress, and Moonsharp. You need to install the SlimDX runtime in the Setup folder as well, as mentioned above.
+The RejectEditor and VisplaneExplorer projects should not be built. They were broken when I first got them from the Doom Builder 2 SVN and I have not had time to determine the cause.
+The Builder40 project is the same as the Builder project, just on .NET 4.0. Builder is what I release, but sometimes Builder40 is useful, as Visual Studio's debugging and profiling tools support .NET 4.0 much better. However, compiling Builder40 is completely optional.
 
 ## Authors
 
