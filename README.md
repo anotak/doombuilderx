@@ -8,11 +8,11 @@ See the [releases](https://github.com/anotak/doombuilderx/releases) page for dow
 
 if you already have DB2 or GZDB working, you already have these:
 
-[.NET 3.5](https://www.microsoft.com/en-us/download/details.aspx?id=21) - (You should have this already if you have Windows 7 or newer)
-and
+[.NET 3.5](https://www.microsoft.com/en-us/download/details.aspx?id=21) - (You should have this already if you have Windows 7 or newer)  
+and  
 [DirectX 9.0c Runtime](https://www.microsoft.com/en-us/download/details.aspx?id=35) - (This is not included in DirectX10 or 11)
-and
-SlimDX - The SlimDX website is down permanently, but the 32-bit SlimDX runtime installer (slimdx.msi) is present in the Setup folder.
+and  
+SlimDX - The SlimDX website is down permanently, but the 32-bit SlimDX runtime installer (slimdx.msi) is present in the Setup folder.  
 
 ### Supported systems
 
