@@ -69,160 +69,244 @@ namespace CodeImp.DoomBuilder.Windows
 			datalocations.EditResourceLocationList(options.Resources);
 		}
 
-		// This loads the settings and attempt to find a suitable config
-		private void LoadSettings()
-		{
-			string dbsfile;
-			string gameconfig;
-			int index;
-			
-			// Busy
-			Cursor.Current = Cursors.WaitCursor;
+        // This loads the settings and attempt to find a suitable config
+        private void LoadSettings()
+        {
+            string dbsfile;
+            string gameconfig;
+            int index;
 
-			// Check if the file exists
-			if(!File.Exists(filepathname))
-			{
-				// WAD file does not exist
-				MessageBox.Show(this, "Could not open the WAD file: The file does not exist.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-				this.DialogResult = DialogResult.Cancel;
-				this.Close();
-				return;
-			}
-			
-			try
-			{
-				// Open the WAD file
-				wadfile = new WAD(filepathname, true);
-			}
-			catch(Exception)
-			{
-				// Unable to open WAD file (or its config)
-				MessageBox.Show(this, "Could not open the WAD file for reading. Please make sure the file you selected is valid and is not in use by any other application.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-				if(wadfile != null) wadfile.Dispose();
-				this.DialogResult = DialogResult.Cancel;
-				this.Close();
-				return;
-			}
+            // Busy
+            Cursor.Current = Cursors.WaitCursor;
 
-			// Open the Map Settings configuration
-			dbsfile = filepathname.Substring(0, filepathname.Length - 4) + ".dbs";
-			if(File.Exists(dbsfile))
-				try { mapsettings = new Configuration(dbsfile, true); }
-				catch(Exception) { mapsettings = new Configuration(true); }
-			else
-				mapsettings = new Configuration(true);
-			
-			// Check strict patches box
-			if(options != null)
-				strictpatches.Checked = options.StrictPatches;
-			else
-				strictpatches.Checked = mapsettings.ReadSetting("strictpatches", false);
-			
-			// Check what game configuration is preferred
-			if(options != null)
-				gameconfig = options.ConfigFile;
-			else
-				gameconfig = mapsettings.ReadSetting("gameconfig", "");
-
-            // ano - try to default to last used if we've got nothing
-            if (string.IsNullOrEmpty(gameconfig))
+            // Check if the file exists
+            if (!File.Exists(filepathname))
             {
-                gameconfig = General.Settings.ReadSetting("lastopenedgameconfig", "EE_DoomUDMF.cfg");
+                // WAD file does not exist
+                MessageBox.Show(this, "Could not open the WAD file: The file does not exist.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.DialogResult = DialogResult.Cancel;
+                this.Close();
+                return;
             }
 
-			// Go for all configurations
-			for(int i = 0; i < General.Configs.Count; i++)
-			{
-				// Add config name to list
-				index = config.Items.Add(General.Configs[i]);
+            try
+            {
+                // Open the WAD file
+                wadfile = new WAD(filepathname, true);
+            }
+            catch (Exception)
+            {
+                // Unable to open WAD file (or its config)
+                MessageBox.Show(this, "Could not open the WAD file for reading. Please make sure the file you selected is valid and is not in use by any other application.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (wadfile != null) wadfile.Dispose();
+                this.DialogResult = DialogResult.Cancel;
+                this.Close();
+                return;
+            }
 
-				// This is the preferred game configuration?
-				if(General.Configs[i].Filename == gameconfig)
-				{
-					// Select this item
-					config.SelectedIndex = index;
-				}
-			}
+            // Open the Map Settings configuration
+            dbsfile = filepathname.Substring(0, filepathname.Length - 4) + ".dbs";
+            if (File.Exists(dbsfile))
+                try { mapsettings = new Configuration(dbsfile, true); }
+                catch (Exception) { mapsettings = new Configuration(true); }
+            else
+                mapsettings = new Configuration(true);
 
-			// Still no configuration selected?
-			if(config.SelectedIndex == -1)
-			{
-				// Then go for all configurations to find a suitable one
-				for(int i = 0; i < General.Configs.Count; i++)
-				{
-					// Check if a resource location is set for this configuration
-					if(General.Configs[i].Resources.Count > 0)
-					{
-						// Match the wad against this configuration
-						if(MatchConfiguration(General.Configs[i].Filename, wadfile))
-						{
-							// Select this item
-							config.SelectedIndex = i;
-							break;
-						}
-					}
-				}
-			}
-			
-			// Done
-			Cursor.Current = Cursors.Default;
-		}
-		
-		// This matches a WAD file with the specified game configuration
-		// by checking if the specific lumps are detected
-		private bool MatchConfiguration(string configfile, WAD wadfile)
-		{
-			Configuration cfg;
-			IDictionary detectlumps;
-			Lump lumpresult;
-			bool result = false;
-			
-			// Load the configuration
-			cfg = General.LoadGameConfiguration(configfile);
+            // Check strict patches box
+            if (options != null)
+                strictpatches.Checked = options.StrictPatches;
+            else
+                strictpatches.Checked = mapsettings.ReadSetting("strictpatches", false);
 
-			// Get the lumps to detect
-			detectlumps = cfg.ReadSetting("gamedetect", new Hashtable());
 
-			// Go for all the lumps
-			foreach(DictionaryEntry lmp in detectlumps)
-			{
-				// Setting not broken?
-				if((lmp.Value is int) && (lmp.Key is string))
-				{
-					// Find the lump in the WAD file
-					lumpresult = wadfile.FindLump((string)lmp.Key);
-					
-					// If one of these lumps must exist, and it is found
-					if(((int)lmp.Value == 1) && (lumpresult != null))
-					{
-						// Good result.
-						result = true;
-					}
-					// If this lumps may not exist, and it is found
-					else if(((int)lmp.Value == 2) && (lumpresult != null))
-					{
-						// Bad result.
-						result = false;
-						break;
-					}
-					// If this lumps must exist, and is found
-					else if(((int)lmp.Value == 3) && (lumpresult != null))
-					{
-						// Good result.
-						result = true;
-					}
-					// If this lumps must exist, and it is missing
-					else if(((int)lmp.Value == 3) && (lumpresult == null))
-					{
-						// Bad result.
-						result = false;
-						break;
-					}
-				}
-			}
 
-			// Return result
-			return result;
+
+            // Check what game configuration is preferred
+            if (options != null)
+                gameconfig = options.ConfigFile;
+            else
+                gameconfig = mapsettings.ReadSetting("gameconfig", "");
+
+
+            int best_index = -1;
+            for (int i = 0; i < General.Configs.Count; i++)
+            {
+                // Add config name to list
+                index = config.Items.Add(General.Configs[i]);
+
+                // This is the preferred game configuration?
+                if (General.Configs[i].Filename == gameconfig)
+                {
+                    best_index = i;
+                }
+            }
+
+
+            if (best_index >= 0 && MatchConfiguration(General.Configs[best_index], wadfile) <= -80)
+            {
+                best_index = -1;
+            }
+
+            if (best_index < 0)
+            {
+                // ano - try to default to last used if we've got nothing
+                if (string.IsNullOrEmpty(gameconfig))
+                {
+                    gameconfig = General.Settings.ReadSetting("lastopenedgameconfig", "EE_DoomUDMF.cfg");
+                }
+
+                for (int i = 0; i < General.Configs.Count; i++)
+                {
+                    if (General.Configs[i].Filename == gameconfig)
+                    {
+                        best_index = i;
+                    }
+                }
+
+                if (best_index >= 0 && MatchConfiguration(General.Configs[best_index], wadfile) <= -20)
+                {
+                    best_index = -1;
+                }
+            }
+
+            if(best_index < 0)
+            {
+                int best_score = int.MinValue;
+
+                for (int i = 0; i < General.Configs.Count; i++)
+                {
+                    // Match the wad against this configuration
+                    int new_score = MatchConfiguration(General.Configs[i], wadfile);
+
+                    if (new_score > best_score)
+                    {
+                        best_index = i;
+                        best_score = new_score;
+                    }
+                }
+            }
+
+            if (best_index >= 0)
+            {
+                config.SelectedIndex = best_index;
+            }
+
+            // Done
+            Cursor.Current = Cursors.Default;
+        }
+
+
+        // This matches a WAD file with the specified game configuration
+        // by checking if the specific lumps are detected
+        // ano - updated to assign a score. the highest matching config should be used
+        private int MatchConfiguration(ConfigurationInfo configinfo, WAD wadfile)
+        {
+            string configfile = configinfo.Filename;
+            int score = 0;
+
+            // prefer configs that have a location set
+            if (configinfo.Resources.Count <= 0)
+            {
+                score -= 2;
+            }
+
+            // prefer configs that have a port of choice set
+            if (string.IsNullOrEmpty(configinfo.TestProgram))
+            {
+                score -= 1;
+            }
+
+            Configuration cfg = General.LoadGameConfiguration(configfile);
+
+            // Get the map lump names
+            IDictionary maplumpnames = cfg.ReadSetting("maplumpnames", new Hashtable());
+
+            HashSet<string> required_map_lump_names = new HashSet<string>();
+
+            int map_lumps_required = 0;
+            // Count how many required lumps we have to find
+            foreach (DictionaryEntry ml in maplumpnames)
+            {
+                string name = ml.Key.ToString();
+                // Ignore the map header (it will not be found because the name is different)
+                if (name != MapManager.CONFIG_MAP_HEADER && ml.Value is IDictionary)
+                {
+                    // Read lump setting and count it
+                    //if (cfg.ReadSetting("maplumpnames." + name + ".required", false))
+                    // ano - for the love of god why isnt any of this typed properly
+                    IDictionary hml = (IDictionary)ml.Value;
+
+                    if (hml.Contains("required"))
+                    {
+                        if (Convert.ToBoolean(hml["required"]))
+                        {
+                            required_map_lump_names.Add(name.ToString());
+                            map_lumps_required++;
+                        }
+                    }
+                }
+            }
+
+            // Get the lumps to detect just for game
+            IDictionary detectlumps = cfg.ReadSetting("gamedetect", new Hashtable());
+
+            HashSet<string> found_lumps = new HashSet<string>();
+            bool b_found_map = false;
+            int lump_count = wadfile.Lumps.Count;
+            int map_lumps_found = 0;
+            for (int lump_index = 0; lump_index < lump_count; lump_index++)
+            {
+                string lumpname = wadfile.Lumps[lump_index].Name;
+
+                if (detectlumps.Contains(lumpname))
+                {
+                    found_lumps.Add(lumpname);
+                }
+
+                if (!b_found_map)
+                {
+                    if (maplumpnames.Contains(lumpname))
+                    {
+                        if (required_map_lump_names.Contains(lumpname))
+                        {
+                            map_lumps_found++;
+
+                            if (map_lumps_found >= map_lumps_required)
+                                b_found_map = true;
+                        }
+                    }
+                    else
+                    {
+                        map_lumps_found = 0;
+                    }
+                }
+            }
+
+            if (!b_found_map)
+            {
+                score -= 100;
+            }
+
+            foreach (DictionaryEntry lmp in detectlumps)
+            {
+                // Setting not broken?
+                if ((lmp.Value is int) && (lmp.Key is string))
+                {
+                    // ano - lmp.Value == 1 and 3 are ones we want
+                    // If this lumps may not exist, and it is found
+                    if ((int)lmp.Value == 2 && found_lumps.Contains((string)lmp.Key))
+                    {
+                        score -= 3;
+                    }
+                    // If this lumps must exist, and it is missing
+                    else if (((int)lmp.Value == 3) && !found_lumps.Contains((string)lmp.Key))
+                    {
+                        score -= 7;
+                    }
+                }
+            }
+
+            return score;
 		}
 
 		// Configuration is selected
