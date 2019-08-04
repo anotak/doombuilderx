@@ -67,6 +67,7 @@ namespace CodeImp.DoomBuilder.Map
 		internal DataLocationList Resources { get { return resources; } }
 		internal bool StrictPatches { get { return strictpatches; } set { strictpatches = value; } }
 		internal List<string> ScriptFiles { get { return scriptfiles; } set { scriptfiles = value; } }
+        // ano - be aware, this PreviousName value determines how Save Map Into behavior works
 		internal string PreviousName { get { return previousname; } set { previousname = value; } }
 		internal string CurrentName
 		{

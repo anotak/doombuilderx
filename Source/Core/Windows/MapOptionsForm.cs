@@ -88,7 +88,7 @@ namespace CodeImp.DoomBuilder.Windows
             }
             else
             {
-                options.CurrentName = "MAP01";
+                levelname.Text = "MAP01";
             }
 
 			// Set strict patches loading
