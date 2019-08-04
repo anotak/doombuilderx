@@ -150,6 +150,21 @@ namespace CodeImp.DoomBuilder.DBXLua
                     General.WriteLogLine(e.DecoratedMessage);
                     return false;
                 }
+                catch (IndexOutOfRangeException e)
+                {
+                    // ano - this is the worst hack in the universe to address
+                    // https://github.com/xanathar/moonsharp/issues/221 this still-open problem
+                    if (e.Source == "MoonSharp.Interpreter")
+                    {
+                        errorText = "There was an error in the Lua interpreter.\n";
+                        errorText += "The most common reason for this is if the stack overflowed. ";
+                        errorText += "This can happen if you call a function from itself infinitely, for example.\n";
+                        errorText += "Apologies that we are unable to give more detailed information. ";
+                        return false;
+                    } else {
+                        throw;
+                    }
+                }
             }
             catch (IOException e)
             {
