@@ -399,6 +399,8 @@ namespace CodeImp.DoomBuilder.DBXLua
         // This is called when the plugin is terminated
         public override void Dispose()
         {
+            folder_menu.Dispose();
+            menu.Dispose();
             base.Dispose();
         }
 

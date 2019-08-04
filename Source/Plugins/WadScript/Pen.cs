@@ -36,7 +36,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             position = newpos;
             drawnVertices = new List<PenVertex>();
-            snaptogrid = true;
+            snaptogrid = false;
             stitchrange = 20f;
         }
 
