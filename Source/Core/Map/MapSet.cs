@@ -2676,151 +2676,165 @@ namespace CodeImp.DoomBuilder.Map
         /// will be added to changedlines. Returns false when the operation failed.</summary>
         public static bool SplitLinesByVertices(List<Linedef> lines, List<Vertex> verts, List<Linedef> changedlines)
         {
-            float splitdist2 = General.Map.FormatInterface.StitchDistance * General.Map.FormatInterface.StitchDistance;
-
             if (lines == null || verts == null)
             {
                 throw new Exception("Error, missing data structure for SplitLinesByVertices");
             }
 
-            bool splitsDone = true;
-            while (splitsDone)
+
+            // ano - we're sorting the vertices left to right
+            // so that we can use that assumption to limit the
+            // number of vertices we have to check intersections
+            // TODO - ano - split this out into separate method?
+            verts.Sort(delegate (Vertex a, Vertex b)
             {
-                splitsDone = false;
-
-                // ano - we're sorting the vertices left to right
-                // so that we can use that assumption to limit the
-                // number of vertices we have to check intersections
-                // TODO - ano - split this out into separate method?
-                verts.Sort(delegate (Vertex a, Vertex b)
+                if (a.Position.x > b.Position.x)
                 {
-                    if (a.Position.x > b.Position.x)
-                    {
-                        return 1;
-                    }
-                    else if (a.Position.x == b.Position.x)
-                    {
-                        return 0;
-                    }
-                    return -1;
-                });
-
-                int line_count = lines.Count;
-                int vert_count = verts.Count;
-
-                for (int line_index = 0; line_index < line_count; line_index++)
+                    return 1;
+                }
+                else if (a.Position.x == b.Position.x)
                 {
-                    Linedef l = lines[line_index];
-                    // ano - the left and right bounds of our line
-                    // used to limit the set of vertices
-                    float leftx = l.Start.Position.x;
-                    float rightx = l.End.Position.x;
+                    return 0;
+                }
+                return -1;
+            });
 
-                    if (rightx < leftx)
-                    {
-                        float temp = leftx;
-                        leftx = rightx;
-                        rightx = temp;
-                    }
-
-                    // ano - we need to account for floating point imprecision
-                    leftx -= General.Map.FormatInterface.StitchDistance;
-                    rightx += General.Map.FormatInterface.StitchDistance;
-
-                    // ano - the range of vertices to check
-                    int vert_index;
-                    int vert_max;
-
-                    { // ano - binary search list of verts for place to start vert_index
-                        int lower = 0;
-                        int upper = vert_count;
-
-                        while (upper - lower > 1)
-                        {
-                            int m = (upper + lower) / 2;
-                            float px = verts[m].Position.x;
-
-                            if (px < leftx)
-                            {
-                                lower = m;
-                            }
-                            else
-                            {
-                                upper = m;
-                            }
-                        }
-
-                        vert_index = lower;
-                        upper = vert_count;
-
-                        // ano - now do vert_max
-                        while (upper - lower > 1)
-                        {
-                            int m = (upper + lower) / 2;
-                            float px = verts[m].Position.x;
-
-                            if (px <= rightx)
-                            {
-                                lower = m;
-                            }
-                            else
-                            {
-                                upper = m;
-                            }
-                        }
-                        vert_max = upper;
-                    } // ano - end binary search
-
-
-                    for (; vert_index < vert_max; vert_index++)
-                    {
-                        Vertex v = verts[vert_index];
-
-                        // Check if v is close enough to l for splitting
-                        if (l.DistanceToSq(v.Position, true) <= splitdist2)
-                        {
-                            // Line is not already referencing v?
-                            Vector2D deltastart = l.Start.Position - v.Position;
-                            Vector2D deltaend = l.End.Position - v.Position;
-                            if (
-                                ((Math.Abs(deltastart.x) > 0.001f)
-                                   || (Math.Abs(deltastart.y) > 0.001f))
-                                &&
-                                ((Math.Abs(deltaend.x) > 0.001f)
-                                   || (Math.Abs(deltaend.y) > 0.001f))
-                               )
-                            {
-                                // Split line l with vertex v
-                                Linedef nl = l.Split(v);
-                                if (nl == null) return false;
-
-                                // Add the new line to the list
-                                lines.Add(nl);
-
-                                // Both lines must be updated because their new length
-                                // is relevant for next iterations!
-                                l.UpdateCache();
-                                nl.UpdateCache();
-
-                                // Add both lines to changedlines
-                                if (changedlines != null)
-                                {
-                                    changedlines.Add(l);
-                                    changedlines.Add(nl);
-                                }
-
-                                // keep going
-                                splitsDone = true;
-                                line_index--;
-                                line_count++;
-                                break; // need to break the vert for loop
-                            } // if not referencing
-                        } // if close enough
-                    } // for verts
-                    
-                } // for lines
+            bool bSplitsDone = SplitLinesByVerticesOnce(lines,verts,changedlines);
+            while (bSplitsDone)
+            {
+                bSplitsDone = SplitLinesByVerticesOnce(lines, verts, changedlines);
             } // while(splitsDone)
             return true;
+        }
+
+        // ano - One iteration for SplitLinesByVertices
+        // this assumes vertices are sorted
+        private static bool SplitLinesByVerticesOnce(List<Linedef> lines, List<Vertex> verts, List<Linedef> changedlines)
+        {
+            bool bSplitsDone = false;
+
+            float stitch_dist = General.Map.FormatInterface.StitchDistance;
+            float splitdist2 = General.Map.FormatInterface.StitchDistance * General.Map.FormatInterface.StitchDistance;
+
+            int line_count = lines.Count;
+            int vert_count = verts.Count;
+
+            for (int line_index = 0; line_index < line_count; line_index++)
+            {
+                Linedef l = lines[line_index];
+
+                // ano - the left and right bounds of our line
+                // used to limit the set of vertices
+                float leftx = l.Start.Position.x;
+                float rightx = l.End.Position.x;
+
+                if (rightx < leftx)
+                {
+                    float temp = leftx;
+                    leftx = rightx;
+                    rightx = temp;
+                }
+
+                // ano - we need to account for floating point imprecision
+                leftx -= General.Map.FormatInterface.StitchDistance;
+                rightx += General.Map.FormatInterface.StitchDistance;
+
+                // ano - the range of vertices to check
+                int vert_index;
+                int vert_max;
+
+                { // ano - binary search list of verts for place to start vert_index
+                    int lower = 0;
+                    int upper = vert_count;
+
+                    while (upper - lower > 1)
+                    {
+                        int m = (upper + lower) / 2;
+                        float px = verts[m].Position.x;
+
+                        if (px < leftx)
+                        {
+                            lower = m;
+                        }
+                        else
+                        {
+                            upper = m;
+                        }
+                    }
+
+                    vert_index = lower;
+                    upper = vert_count;
+
+                    // ano - now do vert_max
+                    while (upper - lower > 1)
+                    {
+                        int m = (upper + lower) / 2;
+                        float px = verts[m].Position.x;
+
+                        if (px <= rightx)
+                        {
+                            lower = m;
+                        }
+                        else
+                        {
+                            upper = m;
+                        }
+                    }
+                    vert_max = upper;
+                } // ano - end binary search
+
+
+                for (; vert_index < vert_max; vert_index++)
+                {
+                    Vertex v = verts[vert_index];
+
+                    // Check if v is close enough to l for splitting
+                    if (l.DistanceToSq(v.Position, true) <= splitdist2)
+                    {
+                        // ano - let's make sure the line isn't already referencing a vertex real close
+                        // to this one.
+                        Vector2D deltastart = l.Start.Position - v.Position;
+                        Vector2D deltaend = l.End.Position - v.Position;
+
+                        if (
+                            ((Math.Abs(deltastart.x) > stitch_dist)
+                               || (Math.Abs(deltastart.y) > stitch_dist))
+                            &&
+                            ((Math.Abs(deltaend.x) > stitch_dist)
+                               || (Math.Abs(deltaend.y) > stitch_dist))
+                           )
+                        {
+                            // Split line l with vertex v
+                            Linedef nl = l.Split(v);
+                            if (nl == null) return false;
+
+                            // Add the new line to the list
+                            lines.Add(nl);
+
+                            // Both lines must be updated because their new length
+                            // is relevant for next iterations!
+                            l.UpdateCache();
+                            nl.UpdateCache();
+
+                            // Add both lines to changedlines
+                            if (changedlines != null)
+                            {
+                                changedlines.Add(l);
+                                changedlines.Add(nl);
+                            }
+
+                            // keep going
+                            bSplitsDone = true;
+                            line_index--;
+                            line_count++;
+                            break; // need to break the vert for loop
+                        } // if not referencing
+                    } // if close enough
+                } // for verts
+
+            } // for lines
+
+            return bSplitsDone;
         }
 
         /// <summary>This finds the side closest to the specified position.</summary>
