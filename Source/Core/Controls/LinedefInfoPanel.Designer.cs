@@ -468,8 +468,8 @@ namespace CodeImp.DoomBuilder.Controls
             // 
             // frontpanel
             // 
-            this.frontpanel.Controls.Add(this.frontlowtex);
             this.frontpanel.Controls.Add(this.frontsector);
+            this.frontpanel.Controls.Add(this.frontlowtex);
             this.frontpanel.Controls.Add(this.frontlowname);
             this.frontpanel.Controls.Add(this.frontmidtex);
             this.frontpanel.Controls.Add(this.fronthighname);
@@ -490,7 +490,7 @@ namespace CodeImp.DoomBuilder.Controls
             this.frontlowtex.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.frontlowtex.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.frontlowtex.Location = new System.Drawing.Point(221, 14);
-            this.frontlowtex.Margin = new System.Windows.Forms.Padding(4);
+            this.frontlowtex.Margin = new System.Windows.Forms.Padding(0);
             this.frontlowtex.Name = "frontlowtex";
             this.frontlowtex.Size = new System.Drawing.Size(84, 74);
             this.frontlowtex.TabIndex = 4;
@@ -498,10 +498,10 @@ namespace CodeImp.DoomBuilder.Controls
             // frontsector
             // 
             this.frontsector.BackColor = System.Drawing.SystemColors.Control;
-            this.frontsector.Location = new System.Drawing.Point(232, 0);
-            this.frontsector.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.frontsector.Location = new System.Drawing.Point(192, -4);
+            this.frontsector.Margin = new System.Windows.Forms.Padding(0);
             this.frontsector.Name = "frontsector";
-            this.frontsector.Size = new System.Drawing.Size(77, 16);
+            this.frontsector.Size = new System.Drawing.Size(97, 20);
             this.frontsector.TabIndex = 6;
             this.frontsector.Text = "Sector 666";
             // 
@@ -525,7 +525,7 @@ namespace CodeImp.DoomBuilder.Controls
             this.frontmidtex.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.frontmidtex.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.frontmidtex.Location = new System.Drawing.Point(119, 14);
-            this.frontmidtex.Margin = new System.Windows.Forms.Padding(4);
+            this.frontmidtex.Margin = new System.Windows.Forms.Padding(0);
             this.frontmidtex.Name = "frontmidtex";
             this.frontmidtex.Size = new System.Drawing.Size(84, 74);
             this.frontmidtex.TabIndex = 2;
@@ -550,7 +550,7 @@ namespace CodeImp.DoomBuilder.Controls
             this.fronthightex.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.fronthightex.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.fronthightex.Location = new System.Drawing.Point(16, 14);
-            this.fronthightex.Margin = new System.Windows.Forms.Padding(4);
+            this.fronthightex.Margin = new System.Windows.Forms.Padding(0);
             this.fronthightex.Name = "fronthightex";
             this.fronthightex.Size = new System.Drawing.Size(84, 74);
             this.fronthightex.TabIndex = 0;
@@ -593,7 +593,7 @@ namespace CodeImp.DoomBuilder.Controls
             this.backlowtex.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.backlowtex.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.backlowtex.Location = new System.Drawing.Point(221, 14);
-            this.backlowtex.Margin = new System.Windows.Forms.Padding(4);
+            this.backlowtex.Margin = new System.Windows.Forms.Padding(0);
             this.backlowtex.Name = "backlowtex";
             this.backlowtex.Size = new System.Drawing.Size(84, 74);
             this.backlowtex.TabIndex = 4;
@@ -601,10 +601,10 @@ namespace CodeImp.DoomBuilder.Controls
             // backsector
             // 
             this.backsector.BackColor = System.Drawing.SystemColors.Control;
-            this.backsector.Location = new System.Drawing.Point(232, 0);
+            this.backsector.Location = new System.Drawing.Point(192, -4);
             this.backsector.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.backsector.Name = "backsector";
-            this.backsector.Size = new System.Drawing.Size(77, 16);
+            this.backsector.Size = new System.Drawing.Size(97, 20);
             this.backsector.TabIndex = 7;
             this.backsector.Text = "Sector 666";
             // 
@@ -642,7 +642,7 @@ namespace CodeImp.DoomBuilder.Controls
             this.backmidtex.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.backmidtex.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.backmidtex.Location = new System.Drawing.Point(119, 14);
-            this.backmidtex.Margin = new System.Windows.Forms.Padding(4);
+            this.backmidtex.Margin = new System.Windows.Forms.Padding(0);
             this.backmidtex.Name = "backmidtex";
             this.backmidtex.Size = new System.Drawing.Size(84, 74);
             this.backmidtex.TabIndex = 2;
@@ -667,7 +667,7 @@ namespace CodeImp.DoomBuilder.Controls
             this.backhightex.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.backhightex.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.backhightex.Location = new System.Drawing.Point(16, 14);
-            this.backhightex.Margin = new System.Windows.Forms.Padding(4);
+            this.backhightex.Margin = new System.Windows.Forms.Padding(0);
             this.backhightex.Name = "backhightex";
             this.backhightex.Size = new System.Drawing.Size(84, 74);
             this.backhightex.TabIndex = 0;
@@ -693,7 +693,9 @@ namespace CodeImp.DoomBuilder.Controls
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.frontpanel.ResumeLayout(false);
+            this.frontpanel.PerformLayout();
             this.backpanel.ResumeLayout(false);
+            this.backpanel.PerformLayout();
             this.ResumeLayout(false);
 
 		}
