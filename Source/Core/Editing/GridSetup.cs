@@ -343,13 +343,31 @@ namespace CodeImp.DoomBuilder.Editing
 	    [BeginAction("aligngridtolinedef")]
 	    protected void AlignGridToLinedef()
 	    {
-	        if (General.Map.Map.SelectedLinedefsCount != 1)
+            // ano - really hate that im having to do this hacky crap
+            // where i read from the plugin's settings but there is no
+            // reasonable way to do this without a serious rewrite
+            float highlightrange = General.Settings.ReadSetting("plugins.buildermodes.highlightrange", 20.0f);
+            Linedef line = null;
+
+            if(General.Editing.Mode is ClassicMode)
+            {
+                Vector2D mousemappos = ((ClassicMode)General.Editing.Mode).MouseMapPos;
+                line = General.Map.Map.NearestLinedefRange(mousemappos, highlightrange / General.Map.Renderer2D.Scale);
+            }
+
+	        if(line == null && General.Map.Map.SelectedLinedefsCount == 1)
 	        {
-	            General.Interface.DisplayStatus(StatusType.Warning, "Exactly one linedef must be selected");
-	            General.Interface.MessageBeep(MessageBeepType.Warning);
-	            return;
-	        }
-	        Linedef line = General.Map.Map.SelectedLinedefs.First.Value;
+                line = General.Map.Map.SelectedLinedefs.First.Value;
+            }
+
+
+            if(line == null)
+            {
+                General.Interface.DisplayStatus(StatusType.Warning, "Exactly one linedef must be selected");
+                General.Interface.MessageBeep(MessageBeepType.Warning);
+                return;
+            }
+
 	        Vertex vertex = line.Start;
 	        General.Map.Grid.SetGridRotation(line.Angle);
 	        General.Map.Grid.SetGridOrigin(vertex.Position.x, vertex.Position.y);
@@ -359,13 +377,34 @@ namespace CodeImp.DoomBuilder.Editing
 	    [BeginAction("setgridorigintovertex")]
 	    protected void SetGridOriginToVertex()
 	    {
-	        if (General.Map.Map.SelectedVerticessCount != 1)
+            Vertex vertex = null;
+
+            // ano - again, as mentioned in AlignGridToLinedef, reading the value from
+            // the plugin's settings is hacky but ??? what can we do
+            float highlightrange =
+                General.Settings.ReadSetting("plugins.buildermodes.highlightrange", 20.0f)
+                / General.Map.Renderer2D.Scale;
+
+            highlightrange *= highlightrange;
+
+            if(General.Editing.Mode is ClassicMode)
+            {
+                Vector2D mousemappos = ((ClassicMode)General.Editing.Mode).MouseMapPos;
+                vertex = General.Map.Map.NearestVertexSquareRange(mousemappos, highlightrange );
+            }
+
+            if(vertex == null && General.Map.Map.SelectedVerticessCount == 1)
+            {
+                vertex = General.Map.Map.SelectedVertices.First.Value;
+            }
+
+            if(vertex == null)
 	        {
 	            General.Interface.DisplayStatus(StatusType.Warning, "Exactly one vertex must be selected");
 	            General.Interface.MessageBeep(MessageBeepType.Warning);
 	            return;
 	        }
-	        Vertex vertex = General.Map.Map.SelectedVertices.First.Value;
+
 	        General.Map.Grid.SetGridOrigin(vertex.Position.x, vertex.Position.y);
 	        General.MainWindow.RedrawDisplay();
 	    }
