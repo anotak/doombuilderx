@@ -885,3 +885,39 @@ Dragonfly's Doomworks
 
 - Sparktimus,
 in Doomworld thread "How to Deal with Mapping Sadness"
+%%
+"A LINE can either be a solid wall or a portal between two SECTORs. The difference is in the number of SIDEDEFs associated with it. A wall has only one SIDEDEF on its right side and is fully opaque. A portal has two SIDEDEFs and can usually be partially seen though."
+
+- Fabien Sanglard,
+Game Engine Black Book: DOOM
+%%
+"Despite lacking a scripting system, maps still managed to offer a rich experience. They were full of surprises with numerous elements interacting with the player. Switches and tripwire-enabled doors, secret passages, elevators, crushing walls, traps and more."
+
+- Fabien Sanglard,
+Game Engine Black Book: DOOM
+%%
+"It is my belief that a perceptive player of Doom will sense a definite personality difference
+between the levels created by each of the designers."
+
+- Sandy Peterson,
+quoted in Doom Survivor's Strategies and Secrets,
+by Jonathan Mendoza
+%%
+"When I began a level, I thought long and hard about the overall theme of that level – what
+the player was supposed to get from it."
+
+- Sandy Peterson,
+quoted in Doom Survivor's Strategies and Secrets,
+by Jonathan Mendoza
+%%
+"How does the level mesh with the one preceding? The one following?"
+
+- Sandy Peterson,
+quoted in Doom Survivor's Strategies and Secrets,
+by Jonathan Mendoza
+%%
+"Unfortunately, beautifully rendered worlds often begin to look staged. For Doom, we wanted to create a realistic and dark world that looked more dirty than pretty."
+
+- Kevin Cloud,
+quoted in Doom Survivor's Strategies and Secrets,
+by Jonathan Mendoza
