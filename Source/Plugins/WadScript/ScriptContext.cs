@@ -154,6 +154,7 @@ namespace CodeImp.DoomBuilder.DBXLua
                 {
                     // ano - this is the worst hack in the universe to address
                     // https://github.com/xanathar/moonsharp/issues/221 this still-open problem
+                    // basically, moonsharp does not catch stack overflows on its own, just throws an exception
                     if (e.Source == "MoonSharp.Interpreter")
                     {
                         errorText = "There was an error in the Lua interpreter.\n";

@@ -14,11 +14,13 @@ function dragon_curve(pen, r, i, delta_angle, direction)
 	end
 end
 
+local length = 2048
+
 dragon_pen = Pen.FromClick()
 dragon_pen.stitchrange = 30
 dragon_pen.snaptogrid = false
 dragon_pen.TurnRightDegrees(2)
-dragon_curve(dragon_pen, 2048, 10, -45, 1)
+dragon_curve(dragon_pen, length, 10, -45, 1)
 dragon_pen.DrawVertex()
 dragon_pen.FinishPlacingVertices()
 
@@ -26,7 +28,7 @@ dragon_pen = Pen.FromClick()
 dragon_pen.stitchrange = 30
 dragon_pen.snaptogrid = false
 dragon_pen.TurnRightDegrees(94)
-dragon_curve(dragon_pen, 2048, 10, 45, -1)
+dragon_curve(dragon_pen, length, 10, 45, -1)
 dragon_pen.DrawVertex()
 dragon_pen.FinishPlacingVertices()
 
@@ -34,7 +36,7 @@ dragon_pen = Pen.FromClick()
 dragon_pen.stitchrange = 30
 dragon_pen.snaptogrid = false
 dragon_pen.TurnRightDegrees(186)
-dragon_curve(dragon_pen, 2048, 10, -45, 1)
+dragon_curve(dragon_pen, length, 10, -45, 1)
 dragon_pen.DrawVertex()
 dragon_pen.FinishPlacingVertices()
 
@@ -42,6 +44,6 @@ dragon_pen = Pen.FromClick()
 dragon_pen.stitchrange = 30
 dragon_pen.snaptogrid = false
 dragon_pen.TurnRightDegrees(278)
-dragon_curve(dragon_pen, 2048, 10, 45, -1)
+dragon_curve(dragon_pen, length, 10, 45, -1)
 dragon_pen.DrawVertex()
 dragon_pen.FinishPlacingVertices()
