@@ -1,7 +1,7 @@
 DoomBuilder X
 based on code by anotak, CodeImp, MaxED, boris_i, ZZYZX
 =======================================================
-version 2.1.3.12
+version 2019.1
 =====================
 - new Lua plugin (thanks to Ribbiks, Grain of Salt, Printz, MTrop, and Xaser for feedback)
 - All / Textures / Flats / resources categories are on top in the texture browser now. there is an option in preferences to revert to the old behavior: 'Put "All" and resource categories on top in browsers'
@@ -32,6 +32,7 @@ version 2.1.3.12
 - some ui buttons will have the hotkey shown in the tooltip now
 - remember last chosen game config when making a new map
 - added ZDBSP extended nodes config (thanks to Ribbiks)
+- new versioning system. Year.Relase Number, starting at 0. this version would have been 2.1.3.12 under the old system.
 
 version 2.1.3.10
 =====================
