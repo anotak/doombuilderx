@@ -102,7 +102,20 @@ namespace CodeImp.DoomBuilder
 		public MapOptions Options { get { return options; } }
 		public MapSet Map { get { return map; } }
 		public DataManager Data { get { return data; } }
-		public bool IsChanged { get { return changed | CheckScriptChanged(); } set { changed |= value; } }
+		public bool IsChanged {
+            get {
+                return changed | CheckScriptChanged();
+            }
+            set {
+                if (changed == false && value)
+                {
+                    changed |= value;
+                    General.MainWindow.UpdateTitle();
+                }
+
+                changed |= value;
+            }
+        }
 		public bool IsDisposed { get { return isdisposed; } }
 		internal D3DDevice Graphics { get { return graphics; } }
 		public IRenderer2D Renderer2D { get { return renderer2d; } }

@@ -419,21 +419,31 @@ namespace CodeImp.DoomBuilder.Windows
 				dockersspace.Visible = false;
 			}
         }
+
+        internal void UpdateTitle()
+        {
+            // Map opened?
+            if (General.Map != null)
+            {
+                // Show map name and filename in caption
+                string title = General.Map.FileTitle + " (" + General.Map.Options.CurrentName + ") - " + Application.ProductName + Application.ProductVersion;
+
+                if (General.Map.IsChanged)
+                    title = "*" + title;
+
+                this.Text = title;
+            }
+            else
+            {
+                // Show normal caption
+                this.Text = Application.ProductName + Application.ProductVersion;
+            }
+        }
 		
 		// This updates all menus for the current status
 		internal void UpdateInterface()
 		{
-			// Map opened?
-			if(General.Map != null)
-			{
-				// Show map name and filename in caption
-				this.Text = General.Map.FileTitle + " (" + General.Map.Options.CurrentName + ") - " + Application.ProductName + Application.ProductVersion;
-			}
-			else
-			{
-				// Show normal caption
-				this.Text = Application.ProductName + Application.ProductVersion;
-			}
+            UpdateTitle();
 
 			// Update the status bar
 			UpdateStatusbar();
