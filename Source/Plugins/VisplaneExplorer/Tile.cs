@@ -1,12 +1,7 @@
 ﻿#region === Copyright (c) 2010 Pascal van der Heiden ===
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.Globalization;
-using System.Text;
 
 #endregion
 
@@ -17,8 +12,8 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
 	{
 		// Constants
 		public const int TILE_SIZE = 64;
-		public static readonly int[] STATS_COMPRESSOR = new int[] { 1, 2, 1, 160 };
-		public static readonly int[] STATS_LIMITS = new int[] { 128, 256, 32, 320 * 64 };
+		public static readonly int[] STATS_COMPRESSOR = new[] { 1, 2, 1, 160 };
+		public static readonly int[] STATS_LIMITS = new[] { 128, 256, 32, 320 * 64 };
 		public const uint POINT_MAXRANGE = 254;
 		public const uint POINT_OVERFLOW = 0xFEFEFEFE;
 		public const uint POINT_VOID = 0xFFFFFFFF;
@@ -90,7 +85,7 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
 		}
 
 		// This composes point values
-		private uint MakePointValue(uint vp, uint ds, uint ss, uint op)
+		private static uint MakePointValue(uint vp, uint ds, uint ss, uint op)
 		{
 			unchecked
 			{
@@ -112,7 +107,7 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
 		public int GetPointValue(int x, int y, int stat)
 		{
 			byte b = GetPointByte(x, y, stat);
-			return (int)b * STATS_COMPRESSOR[stat];
+			return b * STATS_COMPRESSOR[stat];
 		}
 
 		// This returns the next point to process
@@ -125,7 +120,7 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
 		}
 
 		// Returns a position by index
-		public TilePoint PointByIndex(int index)
+		private static TilePoint PointByIndex(int index)
 		{
 			#if DEBUG
 			if(index > (TILE_SIZE * TILE_SIZE))

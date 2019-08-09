@@ -1,12 +1,8 @@
 ﻿#region === Copyright (c) 2010 Pascal van der Heiden ===
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
-using System.Text;
-using System.ComponentModel;
 using System.Windows.Forms;
 using CodeImp.DoomBuilder.Windows;
 
@@ -14,22 +10,30 @@ using CodeImp.DoomBuilder.Windows;
 
 namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
 {
-	public partial class InterfaceForm : Form
+	public partial class InterfaceForm : DelayedForm
 	{
 		#region ================== Constants
+
+		#endregion
+
+		#region ================== mxd. Event handlers
+
+		public event EventHandler OnOpenDoorsChanged;
 
 		#endregion
 
 		#region ================== Variables
 
 		private ViewStats viewstats;
-		Point oldttposition;
+		private Point oldttposition;
 
 		#endregion
 
 		#region ================== Properties
 
 		internal ViewStats ViewStats { get { return viewstats; } }
+		internal bool OpenDoors { get { return cbopendoors.Checked; } } //mxd
+		internal bool ShowHeatmap { get { return cbheatmap.Checked; } } //mxd
 
 		#endregion
 
@@ -39,6 +43,8 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
 		public InterfaceForm()
 		{
 			InitializeComponent();
+			cbopendoors.Checked = General.Settings.ReadPluginSetting("opendoors", false); //mxd
+			cbheatmap.Checked = General.Settings.ReadPluginSetting("showheatmap", false); //mxd
 		}
 
 		#endregion
@@ -48,13 +54,27 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
 		// This adds the buttons to the toolbar
 		public void AddToInterface()
 		{
-			General.Interface.AddButton(statsbutton, ToolbarSection.Custom);
+			General.Interface.BeginToolbarUpdate(); //mxd
+			General.Interface.AddButton(statsbutton);
+			General.Interface.AddButton(separator); //mxd
+			General.Interface.AddButton(cbopendoors); //mxd
+			General.Interface.AddButton(cbheatmap); //mxd
+			General.Interface.EndToolbarUpdate(); //mxd
 		}
 
 		// This removes the buttons from the toolbar
 		public void RemoveFromInterface()
 		{
+			General.Interface.BeginToolbarUpdate(); //mxd
+			General.Interface.RemoveButton(cbheatmap); //mxd
+			General.Interface.RemoveButton(cbopendoors); //mxd
+			General.Interface.RemoveButton(separator); //mxd
 			General.Interface.RemoveButton(statsbutton);
+			General.Interface.EndToolbarUpdate(); //mxd
+
+			//mxd. Save settings
+			General.Settings.WritePluginSetting("opendoors", cbopendoors.Checked);
+			General.Settings.WritePluginSetting("showheatmap", cbheatmap.Checked);
 		}
 
 		// This shows a tooltip
@@ -64,7 +84,7 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
 			Point fp = (General.Interface as Form).Location;
 			Point tp = new Point(sp.X - fp.X, sp.Y - fp.Y);
 
-			if (oldttposition != tp)
+			if(oldttposition != tp)
 			{
 				tooltip.Show(text, General.Interface, tp);
 				oldttposition = tp;
@@ -93,6 +113,18 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
 			statsbutton.Image = item.Image;
 
 			General.Interface.RedrawDisplay();
+		}
+
+		//mxd
+		private void cbheatmap_Click(object sender, EventArgs e)
+		{
+			General.Interface.RedrawDisplay();
+		}
+
+		//mxd
+		private void cbopendoors_Click(object sender, EventArgs e)
+		{
+			if(OnOpenDoorsChanged != null) OnOpenDoorsChanged(this, EventArgs.Empty);
 		}
 
 		#endregion

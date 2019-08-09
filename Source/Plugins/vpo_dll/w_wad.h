@@ -1,4 +1,3 @@
-// Emacs style mode select   -*- C++ -*- 
 //-----------------------------------------------------------------------------
 //
 // Copyright(C) 1993-1996 Id Software, Inc.
@@ -24,7 +23,6 @@
 //
 //-----------------------------------------------------------------------------
 
-
 #ifndef __W_WAD__
 #define __W_WAD__
 
@@ -46,34 +44,41 @@ typedef struct lumpinfo_s lumpinfo_t;
 
 struct lumpinfo_s
 {
-    char	name[8];
-    wad_file_t *wad_file;
-    int		position;
-    int		size;
-    bool  is_map_header;  // e.g. MAP01 or E1M1
+	char	name[8];
 
-    // Used for hash table lookups
+	int		position;
+	int		size;
 
-    lumpinfo_t *next;
+	bool  is_map_header;  // e.g. MAP01 or E1M1 
+	bool  is_hexen;
 };
 
 
 extern lumpinfo_t *lumpinfo;
-extern unsigned int numlumps;
+extern int numlumps;
 
 
-wad_file_t *W_AddFile (const char *filename);
+// andrewj: only a single file can be added now
+bool W_AddFile (const char *filename);
 
 void W_RemoveFile(void);
 
 
-int	W_CheckNumForName (const char* name);
-int	W_GetNumForName (const char* name);
+int	W_CheckNumForName (const char *name);
 
-int	W_LumpLength (unsigned int lump);
+int	W_LumpLength (int lumpnum);
+
+
+// andrewj: all lump loading must occur between these calls
+void W_BeginRead(void);
+void W_EndRead();
 
 byte * W_LoadLump(int lumpnum);
 void   W_FreeLump(byte * data);
 
 
-#endif  // __W_WAD__
+#endif  /* __W_WAD__ */
+
+//--- editor settings ---
+// vi:ts=4:sw=4:noexpandtab
+// Emacs style mode select   -*- C++ -*- 

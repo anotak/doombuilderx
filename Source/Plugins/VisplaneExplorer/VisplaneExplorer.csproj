@@ -12,7 +12,8 @@
     <AssemblyName>VisplaneExplorer</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>
@@ -88,6 +89,7 @@
     <EmbeddedResource Include="Resources\Actions.cfg" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Heatmap_pal.png" />
     <None Include="Resources\Drawsegs.png" />
     <None Include="Resources\Drawsegs_pal.png" />
     <Content Include="Resources\Gauge.ico" />

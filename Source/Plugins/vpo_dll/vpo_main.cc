@@ -3,8 +3,8 @@
 //------------------------------------------------------------------------
 //
 //  Copyright (C) 1993-1996 Id Software, Inc.
-//  Copyright (C) 2005 Simon Howard
-//  Copyright (C) 2012 Andrew Apted
+//  Copyright (C) 2005      Simon Howard
+//  Copyright (C) 2012-2014 Andrew Apted
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -45,7 +45,7 @@ static void SetError(const char *msg, ...)
 }
 
 
-const char* APIENTRY VPO_GetError(void)
+const char *VPO_GetError(void)
 {
 	return error_buffer;
 }
@@ -53,7 +53,7 @@ const char* APIENTRY VPO_GetError(void)
 
 //------------------------------------------------------------------------
 
-int APIENTRY VPO_LoadWAD(const char *wad_filename)
+int VPO_LoadWAD(const char *wad_filename)
 {
 	ClearError();
 
@@ -64,7 +64,7 @@ int APIENTRY VPO_LoadWAD(const char *wad_filename)
 
 	if (! vpo::W_AddFile(wad_filename))
 	{
-		SetError("Could not open/read the file: %s", wad_filename);
+		SetError("Missing or invalid wad file: %s", wad_filename);
 		return -1;
 	}
 
@@ -72,12 +72,12 @@ int APIENTRY VPO_LoadWAD(const char *wad_filename)
 }
 
 
-int APIENTRY VPO_OpenMap(const char *map_name)
+int VPO_OpenMap(const char *map_name, bool *is_hexen)
 {
 	// check a wad is loaded
 	if (vpo::numlumps <= 0)
 	{
-		SetError("VPO_OpenMap called without any loaded map");
+		SetError("VPO_OpenMap called without any loaded wad");
 		return -1;
 	}
 
@@ -86,19 +86,19 @@ int APIENTRY VPO_OpenMap(const char *map_name)
 	// close any previously loaded map
 	VPO_CloseMap();
 
-	if (vpo::W_CheckNumForName(map_name) < 0)
+	const char *err_msg = vpo::P_SetupLevel(map_name, is_hexen);
+
+	if (err_msg)
 	{
-		SetError("No such map in wad: %s", map_name);
+		SetError("%s", err_msg);
 		return -1;
 	}
-
-	vpo::P_SetupLevel(map_name);
 
 	return 0;  // OK !
 }
 
 
-void APIENTRY VPO_FreeWAD(void)
+void VPO_FreeWAD(void)
 {
 	VPO_CloseMap();
 
@@ -106,7 +106,7 @@ void APIENTRY VPO_FreeWAD(void)
 }
 
 
-void APIENTRY VPO_CloseMap(void)
+void VPO_CloseMap(void)
 {
 	ClearError();
 
@@ -118,11 +118,11 @@ void APIENTRY VPO_CloseMap(void)
 }
 
 
-const char* APIENTRY VPO_GetMapName(unsigned int index)
+const char * VPO_GetMapName(unsigned int index, bool *is_hexen)
 {
 	static char buffer[16];
 
-	for (unsigned int lump_i = 0 ; lump_i < vpo::numlumps ; lump_i++)
+	for (int lump_i = 0 ; lump_i < vpo::numlumps ; lump_i++)
 	{
 		if (! vpo::lumpinfo[lump_i].is_map_header)
 			continue;
@@ -132,6 +132,9 @@ const char* APIENTRY VPO_GetMapName(unsigned int index)
 			// found it
 			memcpy(buffer, vpo::lumpinfo[lump_i].name, 8);
 			buffer[8] = 0;
+
+			if (is_hexen)
+				*is_hexen = vpo::lumpinfo[lump_i].is_hexen;
 
 			return buffer;
 		}
@@ -144,11 +147,11 @@ const char* APIENTRY VPO_GetMapName(unsigned int index)
 }
 
 
-int APIENTRY VPO_GetLinedef(unsigned int index, int *x1, int *y1, int *x2, int *y2)
+int VPO_GetLinedef(unsigned int index, int *x1, int *y1, int *x2, int *y2)
 {
 	if (index >= (unsigned int)vpo::numlines)
 		return -1;
-	
+
 	const vpo::line_t *L = &vpo::lines[index];
 
 	*x1 = L->v1->x >> FRACBITS;
@@ -161,9 +164,70 @@ int APIENTRY VPO_GetLinedef(unsigned int index, int *x1, int *y1, int *x2, int *
 }
 
 
+int VPO_GetSeg(unsigned int index, int *linedef, int *side,
+               int *x1, int *y1, int *x2, int *y2)
+{
+	if (index >= (unsigned int)vpo::numsegs)
+		return -1;
+	
+	const vpo::seg_t *seg = &vpo::segs[index];
+	const vpo::line_t *L  = seg->linedef;
+
+	*x1 = seg->v1->x >> FRACBITS;
+	*y1 = seg->v1->y >> FRACBITS;
+
+	*x2 = seg->v2->x >> FRACBITS;
+	*y2 = seg->v2->y >> FRACBITS;
+
+	*linedef = (L - vpo::lines);
+	*side = 0;
+
+	if (L->sidenum[1] >= 0 && seg->sidedef == &vpo::sides[L->sidenum[1]])
+		*side = 1;
+
+	return 0;
+}
+
+
+void VPO_GetBBox(int *x1, int *y1, int *x2, int *y2)
+{
+	*x1 = (vpo::Map_bbox[vpo::BOXLEFT]   >> FRACBITS);
+	*y1 = (vpo::Map_bbox[vpo::BOXBOTTOM] >> FRACBITS);
+	*x2 = (vpo::Map_bbox[vpo::BOXRIGHT]  >> FRACBITS);
+	*y2 = (vpo::Map_bbox[vpo::BOXTOP]    >> FRACBITS);
+}
+
+
+void VPO_OpenDoorSectors(int dir)
+{
+	for (int i = 0 ; i < vpo::numsectors ; i++)
+	{
+		vpo::sector_t *sec = &vpo::sectors[i];
+
+		if (sec->is_door == 0)
+			continue;
+
+		if (dir > 0)  // open them
+		{
+			if (sec->is_door > 0)
+				sec->ceilingheight = sec->alt_height;
+			else
+				sec->floorheight = sec->alt_height;
+		}
+		else if (dir < 0)  // close them
+		{
+			if (sec->is_door > 0)
+				sec->ceilingheight = sec->floorheight;
+			else
+				sec->floorheight = sec->ceilingheight;
+		}
+	}
+}
+
+
 //------------------------------------------------------------------------
 
-int APIENTRY VPO_TestSpot(int x, int y, int dz, int angle,
+int VPO_TestSpot(int x, int y, int dz, int angle,
                  int *num_visplanes, int *num_drawsegs,
                  int *num_openings,  int *num_solidsegs)
 {
@@ -173,9 +237,18 @@ int APIENTRY VPO_TestSpot(int x, int y, int dz, int angle,
 	vpo::fixed_t rx = (x << FRACBITS) + (FRACUNIT / 2);
 	vpo::fixed_t ry = (y << FRACBITS) + (FRACUNIT / 2);
 
-	vpo::sector_t *sec;
+	// check if spot is outside the map
+	if (rx < vpo::Map_bbox[vpo::BOXLEFT]   ||
+	    rx > vpo::Map_bbox[vpo::BOXRIGHT]  ||
+	    ry < vpo::Map_bbox[vpo::BOXBOTTOM] ||
+		ry > vpo::Map_bbox[vpo::BOXTOP])
+	{
+		return RESULT_IN_VOID;
+	}
 
 	// optimization: we cache the last sector lookup
+	vpo::sector_t *sec;
+
 	if (x == last_x && y == last_y)
 		sec = last_sector;
 	else
@@ -231,7 +304,9 @@ int APIENTRY VPO_TestSpot(int x, int y, int dz, int angle,
 
 //------------------------------------------------------------------------
 
-#ifdef VPO_TEST_PROGRAM
+#if 0 // VPO_TEST_PROGRAM
+
+// NOTE: this is out of date and will not compile
 
 #define EYE_HEIGHT  41
 

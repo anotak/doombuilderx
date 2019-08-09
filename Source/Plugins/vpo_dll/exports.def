@@ -8,5 +8,6 @@ EXPORTS
 	VPO_OpenMap
 	VPO_CloseMap
 	VPO_GetLinedef
+	VPO_OpenDoorSectors
 	VPO_TestSpot
 	

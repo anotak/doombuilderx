@@ -142,4 +142,7 @@
   <data name="Visplanes_pal" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Visplanes_pal.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Heatmap_pal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Heatmap_pal.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

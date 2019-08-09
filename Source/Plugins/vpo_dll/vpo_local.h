@@ -21,8 +21,6 @@
 #ifndef __VPO_LOCAL_H__
 #define __VPO_LOCAL_H__
 
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -61,7 +59,7 @@ namespace vpo
 #define SHORT(x)  LE_S16(x)
 #define LONG(x)   LE_S32(x)
 
-void P_SetupLevel (const char *lumpname );
+const char * P_SetupLevel (const char *lumpname, bool *is_hexen );
 void P_FreeLevelData (void);
 
 void I_Error (const char *error, ...);

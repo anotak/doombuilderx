@@ -1,4 +1,3 @@
-// Emacs style mode select   -*- C++ -*- 
 //-----------------------------------------------------------------------------
 //
 // Copyright(C) 1993-1996 Id Software, Inc.
@@ -35,11 +34,14 @@
 #define SIL_TOP			2
 #define SIL_BOTH		3
 
-// #define MAXDRAWSEGS		256
-#define MAXDRAWSEGS		1024     // andrewj: increased for Visplane Explorer
+// andrewj: increased for Visplane Explorer (was 256)
+#define MAXDRAWSEGS		1024
 
 
 #define skyflatnum  2
+
+
+extern fixed_t Map_bbox[4];
 
 
 //
@@ -50,13 +52,13 @@
 //
 // Your plain vanilla vertex.
 // Note: transformed values not buffered locally,
-//  like some DOOM-alikes ("wt", "WebView") did.
+//       like some DOOM-alikes ("wt", "WebView") did.
 //
 typedef struct
 {
-    fixed_t	x;
-    fixed_t	y;
-    
+	fixed_t	x;
+	fixed_t	y;
+
 } vertex_t;
 
 
@@ -70,66 +72,58 @@ struct line_s;
 //
 typedef	struct
 {
-    fixed_t	floorheight;
-    fixed_t	ceilingheight;
+	fixed_t	floorheight;
+	fixed_t	ceilingheight;
 
-    short	floorpic;
-    short	ceilingpic;
-    short	lightlevel;
-    short	special;
-    short	tag;
+	short	floorpic;
+	short	ceilingpic;
+	short	lightlevel;
+	short	special;
+	short	tag;
 
-    // 0 = untraversed, 1,2 = sndlines -1
-    int		soundtraversed;
+	// 0 = untraversed, 1,2 = sndlines -1
+	int		soundtraversed;
 
-///    // thing that made a sound (or null)
-///    mobj_t*	soundtarget;
+	// if == validcount, already checked
+	int		validcount;
 
-///    // mapblock bounding box for height changes
-///    int		blockbox[4];
+	// thinker_t for reversable actions
+	void*	specialdata;
 
-    // origin for any sounds played by the sector
-///    degenmobj_t	soundorg;
+	int			linecount;
+	struct line_s**	lines;	// [linecount] size
 
-    // if == validcount, already checked
-    int		validcount;
+	// andrewj: added these two field for Visplane Explorer.
+	//          is_door is normally 0,
+	//          can be +1 for a door (ceiling goes up)
+	//          or -1 for a lowering floor (e.g. MAP12 of DOOM 2)
+	int	is_door; 
+	fixed_t  alt_height;
 
-///    // list of mobjs in sector
-///    mobj_t*	thinglist;
-
-    // thinker_t for reversable actions
-    void*	specialdata;
-
-    int			linecount;
-    struct line_s**	lines;	// [linecount] size
-    
 } sector_t;
-
 
 
 //
 // The SideDef.
 //
-
 typedef struct
 {
-    // add this to the calculated texture column
-    fixed_t	textureoffset;
-    
-    // add this to the calculated texture top
-    fixed_t	rowoffset;
+	// add this to the calculated texture column
+	fixed_t	textureoffset;
 
-    // Texture indices.
-    // We do not maintain names here. 
-    short	toptexture;
-    short	bottomtexture;
-    short	midtexture;
+	// add this to the calculated texture top
+	fixed_t	rowoffset;
 
-    // Sector the SideDef is facing.
-    sector_t*	sector;
-    
+	// Texture indices.
+	// We do not maintain names here. 
+	short	toptexture;
+	short	bottomtexture;
+	short	midtexture;
+
+	// Sector the SideDef is facing.
+	sector_t*	sector;
+
 } side_t;
-
 
 
 //
@@ -137,54 +131,54 @@ typedef struct
 //
 typedef enum
 {
-    ST_HORIZONTAL,
-    ST_VERTICAL,
-    ST_POSITIVE,
-    ST_NEGATIVE
+	ST_HORIZONTAL,
+	ST_VERTICAL,
+	ST_POSITIVE,
+	ST_NEGATIVE
 
 } slopetype_t;
 
 
-
 typedef struct line_s
 {
-    // Vertices, from v1 to v2.
-    vertex_t*	v1;
-    vertex_t*	v2;
+	// Vertices, from v1 to v2.
+	vertex_t*	v1;
+	vertex_t*	v2;
 
-    // Precalculated v2 - v1 for side checking.
-    fixed_t	dx;
-    fixed_t	dy;
+	// Precalculated v2 - v1 for side checking.
+	fixed_t	dx;
+	fixed_t	dy;
 
-    // Animation related.
-    short	flags;
-    short	special;
-    short	tag;
+	// Animation related.
+	short	flags;
+	short	special;
+	short	tag;
 
-    // Visual appearance: SideDefs.
-    //  sidenum[1] will be -1 if one sided
-    short	sidenum[2];			
+	// Visual appearance: SideDefs.
+	//  sidenum[1] will be -1 if one sided
+	short	sidenum[2];			
 
-    // Neat. Another bounding box, for the extent
-    //  of the LineDef.
-    fixed_t	bbox[4];
+	// Neat. Another bounding box, for the extent
+	//  of the LineDef.
+	fixed_t	bbox[4];
 
-    // To aid move clipping.
-    slopetype_t	slopetype;
+	// To aid move clipping.
+	slopetype_t	slopetype;
 
-    // Front and back sector.
-    // Note: redundant? Can be retrieved from SideDefs.
-    sector_t*	frontsector;
-    sector_t*	backsector;
+	// Front and back sector.
+	// Note: redundant? Can be retrieved from SideDefs.
+	sector_t*	frontsector;
+	sector_t*	backsector;
 
-    // if == validcount, already checked
-    int		validcount;
+	// if == validcount, already checked
+	int		validcount;
 
-    // thinker_t for reversable actions
-    void*	specialdata;		
+	// thinker_t for reversable actions
+	void*	specialdata;		
+
+	// andrewj: added the following Hexen stuff
+	unsigned char args[5];
 } line_t;
-
-
 
 
 //
@@ -196,13 +190,12 @@ typedef struct line_s
 //
 typedef struct subsector_s
 {
-    sector_t*	sector;
+	sector_t*	sector;
 
-    short	numlines;
-    short	firstline;
-    
+	short	numlines;
+	short	firstline;
+
 } subsector_t;
-
 
 
 //
@@ -210,24 +203,23 @@ typedef struct subsector_s
 //
 typedef struct
 {
-    vertex_t*	v1;
-    vertex_t*	v2;
-    
-    fixed_t	offset;
+	vertex_t*	v1;
+	vertex_t*	v2;
 
-    angle_t	angle;
+	fixed_t	offset;
 
-    side_t*	sidedef;
-    line_t*	linedef;
+	angle_t	angle;
 
-    // Sector references.
-    // Could be retrieved from linedef, too.
-    // backsector is NULL for one sided lines
-    sector_t*	frontsector;
-    sector_t*	backsector;
-    
+	side_t*	sidedef;
+	line_t*	linedef;
+
+	// Sector references.
+	// Could be retrieved from linedef, too.
+	// backsector is NULL for one sided lines
+	sector_t*	frontsector;
+	sector_t*	backsector;
+
 } seg_t;
-
 
 
 //
@@ -235,23 +227,19 @@ typedef struct
 //
 typedef struct
 {
-    // Partition line.
-    fixed_t	x;
-    fixed_t	y;
-    fixed_t	dx;
-    fixed_t	dy;
+	// Partition line.
+	fixed_t	x;
+	fixed_t	y;
+	fixed_t	dx;
+	fixed_t	dy;
 
-    // Bounding box for each child.
-    fixed_t	bbox[2][4];
+	// Bounding box for each child.
+	fixed_t	bbox[2][4];
 
-    // If NF_SUBSECTOR its a subsector.
-    unsigned short children[2];
-    
+	// If NF_SUBSECTOR its a subsector.
+	unsigned short children[2];
+
 } node_t;
-
-
-
-
 
 
 //
@@ -259,37 +247,32 @@ typedef struct
 //
 
 
-
-//
-// ?
-//
 typedef struct drawseg_s
 {
-    seg_t*		curline;
-    int			x1;
-    int			x2;
+	seg_t*		curline;
+	int			x1;
+	int			x2;
 
-    fixed_t		scale1;
-    fixed_t		scale2;
-    fixed_t		scalestep;
+	fixed_t		scale1;
+	fixed_t		scale2;
+	fixed_t		scalestep;
 
-    // 0=none, 1=bottom, 2=top, 3=both
-    int			silhouette;
+	// 0=none, 1=bottom, 2=top, 3=both
+	int			silhouette;
 
-    // do not clip sprites above this
-    fixed_t		bsilheight;
+	// do not clip sprites above this
+	fixed_t		bsilheight;
 
-    // do not clip sprites below this
-    fixed_t		tsilheight;
-    
-    // Pointers to lists for sprite clipping,
-    //  all three adjusted so [x1] is first value.
-    short*		sprtopclip;		
-    short*		sprbottomclip;	
-    short*		maskedtexturecol;
-    
+	// do not clip sprites below this
+	fixed_t		tsilheight;
+
+	// Pointers to lists for sprite clipping,
+	//  all three adjusted so [x1] is first value.
+	short*		sprtopclip;		
+	short*		sprbottomclip;	
+	short*		maskedtexturecol;
+
 } drawseg_t;
-
 
 
 //
@@ -297,25 +280,29 @@ typedef struct drawseg_s
 // 
 typedef struct
 {
-  fixed_t		height;
-  int			picnum;
-  int			lightlevel;
-  int			minx;
-  int			maxx;
-  
-  // leave pads for [minx-1]/[maxx+1]
-  
-  byte		pad1;
-  // Here lies the rub for all
-  //  dynamic resize/change of resolution.
-  byte		top[SCREENWIDTH];
-  byte		pad2;
-  byte		pad3;
-  // See above.
-  byte		bottom[SCREENWIDTH];
-  byte		pad4;
+	fixed_t		height;
+	int			picnum;
+	int			lightlevel;
+	int			minx;
+	int			maxx;
+
+	// leave pads for [minx-1]/[maxx+1]
+
+	byte		pad1;
+	// Here lies the rub for all
+	//  dynamic resize/change of resolution.
+	byte		top[SCREENWIDTH];
+	byte		pad2;
+	byte		pad3;
+	// See above.
+	byte		bottom[SCREENWIDTH];
+	byte		pad4;
 
 } visplane_t;
 
 
-#endif
+#endif  /* __R_DEFS__ */
+
+//--- editor settings ---
+// vi:ts=4:sw=4:noexpandtab
+// Emacs style mode select   -*- C++ -*- 

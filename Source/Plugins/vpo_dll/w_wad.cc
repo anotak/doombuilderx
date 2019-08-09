@@ -1,4 +1,3 @@
-// Emacs style mode select   -*- C++ -*- 
 //-----------------------------------------------------------------------------
 //
 // Copyright(C) 1993-1996 Id Software, Inc.
@@ -32,18 +31,20 @@ namespace vpo
 
 typedef struct
 {
-    // Should be "IWAD" or "PWAD".
-    char		identification[4];		
-    int			numlumps;
-    int			infotableofs;
+	// Should be "IWAD" or "PWAD".
+	char		identification[4];
+	int			numlumps;
+	int			infotableofs;
+
 } PACKEDATTR wadinfo_t;
 
 
 typedef struct
 {
-    int			filepos;
-    int			size;
-    char		name[8];
+	int			filepos;
+	int			size;
+	char		name[8];
+
 } PACKEDATTR filelump_t;
 
 //
@@ -52,9 +53,13 @@ typedef struct
 
 // Location of each lump on disk.
 
-lumpinfo_t *lumpinfo;	
-unsigned int numlumps = 0;
+lumpinfo_t *lumpinfo;
 
+int numlumps = 0;
+
+static char * wad_filename;
+
+static wad_file_t * current_file;
 
 
 
@@ -63,51 +68,38 @@ unsigned int numlumps = 0;
 //
 
 // andrewj: added this to find level names
-bool CheckMapHeader(filelump_t *lumps, int num_after)
+//          returns 0 if not a level, 1 for DOOM, 2 for HEXEN format
+static int CheckMapHeader(filelump_t *lumps, int num_after)
 {
-  static const char *level_lumps[] =
-  {
-    "THINGS", "LINEDEFS", "SIDEDEFS", "VERTEXES",
-    "SEGS", "SSECTORS", "NODES", "SECTORS",
+	static const char *level_lumps[] =
+	{
+		"THINGS", "LINEDEFS", "SIDEDEFS", "VERTEXES",
+		"SEGS", "SSECTORS", "NODES", "SECTORS",
+		"REJECT", "BLOCKMAP"
+	};
 
-    NULL // end of list
-  };
+	if (num_after < 10)
+		return 0;
 
-  if (num_after < 4)
-    return false;
+	for (int i = 0 ; i < 10 ; i++)
+	{
+		const char *name = level_lumps[i];
 
-  int seen_mask  = 0;
-  int seen_count = 0;
+		// level lumps are never valid map header names
+		if (strncmp(lumps[0].name, name, 8) == 0)
+			return 0;
 
-  for (int i = 0 ; level_lumps[i] ; i++)
-  {
-    const char *name = level_lumps[i];
+		// require a one-to-one correspondence
+		// (anything else would crash DOOM)
+		if (strncmp(lumps[1 + i].name, name, 8) != 0)
+			return 0;
+	}
 
-    // level lumps are never valid map header names
-    if (strncmp(lumps[0].name, name, 8) == 0)
-      return false;
+	// hexen format is distinguished by a following BEHAVIOR lump
+	if (num_after >= 11 && strncmp(lumps[11].name, "BEHAVIOR", 8) == 0)
+		return 2;
 
-    for (int pos = 1 ; pos <= 4 ; pos++)
-    {
-      if (strncmp(lumps[pos].name, name, 8) == 0)
-      {
-        int mask = 1 << i;
-
-        // check if name was duplicated
-        if (seen_mask & mask)
-          return false;
-
-        seen_mask |= mask;
-        seen_count += 1;
-      }
-    }
-
-    // found enough level lumps
-    if (seen_count >= 4)
-      return true;
-  }
-
-  return false;
+	return 1;
 }
 
 
@@ -121,41 +113,44 @@ bool CheckMapHeader(filelump_t *lumps, int num_after)
 // Other files are single lumps with the base filename
 //  for the lump name.
 
-wad_file_t *W_AddFile (const char *filename)
+bool W_AddFile (const char *filename)
 {
-    wadinfo_t header;
-    lumpinfo_t *lump_p;
-    unsigned int i;
-    wad_file_t *wad_file;
-    int length;
-    int startlump;
-    filelump_t *fileinfo;
-    filelump_t *filerover;
-    
-    // open the file and add to directory
+	wadinfo_t header;
+	lumpinfo_t *lump_p;
+	wad_file_t *wad_file;
 
-    wad_file = W_OpenFile(filename);
+	int i;
+	int length;
+	int startlump;
 
-    if (wad_file == NULL)
-    {
-///	printf (" couldn't open %s\n", filename);
-	return NULL;
-    }
+	filelump_t *fileinfo;
+	filelump_t *filerover;
 
-    startlump = numlumps;
-	
-    W_Read(wad_file, 0, &header, sizeof(header));
+	// open the file and add to directory
 
-	if (strncmp(header.identification,"IWAD",4))
+	wad_file = W_OpenFile(filename);
+
+	if (wad_file == NULL)
 	{
-	    // Homebrew levels?
-	    if (strncmp(header.identification,"PWAD",4))
-	    {
-		I_Error ("Wad file %s doesn't have IWAD "
-			 "or PWAD id\n", filename);
-	    }
-	    
-	    // ???modifiedgame = true;		
+		return false;
+	}
+
+	startlump = numlumps;
+
+	W_Read(wad_file, 0, &header, sizeof(header));
+
+	if (strncmp(header.identification,"IWAD",4) != 0)
+	{
+		// Homebrew levels?
+		if (strncmp(header.identification,"PWAD",4) != 0)
+		{
+///			I_Error ("Wad file %s doesn't have IWAD "
+///					"or PWAD id\n", filename);
+
+			W_CloseFile(wad_file);
+
+			return false;
+		}
 	}
 
 	header.numlumps = LONG(header.numlumps);
@@ -165,56 +160,66 @@ wad_file_t *W_AddFile (const char *filename)
 
 	fileinfo = new filelump_t[header.numlumps];
 
-  W_Read(wad_file, header.infotableofs, fileinfo, length);
+	W_Read(wad_file, header.infotableofs, fileinfo, length);
 	numlumps += header.numlumps;
 
 
-    // Fill in lumpinfo
-    lumpinfo = (lumpinfo_t *)realloc(lumpinfo, numlumps * sizeof(lumpinfo_t));
+	// Fill in lumpinfo
+	lumpinfo = (lumpinfo_t *)realloc(lumpinfo, numlumps * sizeof(lumpinfo_t));
 
-    if (lumpinfo == NULL)
-    {
-	I_Error ("Couldn't realloc lumpinfo");
-    }
+	if (! lumpinfo)
+		I_Error ("Out of memory -- could not realloc lumpinfo");
 
-    lump_p = &lumpinfo[startlump];
-	
-    filerover = fileinfo;
+	lump_p = &lumpinfo[startlump];
 
-    for (i=startlump; i<numlumps; ++i)
-    {
-      lump_p->wad_file = wad_file;
-      lump_p->position = LONG(filerover->filepos);
-      lump_p->size = LONG(filerover->size);
+	filerover = fileinfo;
 
-      strncpy(lump_p->name, filerover->name, 8);
+	for (i=startlump; i < numlumps; ++i)
+	{
+		int map_header;
 
-      lump_p->is_map_header = CheckMapHeader(filerover, numlumps - i - 1);
+		lump_p->position = LONG(filerover->filepos);
+		lump_p->size = LONG(filerover->size);
 
-        ++lump_p;
-        ++filerover;
-    }
-	
-    delete[] fileinfo;
+		strncpy(lump_p->name, filerover->name, 8);
 
-    return wad_file;
+		map_header = CheckMapHeader(filerover, numlumps - i - 1);
+
+		lump_p->is_map_header = (map_header >= 1);
+		lump_p->is_hexen      = (map_header == 2);
+
+		++lump_p;
+		++filerover;
+	}
+
+	delete[] fileinfo;
+
+	// close the file now, we re-open it later to load the map
+	W_CloseFile(wad_file);
+
+	wad_filename = strdup(filename);
+
+	if (! wad_filename)
+		I_Error ("Out of memory -- could not strdup filename");
+
+	return true;
 }
 
 
 void W_RemoveFile(void)
 {
-    if (lumpinfo)
-    {
-        // andrewj: horrible hack, assumes a single wad file
-        W_CloseFile(lumpinfo[0].wad_file);
+	if (wad_filename)
+	{
+		free(wad_filename);
 
-        free(lumpinfo);
+		wad_filename = NULL;
 
-        lumpinfo = NULL;
-        numlumps = 0;
-    }
+		free(lumpinfo);
+
+		lumpinfo = NULL;
+		numlumps = 0;
+	}
 }
-
 
 
 //
@@ -222,7 +227,7 @@ void W_RemoveFile(void)
 //
 int W_NumLumps (void)
 {
-    return numlumps;
+	return numlumps;
 }
 
 
@@ -230,45 +235,23 @@ int W_NumLumps (void)
 // W_CheckNumForName
 // Returns -1 if name not found.
 //
-
 int W_CheckNumForName (const char* name)
 {
-    int i;
+	int i;
 
-    {
-        // scan backwards so patch lump files take precedence
+	// scan backwards so patch lump files take precedence
 
-        for (i=numlumps-1; i >= 0; --i)
-        {
-            if (!strncasecmp(lumpinfo[i].name, name, 8))
-            {
-                return i;
-            }
-        }
-    }
+	for (i=numlumps-1; i >= 0; --i)
+	{
+		if (strncasecmp(lumpinfo[i].name, name, 8) == 0)
+		{
+			return i;
+		}
+	}
 
-    // TFB. Not found.
+	// TFB. Not found.
 
-    return -1;
-}
-
-
-//
-// W_GetNumForName
-// Calls W_CheckNumForName, but bombs out if not found.
-//
-int W_GetNumForName (const char* name)
-{
-    int	i;
-
-    i = W_CheckNumForName (name);
-    
-    if (i < 0)
-    {
-        I_Error ("W_GetNumForName: %s not found!", name);
-    }
- 
-    return i;
+	return -1;
 }
 
 
@@ -276,16 +259,15 @@ int W_GetNumForName (const char* name)
 // W_LumpLength
 // Returns the buffer size needed to load the given lump.
 //
-int W_LumpLength (unsigned int lump)
+int W_LumpLength (int lumpnum)
 {
-    if (lump >= numlumps)
-    {
-	I_Error ("W_LumpLength: %i >= numlumps", lump);
-    }
+	if (lumpnum >= numlumps)
+	{
+		I_Error ("W_LumpLength: %i >= numlumps", lumpnum);
+	}
 
-    return lumpinfo[lump].size;
+	return lumpinfo[lumpnum].size;
 }
-
 
 
 //
@@ -293,31 +275,25 @@ int W_LumpLength (unsigned int lump)
 // Loads the lump into the given buffer,
 //  which must be >= W_LumpLength().
 //
-void W_ReadLump(unsigned int lump, void *dest)
+static void W_ReadLump(int lump, void *dest)
 {
-    int c;
-    lumpinfo_t *l;
-	
-    if (lump >= numlumps)
-    {
-	I_Error ("W_ReadLump: %i >= numlumps", lump);
-    }
+	int c;
+	lumpinfo_t *l;
 
-    l = lumpinfo+lump;
-	
-///    I_BeginRead ();
-	
-    c = W_Read(l->wad_file, l->position, dest, l->size);
+	if (lump >= numlumps)
+	{
+		I_Error ("W_ReadLump: %i >= numlumps", lump);
+	}
 
-    if (c < l->size)
-    {
-	I_Error ("W_ReadLump: only read %i of %i on lump %i",
-		 c, l->size, lump);	
-    }
+	l = lumpinfo+lump;
 
-///    I_EndRead ();
+	c = W_Read(current_file, l->position, dest, l->size);
+
+	if (c < l->size)
+	{
+		I_Error ("W_ReadLump: only read %i of %i on lump %i", c, l->size, lump);
+	}
 }
-
 
 
 //
@@ -326,34 +302,65 @@ void W_ReadLump(unsigned int lump, void *dest)
 // Load a lump into memory and return a pointer to a buffer containing
 // the lump data.
 //
-
 byte * W_LoadLump(int lumpnum)
 {
-    byte *result;
-    lumpinfo_t *lump;
+	byte *result;
 
-    if ((unsigned)lumpnum >= numlumps)
-    {
-	I_Error ("W_LoadLump: %i >= numlumps", lumpnum);
-    }
+	if (lumpnum < 0 || lumpnum >= numlumps)
+	{
+		I_Error ("W_LoadLump: %i >= numlumps", lumpnum);
+	}
 
-    lump = &lumpinfo[lumpnum];
+	if (! current_file)
+		I_Error ("W_LoadLump: no current file (W_BeginRead not called)");
 
-    // load it now
+	// load it now
 
-    result = new byte[W_LumpLength(lumpnum) + 1];
+	result = new byte[W_LumpLength(lumpnum) + 1];
 
-    W_ReadLump (lumpnum, result);
+	W_ReadLump (lumpnum, result);
 
-    return result;
+	return result;
 }
 
 
 void W_FreeLump(byte * data)
 {
-    delete[] data;
+	delete[] data;
+}
+
+
+void W_BeginRead(void)
+{
+	// check API usage
+	if (! wad_filename)
+		I_Error("W_BeginRead called without any wad file!");
+
+	if (current_file)
+		I_Error("W_BeginRead called twice without W_EndRead.");
+
+	current_file = W_OpenFile(wad_filename);
+
+	// it should normally succeed, as it is unlikely the file suddenly
+	// disappears between reading the directory and loading a map.
+	if (! current_file)
+		I_Error("Could not re-open the wad file -- deleted?");
+}
+
+
+void W_EndRead()
+{
+	if (! current_file)
+		I_Error("W_EndRead called without a previous W_BeginRead.");
+
+	W_CloseFile(current_file);
+
+	current_file = NULL;
 }
 
 
 } // namespace vpo
 
+//--- editor settings ---
+// vi:ts=4:sw=4:noexpandtab
+// Emacs style mode select   -*- C++ -*- 

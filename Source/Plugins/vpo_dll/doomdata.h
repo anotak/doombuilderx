@@ -57,7 +57,9 @@ enum
   ML_NODES,		// BSP nodes
   ML_SECTORS,		// Sectors, from editing
   ML_REJECT,		// LUT, sector-sector visibility	
-  ML_BLOCKMAP		// LUT, motion clipping, walls/grid element
+  ML_BLOCKMAP,	// LUT, motion clipping, walls/grid element
+
+  ML_BEHAVIOR   // HEXEN ONLY: compiled ACS scripts
 };
 
 
@@ -94,8 +96,20 @@ typedef struct
   short		special;
   short		tag;
   // sidenum[1] will be -1 if one sided
-  short		sidenum[2];		
+  short		sidenum[2];
 } PACKEDATTR maplinedef_t;
+
+
+// the Hexen LineDef structure  [andrewj: added this]
+typedef struct
+{
+  short		v1;
+  short		v2;
+  short		flags;
+  unsigned char	special;
+  unsigned char args[5];
+  short		sidenum[2];
+} PACKEDATTR maplinedef_hexen_t;
 
 
 //

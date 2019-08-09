@@ -139,6 +139,9 @@
     <Compile Include="Controls\ScriptLumpDocumentTab.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\ToolStripCheckBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Data\DirectoryReader.cs" />
     <Compile Include="Data\FileImage.cs" />
     <Compile Include="Data\FlatImage.cs" />
