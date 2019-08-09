@@ -49,7 +49,7 @@ namespace CodeImp.DoomBuilder.TagRange
 			// 
 			// seperator1
 			// 
-			this.seperator1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+			this.seperator1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
 			this.seperator1.Name = "seperator1";
 			this.seperator1.Size = new System.Drawing.Size(6, 25);
 			// 
@@ -66,7 +66,7 @@ namespace CodeImp.DoomBuilder.TagRange
 			// 
 			// seperator2
 			// 
-			this.seperator2.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+			this.seperator2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
 			this.seperator2.Name = "seperator2";
 			this.seperator2.Size = new System.Drawing.Size(6, 25);
 			// 
@@ -76,7 +76,6 @@ namespace CodeImp.DoomBuilder.TagRange
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.ClientSize = new System.Drawing.Size(330, 230);
 			this.Controls.Add(this.toolstrip);
-			this.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;

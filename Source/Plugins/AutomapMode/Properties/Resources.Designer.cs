@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeImp.DoomBuilder.TagRange.Properties {
+namespace CodeImp.DoomBuilder.AutomapMode.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace CodeImp.DoomBuilder.TagRange.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CodeImp.DoomBuilder.TagRange.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CodeImp.DoomBuilder.AutomapMode.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,29 @@ namespace CodeImp.DoomBuilder.TagRange.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap tag_blue {
+        internal static System.Drawing.Bitmap ShowHiddenLines {
             get {
-                object obj = ResourceManager.GetObject("tag_blue", resourceCulture);
+                object obj = ResourceManager.GetObject("ShowHiddenLines", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ShowLocks {
+            get {
+                object obj = ResourceManager.GetObject("ShowLocks", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ShowSecrets {
+            get {
+                object obj = ResourceManager.GetObject("ShowSecrets", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

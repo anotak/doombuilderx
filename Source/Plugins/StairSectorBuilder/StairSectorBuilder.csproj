@@ -1,20 +1,23 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="15.0">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F49EFF6D-51CB-4E49-8223-AAE653C5B62F}</ProjectGuid>
+    <ProjectGuid>{3F365121-906B-409D-BB1E-37E0A78056C2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CodeImp.DoomBuilder.TagRange</RootNamespace>
-    <AssemblyName>TagRange</AssemblyName>
+    <RootNamespace>CodeImp.DoomBuilder.StairSectorBuilder</RootNamespace>
+    <AssemblyName>StairSectorBuilder</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,8 +54,8 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
@@ -63,47 +66,39 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TagRangeForm.cs">
+    <Compile Include="StairSectorBuilderForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TagRangeForm.Designer.cs">
-      <DependentUpon>TagRangeForm.cs</DependentUpon>
+    <Compile Include="StairSectorBuilderForm.designer.cs">
+      <DependentUpon>StairSectorBuilderForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ToolsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ToolsForm.Designer.cs">
-      <DependentUpon>ToolsForm.cs</DependentUpon>
-    </Compile>
+    <Compile Include="StairSectorBuilderMode.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <SubType>Designer</SubType>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\tag_blue.png" />
+    <EmbeddedResource Include="StairSectorBuilderForm.resx">
+      <DependentUpon>StairSectorBuilderForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Actions.cfg" />
-    <EmbeddedResource Include="TagRangeForm.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>TagRangeForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ToolsForm.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>ToolsForm.cs</DependentUpon>
-    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\StairIcon.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Builder.csproj">
-      <Project>{818B3D10-F791-4C3F-9AF5-BB2D0079B63C}</Project>
+      <Project>{818b3d10-f791-4c3f-9af5-bb2d0079b63c}</Project>
       <Name>Builder</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(TargetName)$(TargetExt)" "$(TargetDir)..\..\..\data\Plugins\$(TargetName)$(TargetExt)"
 copy "$(TargetDir)$(TargetName).pdb" "$(TargetDir)..\..\..\data\Plugins\$(TargetName).pdb"</PostBuildEvent>

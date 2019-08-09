@@ -16,28 +16,10 @@
 
 #region ================== Namespaces
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Text;
-using System.Windows.Forms;
-using System.IO;
-using System.Reflection;
-using CodeImp.DoomBuilder.Controls;
 using CodeImp.DoomBuilder.Windows;
-using CodeImp.DoomBuilder.IO;
-using CodeImp.DoomBuilder.Map;
-using CodeImp.DoomBuilder.Rendering;
-using CodeImp.DoomBuilder.Geometry;
-using System.Drawing;
 using CodeImp.DoomBuilder.Editing;
 using CodeImp.DoomBuilder.Plugins;
 using CodeImp.DoomBuilder.Actions;
-using CodeImp.DoomBuilder.Types;
-using CodeImp.DoomBuilder.Config;
-using CodeImp.DoomBuilder.Data;
 
 #endregion
 
@@ -96,10 +78,10 @@ namespace CodeImp.DoomBuilder.TagRange
 			TagRangeForm f = new TagRangeForm();
 			f.Setup();
 			if(f.SelectionCount > 0)
-				f.ShowDialog(Form.ActiveForm);
+				f.ShowDialog(General.Interface);
 			else
-				General.Interface.MessageBeep(MessageBeepType.Default);
+				General.Interface.DisplayStatus(StatusType.Warning, "This action requires a selection!"); //mxd
 			f.Dispose();
 		}
-    }
+	}
 }

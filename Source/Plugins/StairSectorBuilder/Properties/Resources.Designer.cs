@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CodeImp.DoomBuilder.TagRange.Properties {
+namespace CodeImp.DoomBuilder.StairSectorBuilder.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace CodeImp.DoomBuilder.TagRange.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CodeImp.DoomBuilder.TagRange.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CodeImp.DoomBuilder.StairSectorBuilder.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,21 @@ namespace CodeImp.DoomBuilder.TagRange.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Actions {
+            get {
+                object obj = ResourceManager.GetObject("Actions", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap tag_blue {
+        internal static System.Drawing.Bitmap StairIcon {
             get {
-                object obj = ResourceManager.GetObject("tag_blue", resourceCulture);
+                object obj = ResourceManager.GetObject("StairIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
