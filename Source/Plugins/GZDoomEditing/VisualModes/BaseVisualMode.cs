@@ -121,8 +121,6 @@ namespace CodeImp.DoomBuilder.GZDoomEditing
 				}
 			}
 		}
-
-		public IRenderer3D Renderer { get { return renderer; } }
 		
 		public bool IsSingleSelection { get { return singleselection; } }
 		public bool SelectionChanged { get { return selectionchanged; } set { selectionchanged |= value; } }

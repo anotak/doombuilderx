@@ -69,7 +69,6 @@ namespace CodeImp.DoomBuilder.GZDoomEditing
 		public override bool Setup(SectorLevel level, Effect3DFloor extrafloor)
 		{
 			WorldVertex[] verts;
-			WorldVertex v;
 			Sector s = level.sector;
 			Vector2D texscale;
 			
