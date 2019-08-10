@@ -28,7 +28,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         internal ToolStripMenuItem menu;
 
         protected ToolStripMenuItem[] recent_menu;
-        protected ToolStripMenuItem run_script_option;
+        //protected ToolStripMenuItem run_script_option;
         protected ToolStripMenuItem folder_menu;
         internal List<string> recent_files;
         #endregion
@@ -127,13 +127,13 @@ namespace CodeImp.DoomBuilder.DBXLua
             List<ToolStripItem> items = new List<ToolStripItem>();
             List<ToolStripMenuItem> recent_items = new List<ToolStripMenuItem>();
 
-            {
+            /*{
                 ToolStripMenuItem item = new ToolStripMenuItem("&Run current script");
                 item.Tag = item.Name = "runluascript";
                 item.Click += new System.EventHandler(this.InvokeTaggedAction);
                 run_script_option = item;
                 items.Add(item);
-            }
+            }*/
 
             {
                 ToolStripMenuItem item = new ToolStripMenuItem("&Browse for a script");
@@ -245,7 +245,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         {
             menu.Visible = true;
 
-            {
+            /*{
                 string shortname;
 
                 try
@@ -271,7 +271,7 @@ namespace CodeImp.DoomBuilder.DBXLua
                 }
 
                 run_script_option.Text = "&Run " + shortname + " @ (0,0)";
-            }
+            }*/
 
             int files_count = recent_files.Count;
             for (int i = 0; i < recent_menu.Length; i++)

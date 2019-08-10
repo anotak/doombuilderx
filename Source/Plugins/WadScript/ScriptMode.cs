@@ -1020,7 +1020,7 @@ namespace CodeImp.DoomBuilder.DBXLua
         // in a number or to just cancel and go back and click?
         // consider making the mouse related lua api functions warn in this situation?
         [BeginAction("runluascript")]
-        public void DoScriptAtCenterOfScreen() { DoScriptAt(new Vector2D(0f, 0f)); }
+        public void DoScriptAtCenterOfScreen() { DoScript(); }
 
         [BeginAction("insertitem", BaseAction = true)]
         public void DoScript()
