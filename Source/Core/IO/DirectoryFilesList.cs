@@ -67,15 +67,28 @@ namespace CodeImp.DoomBuilder.IO
 			int index = 0;
 			entries = new DirectoryFileEntry[sourceentries.Count];
 			hashedentries = new Dictionary<string, DirectoryFileEntry>(sourceentries.Count);
-			foreach(DirectoryFileEntry e in sourceentries)
-			{
-				entries[index] = e;
-				string hashkey = e.filepathname.ToLowerInvariant();
-				if(hashedentries.ContainsKey(hashkey))
-					throw new IOException("Multiple files with the same filename in the same directory are not allowed. See: \"" + e.filepathname + "\"");
-				hashedentries.Add(hashkey, e);
-				index++;
-			}
+            foreach (DirectoryFileEntry e in sourceentries)
+            {
+                string hashkey = e.filepathname.ToLowerInvariant();
+
+                if (hashedentries.ContainsKey(hashkey))
+                {
+                    // ano - this used to throw an exception
+                    // i consulted the revelant code in gzdb-bf by Max-ED and ZZYZX for comparison
+                    General.ErrorLogger.Add(ErrorType.Warning, "Multiple files with the same filename in the same directory are not allowed. See: \"" + e.filepathname + "\"");
+
+                    // ano - ugly and potentially slow depending on the implementation
+                    // of .Resize but people really shouldnt be doing this anyway
+                    Array.Resize(ref entries, entries.Length - 1);
+                }
+                else
+                {
+                    hashedentries.Add(hashkey, e);
+
+                    entries[index] = e;
+                    index++;
+                }
+            }
 		}
 
 		#endregion
