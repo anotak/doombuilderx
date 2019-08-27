@@ -921,3 +921,18 @@ by Jonathan Mendoza
 - Kevin Cloud,
 quoted in Doom Survivor's Strategies and Secrets,
 by Jonathan Mendoza
+%%
+"[...] things go wrong. Instead of fighting in the arena, my friend steps back into the hall and fights from the doorway as the enemies funnel in. Instead of a dynamic gun ballet of dodged projectiles and swirling destruction, my friend has turned my level into a shooting gallery: dull, safe, and slow."
+
+- Andrew Yoder,
+The Door Problem of Combat Design
+%%
+"The problem is the relationship between these two spaces, a problem that the player experiences when crossing the threshold, which is often a door."
+
+- Andrew Yoder,
+The Door Problem of Combat Design
+%%
+"As the player moves through a level, they are taking territory from their enemy and locking the level into a solved state."
+
+- Andrew Yoder,
+The Door Problem of Combat Design
