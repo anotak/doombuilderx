@@ -479,16 +479,6 @@ Getting Started with DooM Editing
 - John Bishop,
 Getting Started with DooM Editing
 %%
-"'Would you like to go left or right or straight on?' This is a really bad choice. This is the archetypical dreadful choice, and it has been in more than half the games I've ever played."
-
-- Alexis Kennedy,
-Choice, Consequence and Complicity
-%%
-"It's very easy to overload a context with choices, on the basis the more choices, the better. They're often not."
-
-- Alexis Kennedy,
-Choice, Consequence and Complicity
-%%
 "We can't go on auto-pilot when playing Doom, we always have to stay engaged, and we have to keep learning, and learning is actually fun."
 
 - Matthias Worch,
