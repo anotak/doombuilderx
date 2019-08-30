@@ -144,7 +144,7 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
 		private void ProcessingThread(object index)
 		{
 			// Get function pointers
-			//VPO_GetError GetError = (VPO_GetError)Marshal.GetDelegateForFunctionPointer(GetProcAddress(dlls[(int)index], "VPO_GetError"), typeof(VPO_GetError));
+			VPO_GetError GetError = (VPO_GetError)Marshal.GetDelegateForFunctionPointer(GetProcAddress(dlls[(int)index], "VPO_GetError"), typeof(VPO_GetError));
 			VPO_LoadWAD LoadWAD = (VPO_LoadWAD)Marshal.GetDelegateForFunctionPointer(GetProcAddress(dlls[(int)index], "VPO_LoadWAD"), typeof(VPO_LoadWAD));
 			VPO_OpenMap OpenMap = (VPO_OpenMap)Marshal.GetDelegateForFunctionPointer(GetProcAddress(dlls[(int)index], "VPO_OpenMap"), typeof(VPO_OpenMap));
 			VPO_FreeWAD FreeWAD = (VPO_FreeWAD)Marshal.GetDelegateForFunctionPointer(GetProcAddress(dlls[(int)index], "VPO_FreeWAD"), typeof(VPO_FreeWAD));
@@ -156,8 +156,11 @@ namespace CodeImp.DoomBuilder.Plugins.VisplaneExplorer
 			{
 				// Load the map
 				bool isHexen = General.Map.HEXEN;
-				if(LoadWAD(filename) != 0) throw new Exception("VPO is unable to read this file.");
-				if(OpenMap(mapname, ref isHexen) != 0) throw new Exception("VPO is unable to open this map.");
+                if (LoadWAD(filename) != 0)
+                {
+                    throw new Exception("VPO is unable to read this file: " + GetError());
+                }
+				if(OpenMap(mapname, ref isHexen) != 0) throw new Exception("VPO is unable to open this map: " + GetError());
 				OpenDoors(BuilderPlug.InterfaceForm.OpenDoors ? 1 : -1); //mxd
 
 				// Processing
