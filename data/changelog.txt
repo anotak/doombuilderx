@@ -34,7 +34,7 @@ version 2019.1
 - remember last chosen game config when making a new map
 - added ZDBSP extended nodes config (thanks to Ribbiks)
 - asterisk in title bar when file has been altered.
-- new versioning system. Year.Relase Number, starting at 0. this version would have been 2.1.3.12 under the old system.
+- new versioning system. Year.Release Number, starting at 0. this version would have been 2.1.3.12 under the old system.
 
 version 2.1.3.10
 =====================
