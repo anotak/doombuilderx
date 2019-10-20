@@ -29,6 +29,7 @@ version 2019.1
 - some things that use the same sprites have been changed to have their editor preview to use a different keyframe (demon/spectre for example)
 - fixed an obscure crash in the missing texture error checker
 - thing graphics are now square by default because the collision boxes in Doom engine games are actually square
+- warn instead of crash on duplicate filenames in pk3/pk7/pke
 - handle bad plugins more gracefully (hopefully)
 - some ui buttons will have the hotkey shown in the tooltip now
 - remember last chosen game config when making a new map
