@@ -119,13 +119,16 @@ namespace CodeImp.DoomBuilder.Windows
                 fieldslist.ClearFields();
                 // Fill universal fields list
                 fieldslist.ListFixedFields(General.Map.Config.VertexFields);
+
+                // Initialize custom fields editor
+                fieldslist.Setup("vertex");
+
                 // Custom fields
                 fieldslist.SetValues(vc.Fields, true);
 
                 ////////////////////////////////////////////////////////////////////////
                 // Now go for all sectors and change the options when a setting is different
                 ////////////////////////////////////////////////////////////////////////
-                fieldslist.ClearFields();
                 // Go for all vertices
                 foreach (Vertex v in vertices)
                 {
