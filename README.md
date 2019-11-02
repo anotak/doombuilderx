@@ -33,15 +33,19 @@ The Builder40 project is the same as the Builder project, just on .NET 4.0. Buil
 and the rest listed alphabetically
 
 * Anotak (Doom Builder X)
+* Altazimuth (some bug fixes)
 * Anders Astrand (some DB2 code)
 * Andrew Apted (included glBSP (like DB2))
 * Boris (several plugins used, contributed source to DB2)
+* Bmsq (Long texture name support)
+* Davidmerkt (fixed a crash)
 * Randi Heit (included Zdoom ACC and ZDBSP (like DB2))
 * Simon Howard, Lee Killough, Colin Phipps, Colin Reed (BSP-W32 is used like in DB2)
 * MaxED (some GZDoomBuilder source used)
 * Raven Software (included Hexen ACC (like DB2))
 * Marc Rousseau (included ZenNode (like DB2))
 * Sensor Based Systems Software / SBSoftware (included DeepBSP (like DB2))
+* Volte (rotable grid)
 * Zokum (included ZokumBSP)
 * ZZYZX (some GZDB-BF source used)
 
