@@ -1,6 +1,12 @@
 DoomBuilder X
 based on code by anotak, CodeImp, MaxED, boris_i, ZZYZX
 =======================================================
+version 2019.2
+=====================
+- fixed null pointer exception in 3D mode when changing sidedef (thanks to Davidmerkt.)
+- fixed issue with sectors being deleted in the middle of merging newly drawn geometry, causing a crash
+- fixed a visual bug with vertex edit form not updating UDMF custom properties correctly.
+
 version 2019.1
 =====================
 - new Lua plugin (thanks to Ribbiks, Grain of Salt, Printz, MTrop, and Xaser for feedback)
