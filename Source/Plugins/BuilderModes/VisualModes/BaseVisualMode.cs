@@ -376,7 +376,7 @@ namespace CodeImp.DoomBuilder.BuilderModes
 				{
 					VisualGeometry pickedgeo = (target.picked as VisualGeometry);
 
-					if(pickedgeo.Sidedef != null)
+					if(pickedgeo.Sidedef != null && pickedgeo.Sidedef.Line != null)
 						General.Interface.ShowLinedefInfo(pickedgeo.Sidedef.Line);
 					else if(pickedgeo.Sidedef == null)
 						General.Interface.ShowSectorInfo(pickedgeo.Sector.Sector);
