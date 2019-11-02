@@ -209,6 +209,12 @@ namespace CodeImp.DoomBuilder.Map
 
 		internal void SetSectorP(Sector newsector)
 		{
+            // ano - if we don't do this, the sector can get disposed in
+            // the detach call if it is the only sidedef for the sector
+            // (see the unfortunate design of MapSet.AutoRemove)
+            if (sector == newsector)
+                return;
+
 			// Detach from sector
 			if(sector != null) sector.DetachSidedefP(sectorlistitem);
 
