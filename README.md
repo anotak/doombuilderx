@@ -23,7 +23,7 @@ We do not currently directly support Linux or Mac, but ideally I'd like to do so
 ### Compiling
 
 Nuget in Visual Studio should handle getting SlimDX, SharpCompress, and Moonsharp. You need to install the SlimDX runtime in the Setup folder as well, which is present in the Data/Setup/ folder.  
-The RejectEditor and VisplaneExplorer projects should not be built. They were broken when I first got them from the Doom Builder 2 SVN and I have not had time to determine the cause.  
+The RejectEditor project should not be built. It was broken when I first got it from the Doom Builder 2 SVN and I have not had time to determine the cause.  
 The Builder40 project is the same as the Builder project, just on .NET 4.0. Builder is what I release, but sometimes Builder40 is useful, as Visual Studio's debugging and profiling tools support .NET 4.0 much better. However, compiling Builder40 is completely optional.
 
 ## Authors
@@ -45,7 +45,7 @@ and the rest listed alphabetically
 * Raven Software (included Hexen ACC (like DB2))
 * Marc Rousseau (included ZenNode (like DB2))
 * Sensor Based Systems Software / SBSoftware (included DeepBSP (like DB2))
-* Volte (rotable grid)
+* Volte (rotatable grid)
 * Zokum (included ZokumBSP)
 * ZZYZX (some GZDB-BF source used)
 
