@@ -886,15 +886,13 @@ Game Engine Black Book: DOOM
 - Fabien Sanglard,
 Game Engine Black Book: DOOM
 %%
-"It is my belief that a perceptive player of Doom will sense a definite personality difference
-between the levels created by each of the designers."
+"It is my belief that a perceptive player of Doom will sense a definite personality difference between the levels created by each of the designers."
 
 - Sandy Peterson,
 quoted in Doom Survivor's Strategies and Secrets,
 by Jonathan Mendoza
 %%
-"When I began a level, I thought long and hard about the overall theme of that level – what
-the player was supposed to get from it."
+"When I began a level, I thought long and hard about the overall theme of that level -- what the player was supposed to get from it."
 
 - Sandy Peterson,
 quoted in Doom Survivor's Strategies and Secrets,
@@ -926,3 +924,18 @@ The Door Problem of Combat Design
 
 - Andrew Yoder,
 The Door Problem of Combat Design
+%%
+"Legions of mappers have come and gone, each with their own ideas about what makes Doom great and what new things they can do with it."
+
+- Not Jabba,
+The Roots of Doom Mapping
+%%
+"'The Factory' (map 12) and 'Downtown' (map 13) are in roughly the shape of a factory complex or a downtown area with city blocks and tall buildings, but once you look past that outer shell, nothing makes sense."
+
+- Not Jabba,
+The Roots of Doom Mapping
+%%
+"For mappers, their Doom creations can be an outlet for artistic expression, and conversely, for players it can be a way of appreciating what other people have to say."
+
+- Not Jabba,
+The Roots of Doom Mapping
